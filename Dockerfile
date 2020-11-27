@@ -4,6 +4,7 @@ LABEL authors="aserrano, asegovia, darodrig, pcuadrad"
 RUN apk add --update --no-cache \
 	binutils-gold \
 	build-base \
+    tree \
 	curl \
 	file \
 	g++ \
@@ -22,8 +23,7 @@ RUN apk add --update --no-cache \
 	openssl \
 	pkgconfig \
 	postgresql-dev \
-	tzdata \
-	yarn 
+	tzdata 
 
 RUN mkdir /myapp
 

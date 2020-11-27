@@ -1,0 +1,35 @@
+body {
+    background-color: #222222;
+}
+
+#cnv {
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #111;
+    font-family: "Righteous";
+    border: 10px 25%;
+    border-color: black;
+}
+
+h1 {
+    padding: 2%;
+    font-family: Righteous;
+    color: White;
+    background-color: #111;
+}
+
+h2 {
+    padding-top: 1%;
+    padding-left: 2%;
+    padding-bottom: 1%;
+    padding-right: 1%;
+    font-family: Righteous;
+    color: White;
+    background-color: #111;
+}
+
+canvas {
+    padding: 2%;
+    text-align: center;
+}

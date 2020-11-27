@@ -1,0 +1,10 @@
+version: "3.5"
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        buildno: 1
+    volumes:
+      - ./project:/myapp

@@ -1,10 +1,10 @@
 body {
+    align-self: center;
     background: rgb(0, 0, 0);
     background: linear-gradient(348deg, rgba(0, 0, 0, 1) 0%, rgba(43, 43, 50, 1) 100%);
 }
 
 #cnv {
-    padding: 5px;
     text-align: center;
     border-radius: 5px;
     background-color: #111;
@@ -13,24 +13,42 @@ body {
     border-color: black;
 }
 
+div {
+    align-items: auto;
+    max-width: 25cm;
+}
+
 h1 {
-    padding: 2%;
+    padding: 1%;
     font-family: Righteous;
+    font-size: xx-large;
     color: White;
     background-color: #111;
+    text-align: Left;
+    max-width: 25cm;
+    margin-block: 1%;
 }
 
 h2 {
-    padding-top: 1%;
-    padding-left: 2%;
-    padding-bottom: 1%;
-    padding-right: 1%;
+    padding: 1%;
     font-family: Righteous;
     color: White;
     background-color: #111;
+    max-width: 25cm;
+    margin-block: 1%;
+}
+
+p {
+    text-indent: 0.5em;
+    padding: 1%;
+    font-family: 'Kanit', sans-serif;
+    color: white;
+    background-color: #111;
+    max-width: 25cm;
 }
 
 canvas {
-    padding: 2%;
+    max-width: 25cm;
+    padding: 1%;
     text-align: center;
 }

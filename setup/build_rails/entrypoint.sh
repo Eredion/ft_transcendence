@@ -10,6 +10,7 @@ fi
 
 rails webpacker:install
 
+yarn install
 #rails generate backbone:install
 #bundle exec rake db:migrate
 #bundle exec rake db:setup

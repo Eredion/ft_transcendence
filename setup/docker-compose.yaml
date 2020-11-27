@@ -1,21 +1,33 @@
 # docker-compose up –build
+# Access to backbone js frontend http://127.0.0.1/
+# Access to rails backend http://127.0.0.1:3000/
+# Access to Postgres Admin http://127.0.0.1:8081/
+
 version: "3.7"
 services:
-
     db:
         image: postgres:12.1-alpine
         env_file: .env
-
     dbadmin:
         image: dpage/pgadmin4
         volumes:
             - ./pgadminserver.json:/pgadmin4/servers.json
         ports:
-            - "8080:8080"
+            - "8081:8080"
         depends_on:
             - db
         env_file: .env
-        
+    rails:
+        build: ./build_rails
+        image: rails_backend #Name of the image built by the build instruction
+        #command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+        volumes:
+            - ./build_rails/backend/:/transcendence
+        ports:
+            - "3000:3000"
+        depends_on:
+            - db
+        env_file: .env    
     backbonejs:
         build: ./build_backbonejs
         image: backbonejs_frontend
@@ -25,17 +37,3 @@ services:
             - "80:80"
         depends_on:
             - rails
-        links: 
-            - rails
-
-    rails:
-        build: ./build_rails
-        image: rails_backend #Name of the image built by the build instruction
-        #command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-        volumes:
-            - ./build_rails/backend/:/transcendence
-        #ports:
-        #    - "80:3000"
-        depends_on:
-            - db
-        env_file: .env

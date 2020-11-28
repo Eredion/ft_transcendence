@@ -22,7 +22,9 @@ var Posts = Backbone.Collection.extend({
     },
     parse : function(response, options){ // fetch call this function when receive data from server
         console.log("Parse call");
-        var message = response['data']
-        document.write(message);
+        var messageFromRails = response['data'];
+        var messageFromPostgresql = response['postgresql'][0].title;
+        alert(messageFromRails);
+        alert(messageFromPostgresql);
     }
 });

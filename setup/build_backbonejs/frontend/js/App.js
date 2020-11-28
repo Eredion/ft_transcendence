@@ -1,7 +1,7 @@
 // App.js
 
 $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-    options.url = 'http://127.0.0.1:3000' + options.url;
+    options.url = 'http://127.0.0.1/api' + options.url;
 });
 
 Backbone._sync = Backbone.sync;

@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all
     puts @posts
-    render json: {"data": "Hello World from Rails", "postgresql": @posts}
+    render json: {"data": "Hello World from Rails", "postgresql": @posts}, status: 200
   end
 
   # GET /posts/1

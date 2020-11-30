@@ -10,8 +10,42 @@
         <meta content="utf-8" http-equiv="encoding">
     </head>
     <body>
+        <div class="container">
+            <div id="menu" class="menu cf"></div>
+            <h1></h1>
+            <div id="content"></div>
+        </div>
+        <!-- View menu-->
+        <script type="text/template" id="tpl-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#users">Users List</a></li>
+                <li class="right"><a href="#signup">New User</a></li>
+            </ul>
+        </script>
+        <!-- View list-->
+        <script type="text/template" id="tpl-list-user">
+            <li class="cf done-yes" data-index="<%= index %>">
+                <h2>
+                    <%= username %>
+                </h2>
+                <div class="options">
+                    <a href="#edit/<%= index %>">edit</a>
+                    <a href="#delete/<%= index %>">delete</a>
+                </div>
+            </li>
+        </script>
+        <!-- View form-->
+        <script type="text/template" id="tpl-form">
+            <form>
+                <label for="fname">Username:</label>
+                <input type="text" id="fname" name="fname"> <%= username %> </input>
+                <label for="fpassword">Password:</label>
+                <input type="text" id="fpassword" name="fpassword"> <%= password %> </input>
+                <button>save</button>
+            </form>
+        </script>
         <div id="title">
-            <h1>Pong test</h1>
             <h2>ft_transcendence</h2>
             <p>Ft_transcendence is a project on a language you should have never worked with. With a framework that you should have never heard of. To do something that you’ve never done before. Remind yourself of the beginning of your journey in computer science.
                 Now look where you are standing. Time to shine.</p>
@@ -19,17 +53,11 @@
         <div id="cnv">
             <canvas style="background-color: darkgray;border-radius: 5px;"
             id="canvas" width="600" height="400"><canvas>
-        </div>
-        <script type="text/javascript" src="js/pong.js"></script>
+        </div> 
+        <script type="text/javascript" src="js/pong.js"></script> 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js" type="text/javascript"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js" type="text/javascript"></script>
         <script type="text/javascript" src="js/App.js"></script>
-        <script type="text/javascript">
-        $(function()  {
-            App = new Posts;
-            App.fetch();
-        });
-        </script>
     </body>
 </html >

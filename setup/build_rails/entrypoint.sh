@@ -16,7 +16,7 @@ yarn install
 #bundle exec rake db:setup
 
 #Database creation
-rails db:drop && rails db:setup && rails db:migrate
+rails db:drop && rails db:create && rails db:migrate && rails db:seed
 
 #starts rails server
 rails server -b 0.0.0.0

@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.7"
 
 services:
     ruby_dev:
@@ -6,5 +6,7 @@ services:
       container_name: ruby_container
       ports:
         - "3000:3000"
-          #      volumes:
-          #        - ./:/home/app
+      volumes:
+        - ./:/home/app/
+
+

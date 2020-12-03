@@ -1,6 +1,5 @@
 # docker-compose up –build
-# Access to backbone js frontend http://127.0.0.1/
-# The rails backend is only accessible from reverse_proxy in backbonejs nginx (see ngnix.conf)
+# Access main page http://127.0.0.1/
 # Access to Postgres Admin http://127.0.0.1:8081/
 
 version: "3.7"
@@ -8,8 +7,6 @@ services:
     db:
         image: postgres:12.1-alpine
         env_file: .env
-        networks: 
-            - backend
     dbadmin:
         image: dpage/pgadmin4
         volumes:
@@ -19,31 +16,13 @@ services:
         depends_on:
             - db
         env_file: .env
-        networks: 
-            - backend
     rails:
-        build: ./build_rails
+        build: .
         image: rails_backend #Name of the image built by the build instruction
         volumes:
-            - ./build_rails/backend/:/transcendence
+            - ./myapp/:/transcendence
         depends_on:
             - db
+        ports: 
+            - "80:3000"
         env_file: .env
-        networks: 
-            - backend
-            - frontend
-    backbonejs:
-        build: ./build_backbonejs
-        image: backbonejs_frontend
-        volumes:
-            - ./build_backbonejs/frontend/:/transcendence
-        ports:
-            - "80:80"
-        depends_on:
-            - rails
-        networks:
-            - backend
-            - frontend
-networks:
-    frontend:
-    backend:

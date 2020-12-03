@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  ruby_dev:
+  ruby_service:
     build: .
     container_name: ruby_container
     ports:

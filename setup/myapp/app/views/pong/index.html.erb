@@ -1,0 +1,30 @@
+
+<div id="title">
+    <h2>ft_transcendence</h2>
+
+</div>
+
+<div id="content">
+
+<!-- User is not login -->
+<% if !user_signed_in? %>
+    <%= render  "login" %> <!-- Render _login.html.erb -->
+
+
+<!-- User is login -->
+
+<% else %>
+    <% @users.each do |user| %>
+        <tr>
+            <td> Hello <%= user.nickname %> !</td>
+        </tr>
+    <% end %>
+<% end %>
+
+<%= render  "game" %>
+
+</div>
+
+<div class="footer">
+    <p>Developed by @asegovia @darodrig @aserrano @pcuadrad</p>
+</div>

@@ -10,10 +10,6 @@ fi
 
 cd /transcendence
 
-bundle update --bundler && bundle install
-yarn install
-rails webpacker:install
-
 #Database creation
 rails db:drop && rails db:create && rails db:migrate && rails db:seed
 

@@ -15,8 +15,8 @@
 
 <% else %>
     <% @users.each do |user| %>
-        <tr>
-            <td> Hello <%= user.nickname %> !</td>
+        <tr class='logged-users'>
+            <td> <p>Hello, <%= user.nickname %>!</p></td>
         </tr>
     <% end %>
 <% end %>

@@ -41,6 +41,15 @@ div {
     max-width: 25cm;
 }
 
+h2 #transcendence-title {
+    padding: 1%;
+    font-family: Righteous;
+    color: White;
+    background-color: #111;
+    max-width: 25cm;
+    margin-block: 1%;
+}
+
 h1 {
     padding: 1%;
     font-family: Righteous;

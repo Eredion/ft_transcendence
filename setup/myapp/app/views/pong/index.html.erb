@@ -16,7 +16,7 @@
 <% else %>
     <% @users.each do |user| %>
         <tr class='logged-users'>
-            <td> <p>Hello, <%= user.nickname %>!</p></td>
+            <td> <p>Hello, <%= user.nickname.capitalize() %>!</p></td>
         </tr>
     <% end %>
 <% end %>

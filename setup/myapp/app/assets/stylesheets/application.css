@@ -23,7 +23,7 @@ body {
     border-radius: 5px;
     background-color: #111;
     border: 10px 25%;
-    margin: auto;
+    : auto;
     max-width: 25cm;
 }
 
@@ -98,8 +98,8 @@ p {
     /* Green */
     border: none;
     color: white;
-    margin-top: 30%;
-    margin-bottom: 30%;
+    -top: 30%;
+    -bottom: 30%;
     padding: 1% 5%;
     text-align: center;
     text-decoration: none;
@@ -140,4 +140,14 @@ p {
 .footer {
     font-size: 90%;
     text-decoration-color: aqua;
+}
+
+#chatbar td {
+    font-family: Raleway;
+    font-weight: normal;
+}
+
+#chatbar th {
+    font-family: Raleway;
+    font-weight: bolder;
 }

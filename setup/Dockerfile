@@ -26,7 +26,10 @@ RUN gem install devise
 COPY ./myapp/Gemfile /transcendence/Gemfile
 COPY ./myapp/Gemfile.lock /transcendence/Gemfile.lock
 
-#RUN bundle install
+#RUN bundle and dependencies install
+RUN bundle update --bundler && bundle install
+RUN yarn install
+RUN rails webpacker:install
 
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

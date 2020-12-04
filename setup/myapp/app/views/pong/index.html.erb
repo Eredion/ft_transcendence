@@ -20,9 +20,10 @@
         </tr>
     <% end %>
 <% end %>
-
-<%= render  "game" %>
-
+<% if user_signed_in? %>
+    <%= render  "game" %>
+    <%= render "chat" %>
+<% end %>
 </div>
 
 <div class="footer">

@@ -14,7 +14,7 @@
  *= require_self
  */
 
- body {
+body {
     align-self: center;
     background: rgb(0, 0, 0);
     background: linear-gradient(348deg, rgba(0, 0, 0, 1) 0%, rgba(43, 43, 50, 1) 100%);
@@ -78,7 +78,8 @@ canvas {
 
 .sign-button {
     cursor: hand;
-    background-color: rgb(39, 155, 170); /* Green */
+    background-color: rgb(39, 155, 170);
+    /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -92,13 +93,15 @@ canvas {
 
 .sign-button:hover {
     cursor: hand;
-    background-color: rgb(34, 133, 146); /* Green */
+    background-color: rgb(34, 133, 146);
+    /* Green */
     color: white;
 }
 
 #active-game {
     cursor: hand;
-    background-color: rgb(233, 57, 44); /* Green */
+    background-color: rgb(233, 57, 44);
+    /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -113,6 +116,12 @@ canvas {
 
 #active-game:hover {
     cursor: hand;
-    background-color: rgb(131, 20, 20); /* Green */
+    background-color: rgb(131, 20, 20);
+    /* Green */
     color: white;
+}
+
+.footer {
+    font-size: 90%;
+    text-decoration-color: aqua;
 }

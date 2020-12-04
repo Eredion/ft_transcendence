@@ -28,7 +28,7 @@ global._ = global.underscore = underscore;
 //App Entrypoint
 import App from './pong-app.js'
 
-$(function(){
+$(function() {
 
     new App();
 });

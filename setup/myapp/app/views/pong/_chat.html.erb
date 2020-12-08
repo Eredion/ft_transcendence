@@ -1,5 +1,5 @@
 <div id="chatbar">
-    <table>
+    <table class='table'>
         <thead>
             <tr>
                 <th>Users</th>
@@ -7,10 +7,12 @@
             </tr>
         <thead>
         <tbody>
+        <% @users.each do |user| %>
             <tr>
-                <td>Test</td>
+              <td><%= user.nickname %></td>
                 <td>Test</td>
             </tr>
+          <% end %>
             <tr>
                 <td>Test</td>
                 <td>Test</td>

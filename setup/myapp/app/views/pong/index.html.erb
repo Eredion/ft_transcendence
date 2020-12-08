@@ -1,7 +1,7 @@
 
 <div id="title">
-    <h1 id="transcendence-title">FT_TRANSCENDENCE</h1>
-
+  <h1 id="transcendence-title">FT_TRANSCENDENCE</h1>
+  </div>
 </div>
 
 <div id="content">
@@ -14,14 +14,17 @@
 <!-- User is login -->
 
 <% else %>
+  <div class='logout'>
+      <%= link_to 'Sign out', destroy_user_session_path_path,
+        :method => :delete, data: {confirm: 'Are you sure?'} %></div>
     <% @users.each do |user| %>
         <tr class='logged-users'>
-            <td> <p>Hello, <%= user.nickname.capitalize() %>!</p></td>
+          <td><p>Hello, <%= user.nickname.capitalize() %>!</p></td>
         </tr>
     <% end %>
-<% end %>
+    <% end %>
 <% if user_signed_in? %>
-    <%= render  "game" %>
+    <div><%= render  "game" %></div>
     <%= render "chat" %>
 <% end %>
 </div>

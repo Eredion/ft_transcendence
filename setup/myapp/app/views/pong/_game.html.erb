@@ -11,6 +11,7 @@ $( "#active-game" ).click(function() {
     const button = document.getElementById("active-game");
     button.disabled = true;
     button.style.display = "none";
+    document.getElementById("cnv").focus();
 });
 
 const canvas = document.getElementById('canvas');
@@ -142,8 +143,16 @@ moveBall = () => {
 }
 
 const listen = () => {
-	document.addEventListener('keydown', keyDown)
-	document.addEventListener('keyup', keyUp)
+
+	document.addEventListener('keydown', function (e) {
+       e.preventDefault();
+       keyDown(e);
+    });
+
+    document.addEventListener('keyup', function (e) {
+       e.preventDefault();
+       keyUp(e);
+    });
 }
 
 drawPoints = () => {

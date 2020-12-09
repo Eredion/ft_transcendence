@@ -1,0 +1,42 @@
+<%= form_with(model: muchacho, local: true) do |form| %>
+  <% if muchacho.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(muchacho.errors.count, "error") %> prohibited this muchacho from being saved:</h2>
+
+      <ul>
+        <% muchacho.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :nick %>
+    <%= form.text_field :nick %>
+  </div>
+
+  <div class="field">
+    <%= form.label :wins %>
+    <%= form.number_field :wins %>
+  </div>
+
+  <div class="field">
+    <%= form.label :defeats %>
+    <%= form.number_field :defeats %>
+  </div>
+
+  <div class="field">
+    <%= form.label :winrate %>
+    <%= form.number_field :winrate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :guild %>
+    <%= form.text_field :guild %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

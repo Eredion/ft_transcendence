@@ -26,6 +26,16 @@
 <% if user_signed_in? %>
     <div><%= render  "game" %></div>
     <%= render "chat" %>
+    <% if @muchachos %>
+    <% @muchachos.each do |muchacho| %>
+        <td><%= muchacho.nick %></td>
+        <td><%= muchacho.wins %></td>
+    <% end %>
+    <% else %>
+      <p>NO HAY MUCHACHOS<p>
+      <%= link_to "Add muchacho", new_muchacho_path %>
+<% end %>
+
 <% end %>
 </div>
 

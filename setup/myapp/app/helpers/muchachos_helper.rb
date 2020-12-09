@@ -1,0 +1,2 @@
+module MuchachosHelper
+end

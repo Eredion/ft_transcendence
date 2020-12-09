@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nick:</strong>
+  <%= @muchacho.nick %>
+</p>
+
+<p>
+  <strong>Wins:</strong>
+  <%= @muchacho.wins %>
+</p>
+
+<p>
+  <strong>Defeats:</strong>
+  <%= @muchacho.defeats %>
+</p>
+
+<p>
+  <strong>Winrate:</strong>
+  <%= @muchacho.winrate %>
+</p>
+
+<p>
+  <strong>Guild:</strong>
+  <%= @muchacho.guild %>
+</p>
+
+<%= link_to 'Edit', edit_muchacho_path(@muchacho) %> |
+<%= link_to 'Back', muchachos_path %>

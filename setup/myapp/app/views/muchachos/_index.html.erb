@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Muchachos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nick</th>
+      <th>Wins</th>
+      <th>Defeats</th>
+      <th>Winrate</th>
+      <th>Guild</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @muchachos.each do |muchacho| %>
+      <tr>
+        <td><%= muchacho.nick %></td>
+        <td><%= muchacho.wins %></td>
+        <td><%= muchacho.defeats %></td>
+        <td><%= muchacho.winrate %></td>
+        <td><%= muchacho.guild %></td>
+        <td><%= link_to 'Show', muchacho %></td>
+        <td><%= link_to 'Edit', edit_muchacho_path(muchacho) %></td>
+        <td><%= link_to 'Destroy', muchacho, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Muchacho', new_muchacho_path %>

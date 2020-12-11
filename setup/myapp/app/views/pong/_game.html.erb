@@ -1,8 +1,8 @@
 
 <input type="button" id="active-game" value="Start">
-<div id="cnv" class="row">
-    <canvas style="background-color: darkgray;border-radius: 5px;"
-            id="canvas" width="600" height="400"><canvas>
+
+<div id="cnv">
+    <canvas id="canvas" width="600" height="400"><canvas>
 </div>
 <script type="text/javascript">
 
@@ -30,8 +30,8 @@ class Player {
 	points = 0
 }
 
-const P1 = new Player(canvas.width * 0.05, 'blue');
-const P2 = new Player(canvas.width * 0.95, 'red');
+const P1 = new Player(canvas.width * 0.05, 'white');
+const P2 = new Player(canvas.width * 0.95, 'white');
 
 drawPlayer = (player) => {
 	ctx.fillStyle = player.color
@@ -148,9 +148,9 @@ const listen = () => {
 
 drawPoints = () => {
 	const size = (canvas.height / 10).toString()
-	ctx.font = size +'px fantasy';
-	ctx.strokeStyle = 'black';
-	ctx.fillStyle = 'black';
+	ctx.font = size +'px Righteous';
+	ctx.strokeStyle = 'white';
+	ctx.fillStyle = 'white';
 	ctx.fillText(P1.points, canvas.width * 0.25 , canvas.height * 0.15)
 	ctx.fillText(P2.points, canvas.width * 0.75 , canvas.height * 0.15)
 }

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'messages', to: 'messages#create'
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   root "pong#index"

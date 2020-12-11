@@ -1,7 +1,7 @@
 
 <div id="title">
-    <h1 id="transcendence-title">FT_TRANSCENDENCE</h1>
-
+  <h1 id="transcendence-title">FT_TRANSCENDENCE</h1>
+  </div>
 </div>
 
 <div id="content">
@@ -14,18 +14,26 @@
 <!-- User is login -->
 
 <% else %>
-    <% @users.each do |user| %>
-        <tr>
-            <td> Hello <%= user.nickname %> !</td>
+  <div class='logout'>
+      <%= link_to 'Sign out', destroy_user_session_path_path,
+        :method => :delete, data: {confirm: 'Are you sure?'} %></div>
+        <tr class='logged-users'>
+          <td><p>Hello, <%= current_user.nickname.capitalize() %>!</p></td>
         </tr>
     <% end %>
-<% end %>
 <% if user_signed_in? %>
-    <%= render  "game" %>
+    <div><%= render  "game" %></div>
     <%= render "chat" %>
+    
+
 <% end %>
 </div>
 
 <div class="footer">
     <p>Developed by @asegovia @darodrig @aserrano @pcuadrad</p>
+    <script> 
+        $('.footer').click(function(){
+      $('.footer').toggle('slow');
+  });
+    </script>
 </div>

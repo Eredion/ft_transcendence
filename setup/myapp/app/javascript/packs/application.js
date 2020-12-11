@@ -7,7 +7,6 @@ require("@rails/ujs").start();
 require("turbolinks").start();
 require("@rails/activestorage").start();
 require("channels");
-
 require("bootstrap");
 var jQuery = require("jquery");
 var underscore = require("underscore");

@@ -83,6 +83,10 @@ p {
     max-width: 25cm;
 }
 
+.message {
+    color: white;
+}
+
 #canvas {
     max-width: 25cm;
     padding: 1%;

@@ -84,7 +84,8 @@ p {
 }
 
 .message {
-    color: white;
+    color: #EEE;
+    text-align: left;
 }
 
 #canvas {

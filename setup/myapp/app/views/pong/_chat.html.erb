@@ -7,7 +7,7 @@
         <% end %>
     </div>
 
-    <%= form_with model: @message do |f| %>
+    <%= form_with model: @message, remote: true do |f| %>
         <div class="input-group mb-3">
             <%= f.text_field :content, placeholder:"Say something i'm giving up on you...", class: 'form-control' %>
             <div class="input-group-append">
@@ -15,4 +15,9 @@
             </div>
         </div>
     <% end %>
+    <script> 
+        $('.btn btn-primary').click(function(){
+            $('.form-control').reset();
+        });
+    </script>
 </div>

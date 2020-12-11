@@ -17,6 +17,8 @@ module FtTranscendence
     # the framework and any gems in your application.
     config.api_only = false
 
+    config.active_record.default_timezone = :local
+    config.time_zone = 'Madrid'
     config.middleware.use ActionDispatch::Flash
     #config.middleware.insert_before 0, Rack::Cors do
     #  allow do

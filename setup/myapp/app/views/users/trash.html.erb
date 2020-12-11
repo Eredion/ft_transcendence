@@ -1,0 +1,18 @@
+<h1>Registration</h1>
+
+<%= form_for @user do |f| %>
+    <%= f.label :nickname %> <br>
+    <%= f.text_field :nickname %> <br>
+
+    <%= f.label :email %> <br>
+    <%= f.text_field :email %> <br>
+
+    <%= f.label :password %> <br>
+    <%= f.password_field :password %> <br>
+
+    <%= f.label :password_confirmation %> <br>
+    <%= f.password_field :password_confirmation %> <br>
+
+    <%= f.submit %>
+<% end %>
+

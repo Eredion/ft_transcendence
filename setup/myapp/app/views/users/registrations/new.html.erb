@@ -1,0 +1,30 @@
+<h2>Sign up</h2>
+
+<%= form_tag create_user_registration_path(@user), :method => :post, remote: true do %>
+
+  <div class="field">
+    <%= label :user, :nickname %> <br>
+    <%= text_field :user, :nickname %> <br>
+  </div>
+  <div class="field">
+    <%= label :user, :email %><br />
+    <%= email_field :user, :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= label :user, :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= password_field :user, :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= label :user, :password_confirmation %><br />
+    <%= password_field :user, :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag "Sign up" %>
+  </div>
+<% end %>

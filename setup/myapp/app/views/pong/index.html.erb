@@ -5,9 +5,6 @@
     <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: 'Are you sure?'} %>
 </div>
 
-<div class='logout'>
-    <%= link_to 'Sign out', destroy_user_session_path_path, :method => :delete, data: {confirm: 'Are you sure?'} %>
-</div>
 <tr class='logged-users'>
   <td><p>Hello, <%= current_user.nickname.capitalize() %>!</p></td>
 </tr>

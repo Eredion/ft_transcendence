@@ -3,19 +3,15 @@
 class Users::SessionsController < Devise::SessionsController
   before_action :configure_sign_in_params, only: [:create]
 
-  # GET /resource/sign_in
-  def new
-    @user = User.new
-  end
-
   # POST /resource/sign_in
   def create
     @user = User.new configure_sign_in_params
     ufind = User.find_by(nickname: @user.nickname)
-    if ufind
-      puts "user exists"
+    if ufind && ufind.authenticate(@user.password)
+      sign_in(ufind)
+      return redirect_to root_path, notice: 'Logged in'
     else
-      puts "user doesn't exists"
+      flash.now[:alert] = "Nickname or password is invalid"
     end
   end
 

@@ -9,15 +9,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  def new
-    @user = User.new
-  end
-
   def create
     @user = User.new user_params
 
     if @user.save
-      return redirect_to  new_user_path
+      sign_in(@user)
+      return redirect_to root_path
     end
 
     render :signup

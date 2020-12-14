@@ -1,0 +1,27 @@
+
+<script type="text/template" name="userLogin">
+
+  <h2>Log in</h2>
+
+  <%= form_tag create_user_session_url(@user), :method => :post, remote: true do %>
+
+    <div class="field">
+      <%= label :user, :nickname %> <br>
+      <%= text_field :user, :nickname, autofocus: true %> <br>
+    </div>
+
+    <div class="field">
+      <%= label :user, :password %> <br />
+      <%= password_field :user, :password, autocomplete: "new-password" %>
+    </div>
+
+    <div class="actions">
+      <%= submit_tag "Log in" %>
+    </div>
+  <% end %>
+
+  <%= link_to "Sign in with 42", user_marvin_omniauth_authorize_path, method: "post", class: "sign-button" %> <br><br>
+
+  <a href="/sign_up" >Create an account</a> 
+
+</script>

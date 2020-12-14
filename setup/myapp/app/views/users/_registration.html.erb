@@ -1,0 +1,33 @@
+
+<script type="text/template" name="userRegistration">
+
+  <h2>Sign up</h2>
+
+  <%= form_tag create_user_registration_path(@user), :method => :post, remote: true do %>
+
+    <div class="field">
+      <%= label :user, :nickname %> <br>
+      <%= text_field :user, :nickname, autofocus: true %> <br>
+    </div>
+
+    <div class="field">
+      <%= label :user, :email %><br />
+      <%= email_field :user, :email, autocomplete: "email" %>
+    </div>
+
+    <div class="field">
+      <%= label :user, :password %> <br />
+      <%= password_field :user, :password, autocomplete: "new-password" %>
+    </div>
+
+    <div class="field">
+      <%= label :user, :password_confirmation %><br />
+      <%= password_field :user, :password_confirmation, autocomplete: "new-password" %>
+    </div>
+
+    <div class="actions">
+      <%= submit_tag "Sign up" %>
+    </div>
+  <% end %>
+
+</script>

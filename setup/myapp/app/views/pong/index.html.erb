@@ -5,15 +5,17 @@
     <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: 'Are you sure?'} %>
 </div>
 
-<% @users.each do |user| %>
-    <tr class='logged-users'>
-      <td><p>Hello, <%= user.nickname.capitalize() %>!</p></td>
-    </tr>
-<% end %>
-
+<div class='logout'>
+    <%= link_to 'Sign out', destroy_user_session_path_path, :method => :delete, data: {confirm: 'Are you sure?'} %>
+</div>
+<tr class='logged-users'>
+  <td><p>Hello, <%= current_user.nickname.capitalize() %>!</p></td>
+</tr>
 <% if user_signed_in? %>
     <div><%= render  "game" %></div>
     <%= render "chat" %>
+    
+
 <% end %>
 
 

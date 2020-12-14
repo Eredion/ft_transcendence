@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 2020_12_11_115628) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.integer "msg_id"
+    t.text "content"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "nickname", null: false
@@ -39,4 +48,5 @@ ActiveRecord::Schema.define(version: 2020_12_11_115628) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
+  add_foreign_key "messages", "users"
 end

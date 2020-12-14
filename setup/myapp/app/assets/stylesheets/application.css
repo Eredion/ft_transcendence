@@ -83,6 +83,11 @@ p {
     max-width: 25cm;
 }
 
+.message {
+    color: #EEE;
+    text-align: left;
+}
+
 #canvas {
     max-width: 25cm;
     padding: 1%;

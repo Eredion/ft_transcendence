@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
-
+  
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks",
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
-
+  
   root "pong#index"
   resources :users
+  post 'messages', to: 'messages#create'
 
   devise_scope :user do
     get 'sign_in', :to => 'users#sign_in', :as => :user_session

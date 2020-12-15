@@ -9,15 +9,15 @@
 
     <%= form_with model: @message, remote: true do |f| %>
         <div class="input-group mb-3">
-            <%= f.text_field :content, placeholder:"Say something i'm giving up on you...", class: 'form-control' %>
-            <div class="input-group-append">
+          <%= f.text_field :content, placeholder:"Say something i'm giving up on you...", class: 'form-control' %>
+            <div class="input-group-append" id="message-input">
                 <%= f.submit "Send", class:"btn btn-primary" %>
             </div>
         </div>
     <% end %>
     <script> 
         $('.btn btn-primary').click(function(){
-            $('.form-control').reset();
+            $('.form-control').value = '';
         });
     </script>
 </div>

@@ -3,6 +3,9 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     @message.user = current_user
+    if @message.content == ''
+      return
+    end
     if @message.save
       ActionCable.server.broadcast "chat_channel",
                                       content: @message.created_at.strftime("%k:%M:%S")+ ": " + @message.user.nickname.capitalize() +": " + @message.content      

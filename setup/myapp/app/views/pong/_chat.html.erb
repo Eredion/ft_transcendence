@@ -8,15 +8,10 @@
 
     <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
         <div class="input-group mb-3" id="message-input">
-          <%= f.text_field :content, placeholder:"Say something i'm giving up on you...", class: 'form-control' %>
-            <div class="input-group-append" >
+          <%= f.text_field :content, placeholder:"Type your message here...", class: 'form-control' %>
+            <div>
               <%= f.submit "Send", class:"btn btn-primary" %>
             </div>
         </div>
     <% end %>
-    <script> 
-        $('.btn btn-primary').click(function(){
-            $('.form-control').value = '';
-        });
-    </script>
 </div>

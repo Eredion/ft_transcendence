@@ -2,16 +2,15 @@
     <h1 style="text-align:center">Chat</h1>
     <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
         <% @messages.each do |message| %>
-
             <%= render 'messages/message', message: message %>
         <% end %>
     </div>
 
-    <%= form_with model: @message, remote: true do |f| %>
-        <div class="input-group mb-3">
+    <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
+        <div class="input-group mb-3" id="message-input">
           <%= f.text_field :content, placeholder:"Say something i'm giving up on you...", class: 'form-control' %>
-            <div class="input-group-append" id="message-input">
-                <%= f.submit "Send", class:"btn btn-primary" %>
+            <div class="input-group-append" >
+              <%= f.submit "Send", class:"btn btn-primary" %>
             </div>
         </div>
     <% end %>

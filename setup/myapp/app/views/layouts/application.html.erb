@@ -17,6 +17,21 @@
   </head>
 
   <body>
+    <div id="title">
+      <h1 id="transcendence-title">FT_TRANSCENDENCE</h1>
+    </div>
+
+    <div id="content"></div>
+
     <%= yield %>
+
+    <div class="footer">
+      <p>Developed by @asegovia @darodrig @aserrano @pcuadrad</p>
+      <script>
+          $('.footer').click(function(){
+            $('.footer').toggle('slow');
+          });
+      </script>
+    </div>
   </body>
 </html>

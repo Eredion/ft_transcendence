@@ -1,19 +1,33 @@
 import Backbone from 'backbone'
 import loginView from './views/loginView'
+import registerView from './views/registerView'
+import App from './application'
 
 // Routes
 class Workspace extends Backbone.Router {
 
     get routes() {
         return {
-            "": "userLogin",
-        }    
+            "": "rootPath",
+            "sign_in": "userSignin",
+            "sign_up": "userSignup",
+        }
     }
 
-    userLogin() {
-        console.log("userLogin route");
-        //var loginview = new loginView(); throw an error when user is login because is the same path (remove this later)
-        //loginview.render();
+    rootPath() {
+        console.log("rootPath route");
+    }
+
+    userSignin() {
+        console.log("userSignin route");
+        var signinView = new loginView();
+        signinView.render();
+    }
+
+    userSignup() {
+        console.log("userSignup route");
+        var signupView = new registerView();
+        signupView.render();
     }
 
 };

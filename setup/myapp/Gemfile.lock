@@ -87,8 +87,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    email_validator (2.0.1)
-      activemodel
     erubi (1.10.0)
     execjs (2.7.0)
     faraday (1.1.0)
@@ -255,13 +253,12 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  bcrypt
+  bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.6)
   bootstrap
   byebug
   capybara (>= 2.15)
   devise
-  email_validator
   jbuilder (~> 2.7)
   jquery-rails
   listen (~> 3.2)

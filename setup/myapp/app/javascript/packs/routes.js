@@ -1,21 +1,25 @@
 import Backbone from 'backbone'
 import loginView from './views/loginView'
 import registerView from './views/registerView'
-import App from './application'
+import profileView from './views/profileView'
+import pongView from './views/pongView'
 
 // Routes
 class Workspace extends Backbone.Router {
 
     get routes() {
         return {
-            "": "rootPath",
+            "": "pong",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
+            "users/:id": "userProfile"
         }
     }
 
-    rootPath() {
-        console.log("rootPath route");
+    pong() {
+        console.log("pong route");
+        var pongview = new pongView();
+        pongview.render_chat();
     }
 
     userSignin() {
@@ -28,6 +32,12 @@ class Workspace extends Backbone.Router {
         console.log("userSignup route");
         var signupView = new registerView();
         signupView.render();
+    }
+
+    userProfile(id) {
+        console.log("userProfile route");
+        var profileview = new profileView(id);
+        profileview.render();
     }
 
 };

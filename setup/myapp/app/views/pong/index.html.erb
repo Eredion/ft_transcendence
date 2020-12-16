@@ -1,19 +1,10 @@
 
 <!-- User is login -->
-
-<div class='logout'>
-    <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: 'Are you sure?'} %>
-</div>
-
-<tr class='logged-users'>
-  <td><p>Hello, <%= current_user.nickname.capitalize() %>!</p></td>
-</tr>
 <% if user_signed_in? %>
-    <div><%= render  "game" %></div>
-    <%= render "chat" %>
-    
+  <%= render "nav" %>
+  <div id="content"></div>
+  <%= render "profile" %>
+  <%= render "game" %>
+  <%= render "chat" %>
 
 <% end %>
-
-
-

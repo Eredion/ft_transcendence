@@ -1,0 +1,12 @@
+
+<nav>
+
+    <h4>Hello, <%= current_user.nickname.capitalize() %>!</h4>
+    <ul>
+        <li><a class="active" href="/">Home</a></li>
+        <li><a href="/users/<%= current_user.id %>">Profile</a></li>
+        <li><a href="/">Guilds</a></li>
+        <li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: 'Are you sure?'} %></li>
+    </ul>
+
+</nav>

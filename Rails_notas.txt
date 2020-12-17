@@ -1,0 +1,27 @@
+	Variables en render parciales:
+Puede ser útil, por ejemplo, diseñar un parcial que muestre las estadísticas de
+usuario. Dicho usuario se lo pasamos desde fuera, esto nos serviría junto con
+"render on click" para ver las estadisticas de un usuario pinchando en él.
+Ejemplo:
+<% render partial: "stats", locals: {user: "usuario"} %>  
+
+	Helpers:
+ruta: app/helpers/application_helper.rb
+Permite definir funciones que se pueden utilizar en cualquier view para evitar
+hacer cosas recurrentes. 
+
+	AcctiveRecord:
+Para aclarar cossa, es básicmaente una manera "ruby-like" de trabajar con la
+base de datos sin necesitad de trastear con SQL. Es más fácil y menos susceptible
+a errores. 
+
+	Create vs new:
+A la hora de guardar una instancia de una clase en nuestra base de datos, se 
+puede hacer de las dos maneras.
+Usando create, necesitamos decirle ya de entreada los valores que queremos.
+Por ejemplo: User.create (name : 'Alvaro', age: 26). (la sintaxis es bastante
+permisiva).
+Por otra parte, si lo hacemos con new, siempre hay que usar .save despues.
+Por ejemplo: alvaro= User.new.... alvaro.name = "Alvaro" ... alvaro.save
+Con esto, podemos trabajar con nuestra clase que se guardará en la base de datos
+

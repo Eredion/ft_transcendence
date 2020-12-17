@@ -1,3 +1,5 @@
 <div class='message'>
-    <%= message.created_at.strftime("%k:%M:%S")%>: <%= message.user.nickname.capitalize() %>: <%= message.content %>
+    <% if message.content != "" %>
+        <%= message.created_at.strftime("%k:%M:%S")%>: <%= message.user.nickname.capitalize() %>: <%= message.content %>
+    <% end %>
 </div>

@@ -2,7 +2,7 @@
 # Access main page http://127.0.0.1/
 # Access to Postgres Admin http://127.0.0.1:8081/
 
-version: "3.7"
+version: "3.3"
 services:
     db:
         image: postgres:12.1-alpine

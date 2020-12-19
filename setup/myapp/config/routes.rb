@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   }
   
   root "pong#index"
-  resources :users
+  resources :users, only: [:show]
   post 'messages', to: 'messages#create'
 
   devise_scope :user do

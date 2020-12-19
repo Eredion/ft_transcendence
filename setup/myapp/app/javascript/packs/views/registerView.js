@@ -5,7 +5,7 @@ class registerView extends Backbone.View {
 
     initialize() {
         console.log("registerView initialize");
-        this.template = $('script[name="userRegistration"]').html(); // views/users/registrations/new.html.erb name script
+        this.template = $('script[name="userRegistration"]').html(); // views/users/_registrations.html.erb name script
     }
 
     render() {

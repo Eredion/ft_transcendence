@@ -1,7 +1,7 @@
 
 <nav>
-
-    <h4>Hello, <%= current_user.nickname.capitalize() %>!</h4>
+    <%= image_tag current_user.avatar.thumb.url, class: 'img-avatar' %>
+    <p><%= current_user.nickname.capitalize() %></p>
     <ul>
         <li><a class="active" href="/">Home</a></li>
         <li><a href="/users/<%= current_user.id %>">Profile</a></li>

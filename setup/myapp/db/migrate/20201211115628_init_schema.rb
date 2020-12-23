@@ -27,6 +27,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "provider"
       t.string "uid"
       t.string "password_digest"
+      t.string "avatar"
       t.index ["email"], name: "index_users_on_email", unique: true
       t.index ["nickname"], name: "index_users_on_nickname", unique: true
       t.index ["provider"], name: "index_users_on_provider"

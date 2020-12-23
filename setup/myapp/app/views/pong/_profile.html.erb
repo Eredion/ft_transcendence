@@ -4,5 +4,10 @@
     <div>
         <h3>Nickname</h3>
         <h4 id="user-nickname"></h4>
+        <%= form_tag update_user_avatar_url(current_user), :method => :post, multipart: true, remote: true do %>
+            <%= image_tag current_user.avatar.thumb.url, class: 'img-avatar' %>
+            <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg' %> <br />
+            <%= submit_tag "Save Avatar" %>
+        <% end %>
     </div>
 </script>

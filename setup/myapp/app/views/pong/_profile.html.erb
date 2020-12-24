@@ -7,7 +7,7 @@
         <%= form_tag update_user_avatar_url(current_user), :method => :post, multipart: true, remote: true do %>
             <%= image_tag current_user.avatar.medium.url, class: 'img-avatar' %>
             <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg' %> <br />
-            <%= submit_tag "Save Avatar" %>
+            <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
         <% end %>
     </div>
 </script>

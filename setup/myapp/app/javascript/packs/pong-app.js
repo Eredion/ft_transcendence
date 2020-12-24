@@ -17,15 +17,24 @@ class App {
         
         if (Backbone.History.started === false) {
             Backbone.history.start({pushState: true});
-            //Backbone.history.loadUrl(Backbone.history.fragment);
-            //Backbone.history.start();
-            console.log('Starting Backbone History... state: ' + Backbone.History.started);
+            /*
+                with the pushState: true option, rails and backbone synchronize its route,
+                so if for example the /chat route is accessed (it exists in backbone, it does not in rails)
+                it fails to reload the page.
+                without this option backbone captures the path with #,
+                reloading the page works fine.
+                But it works badly with the login page since it does not detect the # and goes into the default route
+
+                **It should be used without the pushState option fixing the failure of the login page**
+            */
+            console.log('Starting Backbone History...');
         }
     }
 
     navigate (url) {
         this.router.navigate(url, { trigger: true });
     }
+
 
 }
 

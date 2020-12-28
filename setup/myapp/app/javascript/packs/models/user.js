@@ -6,10 +6,17 @@ class User extends Backbone.Model {
     get defaults() {
         return {
             user_id: 0,
-            nickname: "none"
+            nickname: "none",
+            avatar: "#"
         }
     }
 
+    urlRoot = 'users/'
+
+    idAttribute = 'user_id'
+
 };
 
-export default User;
+const user = new User;
+
+export default user;

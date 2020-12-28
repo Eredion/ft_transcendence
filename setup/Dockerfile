@@ -13,7 +13,8 @@ RUN apk add --update --no-cache \
                 postgresql-dev \
                 yarn \
                 nodejs \
-                tzdata
+                tzdata \
+                imagemagick
 
 WORKDIR /transcendence
 

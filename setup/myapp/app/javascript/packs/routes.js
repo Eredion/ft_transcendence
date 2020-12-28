@@ -45,7 +45,7 @@ class Workspace extends Backbone.Router {
     userProfile(id) {
         console.log("userProfile route")
         var profileview = new profileView(id)
-        profileview.render()
+        //profileview.render()
     }
 
 };

@@ -13,10 +13,10 @@ class App {
         console.log("App initialize");
         
         this.router = new Workspace();
-        console.log(this.router);
+        //console.log(this.router);
         
         if (Backbone.History.started === false) {
-            Backbone.history.start({pushState: true});
+            Backbone.history.start();
             /*
                 with the pushState: true option, rails and backbone synchronize its route,
                 so if for example the /chat route is accessed (it exists in backbone, it does not in rails)

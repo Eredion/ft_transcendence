@@ -1,22 +1,14 @@
-import _ from 'underscore'
 import Backbone from 'backbone'
 
-class User extends Backbone.Model {
-
-    get defaults() {
-        return {
-            user_id: 0,
-            nickname: "none",
-            avatar: "#"
-        }
-    }
-
-    urlRoot = 'users/'
-
-    idAttribute = 'user_id'
-
-};
-
-const user = new User;
-
-export default user;
+let User = Backbone.Model.extend({
+    urlRoot: "api/users/",
+    url: function () {
+        return this.urlRoot + encodeURIComponent(this.get('id'));
+    },
+    idAttribute: 'id',
+    defaults: {"id":1,"email":"marvin@marvin.com","nickname":"marvin"},
+    initialize: function () {
+        this.fetch();
+    },
+});
+export default User

@@ -1,7 +1,7 @@
 import _ from 'underscore'
 import Backbone from 'backbone'
-
-
+import userscol from '../collections/users.js'
+console.log()
 class chatView extends Backbone.View {
 
     initialize() {
@@ -11,6 +11,7 @@ class chatView extends Backbone.View {
 
     render() {
         $("#content").html(_.template(this.template_chat));
+        $("#content").prepend("<div><h2>Hola</h2></div>");
         return this;
     }
 };

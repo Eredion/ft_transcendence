@@ -1,8 +1,5 @@
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-
+import 'bootstrap'
+import Workspace from "./routes.js"
 require("@rails/ujs").start();
 require("turbolinks").start();
 require("@rails/activestorage").start();
@@ -11,25 +8,41 @@ require("bootstrap");
 var jQuery = require("jquery");
 var underscore = require("underscore");
 require("backbone");
-
 global.$ = global.jQuery = jQuery;
 window.$ = window.jQuery = jQuery;
 global._ = global.underscore = underscore;
 
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
-//
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+class App {
 
+    constructor() {
+        console.log("App initialize");
+        
+        this.router = new Workspace();
+        console.log(this.router);
+        
+        if (Backbone.History.started === false) {
+            Backbone.history.start({pushState: true});
+            /*
+                with the pushState: true option, rails and backbone synchronize its route,
+                so if for example the /chat route is accessed (it exists in backbone, it does not in rails)
+                it fails to reload the page.
+                without this option backbone captures the path with #,
+                reloading the page works fine.
+                But it works badly with the login page since it does not detect the # and goes into the default route
+                **It should be used without the pushState option fixing the failure of the login page**
+            */
+            console.log('Starting Backbone History...');
+        }
+    }
 
-//App Entrypoint
-import App from './pong-app.js'
+    navigate (url) {
+        this.router.navigate(url, { trigger: true });
+    }
+}
 
 $(function() {
 
-    var MyApp = new App();
+    var myApp = new App();
 
     $(document).on("click", "a[href^='/']", function (event) {
     
@@ -42,10 +55,9 @@ $(function() {
             // Remove leading slashes and hash bangs (backward compatablility)
             var url = href.replace(/^\//,'').replace('\#\!\/','')
             // Instruct Backbone to trigger routing events
-            MyApp.navigate(url);
+            myApp.navigate(url);
             //window.location.pathname = url;
             return false
         }
     });
 });
-

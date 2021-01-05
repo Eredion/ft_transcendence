@@ -2,7 +2,7 @@ import Backbone from 'backbone'
 import loginView from './views/loginView'
 import registerView from './views/registerView'
 import chatView from './views/chatView'
-
+import userList from './views/userListView'
 class Workspace extends Backbone.Router {
 
     get routes() {
@@ -19,6 +19,8 @@ class Workspace extends Backbone.Router {
         console.log("chat route")
         var chatview = new chatView()
         chatview.render()
+        var online_users = new userList();
+        online_users.render();
     }
 
     userSignin() {

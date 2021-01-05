@@ -26,20 +26,25 @@ let UserCollection = Backbone.Collection.extend(
         },
         initialize: function(){
             Helper.fetch(this);
-            this.on("change", function(){console.log("User added. Current size: "+ this.length)});
-        }
+        },
+
     }
 )
 
 $(document).ready(
     function() {
-        let col = new UserCollection();
+        
+        /* Helper.fetch(col); */
+        setTimeout(function(){
+            
+        }, 2000);
     }
 );
 
+let userscollection = new UserCollection();
+userscollection.on("change", function(){console.log("User changed. Current size: "+ this.length)});
 
-/* Helper.fetch(col); */
-/* let usuario = new User({"nickname":"probando"});
-col.add(usuario); */
+            let usuario = new User({"nickname":"probando"});
+            userscollection.push(usuario);
 
-export default UserCollection;
+export default userscollection;

@@ -21,4 +21,16 @@
           });
       </script>
     </div>
+    <!-- Template para user list -->
+    <script id="online_user_template" type='text/template'>
+        <%% for (let i = 0; i < online_users.length; i++){ %>
+            <li>
+            <%%= online_users[i].nickname %>
+            </li>
+            <%% }; %>
+    </script>
+    <div class="userlist" id="online-users">
+
+    </div>
+    
 </script>

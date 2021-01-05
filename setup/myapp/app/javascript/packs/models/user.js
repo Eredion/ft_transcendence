@@ -1,14 +1,38 @@
 import Backbone from 'backbone'
+import $ from 'jquery';
 
 let User = Backbone.Model.extend({
-    urlRoot: "api/users/",
-    url: function () {
-        return this.urlRoot + encodeURIComponent(this.get('id'));
+
+    urlRoot: 'api/users',
+
+    parse: function(data) {
+        return new User(data);
     },
-    idAttribute: 'id',
-    defaults: {"id":1,"email":"marvin@marvin.com","nickname":"marvin"},
-    initialize: function () {
-        this.fetch();
+    initialize: function(){
+        console.log("Initializing model: " + this.get("nickname"));
     },
 });
-export default User
+
+
+let UserColl = Backbone.Collection.extend(
+    {
+        url: 'api/users',
+        model: User,
+        parse: function(data) {
+            data.forEach(user => {
+                this.add(user);
+                console.log(this.length);
+            });
+            return this;
+        },
+        initialize: function(){
+            console.log("Collection size: "+ this.length);
+        }
+    }
+)
+
+let col = new UserColl();
+col.fetch();
+
+col.on("add", function(){console.log("NUEVO USUARIO!")});
+export default User;

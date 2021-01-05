@@ -9,5 +9,8 @@ class Api::UsersController < ApplicationController
         render json: @user
     end
 
-
+    def create
+        @todo = User.create!(todo_params)
+        json_response(@todo, :created)
+      end
 end

@@ -10,11 +10,11 @@ let User = Backbone.Model.extend({
         return new User(data);
     }, */
     initialize: function(){
-        console.log("Initializing model: " + this.get("nickname"));
+        console.log("Fetching user [" + this.get("nickname") + "]");
     },
 });
 
-let UserColl = Backbone.Collection.extend(
+let UserCollection = Backbone.Collection.extend(
     {
         url: 'api/users',
         model: User,
@@ -26,15 +26,20 @@ let UserColl = Backbone.Collection.extend(
         },
         initialize: function(){
             Helper.fetch(this);
-            this.on("add", function(){console.log("User added. Current size: "+ this.length)});
+            this.on("change", function(){console.log("User added. Current size: "+ this.length)});
         }
     }
 )
 
-let col = new UserColl();
+$(document).ready(
+    function() {
+        let col = new UserCollection();
+    }
+);
+
 
 /* Helper.fetch(col); */
 /* let usuario = new User({"nickname":"probando"});
 col.add(usuario); */
 
-export default User;
+export default UserCollection;

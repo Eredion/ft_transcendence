@@ -29,12 +29,19 @@ body {
     max-width: 25cm;
 }
 
-.logged-users {
+#online-users {
     color: #DDD;
-    text-align: left;
-    padding: 2%;
+    padding: 4px;
     font-family: Raleway;
+    position: relative;
+    align-content: right;
+    max-width:100;
+    max-height: 400px;
 }
+
+#online-users::-webkit-scrollbar {
+    display: none;
+  }
 
 #cnv {
     text-align: center;
@@ -46,10 +53,15 @@ body {
     padding: 50px;
 }
 
+#online-user-button {
+    margin-block-end: 2px;
+    width: 15em;
+}
+
 
 
 #transcendence-title {
-    padding: 2%;
+    padding: 0.3em;
     font-family: Righteous;
     color: White;
     background-color: #111;

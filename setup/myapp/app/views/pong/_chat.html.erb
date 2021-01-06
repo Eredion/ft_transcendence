@@ -1,7 +1,7 @@
 <script type="text/template" name="chat">
     <div class="row">
         <div class="col-sm">
-            <div class="btn-group-vertical" id="online-users"></div>
+            <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users"></div>
         </div>
         
         <div class="jumbtron col-sm">
@@ -31,7 +31,7 @@
     <!-- Template para user list -->
     <script id="online_user_template" type='text/template'>
         <%% for (let i = 0; i < online_users.length; i++){ %>
-            <button type="button" class="btn btn-secondary btn-sm">
+            <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
             <%%= online_users[i].nickname %>
             </button>
             <%% }; %>

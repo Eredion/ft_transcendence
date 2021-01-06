@@ -22,6 +22,7 @@ body {
 }
 
 .content {
+    align-content: center;
     border-radius: 5px;
     background-color: #111;
     border: 10px 25%;
@@ -45,45 +46,30 @@ body {
     padding: 50px;
 }
 
-div {
-    text-align: center;
-    max-width: 25cm;
-}
 
-h2 #transcendence-title {
+
+#transcendence-title {
     padding: 2%;
     font-family: Righteous;
     color: White;
     background-color: #111;
-    max-width: 25cm;
-}
 
-h1 {
-    padding: 2%;
-    font-family: Righteous;
-    font-size: xx-large;
-    color: White;
-    background-color: #111;
-    text-align: Left;
-    max-width: 25cm;
 }
-
-h2 {
-    padding: 1%;
-    font-family: Righteous;
-    color: White;
-    background-color: #111;
-    max-width: 25cm;
-}
-
-p {
-    text-indent: 0.5em;
-    padding: 1%;
-    font-family: 'Raleway', sans-serif;
+#transcendence-title a:visited{
     color: white;
-    background-color: #111;
-    max-width: 25cm;
 }
+
+.title {
+    margin-top: 1em;
+    padding: 2%;
+    font-family: Righteous;
+    font-size: 2em;
+    color: White;
+    border-radius: 15px 50px 0 0;
+    background-color: #111;
+}
+
+
 
 .message {
     color: #EEE;
@@ -136,6 +122,10 @@ p {
     position: relative; */
 }
 
+/* #footer {
+    bottom: 0;
+}
+ */
 #active-game:hover {
     cursor: hand;
     background-color: rgb(131, 20, 20);
@@ -143,10 +133,7 @@ p {
     color: white;
 }
 
-.footer {
-    font-size: 90%;
-    text-decoration-color: aqua;
-}
+
 
 #chatbar td {
     font-family: Raleway;
@@ -158,37 +145,35 @@ p {
     font-weight: bolder;
 }
 
-ul {
+/* ul .navbar-brand {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #333;
-}
+} */
 
-li {
+/* li .nav-item{
     float: left;
-}
+} */
 
-li a {
+/* li a {
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-}
+} */
 
-li a:hover:not(.active) {
+/* li a:hover:not(.active) {
     background-color: #111;
-}
+} */
 
 .active {
     background-color: #4CAF50;
 }
 
-h4 {
-    color: lightslategrey;
-}
+
 
 .img-avatar {
     width: 50px;

@@ -1,6 +1,11 @@
 <script type="text/template" name="chat">
-    <div class="jumbtron">
-      <h1 style="text-align:center">Chat</h1>
+    <div class="row">
+        <div class="col-sm">
+            <div class="btn-group-vertical" id="online-users"></div>
+        </div>
+        
+        <div class="jumbtron col-sm">
+      <h1 class="title">Chat</h1>
       <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
           <% @messages.each do |message| %>
               <%= render 'messages/message', message: message %>
@@ -8,10 +13,10 @@
       </div>
 
       <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
-          <div class="input-group mb-3" id="message-input">
+          <div class="input-group mb-3 " id="message-input">
             <%= f.text_field :content, placeholder:"Type your message here...", class: 'form-control' %>
               <div>
-                <%= f.submit "Send", class:"btn btn-primary" %>
+                <%= f.submit "Send", class:"btn btn-dark" %>
               </div>
           </div>
       <% end %>
@@ -21,16 +26,18 @@
           });
       </script>
     </div>
+    </div>
+    
     <!-- Template para user list -->
     <script id="online_user_template" type='text/template'>
         <%% for (let i = 0; i < online_users.length; i++){ %>
-            <li>
+            <button type="button" class="btn btn-secondary btn-sm">
             <%%= online_users[i].nickname %>
-            </li>
+            </button>
             <%% }; %>
     </script>
-    <div class="userlist" id="online-users">
-
-    </div>
+    
+    
+    
     
 </script>

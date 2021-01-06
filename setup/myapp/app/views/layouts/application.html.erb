@@ -13,19 +13,20 @@
   </head>
 
   <body>
-    <div id="title">
+    <%# <div id="title"> %>
       <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
-    </div>
+    <%# </div> %>
 
     <%= yield %>
 
-    <div class="footer">
-      <p>Developed by @asegovia @darodrig @aserrano @pcuadrad</p>
+    <div class="footer mt-auto bg-dark text-center" id="footer">
+      <footer>Developed by @asegovia @darodrig @aserrano @pcuadrad at 42 Madrid</footer>
       <script>
-          $('.footer').click(function(){
-            $('.footer').toggle('slow');
+          $('#footer').click(function(){
+            $('#footer').toggle('slow');
           });
       </script>
     </div>
   </body>
+  
 </html>

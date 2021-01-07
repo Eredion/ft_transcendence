@@ -2,9 +2,8 @@
 <!-- User is login -->
 <% if user_signed_in? %>
   <%= render "nav" %>
-  <div id="content" class="container">
-  </div>
-  <%= render "profile" %>
-  <%= render "game" %>
-  <%= render "chat" %>
+<% else %>
+  <%= render "users/sign_in" %>
 <% end %>
+<div id="content" class="container">
+</div>

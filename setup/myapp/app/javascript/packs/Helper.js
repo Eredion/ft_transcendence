@@ -14,4 +14,8 @@ Helper.fetch = (model) => {
     });
 }
 
+Helper.logged = () => {
+    return $('html').data().userLogged
+}
+
 export default Helper;

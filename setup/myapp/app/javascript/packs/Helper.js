@@ -1,18 +1,30 @@
 
-const Helper = {};
+const Helper = {}
 
-Helper.fetch = function (collection) {
-	return new Promise((resolve, reject) => {
-		collection.fetch({
-			success: function (collection) {
-				console.log("Fetched length: " + collection.length);
-				resolve(collection);
-			},
-			error: function (collection, response) {
-				reject(response);
-			}
-		});
-	})
+Helper.fetch = (model) => {
+    return new Promise((resolve, reject) => {
+        model.fetch({
+            success(model) {
+                resolve(model)
+            },
+            error(model, failure) {
+                reject(failure)
+            }
+        })
+    });
 }
 
-export default Helper
+Helper.fetch = (collection) => {
+    return new Promise((resolve, reject) => {
+        collection.fetch({
+            success(collection) {
+                resolve(collection)
+            },
+            error(collection, failure) {
+                reject(failure)
+            }
+        })
+    });
+}
+
+export default Helper;

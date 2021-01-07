@@ -2,7 +2,7 @@ import _ from 'underscore'
 import Backbone from 'backbone'
 import usercollection from '../models/user.js'
 import Helper from '../Helper.js'
-
+import uuu from '../models/chat'
 
 class chatView extends Backbone.View {
 

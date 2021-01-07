@@ -1,8 +1,12 @@
 import Backbone from 'backbone'
 import loginView from './views/loginView'
 import registerView from './views/registerView'
+import profileView from './views/profileView'
+import pongView from './views/pongView'
 import chatView from './views/chatView'
 import userList from './views/userListView'
+
+// Routes
 class Workspace extends Backbone.Router {
 
     get routes() {
@@ -11,9 +15,15 @@ class Workspace extends Backbone.Router {
             "chat":"chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
+            "users/:id": "userProfile"
         }
     }
 
+    pong() {
+        console.log("pong route")
+        var pongview = new pongView()
+        
+    }
 
     chat() {
         console.log("chat route")
@@ -35,6 +45,11 @@ class Workspace extends Backbone.Router {
         signupView.render()
     }
 
+    userProfile(id) {
+        console.log("userProfile route")
+        var profileview = new profileView(id)
+        //profileview.render()
+    }
 
 };
 

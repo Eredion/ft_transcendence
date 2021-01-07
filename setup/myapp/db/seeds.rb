@@ -7,9 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create(nickname: 'marvin', email: 'marvin@marvin.com')
-User.create(nickname: 'stouf', email: 'pabgonza@marvin.com')
-User.create(nickname: 'apita-da', email: 'apita@marvin.com')
-User.create(nickname: 'migferna', email: 'migferna@marvin.com')
+User.create(nickname: 'pabgonza', email: 'pabgonza@marvin.com')
+User.create(nickname: 'apitaasdf', email: 'apita@marvin.com')
+User.create(nickname: 'alemania', email: 'alemania@marvin.com')
 User.create(nickname: 'marvina', email: 'marvina@marvin.com')
 User.create(nickname: 'marvino', email: 'marvino@marvin.com')
 User.create(nickname: 'marvinu', email: 'marvinu@marvin.com')

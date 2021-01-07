@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   create_table "chats", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.integer "users", default: [], array: true
+    t.integer "messages", default: [], array: true
   end
 
   create_table "guilds", force: :cascade do |t|
@@ -55,4 +56,5 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
+  add_foreign_key "messages", "chats"
 end

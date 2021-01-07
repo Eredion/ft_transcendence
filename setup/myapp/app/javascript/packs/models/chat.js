@@ -1,30 +1,28 @@
 import Backbone from 'backbone'
+import Helper from '../Helper.js'
 
 let ChatModel = Backbone.Model.extend({
     urlRoot: 'api/chats',
-
     initialize: function() {
-        console.log("Fetching chat " + this.get("name"));
+        console.log("Fetching chat [" + this.get("name") + "]");
     },
-
 })
 
-/* let ChatCollection = Backbone.Collection.extend(
+let ChatCollection = Backbone.Collection.extend(
     {
         url: 'api/chats',
         model: ChatModel,
         parse: function(data) {
-            /* data.forEach(user => {
-                this.add(user);
-            }); 
             return data;
+
         },
         initialize: function(){
             Helper.fetch(this);
         },
     }
-) */
+)
 
-let uuu = new ChatModel();
+let uuu = new ChatCollection();
+
 
 export default uuu;

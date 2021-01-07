@@ -10,9 +10,12 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
+
+    
+
     create_table "messages" do |t|
       t.text "content", null: false
-      t.belongs_to "chat"
+      t.references :chat, index: true
       t.belongs_to "user"
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
@@ -32,10 +35,14 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.index ["provider"], name: "index_users_on_provider"
       t.index ["uid"], name: "index_users_on_uid"
     end
+    
     create_table "chats" do |t|
       t.string "name", default: "", null: false, unique: true
       t.integer "users", default: [], array: true
+      t.integer "messages", default: [], array: true
     end
+
+    add_foreign_key :messages, :chats, column: :chat_id
 
   end
 

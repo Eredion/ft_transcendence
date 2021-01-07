@@ -2,19 +2,14 @@
 <!-- User is login -->
 <% if user_signed_in? %>
   <%= render "nav" %>
-<<<<<<< HEAD
   <div id="content" class="container">
   </div>
   <%= render "profile" %>
   <%= render "game" %>
   <%= render "chat" %>
 
-<% end %>
-
-=======
 <% else %>
   <%= render "users/sign_in" %>
 <% end %>
 <div id="content" class="container">
 </div>
->>>>>>> b644e12374c484203c025b2cf2b79c2d92a98094

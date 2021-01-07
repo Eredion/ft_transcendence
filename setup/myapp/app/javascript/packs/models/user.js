@@ -44,7 +44,5 @@ $(document).ready(
 let userscollection = new UserCollection();
 userscollection.on("change", function(){console.log("User changed. Current size: "+ this.length)});
 
-            let usuario = new User({"nickname":"probando"});
-            userscollection.push(usuario);
 
 export default userscollection;

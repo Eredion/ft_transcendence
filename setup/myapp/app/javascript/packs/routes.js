@@ -5,9 +5,20 @@ import profileView from './views/profileView'
 import pongView from './views/pongView'
 import chatView from './views/chatView'
 import userList from './views/userListView'
+import Helper from './Helper'
 
 // Routes
 class Workspace extends Backbone.Router {
+
+    execute(callback, args, name) {
+        if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) {
+            console.log("user not logged, redirecting to sign_in view")
+            this.navigate('sign_in', { trigger: true })
+            return false
+        }
+        if (callback)
+            callback.apply(this, args);
+    }
 
     get routes() {
         return {
@@ -22,7 +33,6 @@ class Workspace extends Backbone.Router {
     pong() {
         console.log("pong route")
         var pongview = new pongView()
-        
     }
 
     chat() {

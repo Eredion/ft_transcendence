@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-user-logged="<%= user_signed_in? %>">
   <head>
     <title>Ft_transcendence</title>
     <%= csrf_meta_tags %>
@@ -7,8 +7,14 @@
     <% action_cable_meta_tag %>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Righteous&display=swap" rel="stylesheet">
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <% if user_signed_in? %>
+      <%= render "profile" %>
+      <%= render "game" %>
+      <%= render "chat" %>
+    <% end %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
 
   </head>
 

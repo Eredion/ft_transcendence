@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'messages', to: 'messages#create'
   namespace :api do
     resources :users
+    resources :chats
+    resources :messages
   end
   devise_scope :user do
     post 'update_avatar/:id', :to => 'users#update_avatar', :as => :update_user_avatar

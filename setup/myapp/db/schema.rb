@@ -15,6 +15,11 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "chats", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.integer "users", default: [], array: true
+  end
+
   create_table "guilds", force: :cascade do |t|
     t.string "title"
     t.integer "score"
@@ -25,11 +30,12 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "msg_id"
-    t.text "content"
+    t.text "content", null: false
+    t.bigint "chat_id"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
@@ -49,5 +55,4 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
-  add_foreign_key "messages", "users"
 end

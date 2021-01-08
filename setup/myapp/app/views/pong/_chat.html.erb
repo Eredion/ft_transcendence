@@ -1,11 +1,18 @@
 <script type="text/template" name="chat">
     <div class="row">
         <div class="col-sm">
-            <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users"></div>
+            <h1 class="title">Online users</h1>>
+            <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">
+            </div>
         </div>
         
         <div class="jumbtron col-sm">
             <h1 class="title">Chat</h1>
+            <div id="conversation" class="list-group list-group-flush h-100">
+                <div class="list-group-item ">Hola</div>
+                <div class="list-group-item">Qué tal</div>
+
+            </div>
             <%# <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
                 <% @messages.each do |message| %>
                    <%#  <%= render 'messages/message', message: message %>
@@ -37,6 +44,13 @@
             <%% }; %>
     </script>
     
+    <script id="conversation_template" type='text/template'>
+        <%% for (let i = 0; i < message_history.length; i++){ %>
+            <div class='list-group-item'>
+                <%%= message_history[i].content  %>
+            </div>
+        <%% };%>
+    </script>
     
     
     

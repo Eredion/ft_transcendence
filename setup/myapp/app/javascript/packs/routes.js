@@ -2,8 +2,9 @@ import Backbone from 'backbone'
 import loginView from './views/loginView'
 import registerView from './views/registerView'
 import profileView from './views/profileView'
-//import pongView from './views/pongView' 
+import pongView from './views/pongView' 
 import chatView from './views/chatView'
+import conversView from './views/conversationView'
 import userList from './views/userListView'
 import Helper from './Helper'
 
@@ -22,8 +23,7 @@ class Workspace extends Backbone.Router {
 
     get routes() {
         return {
-           /*  "": "pong", */
-            "":"chat",
+            "":"pong",
             "chat":"chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
@@ -39,10 +39,16 @@ class Workspace extends Backbone.Router {
 
     chat() {
         console.log("chat route")
-        var chatview = new chatView()
-        chatview.render()
-        var online_users = new userList();
-        online_users.render();
+        
+        var chatview = new chatView();
+        chatview.render();
+        var online_users = new userList()
+        online_users.render()
+        /* let conversview = new conversView();
+        conversview.render(); */
+
+        
+
     }
 
     userSignin() {

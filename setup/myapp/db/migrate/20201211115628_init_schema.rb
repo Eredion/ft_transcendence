@@ -11,8 +11,6 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "updated_at", precision: 6, null: false
     end
 
-    
-
     create_table "messages" do |t|
       t.text "content", null: false
       t.references :chat, index: true

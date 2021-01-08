@@ -6,7 +6,7 @@ let ChatModel = Backbone.Model.extend({
     initialize: function() {
         console.log("Fetching chat [" + this.get("name") + "]");
     },
-})
+});
 
 let ChatCollection = Backbone.Collection.extend(
     {
@@ -20,9 +20,9 @@ let ChatCollection = Backbone.Collection.extend(
             Helper.fetch(this);
         },
     }
-)
+);
 
-let uuu = new ChatCollection();
-
-
-export default uuu;
+let chatcol = new ChatCollection();
+chatcol.on("change", function(){console.log("User changed. Current size: "+ this.length)});
+console.log("CHATCOL: " + chatcol.length);
+export default chatcol;

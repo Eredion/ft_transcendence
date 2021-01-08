@@ -1,5 +1,5 @@
 import Backbone from 'backbone'
-import $ from 'jquery';
+
 import Helper from '../Helper.js'
 
 let User = Backbone.Model.extend({
@@ -31,18 +31,8 @@ let UserCollection = Backbone.Collection.extend(
     }
 )
 
-$(document).ready(
-    function() {
-        
-        /* Helper.fetch(col); */
-        setTimeout(function(){
-            
-        }, 2000);
-    }
-);
 
 let userscollection = new UserCollection();
 userscollection.on("change", function(){console.log("User changed. Current size: "+ this.length)});
-
 
 export default userscollection;

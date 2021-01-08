@@ -10,7 +10,7 @@ class Api::UsersController < ApplicationController
     end
 
     def create
-        @todo = User.create!(todo_params)
-        json_response(@todo, :created)
+        @user = User.create!(params)
+        json_response(@user, :created)
       end
 end

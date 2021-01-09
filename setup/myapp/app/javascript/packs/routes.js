@@ -34,7 +34,7 @@ class Workspace extends Backbone.Router {
     pong() {
         console.log("pong route");
         var pongview = new pongView();
-        pongview.render();
+        //pongview.render();
     }
 
     chat() {
@@ -43,7 +43,7 @@ class Workspace extends Backbone.Router {
         var chatview = new chatView();
         chatview.render();
         var online_users = new userList()
-        online_users.render()
+        //online_users.render()
         /* let conversview = new conversView();
         conversview.render(); */
 
@@ -66,7 +66,7 @@ class Workspace extends Backbone.Router {
     userProfile(id) {
         console.log("userProfile route")
         var profileview = new profileView(id)
-        profileview.render()
+        //profileview.render(id)
     }
 
 };

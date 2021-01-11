@@ -4,13 +4,26 @@ import registerView from './views/registerView'
 import profileView from './views/profileView'
 import pongView from './views/pongView'
 import chatView from './views/chatView'
+import conversView from './views/conversationView'
+import userList from './views/userListView'
+import Helper from './Helper'
 
 // Routes
 class Workspace extends Backbone.Router {
 
+    execute(callback, args, name) {
+        if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) {
+            console.log("user not logged, redirecting to sign_in view")
+            this.navigate('sign_in', { trigger: true })
+            return false
+        }
+        if (callback)
+            callback.apply(this, args);
+    }
+
     get routes() {
         return {
-            "": "pong",
+            "":"pong",
             "chat":"chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
@@ -19,15 +32,16 @@ class Workspace extends Backbone.Router {
     }
 
     pong() {
-        console.log("pong route")
-        var pongview = new pongView()
-        
+        console.log("pong route");
+        var pongview = new pongView();
+        pongview.render();
     }
 
     chat() {
         console.log("chat route")
-        var chatview = new chatView()
-        chatview.render()
+        var chatview = new chatView();
+        var online_users = new userList()
+        let conversview = new conversView(2,1);
     }
 
     userSignin() {

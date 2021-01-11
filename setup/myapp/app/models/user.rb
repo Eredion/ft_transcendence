@@ -1,9 +1,11 @@
 class User < ApplicationRecord
 
   belongs_to :guild, optional: true
+  has_many :messages
   devise :omniauthable, omniauth_providers: [:marvin]
   has_secure_password :validations => false #this affects devise authentication because no password is provided
   validates :email, :nickname, presence: true, uniqueness: true
+  mount_uploader :avatar, AvatarUploader
   
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

@@ -14,10 +14,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if @user.save
       sign_in(@user)
-      return redirect_to root_path
+      redirect_to root_path
+    else
+      render :signup
     end
 
-    render :signup
   end
 
 

@@ -1,9 +1,22 @@
 
 <script type="text/template" name="game">
 
-	<input type="button" id="active-game" value="Start">
+	<div class="row">
+		<div class="col-sm-10">
+			<input type="button" id="active-game" value="Start">
 
-	<div id="cnv">
-		<canvas id="canvas" width="600" height="400"><canvas>
+			<div id="cnv">
+				<canvas id="canvas" width="600" height="400"><canvas>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<h2>Users</h2>
+			<div class="list-group">
+				<% @users.each do |user| %>
+					<%= image_tag user.avatar.thumb.url, class: 'img-avatar' %>
+					<a class="list-group-item list-group-item-action" href="/users/<%=user.id%>"> <%= user.nickname %> </a>
+				<% end %>
+			</div>
+		</div>
 	</div>
 </script>

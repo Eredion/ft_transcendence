@@ -9,7 +9,7 @@ class Users::SessionsController < Devise::SessionsController
     ufind = User.find_by(nickname: @user.nickname)
     if ufind && ufind.authenticate(@user.password)
       sign_in(ufind)
-      return redirect_to root_path, notice: 'Logged in'
+      redirect_to root_path
     else
       flash.now[:alert] = "Nickname or password is invalid"
     end

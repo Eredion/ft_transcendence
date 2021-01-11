@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import _ from 'underscore'
 import Backbone from 'backbone'
-import Pong from '../pong-game'
+import Pong from '../pong-game.js'
 
 
 class pongView extends Backbone.View {

@@ -1,24 +1,58 @@
 <script type="text/template" name="chat">
-    <div class="jumbtron">
-      <h1 style="text-align:center">Chat</h1>
-      <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
-          <% @messages.each do |message| %>
-              <%= render 'messages/message', message: message %>
-          <% end %>
-      </div>
+    <div class="row">
+        <div class="col-sm">
+            <h1 class="title">Users</h1>
 
-      <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
-          <div class="input-group mb-3" id="message-input">
-            <%= f.text_field :content, placeholder:"Type your message here...", class: 'form-control' %>
-              <div>
-                <%= f.submit "Send", class:"btn btn-primary" %>
-              </div>
-          </div>
-      <% end %>
-      <script> 
-          $('.btn btn-primary').click(function(){
-              $('.form-control').value = '';
-          });
-      </script>
+            <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">
+            </div>
+        </div>
+        
+        <div class="jumbtron col-sm">
+            <h1 class="title">Chat</h1>
+            <div id="conversation" class="list-group list-group-flush h-100">
+                <div class="list-group-item">Hola</div>
+                <div class="list-group-item">Qué tal</div>
+
+            </div>
+            <%# <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
+                <% @messages.each do |message| %>
+                   <%#  <%= render 'messages/message', message: message %>
+                <%# <% end %> 
+            <%# </div>  %>
+
+            <%# <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
+                <%# <div class="input-group mb-3 " id="message-input">
+                    <%= f.text_field :content, placeholder:"Type your message here...", class: 'form-control' %>
+                    <%# <div>
+                        <%= f.submit "Send", class:"btn btn-dark" %>
+                    <%#  </div>
+                </div>
+            <% end %> 
+            <script> 
+                $('.btn btn-primary').click(function(){
+                    $('.form-control').value = '';
+                });
+            </script>
+        </div>
     </div>
+    
+    <!-- Template para user list -->
+    <script id="online_user_template" type='text/template'>
+        <%% for (let i = 0; i < online_users.length; i++){ %>
+            <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
+                <%%= online_users[i].nickname %>
+            </button>
+            <%% }; %>
+    </script>
+    
+    <script id="conversation_template" type='text/template'>
+        <%% for (let i = 0; i < message_history.length; i++){ %>
+            <div class='list-group-item'>
+                <%%= message_history[i].content  %>
+            </div>
+        <%% };%>
+    </script>
+    
+    
+    
 </script>

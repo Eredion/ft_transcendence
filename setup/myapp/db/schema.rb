@@ -15,8 +15,20 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "channels", force: :cascade do |t|
+    t.string "name", default: "default_chann", null: false
+    t.integer "users", default: [], array: true
+    t.string "password_digest"
+    t.bigint "owner"
+    t.string "category", null: false
+    t.integer "messages", default: [], array: true
+    t.bigint "admins", default: [], array: true
+    t.bigint "banned", default: [], array: true
+    t.bigint "silenced", default: [], array: true
+  end
+
   create_table "chats", force: :cascade do |t|
-    t.string "name", default: "", null: false
+    t.string "name", default: "default_chat", null: false
     t.integer "users", default: [], array: true
     t.integer "messages", default: [], array: true
   end
@@ -33,9 +45,11 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   create_table "messages", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "chat_id"
+    t.bigint "channel_id"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["channel_id"], name: "index_messages_on_channel_id"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end

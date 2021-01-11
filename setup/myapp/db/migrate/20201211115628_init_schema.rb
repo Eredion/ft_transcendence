@@ -13,7 +13,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
 
     create_table "messages" do |t|
       t.text "content", null: false
-      t.references :chat, index: true
+      t.references :chat, index: true, optional: true
+      t.references :channel, index:true, optional: true
       t.belongs_to "user"
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
@@ -35,9 +36,21 @@ class InitSchema < ActiveRecord::Migration[6.0]
     end
     
     create_table "chats" do |t|
-      t.string "name", default: "", null: false, unique: true
+      t.string "name", default: "default_chat", null: false, unique: true
       t.integer "users", default: [], array: true
       t.integer "messages", default: [], array: true
+    end
+
+    create_table "channels" do |t|
+      t.string "name", default: "default_chann", null: false, unique: true
+      t.integer "users", default: [], array: true
+      t.string "password_digest", optional: true
+      t.bigint "owner"
+      t.string "category", null: false
+      t.integer "messages", default: [], array: true
+      t.bigint "admins", references: :users, default: [], array: true
+      t.bigint "banned", references: :users, default: [], array: true
+      t.bigint "silenced", references: :users, default: [], array: true
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

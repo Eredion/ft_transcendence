@@ -24,3 +24,6 @@ User.create(nickname: 'luismicrack', email: 'luismicrack@marvin.com')
 
 Chat.create("name": 'default-chat')
 Message.create(content: "Hola!", chat_id: 1, user_id: 1)
+
+Channel.create(name: "channel-1", owner: 1, category: "protected", password_digest: "xxxxxxxxxxxx")
+Channel.create(name: "channel-2", owner: 1, category: "public", password_digest: "")

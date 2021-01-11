@@ -9,9 +9,14 @@ class Users::SessionsController < Devise::SessionsController
     ufind = User.find_by(nickname: @user.nickname)
     if ufind && ufind.authenticate(@user.password)
       sign_in(ufind)
-      redirect_to root_path
+      respond_to do |format|
+        format.json { render json: { location: root_path, status: 'ok' } }
+      end
     else
-      flash.now[:alert] = "Nickname or password is invalid"
+      flash.now[:alert] = "Nickname or password are incorrect"
+      respond_to do |format|
+        format.json { render json: { location: root_path, status: 'ko' } }
+      end
     end
   end
 
@@ -23,7 +28,7 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def configure_sign_in_params
-    params.require(:user).permit(:nickname, :password)
+    params.permit(:nickname, :password)
   end
   # If you have extra params to permit, append them to the sanitizer.
   #def configure_sign_in_params

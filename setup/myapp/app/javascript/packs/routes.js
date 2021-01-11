@@ -12,9 +12,14 @@ import Helper from './Helper'
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
+        // If user is not logged in, redirect to login page (except sign in and signup views)
         if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) {
-            console.log("user not logged, redirecting to sign_in view")
             this.navigate('sign_in', { trigger: true })
+            return false
+        }
+        // if user is logged in, redirect to main page (when the sign in and signup views is accessed)
+        if (Helper.logged() && (name == 'userSignin' || name == 'userSignup')) {
+            this.navigate('', { trigger: true })
             return false
         }
         if (callback)

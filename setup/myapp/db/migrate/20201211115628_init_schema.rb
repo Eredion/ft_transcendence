@@ -19,19 +19,26 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
+
     create_table "users" do |t|
       t.string "email", default: "", null: false
       t.string "nickname", null: false
-      t.integer "guild_id"
-      t.datetime "created_at", precision: 6, null: false
-      t.datetime "updated_at", precision: 6, null: false
-      t.string "provider"
-      t.string "uid"
       t.string "password_digest"
       t.string "avatar"
+      t.integer "guild_id"
+      t.integer "score", default: 0
+      t.integer "matches_won", default: 0
+      t.integer "matches_lost", default: 0
+      t.integer "friends", default: [], array: true
+      t.integer "blocked", default: [], array: true
+      t.boolean "admin", default: false
+      t.boolean "banned", default: false
+      t.string "uid"
+      t.string "provider"
+      t.datetime "created_at", precision: 6, null: false
+      t.datetime "updated_at", precision: 6, null: false
       t.index ["email"], name: "index_users_on_email", unique: true
       t.index ["nickname"], name: "index_users_on_nickname", unique: true
-      t.index ["provider"], name: "index_users_on_provider"
       t.index ["uid"], name: "index_users_on_uid"
     end
     

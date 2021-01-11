@@ -1,33 +1,53 @@
 
 <script type="text/template" name="userRegistration">
 
-  <h2>Sign up</h2>
+  <p class="h2 text-primary text-center">Sign up</p>
 
-  <%= form_tag create_user_registration_path(@user), :method => :post, remote: true do %>
+  <div class="container p-4">
+    <form id="register-form" class="needs-validation" novalidate>
 
-    <div class="field">
-      <%= label :user, :nickname %> <br>
-      <%= text_field :user, :nickname, autofocus: true %> <br>
-    </div>
+      <div class="form-group row">
+        <label for="nickname" class="col-sm-5 col-form-label text-white">Nickname</label>
+          <div class="col-sm-7">
+            <input class="form-control white col-7 col-md-4 col-lg-5 ml-3" type="text" name="nickname" id="nickname" placeholder="Enter nickname" required>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+      </div>
 
-    <div class="field">
-      <%= label :user, :email %><br />
-      <%= email_field :user, :email, autocomplete: "email" %>
-    </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-5 col-form-label text-white">Email</label>
+          <div class="col-sm-7">
+            <input type="email" name="email" placeholder="Enter a valid email" class="email white col-7 col-md-4 col-lg-5 ml-3 form-control" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+            <div class="valid-feedback">Valid email</div>
+            <div class="invalid-feedback">Invalid email</div>
+          </div>
+      </div>
 
-    <div class="field">
-      <%= label :user, :password %> <br />
-      <%= password_field :user, :password, autocomplete: "new-password" %>
-    </div>
+      <div class="form-group row">
+        <label for="password" class="col-sm-5 col-form-label text-white">Password</label>
+          <div class="col-sm-7">
+            <input class="form-control white col-7 col-md-4 col-lg-5 ml-3" type="password" name="password" id="password" placeholder="Enter password" required>
+            <div id="pass-conf" class="valid-feedback">Valid password</div>
+            <div class="invalid-feedback">Invalid password</div>
+          </div>
+      </div>
 
-    <div class="field">
-      <%= label :user, :password_confirmation %><br />
-      <%= password_field :user, :password_confirmation, autocomplete: "new-password" %>
-    </div>
+      <div class="form-group row">
+        <label for="password-confirmation" class="col-sm-5 col-form-label text-white">Repeat Password</label>
+          <div class="col-sm-7">
+            <input class="form-control white col-7 col-md-4 col-lg-5 ml-3" type="password" id="password-confirmation" placeholder="Repeat password" required>
+            <div id="pass-conf-rep" class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">Password don't match</div>
+          </div>
+      </div>
 
-    <div class="actions">
-      <%= submit_tag "Sign up" %>
-    </div>
-  <% end %>
-
+      <div class="form-group row">
+        <div class="col-sm-12 text-center">
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </div>
+      </div>
+    </form>
+    <a href="/#sign_in" >Back to login</a> 
+  </div>
 </script>

@@ -14,7 +14,17 @@ Helper.fetch = (model) => {
     });
 };
 
-
+Helper.ajax = function(method, url, data) {
+	return new Promise((resolve, reject) => {
+		$.ajax({
+			url: url,
+			type: method,
+			data: data
+		})
+		.done(resolve)
+		.fail(reject);
+	})
+};
 
 Helper.logged = () => {
     return $('html').data().userLogged

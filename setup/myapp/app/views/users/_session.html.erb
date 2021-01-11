@@ -1,27 +1,40 @@
 
 <script type="text/template" name="userLogin">
 
-  <h2>Log in</h2>
+  <p class="h2 text-primary text-center">Log in</p>
 
-  <%= form_tag create_user_session_url(@user), :method => :post, remote: true do %>
+  <div class="container p-4">
+    <form id="login-form" class="needs-validation" novalidate>
 
-    <div class="field">
-      <%= label :user, :nickname %> <br>
-      <%= text_field :user, :nickname, autofocus: true %> <br>
+      <div class="form-group row">
+          <label for="nickname" class="col-sm-3 col-form-label text-white">Nickname</label>
+            <div class="col-sm-7">
+              <input class="form-control white col-7 col-md-4 col-lg-5 ml-3" type="text" name="nickname" id="nickname" placeholder="Enter nickname" required>
+              <div class="invalid-feedback">Please fill out this field.</div>
+            </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="password" class="col-sm-3 col-form-label text-white">Password</label>
+          <div class="col-sm-7">
+            <input class="form-control white col-7 col-md-4 col-lg-5 ml-3" type="password" name="password" id="password" placeholder="Enter password" required>
+            <div class="invalid-feedback">Invalid password</div>
+          </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-7 text-center">
+          <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+      </div>
+
+    </form>
+    <div class="col-sm-7 text-center">
+      <%= link_to "Sign in with 42", user_marvin_omniauth_authorize_path, method: "post", class: "btn btn-info" %>
     </div>
 
-    <div class="field">
-      <%= label :user, :password %> <br />
-      <%= password_field :user, :password, autocomplete: "new-password" %>
-    </div>
+  </div>
 
-    <div class="actions">
-      <%= submit_tag "Log in" %>
-    </div>
-  <% end %>
-
-  <%= link_to "Sign in with 42", user_marvin_omniauth_authorize_path, method: "post", class: "sign-button" %> <br><br>
-
-  <a href="/sign_up" >Create an account</a> 
+  <a href="/#sign_up" >Create an account</a>
 
 </script>

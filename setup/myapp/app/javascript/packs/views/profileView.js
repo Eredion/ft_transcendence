@@ -1,39 +1,28 @@
 import _ from 'underscore'
 import Backbone from 'backbone'
-import user from '../models/user'
+import userscollection from '../models/user.js'
 import Helper from '../Helper'
 
 
-class profileView extends Backbone.View {
+let profileView = Backbone.View.extend({
 
-    
-    async initialize(user_id) {
-        console.log("profile View initialize");
-        //this.userId = user_id;
-        this.model = user.set('user_id', user_id); // id of the user who is going to make the request to the server
+    collection: userscollection,
+    el: "div",
+    id: "profile-user",
+
+    async initialize(id) {
+        console.log("Profile View initialize");
         this.template = _.template($('script[name="userProfile"]').html()); // views/pong/_profile.html.erb
-        /*$.ajax({
-			url: "users/"+this.userId,
-			type: "GET",
-            dataType: "json",
-            error(e) {
-                console.log("Some error happened " + e)
-            },
-            success(data) {
-                const dat = data
-                console.log("Ok")
-                console.log(data)
-                //$("#user-nickname").text(data.nickname)
-            }
-        })*/
-        await Helper.fetch(this.model);
-        this.render();
+        await Helper.fetch(this.collection)
+        this.render(id);
+    },
+    
+    render(user_id) {
+        let user = this.collection.get(user_id);
+        $("#content").html(this.template({'user': user.toJSON()}));
+        return this;
     }
 
-    render() {
-        $("#content").html(this.template(this.model.toJSON()));
-		return this;
-    }
-};
+});
 
 export default profileView;

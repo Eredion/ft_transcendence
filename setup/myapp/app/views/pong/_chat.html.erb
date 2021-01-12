@@ -6,7 +6,7 @@
             <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">
             </div>
         </div>
-        
+
         <div class="jumbtron col-sm">
             <h1 class="title">Chat</h1>
             <div id="conversation" class="list-group list-group-flush h-100">
@@ -17,7 +17,7 @@
             <%# <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
                 <% @messages.each do |message| %>
                    <%#  <%= render 'messages/message', message: message %>
-                <%# <% end %> 
+                <%# <% end %>
             <%# </div>  %>
 
             <%# <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
@@ -27,8 +27,8 @@
                         <%= f.submit "Send", class:"btn btn-dark" %>
                     <%#  </div>
                 </div>
-            <% end %> 
-            <script> 
+            <% end %>
+            <script>
                 $('.btn btn-primary').click(function(){
                     $('.form-control').value = '';
                 });
@@ -36,7 +36,7 @@
         </div>
     </div>
 </script>
-    
+
 <!-- Template para user list -->
 <script name="online_user_template" type='text/template'>
     <%% for (let i = 0; i < online_users.length; i++){ %>
@@ -46,7 +46,7 @@
         <%% }; %>
 </script>
 
-<script name="conversation_template" type='text/template'>
+<script id="conversation_template" type='text/template'>
     <%% for (let i = 0; i < message_history.length; i++){ %>
         <div class='list-group-item'>
             <%%= message_history[i].content  %>

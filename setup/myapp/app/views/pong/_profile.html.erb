@@ -1,13 +1,55 @@
 <script type="text/template" name="userProfile">
-    <h2>User Profile</h2>
+    <p class="h2 text-primary text-center">User Profile</p>
 
-    <div>
-        <h3>Nickname</h3>
-        <h4 id="user-nickname"><%%= user.nickname %> </h4>
-        <img class="rounded-circle" src="<%%= user.avatar.medium.url %>"/>
-        <%= form_tag update_user_avatar_url(current_user), :method => :post, multipart: true, remote: true do %>
-            <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg' %> <br />
-            <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
-        <% end %>
+    <div class="row">
+        <div class="col-4">
+            <img class="rounded-circle" src="<%%= user.avatar.medium.url %>"/>
+            <%= form_tag update_user_avatar_url(current_user), :method => :post, multipart: true, remote: true do %>
+                <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg' %> <br />
+                <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
+            <% end %>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    <p class="h3 text-info">Nickname</p>
+                </div>
+                <div class="col-4 text-center">
+                    <h4 id="user-nickname"><%%= user.nickname %> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h3 text-info">Score</p>
+                </div>
+                <div class="col-4 text-center">
+                    <h4 id="user-nickname"><%%= user.score %> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h3 text-info">Matches</p>
+                </div>
+                <div class="col-4 text-center">
+                    <h4 id="user-nickname"><%%= user.matches_won + user.matches_lost %> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h3 text-info">Matches won</p>
+                </div>
+                <div class="col-4 text-center">
+                    <h4 id="user-nickname"><%%= user.matches_won %> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h3 text-info">Matches lost</p>
+                </div>
+                <div class="col-4 text-center">
+                    <h4 id="user-nickname"><%%= user.matches_lost %> </h4>
+                </div>
+            </div>
+        </div>
     </div>
 </script>

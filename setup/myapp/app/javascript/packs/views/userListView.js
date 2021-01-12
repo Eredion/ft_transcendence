@@ -10,19 +10,17 @@ let userList = Backbone.View.extend({
     el: "#online-users",
     
     async initialize() {
-        console.log("Chat View initialize");
+        console.log("UserList View initialize");
         await Helper.fetch(this.collection)
         this.render();
     },
 
     render() {
-        let template = _.template($("#online_user_template").html());
+        let template = _.template($('script[name="online_user_template"]').html());
         let output = template({'online_users':this.collection.toJSON()});
         this.$el.html(output);
         return this;
     }
 });
-
-
 
 export default userList;

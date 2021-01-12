@@ -10,13 +10,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def create
-    @user = User.new user_params
+    user = User.new user_params
 
-    if @user.save
-      sign_in(@user)
-      redirect_to root_path
+    if user.save
+      sign_in(user)
+      #render json: {data: 'OK'}, status: :ok
+      respond_to do |format|
+        format.json { render json: { location: root_path, status: 'ok' } }
+      end
+      #redirect_to root_path
     else
-      render :signup
+      flash.now[:alert] = "Some error ocurred. Try again"
+      respond_to do |format|
+        format.json { render json: { location: :signup, status: 'ko' } }
+      end
+      #render json: {data: 'KO'}, status: internal_server_error
+      #flash[:alert] = "Nickname or password is invalid"
+      #format.html { redirect_to create_user_registration}
     end
 
   end
@@ -25,7 +35,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-    params.require(:user).permit(:nickname, :email, :password, :password_confirmation)
+    params.permit(:nickname, :email, :password, :password_confirmation)
   end
 
   # GET /resource/edit

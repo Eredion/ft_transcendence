@@ -14,7 +14,7 @@
 			<div class="list-group">
 				<% @users.each do |user| %>
 					<%= image_tag user.avatar.thumb.url, class: 'img-avatar' %>
-					<a class="list-group-item list-group-item-action" href="/users/<%=user.id%>"> <%= user.nickname %> </a>
+					<a class="list-group-item list-group-item-action" href="/#users/<%=user.id%>"> <%= user.nickname %> </a>
 				<% end %>
 			</div>
 		</div>

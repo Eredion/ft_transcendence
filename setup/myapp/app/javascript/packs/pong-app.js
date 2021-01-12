@@ -16,15 +16,12 @@ class App {
         
         if (Backbone.History.started === false) {
             Backbone.history.start();
-            console.log('Starting Backbone History...');
         }
     }
 
     navigate (url) {
         this.router.navigate(url, { trigger: true });
     }
-
-
 }
 
 export default App

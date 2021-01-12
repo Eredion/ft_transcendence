@@ -1,1 +1,2 @@
-*.env
+setup/.env
+setup/myapp/public/uploads/*

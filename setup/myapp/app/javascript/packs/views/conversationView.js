@@ -6,29 +6,21 @@ import chatcol from '../models/chat'
 
 let conversView = Backbone.View.extend({
     collection: chatcol,
-	el: "#conversation",
-	chatName: "default",
-	buildChatName(a, b){
-		let name = a < b ? a + '-' + b : b + '-' + a;
-		this.chatName = name;
-	},
-	searchChat(name){
+    el: "#conversation",
 
-		let chat = this.collection.where({name: name})[0];
-		return chat;
-	},
-    initialize(user_a, user_b){
-		this.buildChatName(user_a, user_b);
-		this.render();
+    initialize(){
+        console.log("conversation initialize");
+        this.render();
     },
     render(){
-		let template = _.template($("#conversation_template").html());
-		let message_history = this.searchChat(this.chatName).get("messages");
-        let output = template({'message_history': message_history});
+        let template = _.template($("#conversation_template").html());
+        let chat_id = 1;
+        console.log("encontrando:" + this.collection.length);
+        let message_history = this.collection.get(1).get("messages");
+        let output = template({'message_history':message_history.toJSON()}); 
         this.$el.html(output);
-        return this;
+        return this; 
     }
 });
 
 export default conversView;
-

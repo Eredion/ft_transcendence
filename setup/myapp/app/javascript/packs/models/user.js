@@ -25,7 +25,7 @@ let UserCollection = Backbone.Collection.extend(
             return data;
         },
         initialize: function(){
-            Helper.fetch(this);
+            //Helper.fetch(this);
         },
 
     }

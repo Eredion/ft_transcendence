@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm">
             <h1 class="title">Users</h1>
-            <div id=chat-user-list class="btn-group-vertical h-100 d-inline-block overflow-auto">
+            <div id=chat-user-list class="h-100 d-inline-block overflow-auto">
             
                 <% users = User.all %>
                 <% users.each do |user| %>
@@ -14,15 +14,15 @@
                         <% chatid = id2.to_s + '-' + id1.to_s %>
                     <% end %>
                     <% if current_user.id == user.id %>
-                        <% next %>
+                        <% next %> <!--skip current_user button--> 
                     <%end%>
-                    <%= button_to "Chat with "+user.nickname, {
+                    <%= button_to user.nickname.capitalize, {
                             :action=>"create",
                             params: { chat: {name: chatid, users: [current_user, user] } },
                             :controller=>"chats",
                             :method=>:create,
                             :remote=>true
-                        },{class: 'btn btn-secondary btn-sm'} %>
+                        },{class: 'btn btn-secondary btn-sm chat-user-list-button'} %>
                 <% end %>
             </div>
             <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">

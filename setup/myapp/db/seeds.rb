@@ -22,14 +22,17 @@ User.create(nickname: 'santana', email: 'blacked@marvin.com')
 User.create(nickname: 'castela', email: 'castela@marvin.com')
 User.create(nickname: 'luismicrack', email: 'luismicrack@marvin.com')
 
+
+Chat.create("name": 'default')
+Message.create(content: "Click on a user to start chatting", chat_id: 1, user_id: 1)
 Chat.create("name": '1-2')
-Message.create(content: "1-2", chat_id: 1, user_id: 1)
-Message.create(content: "second msg!", chat_id: 1, user_id: 1)
-Message.create(content: "bye!", chat_id: 1, user_id: 1)
-Chat.create("name": '1-3')
-Message.create(content: "1-3", chat_id: 2, user_id: 1)
+Message.create(content: "1-2", chat_id: 2, user_id: 1)
 Message.create(content: "second msg!", chat_id: 2, user_id: 1)
 Message.create(content: "bye!", chat_id: 2, user_id: 1)
+Chat.create("name": '1-3')
+Message.create(content: "1-3", chat_id: 3, user_id: 1)
+Message.create(content: "second msg!", chat_id: 3, user_id: 1)
+Message.create(content: "bye!", chat_id: 3, user_id: 1)
 
 
 Channel.create(name: "channel-1", owner: 1, category: "protected", password_digest: "xxxxxxxxxxxx")

@@ -9,6 +9,9 @@ let conversView = Backbone.View.extend({
     collection: chatcol,
 	el: "#conversation",
 	chatName: "default",
+	setName(name){
+		this.chatName = name;
+	},
 	buildChatName(a, b){
 		let name = a < b ? a + '-' + b : b + '-' + a;
 		this.chatName = name;
@@ -19,14 +22,13 @@ let conversView = Backbone.View.extend({
 		return chat;
 	},
     async initialize(){
-		//console.log("Dentro de conver, me llegan los ids:" + user_a, + ", " + user_b)
 		await Helper.fetch(this.collection);
-		this.buildChatName(1, 3);
+		//this.buildChatName(1, 3);
 		this.render();
     },
     render(){
-        let template = _.template($('script[name="conversation_template"]').html());
-//		let template = _.template($("#conversation_template").html());
+		console.log("Renderizo, chatname = " + this.chatName);
+		let template = _.template($("#conversation_template").html());
 		let message_history = this.searchChat(this.chatName).get("messages");
         let output = template({'message_history': message_history});
         this.$el.html(output);

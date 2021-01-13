@@ -38,7 +38,7 @@
 </script>
 
 <!-- Template para user list -->
-<script name="online_user_template" type='text/template'>
+<script id="online_user_template" type='text/template'>
     <%% for (let i = 0; i < online_users.length; i++){ %>
         <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
             <%%= online_users[i].nickname %>
@@ -46,7 +46,7 @@
         <%% }; %>
 </script>
 
-<script name="conversation_template" type='text/template'>
+<script id="conversation_template" type='text/template'>
     <%% for (let i = 0; i < message_history.length; i++){ %>
         <div class='list-group-item'>
             <%%= message_history[i].content  %>

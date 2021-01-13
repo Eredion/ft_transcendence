@@ -15,7 +15,6 @@
  */
 
 @import "bootstrap";
-
 body {
     background: rgb(0, 0, 0);
     background: linear-gradient(348deg, rgba(0, 0, 0, 1) 0%, rgba(43, 43, 50, 1) 100%);
@@ -35,13 +34,13 @@ body {
     font-family: Raleway;
     position: relative;
     align-content: right;
-    max-width:100;
+    max-width: 100;
     max-height: 400px;
 }
 
 #online-users::-webkit-scrollbar {
     display: none;
-  }
+}
 
 #cnv {
     text-align: center;
@@ -58,16 +57,19 @@ body {
     width: 15em;
 }
 
-
-
 #transcendence-title {
     padding: 0.3em;
     font-family: Righteous;
     color: White;
     background-color: #111;
-
+    transition: 2s;
 }
-#transcendence-title a:visited{
+
+#transcendence-title:hover {
+    background-color: #000;
+}
+
+#transcendence-title a:visited {
     color: white;
 }
 
@@ -80,8 +82,6 @@ body {
     border-radius: 15px 50px 0 0;
     background-color: #111;
 }
-
-
 
 .message {
     color: #EEE;
@@ -134,10 +134,12 @@ body {
     position: relative; */
 }
 
+
 /* #footer {
     bottom: 0;
 }
  */
+
 #active-game:hover {
     cursor: hand;
     background-color: rgb(131, 20, 20);
@@ -145,17 +147,6 @@ body {
     color: white;
 }
 
-
-
-#chatbar td {
-    font-family: Raleway;
-    font-weight: normal;
-}
-
-#chatbar th {
-    font-family: Raleway;
-    font-weight: bolder;
-}
 
 /* ul .navbar-brand {
     list-style-type: none;
@@ -165,9 +156,11 @@ body {
     background-color: #333;
 } */
 
+
 /* li .nav-item{
     float: left;
 } */
+
 
 /* li a {
     display: block;
@@ -177,6 +170,7 @@ body {
     text-decoration: none;
 } */
 
+
 /* li a:hover:not(.active) {
     background-color: #111;
 } */
@@ -185,12 +179,10 @@ body {
     background-color: #4CAF50;
 }
 
-
-
 .img-avatar {
     width: 50px;
     height: 50px;
-} 
+}
 
 #user-nickname {
     color: white;

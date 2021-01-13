@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   end
 
   create_table "chats", force: :cascade do |t|
-    t.string "name", default: "default_chat", null: false
+    t.string "name", null: false
     t.integer "users", default: [], array: true
     t.integer "messages", default: [], array: true
   end

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   root "pong#index"
   resources :users, only: [:show]
   post 'messages', to: 'messages#create'
+  resources :chats, only: [:create]
   namespace :api do
     resources :users
     resources :chats

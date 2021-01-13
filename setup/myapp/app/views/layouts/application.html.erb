@@ -8,17 +8,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Righteous&display=swap" rel="stylesheet">
 
-    <% if user_signed_in? %>
-      <%= render "profile" %>
-      <%= render "game" %>
-      <%= render "chat" %>
-    <% end %>
+    
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application' %>
 
   </head>
 
   <body>
+  <% if user_signed_in? %>
+  
+      <%= render "profile" %>
+      <%= render "game" %>
+      <%= render "chat" %>
+    <% end %>
     <% flash.each do |type, msg| %>
       <div class="alert alert-info">
         <%= msg %>
@@ -26,6 +28,8 @@
     <% end %>
     <%# <div id="title"> %>
       <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
+
+      </script>
     <%# </div> %>
 
     <%= yield %>

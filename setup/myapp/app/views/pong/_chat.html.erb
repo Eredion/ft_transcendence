@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-sm">
             <h1 class="title">Users</h1>
-            <div id=chat-user-list>
-            <p>funcion</p>
+            <div id=chat-user-list class="btn-group-vertical h-100 d-inline-block overflow-auto">
+            
                 <% users = User.all %>
                 <% users.each do |user| %>
                     <% id1 = user.id %>
@@ -13,14 +13,16 @@
                     <% else %>
                         <% chatid = id2.to_s + '-' + id1.to_s %>
                     <% end %>
+                    <% if current_user.id == user.id %>
+                        <% next %>
+                    <%end%>
                     <%= button_to "Chat with "+user.nickname, {
-                            class: "btn btn-secondary btn-sm",
                             :action=>"create",
-                            params: { name: chatid },
+                            params: { chat: {name: chatid, users: [current_user, user] } },
                             :controller=>"chats",
                             :method=>:create,
                             :remote=>true
-                        } %>
+                        },{class: 'btn btn-secondary btn-sm'} %>
                 <% end %>
             </div>
             <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">

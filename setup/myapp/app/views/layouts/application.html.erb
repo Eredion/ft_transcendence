@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html data-user-logged="<%= user_signed_in? %>">
+<html data-user-logged="<%= user_signed_in? %>"
+    <% if user_signed_in? %>
+      data-user-id="<%= current_user.id %>"
+    <% end %> >
   <head>
     <title>Ft_transcendence</title>
     <%= csrf_meta_tags %>

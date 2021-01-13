@@ -2,8 +2,8 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div>
         <a class="navbar-brand" href="/users/<%= current_user.id %>">
-        <%= image_tag current_user.avatar.thumb.url, class: 'img-avatar' %>
-    </a>
+            <img class="img-avatar rounded-circle img-fluid" id="nav-avatar-user" src="<%= current_user.avatar.thumb.url %>"/>
+        </a>
     </div>
     
     

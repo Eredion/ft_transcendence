@@ -21,13 +21,6 @@ let conversView = Backbone.View.extend({
         let chat = this.collection.where({ name: name })[0];
         return chat;
     },
-    async initialize() {
-        await Helper.fetch(this.collection).then(function() {
-            this.render();
-        });
-        //this.buildChatName(1, 3);
-
-    },
     render() {
         console.log("Renderizo, chatname = " + this.chatName);
         let template = _.template($("#conversation_template").html());
@@ -35,7 +28,13 @@ let conversView = Backbone.View.extend({
         let output = template({ 'message_history': message_history });
         this.$el.html(output);
         return this;
-    }
+    },
+    async initialize() {
+        await Helper.fetch(this.collection).then(this.render());
+        //this.buildChatName(1, 3);
+
+    },
+
 });
 
 export default conversView;

@@ -20,13 +20,17 @@
     text-align: end;
 }
 
+.user-list-container {
+    max-width: 30%;
+}
+
 #chat-user-list {
     color: #DDD;
-    padding: 4px;
     font-family: Raleway;
     //max-width: 100;
     max-height: 400px;
-    display: grid;
+    overflow-y: auto;
+    align-items: unset;
 }
 
 #chat-user-list::-webkit-scrollbar {
@@ -34,6 +38,8 @@
 }
 
 .chat-user-list-button {
-    margin-block-end: 2px;
     width: 100%;
+    position: relative;
+    margin-bottom: 0.1em;
+    border-radius: 10px 10px;
 }

@@ -46,7 +46,7 @@ class Workspace extends Backbone.Router {
         console.log("chat route")
 
         var chatview = new chatView();
-        chatview.render();
+	//	        chatview.render();
         //var online_users = new userList()
         //let conversview = new conversView();
         //conversview.setName("1-2");

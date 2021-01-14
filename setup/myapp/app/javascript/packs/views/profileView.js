@@ -12,6 +12,7 @@ let profileView = Backbone.View.extend({
     
     events: {
         "submit #avatar-form" : "updateAvatar",
+        "submit #edit-user-form": "editUserForm"
     },    
 
     async initialize(id) {
@@ -28,16 +29,36 @@ let profileView = Backbone.View.extend({
         return this;
     },
 
-    updateAvatar() {
-        console.log('updateAvatar event')
+    updateAvatar(e) {
+        var input = document.getElementById('avatarFileInput')
+        if (input.files && input.files[0]) { //Checks if a file is uploaded
+            const self = this
+            setTimeout(async function() {
+                await Helper.fetch(self.collection)
+                var nav_avatar = document.getElementById('nav-avatar-user')
+                var c_user = self.collection.get(self.user_id).toJSON();
+                nav_avatar.src = c_user.avatar.thumb.url
+                self.render();
+            }, 1000)
+        } else {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+    },
+    editUserForm(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        this.user.set({
+            nickname: $('#form-nickname').val(),
+            name: $('#form-name').val()
+        })
         const self = this
-        setTimeout(async function() {
-            await Helper.fetch(self.collection)
-            var nav_avatar = document.getElementById('nav-avatar-user')
-            var c_user = self.collection.get(self.user_id).toJSON();
-            nav_avatar.src = c_user.avatar.thumb.url
-            self.render();
-        }, 1000)
+        this.user.save().then( function () {
+            $('#editUserModal').modal('hide')
+            var nav_avatar = document.getElementById('nav-nickname-user')
+            nav_avatar.innerHTML = $('#form-nickname').val()
+            self.render()
+        })
     }
 
 });

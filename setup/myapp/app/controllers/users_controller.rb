@@ -18,7 +18,7 @@ class UsersController < ApplicationController
                 user.avatar = f
             end
             if user.save!
-                fusers = user.as_json(only: [:id, :nickname, :avatar, :guild_id, :score, :matches_won, :matches_lost])
+                fusers = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :matches_won, :matches_lost])
                 render json: fusers, status: :ok
             end
         end

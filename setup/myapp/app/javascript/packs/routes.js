@@ -48,6 +48,13 @@ class Workspace extends Backbone.Router {
         var chatview = new chatView();
         chatview.render();
         //var online_users = new userList()
+        let conversview = new conversView();
+        conversview.setName("1-2");
+        conversview.on("change:chatName", conversview.render());
+        conversview.setName("1-3");
+        conversview.setName("default");
+
+
     }
 
     userSignin() {

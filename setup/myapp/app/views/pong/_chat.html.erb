@@ -46,7 +46,7 @@
             <%# <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
                 <% @messages.each do |message| %>
                    <%#  <%= render 'messages/message', message: message %>
-                <%# <% end %> 
+                <%# <% end %>
             <%# </div>  %>
 
             <%# <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
@@ -56,8 +56,8 @@
                         <%= f.submit "Send", class:"btn btn-dark" %>
                     <%#  </div>
                 </div>
-            <% end %> 
-            <script> 
+            <% end %>
+            <script>
                 $('.btn btn-primary').click(function(){
                     $('.form-control').value = '';
                 });
@@ -65,9 +65,9 @@
         </div>
     </div>
 </script>
-    
+
 <!-- Template para user list -->
-<script name="online_user_template" type='text/template'>
+<script id="online_user_template" type='text/template'>
     <%% for (let i = 0; i < online_users.length; i++){ %>
         <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
             <%%= online_users[i].nickname %>
@@ -76,7 +76,7 @@
         <%% }; %>
 </script>
 
-<script name="conversation_template" type='text/template'>
+<script id="conversation_template" type='text/template'>
     <%% for (let i = 0; i < message_history.length; i++){ %>
         <div class='list-group-item'>
             <%%= message_history[i].content  %>

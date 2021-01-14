@@ -26,6 +26,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "password_digest"
       t.string "avatar"
       t.integer "guild_id"
+      t.string "name", default: ""
       t.integer "score", default: 0
       t.integer "matches_won", default: 0
       t.integer "matches_lost", default: 0

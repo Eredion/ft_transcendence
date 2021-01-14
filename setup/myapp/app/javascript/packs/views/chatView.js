@@ -15,24 +15,24 @@ let chatView = Backbone.View.extend({
 
     render() {
         $("#content").html(_.template(this.template_chat));
-        this.append_click_event();
+        this.append_click_event().then(function() {
+            for (let i = 0; i < chatcol.length; i++) {
+                let namestr = chatcol.models[i].get("name");
+                $('#' + namestr + "-button").on("click", function() {
+                    let conversview = new conversView();
+                    //console.log(namestr);
+                    conversview.setName(namestr);
+                    conversview.render();
+                    //conversview.on("change:chatName", conversview.render());
+                });
+
+            }
+        });
+
         return this;
     },
     async append_click_event() {
         await Helper.fetch(chatcol);
-
-        for (let i = 0; i < chatcol.length; i++) {
-            console.log(chatcol.models[i].get("name") + "NAME");
-            let namestr = chatcol.models[i].get("name");
-            $('#' + namestr + "-button").on("click", function() {
-                let conversview = new conversView();
-                console.log(namestr);
-                conversview.setName(namestr);
-                conversview.on("change:chatName", conversview.render());
-            });
-
-
-        }
     }
 });
 

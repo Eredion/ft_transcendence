@@ -1,3 +1,49 @@
 // Place all the styles related to the chat controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+#chatbar td {
+    font-family: Raleway;
+    font-weight: normal;
+}
+
+#chatbar th {
+    font-family: Raleway;
+    font-weight: bolder;
+}
+
+.list-group-item,
+.list-group-item-dark {
+    margin: 2px;
+}
+
+.list-group-item-dark {
+    text-align: end;
+}
+
+.user-list-container {
+    max-width: 30%;
+}
+
+#chat-user-list {
+    color: #DDD;
+    font-family: Raleway;
+    //max-width: 100;
+    max-height: 400px;
+    overflow-y: auto;
+    align-items: unset;
+}
+
+#chat-user-list::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-user-list-button {
+    width: 100%;
+    position: relative;
+    margin-bottom: 0.1em;
+    border-radius: 10px 10px;
+}
+
+#conversation {
+    min-width: 30em;
+}

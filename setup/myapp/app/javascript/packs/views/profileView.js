@@ -12,6 +12,7 @@ let profileView = Backbone.View.extend({
     
     events: {
         "submit #avatar-form" : "updateAvatar",
+        "submit #edit-user-form": "editUserForm"
     },    
 
     async initialize(id) {
@@ -43,6 +44,21 @@ let profileView = Backbone.View.extend({
             e.preventDefault()
             e.stopPropagation()
         }
+    },
+    editUserForm(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        this.user.set({
+            nickname: $('#form-nickname').val(),
+            name: $('#form-name').val()
+        })
+        const self = this
+        this.user.save().then( function () {
+            $('#editUserModal').modal('hide')
+            var nav_avatar = document.getElementById('nav-nickname-user')
+            nav_avatar.innerHTML = $('#form-nickname').val()
+            self.render()
+        })
     }
 
 });

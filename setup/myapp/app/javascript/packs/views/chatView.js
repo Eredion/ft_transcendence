@@ -25,7 +25,6 @@ let chatView = Backbone.View.extend({
                 $('#' + namestr + "-button").on("click", function() { // append click event to every button of the online users.
 
                     let nametag = $('#' + namestr + "-button").val();
-                    console.log("VALUE FOUND: " + nametag);
                     $('#current-conversation').text(nametag);
                     let conversview = new conversView();
                     conversview.setName(namestr);

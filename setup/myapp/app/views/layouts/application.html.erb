@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html data-user-logged="<%= user_signed_in? %>">
+<html data-user-logged="<%= user_signed_in? %>"
+    <% if user_signed_in? %>
+      data-user-id="<%= current_user.id %>"
+    <% end %> >
   <head>
     <title>Ft_transcendence</title>
     <%= csrf_meta_tags %>
@@ -8,17 +11,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Righteous&display=swap" rel="stylesheet">
 
-    <% if user_signed_in? %>
-      <%= render "profile" %>
-      <%= render "game" %>
-      <%= render "chat" %>
-    <% end %>
+    
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application' %>
 
   </head>
 
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <% flash.each do |type, msg| %>
       <div class="alert alert-info">
         <%= msg %>
@@ -26,6 +25,8 @@
     <% end %>
     <%# <div id="title"> %>
       <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
+
+      </script>
     <%# </div> %>
 
     <%= yield %>

@@ -17,17 +17,17 @@ $(function() {
 
     var MyApp = new App();
 
-    $(document).on("click", "a[href^='/']", function (event) {
-    
+    $(document).on("click", "a[href^='/']", function(event) {
+
         var href = $(event.currentTarget).attr('href')
-        //chain 'or's for other black list routes
+            //chain 'or's for other black list routes
         var passThrough = href.indexOf('sign_out') >= 0
-        // Allow shift+click for new tabs, etc.
+            // Allow shift+click for new tabs, etc.
         if (!passThrough && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
             //event.preventDefault();
             // Remove first slash for backbone route match right
-            var url = href.replace(/^\//,'')
-            // Instruct Backbone to trigger routing events
+            var url = href.replace(/^\//, '')
+                // Instruct Backbone to trigger routing events
             MyApp.navigate(url);
             return false
         }

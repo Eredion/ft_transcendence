@@ -28,8 +28,8 @@ class Workspace extends Backbone.Router {
 
     get routes() {
         return {
-            "":"pong",
-            "chat":"chat",
+            "": "pong",
+            "chat": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
             "users/:id": "userProfile"
@@ -47,8 +47,6 @@ class Workspace extends Backbone.Router {
 
         var chatview = new chatView();
         chatview.render();
-        var online_users = new userList()
-		console.log("Inicializo conver")
 		let conversview = new conversView();
 		conversview.setName("1-2");
 		conversview.on("change:chatName", conversview.render());
@@ -65,7 +63,7 @@ class Workspace extends Backbone.Router {
     }
 
     userSignup() {
-        console.log("userSignup route")
+        console.log("userSignup route.")
         var signupView = new registerView()
         signupView.render()
     }
@@ -73,7 +71,7 @@ class Workspace extends Backbone.Router {
     userProfile(id) {
         console.log("userProfile route")
         var profileview = new profileView(id)
-        //profileview.render(id)
+            //profileview.render(id)
     }
 
 };

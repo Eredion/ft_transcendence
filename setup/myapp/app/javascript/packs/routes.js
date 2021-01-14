@@ -47,7 +47,7 @@ class Workspace extends Backbone.Router {
 
         var chatview = new chatView();
         chatview.render();
-        var online_users = new userList()
+        //var online_users = new userList()
     }
 
     userSignin() {

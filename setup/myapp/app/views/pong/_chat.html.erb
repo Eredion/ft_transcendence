@@ -22,16 +22,22 @@
                             :controller=>"chats",
                             :method=>:create,
                             :remote=>true
-                        },{class: 'btn btn-secondary btn-sm chat-user-list-button'} %>
+                        },
+                        {
+                            class: 'btn btn-secondary btn-sm chat-user-list-button',
+                            id: user.nickname+"-button"
+                        }
+                    %>
+                        
                 <% end %>
             </div>
             <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">
             </div>
         </div>
         
-        <div class="jumbtron col-sm">
+        <div class="jumbtron col-sm container-fluid">
             <h1 class="title">Chat</h1>
-            <ul id="conversation" class="list-group list-group-flush h-100">
+            <ul id="conversation" class="list-group list-group-flush h-200 overflow-auto">
                 <li class="list-group-item">Hola!</li>
                 <li class="list-group-item list-group-item-dark">¿Qué tal?</li>
                 <li class="list-group-item">Programando en Ruby en 2021! Me encanta!</li>

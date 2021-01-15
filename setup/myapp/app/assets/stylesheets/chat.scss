@@ -16,6 +16,10 @@
     margin: 2px;
 }
 
+.list-group-flush.list-group-item {
+    margin-top: 1px;
+}
+
 .list-group-item-dark {
     text-align: end;
 }
@@ -28,7 +32,7 @@
     color: #DDD;
     font-family: Raleway;
     //max-width: 100;
-    max-height: 400px;
+    max-height: 70%;
     overflow-y: auto;
     align-items: unset;
 }
@@ -46,4 +50,11 @@
 
 #conversation {
     min-width: 30em;
+    background-color: slategrey;
+    padding: 1em;
+}
+
+#msg-input-chat {
+    margin-top: 1rem;
+    font-family: Raleway;
 }

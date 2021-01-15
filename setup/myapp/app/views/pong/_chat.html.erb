@@ -37,7 +37,7 @@
 
         <div class="jumbtron col-sm container-fluid">
             <h1 class="title" id="current-conversation">Chat</h1>
-            <ul id="conversation" class="list-group list-group-flush h-200 overflow-auto">
+            <ul id="conversation" class="list-group h-200 overflow-auto">
                 <li class="list-group-item">Haz click en un usuario para enviarle un mensaje!</li>
             </ul>
             <%# <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
@@ -75,16 +75,15 @@
 
 <script id="conversation_template" type='text/template'>
     <%% for (let i = 0; i < message_history.length; i++){ %>
-		<ul>
-			<%% if (i % 2 === 1){ %>
-				<li class="list-group-item list-group-item-dark">
+
+			<%% if (message_history[i].id === message_history[0].id){ %>
+				<li class="list-group-item rounded-pill">
 					 <%%= message_history[i].content  %>
 				</li>
 			<%% } else { %>
-				<li class="list-group-item">
+				<li class="list-group-item rounded-pill list-group-item-dark">
 					 <%%= message_history[i].content  %>
 				</li>
 			<%% }; %>
-        </ul>
     <%% };%>
 </script>

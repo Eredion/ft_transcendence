@@ -35,7 +35,7 @@ Message.create(content: "second msg!", chat_id: 3, user_id: 1)
 Message.create(content: "bye!", chat_id: 3, user_id: 1)
 
 Chat.create("name": '1-16')
-Message.create(content: "Probando mi nuevo chat", chat_id: 4, user_id: 1)
+Message.create(content: "Nuevo mensaje", chat_id: 4, user_id: 1)
 Message.create(content: "second msg!", chat_id: 4, user_id: 1)
 Message.create(content: "bye!", chat_id: 4, user_id: 1)
 Chat.create("name": '2-16')

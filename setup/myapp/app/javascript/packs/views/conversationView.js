@@ -26,10 +26,17 @@ let conversView = Backbone.View.extend({
         let message_history = this.searchChat(this.chatName).get("messages");
         let output = template({ 'message_history': message_history });
         this.$el.html(output);
+        if ($('#msg-input-chat').length === 0)
+            this.$el.append(
+                "<input id=\"msg-input-chat\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Escribe aquí...\"></input>");
+        $('#msg-input-chat').on('')
+
         return this;
     },
     async initialize() {
+        this.collection.sync("get", this.collection);
         await Helper.fetch(this.collection).then(this.render());
+        this.searchChat(this.chatName).on("change", this.render());
 
     },
 

@@ -53,11 +53,19 @@ let profileView = Backbone.View.extend({
             name: $('#form-name').val()
         })
         const self = this
-        this.user.save().then( function () {
+        this.user.save().then( function (response) {
             $('#editUserModal').modal('hide')
-            var nav_avatar = document.getElementById('nav-nickname-user')
-            nav_avatar.innerHTML = $('#form-nickname').val()
-            self.render()
+            if (response['error']) {
+
+                document.getElementById('edit-user-form').reset()
+                Helper.custom_alert('danger', response['error'])
+            } else {
+
+                var nav_avatar = document.getElementById('nav-nickname-user')
+                nav_avatar.innerHTML = $('#form-nickname').val()
+                self.render()
+                Helper.custom_alert('success', 'Successfully updated.')
+            }
         })
     }
 

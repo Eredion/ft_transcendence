@@ -22,6 +22,9 @@ class Api::UsersController < ApplicationController
     def update
         user = User.find(current_user.id)
         if params[:nickname] != user.nickname
+            if User.exists?(nickname: params[:nickname])
+                return render json: {"error": "Nickname " + params[:nickname] + " already exists, please change it."}, status: :ok
+            end
             user.nickname = params[:nickname]
         end
         if params[:name] != user.name

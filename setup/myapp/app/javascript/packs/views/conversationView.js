@@ -24,17 +24,23 @@ let conversView = Backbone.View.extend({
     render() {
         let template = _.template($("#conversation_template").html());
         let message_history = this.searchChat(this.chatName).get("messages");
+        let current_chat = this.searchChat(this.chatName);
+        let chatid = current_chat.get("id");
         let output = template({ 'message_history': message_history });
         this.$el.html(output);
         if ($('#msg-input-chat').length === 0)
             this.$el.append(
-                "<input id=\"msg-input-chat\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Escribe aquí...\"></input>");
-        $('#msg-input-chat').on('')
+                `<input id=\"msg-input-chat\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Escribe aquí...\"></input>`);
+        $('#msg-input-chat').keypress(function(event) {
+            if (event.which == 13) {
+                $('#msg-input-chat').val("");
+            }
+            console.log("KEY " + event.which + " pressed");
+        });
 
         return this;
     },
     async initialize() {
-        this.collection.sync("get", this.collection);
         await Helper.fetch(this.collection).then(this.render());
         this.searchChat(this.chatName).on("change", this.render());
 

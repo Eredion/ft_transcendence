@@ -42,6 +42,3 @@ Chat.create("name": '2-16')
 Message.create(content: "Probando mi segundo nuevo chat", chat_id: 5, user_id: 2)
 Message.create(content: "second msg!", chat_id: 5, user_id: 2)
 Message.create(content: "bye!", chat_id: 5, user_id: 2)
-
-Channel.create(name: "channel-1", owner: 1, category: "protected", password_digest: "xxxxxxxxxxxx")
-Channel.create(name: "channel-2", owner: 1, category: "public", password_digest: "")

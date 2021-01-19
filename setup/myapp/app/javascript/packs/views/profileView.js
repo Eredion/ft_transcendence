@@ -6,6 +6,10 @@ import Helper from '../Helper'
 
 let BlockedUsers = Backbone.Model.extend({
 
+    parse (response) {
+        return { data: JSON.parse(response.success) }
+    },
+
     initialize(options) {
         this.uid = options.user_id
         this.urlRoot = 'users/' + this.uid + '/show_blocks'
@@ -15,7 +19,6 @@ let BlockedUsers = Backbone.Model.extend({
 
 
 let blockedsView = Backbone.View.extend({
-    el: $('#blocked_users'),
 
     async initialize(id) {
         console.log('blockedsView initialize')
@@ -26,8 +29,7 @@ let blockedsView = Backbone.View.extend({
     },
 
     render() {
-        let output = this.template({ 'blocked_users': this.model.toJSON() });
-        this.$el.html(output);
+        $('#blocked_users_data').html(this.template({ 'blocked_users': this.model.toJSON() }))
         return this
     }
 });
@@ -56,7 +58,7 @@ let profileView = Backbone.View.extend({
     render() {
         this.user = this.collection.get(this.user_id);
         $("#content").html(this.template({'user': this.user.toJSON()}));
-        if ($('html').data().userId == this.user_id) {
+        if (Helper.userId() == this.user_id) {
             this.blckview = new blockedsView(this.user_id);
         }
         return this;
@@ -107,8 +109,16 @@ let profileView = Backbone.View.extend({
         console.log("Addfriend Event call!")
     },
 
-    blockUser(e) {
+    async blockUser(e) {
         console.log("blockUser Event call!")
+        var formData = { user_id: $(e.currentTarget).data().userblockId }
+        console.log(formData)
+        var response = await Helper.ajax('POST', 'users/' + Helper.userId() + '/block_user', formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            Helper.custom_alert('success', response['success'])
+        }
     }
 
 });

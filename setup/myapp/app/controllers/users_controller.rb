@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     def block_user
         if params[:id].to_i == current_user.id
             c_user = User.find(params[:id])
-            if params[:user_id] != c_user.id && c_user.blocked.index(params[:user_id]) == nil && User.find(params[:user_id])
+            if params[:user_id] != c_user.id && c_user.blocked.include?(params[:user_id]) == nil && User.find(params[:user_id])
                 c_user.blocked.push(params[:user_id])
                 if c_user.save!
                     return render json: {"success": "User blocked successfully."}, status: :ok

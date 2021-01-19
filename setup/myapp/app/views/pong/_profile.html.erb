@@ -103,7 +103,9 @@
                     <div class="card-body">
                         <p class="h5 card-title text-info">Blocked users</p>
                         <hr/>
-                        <div id="blocked_users" class="scroll_list">
+                        <div class="mx-auto text-center">
+                            <div id="blocked_users_data" class="scroll_list">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,9 +168,17 @@
 
 <script type="text/template" name="blocked_users_template">
 
-    <ul>
-        <%% _.each( blocked_users, function(user) { %>
-            <li> <%% user.nickname %> </li>
+    <ul class="list-group list-group-flush">
+        <%% _.each( blocked_users.data, function(user) { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center" >
+                <span>
+                    <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                </span>
+                <%%= user.nickname %>
+                <span>
+                    <button class="btn btn-danger">&times</button>
+                </span>
+            </li>
         <%% }) %>
     </ul>
     

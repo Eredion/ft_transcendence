@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     member do
       post :update_avatar
       get :show_blocks
-      post 'block_user/:user_id', :action => 'block_user'
+      post :block_user
       #delete :unblock_user/:id
     end
   end

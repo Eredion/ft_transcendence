@@ -19,7 +19,11 @@ Helper.ajax = function(method, url, data) {
 		$.ajax({
 			url: url,
 			type: method,
-			data: data
+            data: data,
+            headers: 
+            {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
 		})
 		.done(resolve)
 		.fail(reject);
@@ -30,21 +34,28 @@ Helper.logged = () => {
     return $('html').data().userLogged
 };
 
+Helper.userId = () => {
+    return $('html').data().userId
+};
+
 Helper.custom_alert = (type, message) => {
-    var c_alert = document.createElement('div')
-    c_alert.innerHTML =
-        '<div id="custom-alert" class="alert alert-' + type + ' alert-dismissible fixed-top" role="alert">' +
-            '<strong>' + message + '</strong>' +
-            '<button class="close" type="button" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">x</span>' +
-            '</button>' +
-        '</div>';
-    setTimeout( function() {
-        $('#custom-alert').parent().slideUp("slow", function () {
-            document.body.removeChild(this);
+
+    var alert = document.createElement('div')
+    var random_id = 'aid-' + Math.random().toString().substr(2) // generate random id and removes the first two chars (0.)
+    alert.setAttribute('id', random_id)
+    alert.setAttribute('role', 'alert')
+    alert.classList.add('alert', 'alert-' + type, 'alert-dismissible', 'fixed-top')
+    alert.innerHTML =
+        '<strong>' + message + '</strong>' +
+        '<button class="close" type="button" data-dismiss="alert" aria-label="Close">' +
+            '<span aria-hidden="true">&times</span>' +
+        '</button>';
+    document.body.appendChild(alert)
+    window.setTimeout( function() {
+        $('#'+random_id).slideUp("slow", function () {
+            $(this).alert('close')
         });
-    }, 3000);
-    document.body.appendChild(c_alert)
+    }, 2000);
 };
 
 export default Helper;

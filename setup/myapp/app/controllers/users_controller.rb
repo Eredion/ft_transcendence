@@ -26,10 +26,11 @@ class UsersController < ApplicationController
 
     def block_user
         if params[:id].to_i == current_user.id
-            c_user = User.find(params[:id])
-            if params[:user_id] != c_user.id && c_user.blocked.include?(params[:user_id]) == nil && User.find(params[:user_id])
-                c_user.blocked.push(params[:user_id])
-                if c_user.save!
+            if current_user.blocked.include?(params[:user_id].to_i)
+                return render json: {"error": "User already blocked."}, status: :ok
+            elsif params[:user_id].to_i != current_user.id && User.find(params[:user_id].to_i)
+                current_user.blocked.push(params[:user_id].to_i)
+                if current_user.save!
                     return render json: {"success": "User blocked successfully."}, status: :ok
                 end
             end
@@ -40,10 +41,11 @@ class UsersController < ApplicationController
 
     def unblock_user
         if params[:id].to_i == current_user.id
-            c_user = User.find(params[:id])
-            if params[:user_id] != c_user.id && c_user.blocked.index(params[:user_id]) != nil && User.find(params[:user_id])
-                c_user.blocked.delete(params[:user_id])
-                if c_user.save!
+            if !current_user.blocked.include?(params[:user_id].to_i)
+                return render json: {"error": "User not blocked."}, status: :ok
+            elsif params[:user_id].to_i != current_user.id && User.find(params[:user_id].to_i)
+                current_user.blocked.delete(params[:user_id].to_i)
+                if current_user.save!
                     return render json: {"success": "User unblocked successfully."}, status: :ok
                 end
             end
@@ -54,7 +56,7 @@ class UsersController < ApplicationController
 
     def show_blocks
         if params[:id].to_i == current_user[:id]
-            block_list = User.find(params[:id])[:blocked]
+            block_list = User.find(params[:id].to_i)[:blocked]
             ret = []
             block_list.each do |user_id|
                 ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))

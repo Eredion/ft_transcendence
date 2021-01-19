@@ -17,21 +17,26 @@ let BlockedUsers = Backbone.Model.extend({
 
 });
 
-
 let blockedsView = Backbone.View.extend({
-
-    async initialize(id) {
+    
+    initialize(id) {
+        this.$el = $('#blocked-users-data')
         console.log('blockedsView initialize')
         this.model = new BlockedUsers({user_id: id})
         this.template = _.template($('script[name="blocked_users_template"]').html())
+        this.update()
+    },
+
+    async update() {
         await Helper.fetch(this.model)
         this.render()
     },
 
     render() {
-        $('#blocked_users_data').html(this.template({ 'blocked_users': this.model.toJSON() }))
+        this.$el.html(this.template({ 'blocked_users': this.model.toJSON() }))
         return this
     }
+
 });
 
 let profileView = Backbone.View.extend({
@@ -44,7 +49,8 @@ let profileView = Backbone.View.extend({
         "submit #avatar-form" : "updateAvatar",
         "submit #edit-user-form": "editUserForm",
         "click #addFriend": "addFriend",
-        "click #blockUser": "blockUser"
+        "click #blockUser": "blockUser",
+        "click .unblock-btn": "unblockUser"
     },
 
     async initialize(id) {
@@ -110,14 +116,31 @@ let profileView = Backbone.View.extend({
     },
 
     async blockUser(e) {
-        console.log("blockUser Event call!")
+        e.preventDefault()
         var formData = { user_id: $(e.currentTarget).data().userblockId }
-        console.log(formData)
         var response = await Helper.ajax('POST', 'users/' + Helper.userId() + '/block_user', formData)
         if (response['error']) {
             Helper.custom_alert('danger', response['error'])
         } else {
             Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    async unblockUser(e) {
+        e.preventDefault()
+        var formData = { user_id: $(e.currentTarget).data().userblockId }
+        var response = await Helper.ajax('DELETE', 'users/' + Helper.userId() + '/unblock_user', formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            this.blckview.update()
+            Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    undelegateChildViews() {
+        if (this.blckview) {
+            this.blckview.undelegateEvents()
         }
     }
 

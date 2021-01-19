@@ -104,7 +104,7 @@
                         <p class="h5 card-title text-info">Blocked users</p>
                         <hr/>
                         <div class="mx-auto text-center">
-                            <div id="blocked_users_data" class="scroll_list">
+                            <div id="blocked-users-data" class="scroll_list">
                             </div>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                 </span>
                 <%%= user.nickname %>
                 <span>
-                    <button class="btn btn-danger">&times</button>
+                    <button class="btn btn-danger unblock-btn" data-userblock-id="<%%= user.id %>" >&times</button>
                 </span>
             </li>
         <%% }) %>

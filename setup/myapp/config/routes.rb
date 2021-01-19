@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       post :update_avatar
       get :show_blocks
       post :block_user
-      #delete :unblock_user/:id
+      delete :unblock_user
     end
   end
   post 'messages', to: 'messages#create'

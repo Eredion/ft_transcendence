@@ -12,7 +12,8 @@ import Helper from './Helper'
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
-        // If user is not logged in, redirect to login page (except sign in and signup views)
+        this.undelegateViews()
+            // If user is not logged in, redirect to login page (except sign in and signup views)
         if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) {
             this.navigate('sign_in', { trigger: true })
             return false
@@ -24,6 +25,26 @@ class Workspace extends Backbone.Router {
         }
         if (callback)
             callback.apply(this, args);
+    }
+
+    // function than removes the last active view for fix zombie views error
+    undelegateViews() {
+        if (this.pongview) {
+            this.pongview.undelegateEvents()
+        }
+        if (this.chatview) {
+            this.chatview.undelegateEvents()
+        }
+        if (this.signinView) {
+            this.signinView.undelegateEvents()
+        }
+        if (this.signupView) {
+            this.signupView.undelegateEvents()
+        }
+        if (this.profileview) {
+            this.profileview.undelegateChildViews()
+            this.profileview.undelegateEvents()
+        }
     }
 
     get routes() {
@@ -38,15 +59,15 @@ class Workspace extends Backbone.Router {
 
     pong() {
         console.log("pong route");
-        var pongview = new pongView();
+        this.pongview = new pongView();
         //pongview.render();
     }
 
     chat() {
         console.log("chat route")
 
-        var chatview = new chatView();
-        //	        chatview.render();
+        this.chatview = new chatView();
+        this.chatview.render();
         //var online_users = new userList()
         //let conversview = new conversView();
         //conversview.setName("1-2");
@@ -58,19 +79,19 @@ class Workspace extends Backbone.Router {
 
     userSignin() {
         console.log("userSignin route")
-        var signinView = new loginView()
-        signinView.render()
+        this.signinView = new loginView()
+        this.signinView.render()
     }
 
     userSignup() {
         console.log("userSignup route.")
-        var signupView = new registerView()
-        signupView.render()
+        this.signupView = new registerView()
+        this.signupView.render()
     }
 
     userProfile(id) {
         console.log("userProfile route")
-        var profileview = new profileView(id)
+        this.profileview = new profileView(id)
             //profileview.render(id)
     }
 

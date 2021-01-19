@@ -7,17 +7,25 @@ Rails.application.routes.draw do
   }
   
   root "pong#index"
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      post :update_avatar
+      get :show_blocks
+      post :block_user
+      delete :unblock_user
+    end
+  end
   post 'messages', to: 'messages#create'
   resources :chats, only: [:create]
+
   namespace :api do
     resources :users
     resources :chats
     resources :messages
     resources :channels
   end
+
   devise_scope :user do
-    post 'update_avatar/:id', :to => 'users#update_avatar', :as => :update_user_avatar
     get 'sign_in', :to => 'users#sign_in', :as => :user_session
     #get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
     post 'sign_in', :to => 'users/sessions#create', :as => :create_user_session

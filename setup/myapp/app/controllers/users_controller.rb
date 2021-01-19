@@ -24,6 +24,48 @@ class UsersController < ApplicationController
         end
     end
 
+    def block_user
+        if params[:id].to_i == current_user.id
+            if current_user.blocked.include?(params[:user_id].to_i)
+                return render json: {"error": "User already blocked."}, status: :ok
+            elsif params[:user_id].to_i != current_user.id && User.find(params[:user_id].to_i)
+                current_user.blocked.push(params[:user_id].to_i)
+                if current_user.save!
+                    return render json: {"success": "User blocked successfully."}, status: :ok
+                end
+            end
+            return render json: {"error": "The request could not be made, please try again."}, status: :ok
+        end
+        render json: {"error": "Forbidden."}, status: :ok
+    end
+
+    def unblock_user
+        if params[:id].to_i == current_user.id
+            if !current_user.blocked.include?(params[:user_id].to_i)
+                return render json: {"error": "User not blocked."}, status: :ok
+            elsif params[:user_id].to_i != current_user.id && User.find(params[:user_id].to_i)
+                current_user.blocked.delete(params[:user_id].to_i)
+                if current_user.save!
+                    return render json: {"success": "User unblocked successfully."}, status: :ok
+                end
+            end
+            return render json: {"error": "The request could not be made, please try again."}, status: :ok
+        end
+        render json: {"error": "Forbidden."}, status: :ok
+    end
+
+    def show_blocks
+        if params[:id].to_i == current_user[:id]
+            block_list = User.find(params[:id].to_i)[:blocked]
+            ret = []
+            block_list.each do |user_id|
+                ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))
+            end
+            return render json: {"success": ret.to_json}, status: :ok
+        end
+        render json: {"error": 'Forbidden.'}, status: :ok
+    end
+
     private
 
     def set_user

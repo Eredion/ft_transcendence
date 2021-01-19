@@ -4,7 +4,7 @@
             <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= user.avatar.medium.url %>"/>
 
             <%% if ($('html').data().userId === user.id) { %>
-                <%= form_tag update_user_avatar_url(current_user), id: 'avatar-form', :method => :post, multipart: true, remote: true do %>
+                <%= form_tag update_avatar_user_url(current_user), id: 'avatar-form', :method => :post, multipart: true, remote: true do %>
                     <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'avatarFileInput' %>
                     <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
                 <% end %>
@@ -43,7 +43,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-3 mt-5">
+        <div class="col-3 mt-4">
+            <%% if ($('html').data().userId !== user.id) { %>
+                <div class="row mb-3">
+                    <div class="col">
+                        <button class="btn btn-success" id="addFriend" data-userfriend-id="<%%= user.id %>"> Add Friend </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-danger" id="blockUser" data-userblock-id="<%%= user.id %>"> Block </button>
+                    </div>
+                </div>
+            <%% } %>
             <div class="card text-center mx-auto mb-3" style="width: 18rem;">
                 <div class="card-body">
                     <p class="h5 card-title text-info">Stats</p>
@@ -88,12 +98,18 @@
                     <hr/>
                 </div>
             </div>
-            <div class="card text-center mx-auto" style="width: 18rem;">
-                <div class="card-body">
-                    <p class="h5 card-title text-info">Banned Users</p>
-                    <hr/>
+            <%% if ($('html').data().userId === user.id) { %>
+                <div class="card text-center mx-auto" style="width: 18rem;">
+                    <div class="card-body">
+                        <p class="h5 card-title text-info">Blocked users</p>
+                        <hr/>
+                        <div class="mx-auto text-center">
+                            <div id="blocked-users-data" class="scroll_list">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            <%% } %>
         </div>
         <%% if ($('html').data().userId === user.id) { %>
             <!-- Modal for edit user info -->
@@ -148,4 +164,22 @@
             readURL(this);
         });
     </script>
+</script>
+
+<script type="text/template" name="blocked_users_template">
+
+    <ul class="list-group list-group-flush">
+        <%% _.each( blocked_users.data, function(user) { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center" >
+                <span>
+                    <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                </span>
+                <%%= user.nickname %>
+                <span>
+                    <button class="btn btn-danger unblock-btn" data-userblock-id="<%%= user.id %>" >&times</button>
+                </span>
+            </li>
+        <%% }) %>
+    </ul>
+    
 </script>

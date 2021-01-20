@@ -1,4 +1,6 @@
 class Api::ChatsController < ApplicationController
+  skip_before_action:verify_authenticity_token
+  
     def index
         @chats = Chat.all
         render json: @chats
@@ -10,6 +12,23 @@ class Api::ChatsController < ApplicationController
     end
 
     def create
-        Chat.create(params[:chat])
+      @chat = Chat.find(params[:name])
+      if @chat.exists?
+        return
+      else
+        @chat = Chat.create(chat_params)
+      end
+      return @chat
     end
+
+    def update
+        @chat = Chat.find(params[:id])
+        @chat.update(chat_params)
+    end
+
+    private
+    def chat_params
+      params.require(:chat).permit(:name, :messages)
+    end   
+
 end

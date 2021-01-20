@@ -3,7 +3,7 @@
         <div class="user-list-container col-sm">
             <h1 class="title">Users</h1>
             <div id="chat-user-list" class="button-grid">
-            
+
                 <% users = User.all %>
                 <% users.each do |user| %>
                     <% id1 = user.id %>
@@ -14,34 +14,31 @@
                         <% chatid = id2.to_s + '-' + id1.to_s %>
                     <% end %>
                     <% if current_user.id == user.id %>
-                        <% next %> <!--skip current_user button--> 
+                        <% next %> <!--skip current_user button-->
                     <%end%>
                     <%= button_to user.nickname.capitalize, {
                             :action=>"create",
-                            params: { chat: {name: chatid, users: [current_user, user] } },
+                            params: { chat: { name: chatid } },
                             :controller=>"chats",
                             :method=>:create,
                             :remote=>true
                         },
                         {
                             class: 'btn btn-secondary btn-sm chat-user-list-button',
-                            id: chatid + "-button"
+                            id: chatid + "-button",
                         }
                     %>
-                        
+
                 <% end %>
             </div>
             <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">
             </div>
         </div>
-        
+
         <div class="jumbtron col-sm container-fluid">
             <h1 class="title" id="current-conversation">Chat</h1>
-            <ul id="conversation" class="list-group list-group-flush h-200 overflow-auto">
-                <li class="list-group-item">Hola!</li>
-                <li class="list-group-item list-group-item-dark">¿Qué tal?</li>
-                <li class="list-group-item">Programando en Ruby en 2021! Me encanta!</li>
-                <li class="list-group-item">¿Y tú?</li>
+            <ul id="conversation" class="list-group h-200 overflow-auto">
+                <li class="list-group-item">Haz click en un usuario para enviarle un mensaje!</li>
             </ul>
             <%# <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
                 <% @messages.each do |message| %>
@@ -71,15 +68,22 @@
     <%% for (let i = 0; i < online_users.length; i++){ %>
         <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
             <%%= online_users[i].nickname %>
-            
+
         </button>
         <%% }; %>
 </script>
 
 <script id="conversation_template" type='text/template'>
     <%% for (let i = 0; i < message_history.length; i++){ %>
-        <div class='list-group-item'>
-            <%%= message_history[i].content  %>
-        </div>
+
+			<%% if (message_history[i].id === message_history[0].id){ %>
+				<li class="list-group-item rounded-pill">
+					 <%%= message_history[i].content  %>
+				</li>
+			<%% } else { %>
+				<li class="list-group-item rounded-pill list-group-item-dark">
+					 <%%= message_history[i].content  %>
+				</li>
+			<%% }; %>
     <%% };%>
 </script>

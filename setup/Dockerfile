@@ -38,4 +38,3 @@ EXPOSE 3000
 
 # Start the main process.
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-

@@ -13,7 +13,7 @@ class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
         this.undelegateViews()
-        // If user is not logged in, redirect to login page (except sign in and signup views)
+            // If user is not logged in, redirect to login page (except sign in and signup views)
         if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) {
             this.navigate('sign_in', { trigger: true })
             return false
@@ -53,7 +53,7 @@ class Workspace extends Backbone.Router {
             "chat": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
-            "users/:id": "userProfile"
+            "users/:id": "userProfile",
         }
     }
 
@@ -74,9 +74,8 @@ class Workspace extends Backbone.Router {
         //conversview.on("change:chatName", conversview.render());
         //conversview.setName("1-3");
         //conversview.setName("default");
-
-
     }
+
 
     userSignin() {
         console.log("userSignin route")

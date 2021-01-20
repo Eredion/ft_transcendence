@@ -20,7 +20,6 @@ let ChatCollection = Backbone.Collection.extend({
     },
 });
 
+
 let chatcol = new ChatCollection();
-chatcol.on("change", function() { console.log("User changed. Current size: " + this.length) });
-console.log("CHATCOL: " + chatcol.length);
 export default chatcol;

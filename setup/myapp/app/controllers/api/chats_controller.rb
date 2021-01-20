@@ -12,20 +12,23 @@ class Api::ChatsController < ApplicationController
     end
 
     def create
-      puts(params)
-      Chat.create(chat_params)
+      @chat = Chat.find(params[:name])
+      if @chat.exists?
+        return
+      else
+        @chat = Chat.create(chat_params)
+      end
+      return @chat
     end
 
     def update
-        puts(params)
         @chat = Chat.find(params[:id])
-        puts(@chat.name)
         @chat.update(chat_params)
     end
 
     private
     def chat_params
-      params.require(:chat).permit(:name, :users, :messages)
+      params.require(:chat).permit(:name, :messages)
     end   
 
 end

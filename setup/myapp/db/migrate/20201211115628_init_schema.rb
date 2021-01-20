@@ -45,7 +45,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
     
     create_table "chats" do |t|
       t.string "name", null: false, unique: true
-      t.integer "users", default: [], array: true
+      t.string "users", default: [], array: true
       t.integer "messages", default: [], array: true
     end
 

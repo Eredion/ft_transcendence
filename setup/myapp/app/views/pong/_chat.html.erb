@@ -18,7 +18,7 @@
                     <%end%>
                     <%= button_to user.nickname.capitalize, {
                             :action=>"create",
-                            params: { chat: {name: chatid, users: [current_user, user] } },
+                            params: { chat: { name: chatid } },
                             :controller=>"chats",
                             :method=>:create,
                             :remote=>true

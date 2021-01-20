@@ -57,7 +57,7 @@ Helper.custom_alert = (type, message) => {
 };
 
 Helper.current_user = () => {
-    return $('#nav-nickname-user').text;
+    return $('#nav-nickname-user').text();
 };
 
 export default Helper;

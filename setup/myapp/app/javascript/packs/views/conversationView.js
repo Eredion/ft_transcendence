@@ -30,13 +30,13 @@ let conversView = Backbone.View.extend({
         let output = template({ 'message_history': message_history });
         let rerender = this.render;
         this.$el.html(output);
-        if ($('#msg-input-chat').length === 0)
+        if (this.chatName != 'default' && $('#msg-input-chat').length === 0)
             this.$el.append(
                 `<input id=\"msg-input-chat\" class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Escribe aquí...\"></input>`);
         $('#msg-input-chat').keypress(function(event) {
             if (event.which == 13) {
-                let creator = _.findWhere(userscollection, { name: Helper.current_user() }).get("id");
-                console.log("Creator " + creator);
+                //let current_user_model = userscollection.where({ name: Helper.current_user() })[0];
+
                 $('#msg-input-chat').val("");
             }
             console.log("KEY " + event.which + " pressed");

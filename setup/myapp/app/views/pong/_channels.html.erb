@@ -1,0 +1,15 @@
+<script type="text/template" name="channels" id="channels-template">
+    <div class="row">
+        <div class="col-sm w-100">
+            <h1>Create new channel</h1>
+            <%= form_with url: "api/channels", method: :create do |form| %>
+                <%= text_field(:channel, :name) %>
+                <%= form.submit "Create", id: 'create-channel-button'%>
+            <% end %>
+            <% Channel.all.each do |channel| %>
+                <%= render 'channels/channel', channel: channel %>
+            <% end %>
+        </div>
+        <div class="col-sm"><h1>Chats</h1></div>
+    </div>
+</script>

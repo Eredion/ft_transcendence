@@ -10,6 +10,18 @@ class Api::ChannelsController < ApplicationController
     end
 
     def create
-        Channel.create(params[:channel])
+        puts("channel controller create")
+        channel = Channel.new(channel_params)
+        channel.category= "public"
+        if channel.save
+            puts(Channel.all.length)
+        else
+            puts(Rails.logger.info(channel.errors.inspect))
+        end
+    end
+
+    private
+    def channel_params
+        params.require(:channel).permit(:name, :category)
     end
 end

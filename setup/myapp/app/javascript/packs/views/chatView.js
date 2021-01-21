@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Backbone from 'backbone'
 import chatcol from '../models/chat'
 import conversView from './conversationView'
+import channelsView from './channelsView'
 import Helper from '../Helper';
 
 let chatView = Backbone.View.extend({
@@ -32,6 +33,12 @@ let chatView = Backbone.View.extend({
                 });
 
             }
+            let channelView = new channelsView();
+            channelView.render();
+            $('#create-channel-button').on("click", function(){
+                channelView.render();
+                console.log("CLICK");
+            });
         });
     },
 });

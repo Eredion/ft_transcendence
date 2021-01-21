@@ -22,6 +22,7 @@ let chatView = Backbone.View.extend({
     async append_click_event() {
         await Helper.fetch(chatcol).then(function() {
             let conversview = new conversView();
+            
             for (let i = 0; i < chatcol.length; i++) {
                 let namestr = chatcol.models[i].get("name");
                 $('#' + namestr + "-button").on("click", function() { // append click event to every button of the online users.
@@ -33,12 +34,8 @@ let chatView = Backbone.View.extend({
                 });
 
             }
-            let channelView = new channelsView();
-            channelView.render();
-            $('#create-channel-button').on("click", function(){
-                channelView.render();
-                console.log("CLICK");
-            });
+           
+           
         });
     },
 });

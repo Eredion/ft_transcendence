@@ -12,6 +12,9 @@ class Api::ChannelsController < ApplicationController
     def create
         puts("channel controller create")
         channel = Channel.new(channel_params)
+        if channel.name.length < 2
+            return 
+        end
         channel.category= "public"
         if channel.save
             puts(Channel.all.length)

@@ -5,6 +5,7 @@ import profileView from './views/profileView'
 import pongView from './views/pongView'
 import chatView from './views/chatView'
 import conversView from './views/conversationView'
+import channelsView from './views/channelsView'
 import userList from './views/userListView'
 import Helper from './Helper'
 
@@ -80,7 +81,8 @@ class Workspace extends Backbone.Router {
 
     channels(){
         console.log("channel route")
-        
+        this.channelView = new channelsView();
+        this.channelView.render();
     }
 
 

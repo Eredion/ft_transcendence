@@ -1,15 +1,36 @@
+
 <script type="text/template" name="channels" id="channels-template">
     <div class="row">
-        <div class="col-sm w-100">
-            <h1>Create new channel</h1>
+        <div id="channel-list" class="col-sm w-100">
+            <div>
+                <h1>Create new channel</h1>
+                <button class="btn btn-primary" id="reload-channels-button"><span class="glyphicon glyphicon-refresh"></span>Refresh</button>
+            </div>
+            
             <%= form_with url: "api/channels", method: :create do |form| %>
-                <%= text_field(:channel, :name) %>
-                <%= form.submit "Create", id: 'create-channel-button'%>
+                <%= text_field(:channel, :name, minlength: 2)%>
+                <%= form.submit "Create", id: 'create-channel-button' %>
             <% end %>
+            <!--
             <% Channel.all.each do |channel| %>
                 <%= render 'channels/channel', channel: channel %>
             <% end %>
+            -->
         </div>
+        
         <div class="col-sm"><h1>Chats</h1></div>
     </div>
+</script>
+
+<script id="online-channels-template" type='text/template'>
+    <div class="list-group-item">
+        <%% for (let i = 0; i < channels.length; i++){ %>
+        <div>
+            <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
+                <%%= channels[i].name %>
+
+            </button>
+        </div>
+        <%% }; %>
+    <div>
 </script>

@@ -22,6 +22,9 @@ User.create(nickname: 'santana', email: 'blacked@marvin.com', score: 27, matches
 User.create(nickname: 'castela', email: 'castela@marvin.com', score: 40, matches_won: 5, matches_lost: 2)
 User.create(nickname: 'luismicrack', email: 'luismicrack@marvin.com', score: 69, matches_won: 7, matches_lost: 2)
 
+FriendRequest.create(requestor_id: 1, receiver_id: 2, status: 'pending')
+FriendRequest.create(requestor_id: 2, receiver_id: 3, status: 'accepted')
+FriendRequest.create(requestor_id: 3, receiver_id: 4, status: 'denied')
 
 Chat.create("name": 'default')
 Message.create(content: "Haz click en un usuario para enviarle un mensaje", chat_id: 1, user_id: 1)

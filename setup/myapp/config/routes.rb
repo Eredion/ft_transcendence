@@ -10,19 +10,24 @@ Rails.application.routes.draw do
   resources :users, only: [:show] do
     member do
       post :update_avatar
-      get :show_blocks
       post :block_user
       delete :unblock_user
     end
   end
   post 'messages', to: 'messages#create'
   resources :chats, only: [:create]
-
+  
   namespace :api do
-    resources :users
+    resources :users, only: [:index, :show, :update, :create] do
+      member do
+        get :show_friends
+        get :show_blockeds
+      end
+    end
     resources :chats
     resources :messages
     resources :channels
+    resources :friend_requests, only: [:show, :create, :update, :delete]
   end
 
   devise_scope :user do

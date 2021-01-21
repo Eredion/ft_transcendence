@@ -34,4 +34,52 @@ class Api::UsersController < ApplicationController
             render json: user, status: :ok
         end
     end
+
+    def show_blockeds
+        if params[:id].to_i == current_user[:id]
+            block_list = User.find(params[:id].to_i)[:blocked]
+            ret = []
+            block_list.each do |user_id|
+                ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))
+            end
+            return render json: {"success": ret.to_json}, status: :ok
+        end
+        render json: {"error": 'Forbidden.'}, status: :ok
+    end
+
+    def show_friends
+        friend_list = User.find_by(id: params[:id])[:friends]
+        ret = []
+        if friend_list
+            friend_list.each do |user_id|
+                ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))
+            end
+            return render json: ret.to_json, status: :ok
+        end
+        render json: {"error": 'Forbidden.'}, status: :ok
+    end
+
+    def delete_friend
+        if params[:id].to_i == current_user.id
+            if !current_user.friends.include?(params[:user_id].to_i)
+                return render json: {"error": "This user is not your friend."}, status: :ok
+            end
+            othuser = User.find_by(id: params[:user_id]
+            if othuser &&  othuser.id != current_user.id
+                current_user.friends.delete(othuser.id)
+                if current_user.save!
+                    render json: {"success": "Friend removed successfully."}, status: :ok
+                end
+                if othuser.friends.include?(current_user.id)
+                    othuser.friends.delete(current_user.id)
+                    othuser.save
+                end
+                return
+            end
+            return render json: {"error": "The request could not be made, please try again."}, status: :ok
+
+        end
+        render json: {"error": 'Forbidden.'}, status: :ok
+    end
+
 end

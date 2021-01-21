@@ -12,7 +12,7 @@ let BlockedUsers = Backbone.Model.extend({
 
     initialize(options) {
         this.uid = options.user_id
-        this.urlRoot = 'users/' + this.uid + '/show_blocks'
+        this.urlRoot = 'api/users/' + this.uid + '/show_blockeds'
     }
 
 });

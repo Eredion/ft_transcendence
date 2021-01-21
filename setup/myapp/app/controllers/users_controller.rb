@@ -54,18 +54,6 @@ class UsersController < ApplicationController
         render json: {"error": "Forbidden."}, status: :ok
     end
 
-    def show_blocks
-        if params[:id].to_i == current_user[:id]
-            block_list = User.find(params[:id].to_i)[:blocked]
-            ret = []
-            block_list.each do |user_id|
-                ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))
-            end
-            return render json: {"success": ret.to_json}, status: :ok
-        end
-        render json: {"error": 'Forbidden.'}, status: :ok
-    end
-
     private
 
     def set_user

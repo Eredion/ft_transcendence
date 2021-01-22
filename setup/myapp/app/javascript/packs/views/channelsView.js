@@ -15,19 +15,20 @@ let channelsView = Backbone.View.extend({
     initialize() {
         
     },
+    async fetchcol() {
+        await Helper.fetch(channelcol).then(function() {
+            console.log("FETCHCOL");
+            let template = _.template($("#online-channels-template").html())
+            let output = template({'channels':channelcol.toJSON()});
+            $('#available-channels').html(output);
+        });
+    },
+
     render_list() {
         console.log("RENDER LIST");
-        async function fetchcol(){
-            await Helper.fetch(channelcol).then(function() {
-                console.log("AQUI");
-                let template = _.template($("#online-channels-template").html())
-                let output = template({'channels':channelcol.toJSON()});
-                $('#channel-list').append(output);
-            
-        });
-        fetchcol();
+        
+        this.fetchcol();
         return this;
-        }
     },
 
     render() {

@@ -1,32 +1,34 @@
 
 <script type="text/template" name="channels" id="channels-template">
     <div class="row">
-        <div id="channel-list" class="col-sm w-100">
+        <div id="channel-list" class="col-sm">
             <div>
-                <h1>Create new channel</h1>
-                <button class="btn btn-primary" id="reload-channels-button"><span class="glyphicon glyphicon-refresh"></span>Refresh</button>
+                <h1 class="title">Create new channel</h1>
             </div>
+            <div class="form-group mb-2 bg-secondary" id="create-channel-input-wrapper">
+                <%= form_with url: "api/channels", method: :create do |form| %>
+                        <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+", class:"create-channel-input")%>
+               
+                        <%= form.submit "Create", id: 'create-channel-button', class: "btn btn-danger" %>
+                        <button type="button" class="btn btn-dark" id="reload-channels-button">
+                            <span class="glyphicon glyphicon-repeat"></span>Refresh
+                        </button>
+                    
+                <% end %>
+            </div>
+            <div id="available-channels"></div>
             
-            <%= form_with url: "api/channels", method: :create do |form| %>
-                <%= text_field(:channel, :name, minlength: 2)%>
-                <%= form.submit "Create", id: 'create-channel-button' %>
-            <% end %>
-            <!--
-            <% Channel.all.each do |channel| %>
-                <%= render 'channels/channel', channel: channel %>
-            <% end %>
-            -->
         </div>
         
-        <div class="col-sm"><h1>Chats</h1></div>
+        <div class="col-sm"><h1 class="title">Chats</h1></div>
     </div>
 </script>
 
 <script id="online-channels-template" type='text/template'>
-    <div class="list-group-item">
+    <div class="bg-secondary" id = "available-channel-buttons">
         <%% for (let i = 0; i < channels.length; i++){ %>
         <div>
-            <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
+            <button type="button" class="btn btn-danger btn-sm" id="online-user-button">
                 <%%= channels[i].name %>
 
             </button>

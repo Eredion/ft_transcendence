@@ -5,6 +5,7 @@ import Helper from '../Helper'
 import userscollection from '../models/user.js'
 import blockedsView from './profile/blockedsView'
 import friendsView from './profile/friendsView'
+import friendRequestsView from './profile/friendRequestView'
 
 let profileView = Backbone.View.extend({
 
@@ -34,6 +35,7 @@ let profileView = Backbone.View.extend({
         this.friendsview = new friendsView(this.user_id);
         if (Helper.userId() == this.user_id) {
             this.blockview = new blockedsView(this.user_id);
+            this.friendReqview = new friendRequestsView(this.user_id);
         }
         return this;
     },
@@ -79,8 +81,21 @@ let profileView = Backbone.View.extend({
         })
     },
 
-    addFriend(e) {
+    async addFriend(e) {
         console.log("Addfriend Event call!")
+        e.preventDefault()
+        var formData = {
+            friend_request: {
+                requestor_id: Helper.userId(),
+                receiver_id: $(e.currentTarget).data().userfriendId
+            }
+        }
+        var response = await Helper.ajax('POST', 'api/friend_requests', formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            Helper.custom_alert('success', response['success'])
+        }
     },
 
     async blockUser(e) {
@@ -112,6 +127,9 @@ let profileView = Backbone.View.extend({
         }
         if (this.friendsview) {
             this.friendsview.undelegateEvents()
+        }
+        if (this.friendReqview) {
+            this.friendReqview.undelegateEvents()
         }
     }
 

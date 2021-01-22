@@ -4,19 +4,23 @@ class Api::FriendRequestsController < ApplicationController
 
     def show
         if params[:id].to_i == current_user.id
-            frequests = FriendRequest.where([ "receiver_id = ? and status = ? ", params[:id], "pending" ])
-            return render json: { "success": frequests }
+            frequests = FriendRequest.
+                        select( 'friend_requests.*, users.id AS requestor_id, users.nickname' ).
+                        joins(:requestor).
+                        where([ "receiver_id = ? and status = ? ", params[:id], "pending" ])
+            puts frequests.to_json
+            return render json: { "success": frequests.to_json }
         end
         render json: { "error": "Forbidden." }
     end
 
     def create
-        ufriend = User.find_by(id: params[:receiver])
-        if params[:requestor].to_i == current_user.id && ufriend && ufriend.id != current_user.id
+        ufriend = User.find_by(id: params[:friend_request][:receiver_id])
+        if params[:friend_request][:requestor_id].to_i == current_user.id && ufriend && ufriend.id != current_user.id
             if current_user.friends.include?(ufriend.id)
                 return render json: { "error": ufriend.nickname + " is already your friend." }
             end
-            freq = FriendRequest.create(params)
+            freq = FriendRequest.new(friend_request_params)
             if freq.save!
                 return render json: { "success": "Friend request sent." }
             end
@@ -38,6 +42,6 @@ class Api::FriendRequestsController < ApplicationController
     private
 
     def friend_request_params
-        params.permit(:requestor, :receiver, :status)
+        params.require(:friend_request).permit(:requestor_id, :receiver_id, :status)
     end
 end

@@ -3,12 +3,25 @@
         <div class="col-3 mt-3 text-center">
             <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= user.avatar.medium.url %>"/>
 
-            <%% if ($('html').data().userId === user.id) { %>
-                <%= form_tag update_avatar_user_url(current_user), id: 'avatar-form', :method => :post, multipart: true, remote: true do %>
-                    <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'avatarFileInput' %>
-                    <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
-                <% end %>
-            <%% } %>
+        <%% if ($('html').data().userId === user.id) { %>
+
+            <%= form_tag update_avatar_user_url(current_user), id: 'avatar-form', :method => :post, multipart: true, remote: true do %>
+                <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'avatarFileInput' %>
+                <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
+            <% end %>
+
+            <div class="card text-center mx-auto mt-3">
+                <div class="card-body">
+                    <p class="h5 card-title text-info">Notifications</p>
+                    <hr/>
+                    <div class="mx-auto text-center">
+                        <div id="friend-requests-data" class="scroll_list">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <%% } %>
         </div>
         <div class="col-6 mt-4">
             <div class="p-5">
@@ -197,6 +210,19 @@
                     <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
                 </span>
                 <%%= user.nickname %>
+            </li>
+        <%% }) %>
+    </ul>
+    
+</script>
+
+<script type="text/template" name="friend_requests_template">
+
+    <ul class="list-group list-group-flush">
+        <%% _.each( friend_requests.data, function(request) { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center" >
+                <%%= request.nickname %>
+                <%%= console.log(request) %>
             </li>
         <%% }) %>
     </ul>

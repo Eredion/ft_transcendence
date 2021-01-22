@@ -19,13 +19,17 @@ class Api::ChannelsController < ApplicationController
         if channel.save
             puts(Channel.all.length)
             puts("GUARDA")
-            #send_connected_channel(channel)
+            send_connected_channel(channel)
         else
             puts(Rails.logger.info(channel.errors.inspect))
         end
     end
 
-   
+   private
+   def send_connected_channel(channel)
+    ActionCable.server.broadcast 'available_channels_channel',
+        channel.name
+   end
 
     private
     def channel_params

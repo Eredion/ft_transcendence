@@ -1,7 +1,7 @@
 class Api::ChannelsController < ApplicationController
     def index
-        @channels = Channel.all
-        render json: @channels
+        channels = Channel.all
+        render json: channels
     end
 
     def show
@@ -10,6 +10,29 @@ class Api::ChannelsController < ApplicationController
     end
 
     def create
-        Channel.create(params[:channel])
+        puts("channel controller create")
+        channel = Channel.new(channel_params)
+        if channel.name.length < 2
+            return 
+        end
+        channel.category= "public"
+        if channel.save
+            puts(Channel.all.length)
+            puts("GUARDA")
+            send_connected_channel(channel)
+        else
+            puts(Rails.logger.info(channel.errors.inspect))
+        end
+    end
+
+   private
+   def send_connected_channel(channel)
+    ActionCable.server.broadcast 'available_channels_channel',
+        channel.name
+   end
+
+    private
+    def channel_params
+        params.require(:channel).permit(:name, :category)
     end
 end

@@ -1,4 +1,5 @@
 <script type="text/template" name="chat">
+
     <div class="row">
         <div class="user-list-container col-sm">
             <h1 class="title">Users</h1>
@@ -54,15 +55,17 @@
                     <%#  </div>
                 </div>
             <% end %>
+            
             <script>
                 $('.btn btn-primary').click(function(){
                     $('.form-control').value = '';
                 });
             </script>
         </div>
+        <div id="channel-container"></div>
     </div>
+    
 </script>
-
 <!-- Template para user list -->
 <script id="online_user_template" type='text/template'>
     <%% for (let i = 0; i < online_users.length; i++){ %>

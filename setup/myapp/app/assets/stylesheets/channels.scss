@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+  }
+
+.create-channel-input {
+    padding: 0.5rem;
+    border-radius: 0.7rem;
+    width: 45%;
+}
+
+#create-channel-input-wrapper {
+    padding: 1em;
+}
+
+#available-channel-buttons {
+    padding: 1em;
+    text-align: center;
+}

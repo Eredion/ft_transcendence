@@ -26,16 +26,24 @@ let channelsView = Backbone.View.extend({
 
     render_list() {
         console.log("RENDER LIST");
-        
         this.fetchcol();
+        
         return this;
     },
 
     render() {
         console.log("RENDER");
+        let self = this;
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
         this.render_list();
+        $('#create-channel-button').click(function(){
+            setTimeout(function(){
+                $('.create-channel-input').val("");
+                self.render_list();
+        }, 300);
+            
+        });
         return this;
     },
 

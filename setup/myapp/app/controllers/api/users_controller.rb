@@ -54,7 +54,7 @@ class Api::UsersController < ApplicationController
             friend_list.each do |user_id|
                 ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))
             end
-            return render json: ret.to_json, status: :ok
+            return render json: {"success": ret.to_json}, status: :ok
         end
         render json: {"error": 'Forbidden.'}, status: :ok
     end
@@ -64,8 +64,8 @@ class Api::UsersController < ApplicationController
             if !current_user.friends.include?(params[:user_id].to_i)
                 return render json: {"error": "This user is not your friend."}, status: :ok
             end
-            othuser = User.find_by(id: params[:user_id]
-            if othuser &&  othuser.id != current_user.id
+            othuser = User.find_by(id: params[:user_id])
+            if othuser && othuser.id != current_user.id
                 current_user.friends.delete(othuser.id)
                 if current_user.save!
                     render json: {"success": "Friend removed successfully."}, status: :ok

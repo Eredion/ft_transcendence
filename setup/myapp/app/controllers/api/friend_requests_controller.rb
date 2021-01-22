@@ -30,6 +30,7 @@ class Api::FriendRequestsController < ApplicationController
         if freq && params[:id].to_i == current_user.id
             freq.status = params[:status]
             freq.save!
+            return
         end
         render json: { "error": "Forbidden." }
     end

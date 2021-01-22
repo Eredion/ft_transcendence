@@ -1,43 +1,10 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import Backbone from 'backbone'
-import userscollection from '../models/user.js'
 import Helper from '../Helper'
-
-let BlockedUsers = Backbone.Model.extend({
-
-    parse (response) {
-        return { data: JSON.parse(response.success) }
-    },
-
-    initialize(options) {
-        this.uid = options.user_id
-        this.urlRoot = 'api/users/' + this.uid + '/show_blockeds'
-    }
-
-});
-
-let blockedsView = Backbone.View.extend({
-    
-    initialize(id) {
-        this.$el = $('#blocked-users-data')
-        console.log('blockedsView initialize')
-        this.model = new BlockedUsers({user_id: id})
-        this.template = _.template($('script[name="blocked_users_template"]').html())
-        this.update()
-    },
-
-    async update() {
-        await Helper.fetch(this.model)
-        this.render()
-    },
-
-    render() {
-        this.$el.html(this.template({ 'blocked_users': this.model.toJSON() }))
-        return this
-    }
-
-});
+import userscollection from '../models/user.js'
+import blockedsView from './profile/blockedsView'
+import friendsView from './profile/friendsView'
 
 let profileView = Backbone.View.extend({
 
@@ -64,8 +31,9 @@ let profileView = Backbone.View.extend({
     render() {
         this.user = this.collection.get(this.user_id);
         $("#content").html(this.template({'user': this.user.toJSON()}));
+        this.friendsview = new friendsView(this.user_id);
         if (Helper.userId() == this.user_id) {
-            this.blckview = new blockedsView(this.user_id);
+            this.blockview = new blockedsView(this.user_id);
         }
         return this;
     },
@@ -133,14 +101,17 @@ let profileView = Backbone.View.extend({
         if (response['error']) {
             Helper.custom_alert('danger', response['error'])
         } else {
-            this.blckview.update()
+            this.blockview.update()
             Helper.custom_alert('success', response['success'])
         }
     },
 
     undelegateChildViews() {
-        if (this.blckview) {
-            this.blckview.undelegateEvents()
+        if (this.blockview) {
+            this.blockview.undelegateEvents()
+        }
+        if (this.friendsview) {
+            this.friendsview.undelegateEvents()
         }
     }
 

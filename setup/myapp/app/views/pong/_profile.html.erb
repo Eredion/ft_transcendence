@@ -96,6 +96,10 @@
                 <div class="card-body">
                     <p class="h5 card-title text-info">Friends</p>
                     <hr/>
+                    <div class="mx-auto text-center">
+                        <div id="user-friends-data" class="scroll_list">
+                        </div>
+                    </div>
                 </div>
             </div>
             <%% if ($('html').data().userId === user.id) { %>
@@ -178,6 +182,21 @@
                 <span>
                     <button class="btn btn-danger unblock-btn" data-userblock-id="<%%= user.id %>" >&times</button>
                 </span>
+            </li>
+        <%% }) %>
+    </ul>
+    
+</script>
+
+<script type="text/template" name="user_friends_template">
+
+    <ul class="list-group list-group-flush">
+        <%% _.each( user_friends.data, function(user) { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center" >
+                <span>
+                    <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                </span>
+                <%%= user.nickname %>
             </li>
         <%% }) %>
     </ul>

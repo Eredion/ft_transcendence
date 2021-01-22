@@ -18,10 +18,14 @@ class Api::ChannelsController < ApplicationController
         channel.category= "public"
         if channel.save
             puts(Channel.all.length)
+            puts("GUARDA")
+            #send_connected_channel(channel)
         else
             puts(Rails.logger.info(channel.errors.inspect))
         end
     end
+
+   
 
     private
     def channel_params

@@ -8,14 +8,16 @@
             <div class="form-group mb-2 bg-secondary" id="create-channel-input-wrapper">
                 <%= form_with url: "api/channels", method: :create do |form| %>
                         <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+", class:"create-channel-input")%>
-               
-                        <%= form.submit "Create", id: 'create-channel-button', class: "btn btn-danger" %>
+                        
+                        <%= form.submit "Create", id: "create-channel-button", class: "btn btn-danger" %>
                         <button type="button" class="btn btn-dark" id="reload-channels-button">
                             <span class="glyphicon glyphicon-repeat"></span>Refresh
                         </button>
                     
                 <% end %>
+                
             </div>
+            
             <div id="available-channels"></div>
             
         </div>

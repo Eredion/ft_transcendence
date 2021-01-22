@@ -14,9 +14,7 @@
                 <div class="card-body">
                     <p class="h5 card-title text-info">Notifications</p>
                     <hr/>
-                    <div class="mx-auto text-center">
-                        <div id="friend-requests-data" class="scroll_list">
-                        </div>
+                    <div id="friend-requests-data" class="notification_list">
                     </div>
                 </div>
             </div>
@@ -218,11 +216,14 @@
 
 <script type="text/template" name="friend_requests_template">
 
-    <ul class="list-group list-group-flush">
+    <ul class="list-group">
         <%% _.each( friend_requests.data, function(request) { %>
-            <li class="list-group-item d-flex justify-content-between align-items-center" >
-                <%%= request.nickname %>
-                <%%= console.log(request) %>
+            <li class="list-group-item list-group-item-info" >
+                <p>Friend request from <a href="/#users/<%%= request.requestor_id %>"><%%= request.nickname %></a></p>
+                <span class="row justify-content-between">
+                    <button class="btn btn-primary">Accept</button>
+                    <button class="btn btn-danger">Decline</button>
+                </span>
             </li>
         <%% }) %>
     </ul>

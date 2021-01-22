@@ -8,7 +8,6 @@ class Api::FriendRequestsController < ApplicationController
                         select( 'friend_requests.*, users.id AS requestor_id, users.nickname' ).
                         joins(:requestor).
                         where([ "receiver_id = ? and status = ? ", params[:id], "pending" ])
-            puts frequests.to_json
             return render json: { "success": frequests.to_json }
         end
         render json: { "error": "Forbidden." }

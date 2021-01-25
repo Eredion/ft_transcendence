@@ -7,7 +7,9 @@
             </div>
             <div class="form-group mb-2 bg-secondary" id="create-channel-input-wrapper">
                 <%= form_with url: "api/channels", method: :create do |form| %>
-                        <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+", class:"create-channel-input")%>
+                        <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+",
+                            placeholder: "Channel Name", autocomplete: :off, class:"create-channel-input")%>
+                        <%= form.hidden_field :user, value: current_user.id %>
                         
                         <%= form.submit "Create", id: "create-channel-button", class: "btn btn-danger" %>
                         <button type="button" class="btn btn-dark" id="reload-channels-button">

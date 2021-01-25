@@ -17,14 +17,14 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
 
   create_table "channels", force: :cascade do |t|
     t.string "name", default: "default_chann", null: false
-    t.integer "users", default: [], array: true
+    t.bigint "user_id"
     t.string "password_digest"
-    t.bigint "owner"
     t.string "category", null: false
     t.integer "messages", default: [], array: true
     t.bigint "admins", default: [], array: true
     t.bigint "banned", default: [], array: true
     t.bigint "silenced", default: [], array: true
+    t.index ["user_id"], name: "index_channels_on_user_id"
   end
 
   create_table "chats", force: :cascade do |t|
@@ -77,5 +77,6 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
+  add_foreign_key "channels", "users"
   add_foreign_key "messages", "chats"
 end

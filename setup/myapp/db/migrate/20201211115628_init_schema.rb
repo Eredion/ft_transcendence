@@ -51,9 +51,9 @@ class InitSchema < ActiveRecord::Migration[6.0]
 
     create_table "channels" do |t|
       t.string "name", default: "default_chann", null: false, unique: true
-      t.integer "users", default: [], array: true
+      t.belongs_to :user
       t.string "password_digest", optional: true
-      t.bigint "owner"
+      #t.references :users, array: true, index: true, optional: true
       t.string "category", null: false
       t.integer "messages", default: [], array: true
       t.bigint "admins", references: :users, default: [], array: true
@@ -62,7 +62,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
     end
 
     add_foreign_key :messages, :chats, column: :chat_id
-
+    add_foreign_key :channels, :users, column: :user_id
   end
 
   def down

@@ -21,7 +21,8 @@ let friendsView = Backbone.View.extend({
     initialize(id) {
         console.log('friendsView initialize')
         this.$el = $('#user-friends-data')
-        this.model = new userFriends({user_id: id})
+        this.user_id = id
+        this.model = new userFriends({user_id: this.user_id})
         this.template = _.template($('script[name="user_friends_template"]').html())
         this.update()
     },
@@ -32,7 +33,7 @@ let friendsView = Backbone.View.extend({
     },
 
     render() {
-        this.$el.html(this.template({ 'user_friends': this.model.toJSON() }))
+        this.$el.html(this.template({ 'user_friends': this.model.toJSON(), 'current_user': this.user_id }))
         return this
     }
 

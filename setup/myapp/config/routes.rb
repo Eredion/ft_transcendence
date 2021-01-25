@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       member do
         get :show_friends
         get :show_blockeds
+        delete :delete_friend
       end
     end
     resources :chats

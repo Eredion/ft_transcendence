@@ -18,7 +18,10 @@ let profileView = Backbone.View.extend({
         "submit #edit-user-form": "editUserForm",
         "click #addFriend": "addFriend",
         "click #blockUser": "blockUser",
-        "click .unblock-btn": "unblockUser"
+        "click .unblock-btn": "unblockUser",
+        "click .unfriend-btn": "unfriendUser",
+        "click .accept-req": "acceptFriendReq",
+        "click .decline-req": "declineFriendReq"
     },
 
     async initialize(id) {
@@ -117,6 +120,57 @@ let profileView = Backbone.View.extend({
             Helper.custom_alert('danger', response['error'])
         } else {
             this.blockview.update()
+            Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    async acceptFriendReq(e) {
+        e.preventDefault()
+        console.log('Accept Friend Request call!')
+        var formData = {
+            id: $(e.currentTarget).data().requestId,
+            requestor_id: $(e.currentTarget).data().userfriendId,
+            receiver_id:  Helper.userId(),
+            status: 'accepted'
+        }
+        var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            this.friendsview.update()
+            this.friendReqview.update()
+            Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    async declineFriendReq(e) {
+        e.preventDefault()
+        console.log('Decline Friend Request call!')
+        var formData = {
+            id: $(e.currentTarget).data().requestId,
+            requestor_id: $(e.currentTarget).data().userfriendId,
+            receiver_id:  Helper.userId(),
+            status: 'denied'
+        }
+        var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            this.friendsview.update()
+            this.friendReqview.update()
+            Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    async unfriendUser(e) {
+        e.preventDefault()
+        console.log('unfriendUser call!')
+        var formData = { user_id: $(e.currentTarget).data().userfriendId }
+        var response = await Helper.ajax('DELETE', 'api/users/' + Helper.userId() + '/delete_friend', formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            this.friendsview.update()
             Helper.custom_alert('success', response['success'])
         }
     },

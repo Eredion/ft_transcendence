@@ -15,6 +15,10 @@ class Api::FriendRequestsController < ApplicationController
 
     def create
         ufriend = User.find_by(id: params[:friend_request][:receiver_id])
+        freq = FriendRequest.find_by(requestor_id: params[:friend_request][:requestor_id], receiver_id: params[:friend_request][:receiver_id], status: 'pending')
+        if freq
+            return render json: { "error": "Friend request already sended." }
+        end
         if params[:friend_request][:requestor_id].to_i == current_user.id && ufriend && ufriend.id != current_user.id
             if current_user.friends.include?(ufriend.id)
                 return render json: { "error": ufriend.nickname + " is already your friend." }
@@ -29,11 +33,20 @@ class Api::FriendRequestsController < ApplicationController
     end
 
     def update
-        freq = FriendRequest.find_by(id: params[:freq_id])
-        if freq && params[:id].to_i == current_user.id
-            freq.status = params[:status]
-            freq.save!
-            return
+        freq = FriendRequest.find_by(id: params[:id], status: 'pending')
+        if freq && freq.receiver_id == params[:receiver_id].to_i \
+                && freq.requestor_id == params[:requestor_id].to_i \
+                && params[:receiver_id].to_i == current_user.id
+            if params[:status] == 'accepted'
+                freq.status = params[:status]
+                freq.save!
+                return render json: { "success": "User added to your friends." }
+            elsif params[:status] == 'denied'
+                freq.status = params[:status]
+                freq.save!
+                return render json: { "success": "User not added to your friends." }
+            end
+            return render json: { "error": "Something has gone wrong." }
         end
         render json: { "error": "Forbidden." }
     end

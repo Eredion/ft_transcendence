@@ -17,6 +17,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :channel, index:true, optional: true
       t.belongs_to "user"
       t.string "author"
+      t.string "channelname", optional: true
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end

@@ -12,7 +12,12 @@ class Api::MessagesController < ApplicationController
         if (params[:content] == "")
             return
         end
-        msg = Messages.new(message_params)
+        msg = Message.new(message_params)
+        msg.user_id = params[:user_id]
+        msg.author = User.find_by(id: params[:user_id]).nickname
+        msg.channel_id = params[:channel_id]
+        msg.channelname = Channel.find_by(id: params[:channel_id]).name
+        puts("LLEGA")
         if msg.save()
             ActionCable.server.broadcast 'channel_messages_channel', msg
         else

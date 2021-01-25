@@ -1,43 +1,11 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import Backbone from 'backbone'
-import userscollection from '../models/user.js'
 import Helper from '../Helper'
-
-let BlockedUsers = Backbone.Model.extend({
-
-    parse (response) {
-        return { data: JSON.parse(response.success) }
-    },
-
-    initialize(options) {
-        this.uid = options.user_id
-        this.urlRoot = 'users/' + this.uid + '/show_blocks'
-    }
-
-});
-
-let blockedsView = Backbone.View.extend({
-    
-    initialize(id) {
-        this.$el = $('#blocked-users-data')
-        console.log('blockedsView initialize')
-        this.model = new BlockedUsers({user_id: id})
-        this.template = _.template($('script[name="blocked_users_template"]').html())
-        this.update()
-    },
-
-    async update() {
-        await Helper.fetch(this.model)
-        this.render()
-    },
-
-    render() {
-        this.$el.html(this.template({ 'blocked_users': this.model.toJSON() }))
-        return this
-    }
-
-});
+import userscollection from '../models/user.js'
+import blockedsView from './profile/blockedsView'
+import friendsView from './profile/friendsView'
+import friendRequestsView from './profile/friendRequestView'
 
 let profileView = Backbone.View.extend({
 
@@ -50,7 +18,10 @@ let profileView = Backbone.View.extend({
         "submit #edit-user-form": "editUserForm",
         "click #addFriend": "addFriend",
         "click #blockUser": "blockUser",
-        "click .unblock-btn": "unblockUser"
+        "click .unblock-btn": "unblockUser",
+        "click .unfriend-btn": "unfriendUser",
+        "click .accept-req": "acceptFriendReq",
+        "click .decline-req": "declineFriendReq"
     },
 
     async initialize(id) {
@@ -64,8 +35,10 @@ let profileView = Backbone.View.extend({
     render() {
         this.user = this.collection.get(this.user_id);
         $("#content").html(this.template({'user': this.user.toJSON()}));
+        this.friendsview = new friendsView(this.user_id);
         if (Helper.userId() == this.user_id) {
-            this.blckview = new blockedsView(this.user_id);
+            this.blockview = new blockedsView(this.user_id);
+            this.friendReqview = new friendRequestsView(this.user_id);
         }
         return this;
     },
@@ -111,8 +84,21 @@ let profileView = Backbone.View.extend({
         })
     },
 
-    addFriend(e) {
+    async addFriend(e) {
         console.log("Addfriend Event call!")
+        e.preventDefault()
+        var formData = {
+            friend_request: {
+                requestor_id: Helper.userId(),
+                receiver_id: $(e.currentTarget).data().userfriendId
+            }
+        }
+        var response = await Helper.ajax('POST', 'api/friend_requests', formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            Helper.custom_alert('success', response['success'])
+        }
     },
 
     async blockUser(e) {
@@ -133,14 +119,71 @@ let profileView = Backbone.View.extend({
         if (response['error']) {
             Helper.custom_alert('danger', response['error'])
         } else {
-            this.blckview.update()
+            this.blockview.update()
+            Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    async acceptFriendReq(e) {
+        e.preventDefault()
+        console.log('Accept Friend Request call!')
+        var formData = {
+            id: $(e.currentTarget).data().requestId,
+            requestor_id: $(e.currentTarget).data().userfriendId,
+            receiver_id:  Helper.userId(),
+            status: 'accepted'
+        }
+        var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            this.friendsview.update()
+            this.friendReqview.update()
+            Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    async declineFriendReq(e) {
+        e.preventDefault()
+        console.log('Decline Friend Request call!')
+        var formData = {
+            id: $(e.currentTarget).data().requestId,
+            requestor_id: $(e.currentTarget).data().userfriendId,
+            receiver_id:  Helper.userId(),
+            status: 'denied'
+        }
+        var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            this.friendsview.update()
+            this.friendReqview.update()
+            Helper.custom_alert('success', response['success'])
+        }
+    },
+
+    async unfriendUser(e) {
+        e.preventDefault()
+        console.log('unfriendUser call!')
+        var formData = { user_id: $(e.currentTarget).data().userfriendId }
+        var response = await Helper.ajax('DELETE', 'api/users/' + Helper.userId() + '/delete_friend', formData)
+        if (response['error']) {
+            Helper.custom_alert('danger', response['error'])
+        } else {
+            this.friendsview.update()
             Helper.custom_alert('success', response['success'])
         }
     },
 
     undelegateChildViews() {
-        if (this.blckview) {
-            this.blckview.undelegateEvents()
+        if (this.blockview) {
+            this.blockview.undelegateEvents()
+        }
+        if (this.friendsview) {
+            this.friendsview.undelegateEvents()
+        }
+        if (this.friendReqview) {
+            this.friendReqview.undelegateEvents()
         }
     }
 

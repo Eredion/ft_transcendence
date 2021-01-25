@@ -33,6 +33,12 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "messages", default: [], array: true
   end
 
+  create_table "friend_requests", force: :cascade do |t|
+    t.integer "requestor_id", null: false
+    t.integer "receiver_id", null: false
+    t.string "status", default: "pending", null: false
+  end
+
   create_table "guilds", force: :cascade do |t|
     t.string "title"
     t.integer "score"

@@ -42,7 +42,13 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.index ["nickname"], name: "index_users_on_nickname", unique: true
       t.index ["uid"], name: "index_users_on_uid"
     end
-    
+
+    create_table "friend_requests" do |t|
+      t.integer "requestor_id", null: false
+      t.integer "receiver_id", null: false
+      t.string "status", default: "pending", null: false
+    end
+
     create_table "chats" do |t|
       t.string "name", null: false, unique: true
       t.string "users", default: [], array: true

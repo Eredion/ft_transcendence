@@ -24,7 +24,13 @@
             
         </div>
         
-        <div class="col-sm"><h1 class="title">Chats</h1></div>
+        <div class="col-sm">
+            <h1 class="title">Chats</h1>
+            <div id="channel_view" class="bg-dark overflow-auto">
+
+            </div>
+        </div>
+        
     </div>
 </script>
 
@@ -32,11 +38,21 @@
     <div class="bg-secondary" id = "available-channel-buttons">
         <%% for (let i = 0; i < channels.length; i++){ %>
         <div>
-            <button type="button" class="btn btn-danger btn-sm" id="online-user-button">
+        <%% const url = "#channels/" + channels[i].name; %>
+            <a  class="btn btn-danger btn-sm" id="online-user-button" href=<%%= url %>>
                 <%%= channels[i].name %>
 
-            </button>
+            </a>
         </div>
         <%% }; %>
     <div>
+</script>
+
+<script id="channel_view_template" type='text/template'>
+    <%% for (msg of messages) {%>
+        <div class="channel_message bg-light p-2">
+            <div class="message_author d-inline text-primary"><%%= msg.author%>:</div>
+            <div class="message_content d-inline text-dark"><%%= msg.content %></div>
+        </div>
+    <%% };%>
 </script>

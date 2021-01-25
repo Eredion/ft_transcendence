@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.bigint "chat_id"
     t.bigint "channel_id"
     t.bigint "user_id"
+    t.string "author"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["channel_id"], name: "index_messages_on_channel_id"
@@ -78,5 +79,6 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   end
 
   add_foreign_key "channels", "users"
+  add_foreign_key "messages", "channels"
   add_foreign_key "messages", "chats"
 end

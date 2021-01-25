@@ -16,6 +16,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :chat, index: true, optional: true
       t.references :channel, index:true, optional: true
       t.belongs_to "user"
+      t.string "author"
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
@@ -62,6 +63,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
     end
 
     add_foreign_key :messages, :chats, column: :chat_id
+    add_foreign_key :messages, :channels, column: :channel_id
     add_foreign_key :channels, :users, column: :user_id
   end
 

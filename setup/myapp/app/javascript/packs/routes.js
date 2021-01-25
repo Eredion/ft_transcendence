@@ -55,7 +55,8 @@ class Workspace extends Backbone.Router {
             "sign_in": "userSignin",
             "sign_up": "userSignup",
             "users/:id": "userProfile",
-            "channels": "channels",
+            "channels/": "channels",
+            "channels/:name": "channels",
         }
     }
 
@@ -70,7 +71,6 @@ class Workspace extends Backbone.Router {
 
         this.chatview = new chatView();
         this.chatview.render();
-
         //var online_users = new userList()
         //let conversview = new conversView();
         //conversview.setName("1-2");
@@ -79,11 +79,27 @@ class Workspace extends Backbone.Router {
         //conversview.setName("default");
     }
 
-    channels(){
-        console.log("channel route")
+
+    channel(){
+        console.log("channel route");
         this.channelView = new channelsView();
         this.channelView.render();
     }
+    
+    channels(name){
+        console.log("channel route")
+        console.log(name);
+        this.channelView = new channelsView();
+        
+        if (name != "default")
+            this.channelView.render_channel(name);
+        else
+            this.channelView.render();
+        
+    }
+
+
+ 
 
 
     userSignin() {

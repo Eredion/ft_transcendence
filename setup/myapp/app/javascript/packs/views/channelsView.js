@@ -24,6 +24,34 @@ let channelsView = Backbone.View.extend({
         });
     },
 
+    async render_channel(name) {
+        let self = this;
+        $(`a[href="#channels/${name}"]`).removeClass('border border-success');
+        await Helper.fetch(self.collection).then(function() {
+            console.log(`rendering channel ${name}`);
+            $('#channel-name-title').text(name);
+            let template = _.template($("#channel_view_template").html())
+            let channel = channelcol.where({name: name})[0];
+            console.log(channel.get("name"));
+            let output = template({'messages':channel.get("messages")});
+            $('#channel_view').html(output);
+
+            let input_template = _.template($('#channel-msg-input-template').html());
+            let output2 = input_template({'channel': channel});
+            $('#msg-input-form-wrapper').html(output2);
+            // input-msg-channel-form
+            $('#send-message-button').click(function(){
+                setTimeout(function(){
+                    $('#input-msg-channel-form').val("");
+                    self.render_channel(name);
+                }, 300);
+
+            });
+            
+        });
+        return this;
+    },
+
     render_list() {
         console.log("RENDER LIST");
         this.fetchcol();
@@ -42,7 +70,7 @@ let channelsView = Backbone.View.extend({
                 $('.create-channel-input').val("");
                 self.render_list();
         }, 300);
-            
+        
         });
         return this;
     },

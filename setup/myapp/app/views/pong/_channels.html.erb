@@ -7,7 +7,9 @@
             </div>
             <div class="form-group mb-2 bg-secondary" id="create-channel-input-wrapper">
                 <%= form_with url: "api/channels", method: :create do |form| %>
-                        <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+", class:"create-channel-input")%>
+                        <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+",
+                            placeholder: "Channel Name", autocomplete: :off, class:"create-channel-input")%>
+                        <%= form.hidden_field :user, value: current_user.id %>
                         
                         <%= form.submit "Create", id: "create-channel-button", class: "btn btn-danger" %>
                         <button type="button" class="btn btn-dark" id="reload-channels-button">
@@ -22,7 +24,14 @@
             
         </div>
         
-        <div class="col-sm"><h1 class="title">Chats</h1></div>
+        <div class="col-sm">
+            <h1 class="title" id="channel-name-title">Channel</h1>
+            <div id="channel_view" class="bg-dark overflow-auto">
+
+            </div>
+            <div id="msg-input-form-wrapper"></div>
+        </div>
+        
     </div>
 </script>
 
@@ -30,11 +39,34 @@
     <div class="bg-secondary" id = "available-channel-buttons">
         <%% for (let i = 0; i < channels.length; i++){ %>
         <div>
-            <button type="button" class="btn btn-danger btn-sm" id="online-user-button">
+        <%% const url = "#channels/" + channels[i].name; %>
+            <a  class="btn btn-danger btn-sm" id="online-user-button" href=<%%= url %>>
                 <%%= channels[i].name %>
 
-            </button>
+            </a>
         </div>
         <%% }; %>
     <div>
+</script>
+
+<script id="channel_view_template" type='text/template'>
+    <%% for (msg of messages) {%>
+        <div class="channel_message bg-light p-2">
+            <div class="message_author d-inline text-primary"><%%= msg.author %>:</div>
+            
+            <div class="message_content d-inline text-dark"><%%= msg.content %></div>
+        </div>
+    <%% };%>
+</script>
+
+<script id="channel-msg-input-template" type='text/template'>
+    <%= form_with url: "api/messages", id: "msg-input-form",method: :create do |form| %>
+                        <%= text_field(:message, :content, minlength: 1, maxlength: 280,
+                            placeholder: "Type here...", autocomplete: :off,  class:"create-channel-input", id:"input-msg-channel-form") %>
+                        <%= form.hidden_field :user_id, value: current_user.id %>
+                        <%%= `<input id="hiddenfield" value="${channel.id}"type="hidden" name="channel_id">` %>
+                        <%= form.submit "Send", id: "send-message-button", class: "btn btn-primary" %>
+                        
+    <% end %>
+    <%% $('#hiddenfield').val(channel.id); %>
 </script>

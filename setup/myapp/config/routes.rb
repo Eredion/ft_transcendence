@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       delete :unblock_user
     end
   end
-  post 'messages', to: 'messages#create'
   resources :chats, only: [:create]
   
   namespace :api do

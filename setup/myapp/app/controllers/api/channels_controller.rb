@@ -12,13 +12,12 @@ class Api::ChannelsController < ApplicationController
     def create
         puts("channel controller create")
         channel = Channel.new(channel_params)
+        channel.user_id = params[:user]
         if channel.name.length < 2
             return 
         end
         channel.category= "public"
         if channel.save
-            puts(Channel.all.length)
-            puts("GUARDA")
             send_connected_channel(channel)
         else
             puts(Rails.logger.info(channel.errors.inspect))
@@ -33,6 +32,6 @@ class Api::ChannelsController < ApplicationController
 
     private
     def channel_params
-        params.require(:channel).permit(:name, :category)
+        params.require(:channel).permit(:name, :category, :user)
     end
 end

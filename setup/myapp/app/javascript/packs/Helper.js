@@ -60,4 +60,20 @@ Helper.current_user = () => {
     return $('#nav-nickname-user').text();
 };
 
+Helper.notification = (title, content) => {
+    var notification = document.createElement('div')
+    var random_id = 'aid-' + Math.random().toString().substr(2) // generate random id and removes the first two chars (0.)
+    notification.setAttribute('id', random_id)
+    notification.classList.add('alert', 'notification', 'displaystyle-leftborder-info')
+    notification.innerHTML =
+        '<div class="row ml-2 justify-content-between align-items-center">' +
+            '<p class="h5 text-info">' + title + '</p>' +
+            '<span>' +
+                '<a class="close" data-dismiss="alert" href="#">&times;</a>' +
+            '</span>' +
+        '</div>' +
+        '<p>' + content + '</p>';
+    document.getElementsByClassName('notification-container')[0].appendChild(notification)
+};
+
 export default Helper;

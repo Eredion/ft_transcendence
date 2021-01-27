@@ -1,34 +1,52 @@
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div>
-        <a class="navbar-brand" href="/users/<%= current_user.id %>">
-            <img class="img-avatar rounded-circle img-fluid" id="nav-avatar-user" src="<%= current_user.avatar.thumb.url %>"/>
-        </a>
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="navbar-brand" href="/users/<%= current_user.id %>">
+                    <img class="img-avatar rounded-circle img-fluid" id="nav-avatar-user" src="<%= current_user.avatar.thumb.url %>"/>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="navbar-brand" href="/users/<%= current_user.id %>" id="nav-nickname-user"><%= current_user.nickname %></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#">Home 🏠</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#users/<%= current_user.id %>">Profile 👤</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/#">Guilds 👥</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#chat">Direct Messages ✉️</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#channels/default">Chat Rooms 🗣️</a>
+            </li>
+            <li class="nav-item">
+                <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: 'Are you sure?'}, class: 'nav-link' %>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="btn btn-primary" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right notify-drop">
+                    <div class="notify-drop-title">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">Notifications</div>
+                        </div>
+                    </div>
+                    <div class="drop-content" id="notifications-menu">
+                    </div>
+                    <div class="notify-drop-footer">
+                    </div>
+                </ul>
+            </li>
+        </ul>
     </div>
-    
-    
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="navbar-brand" href="/users/<%= current_user.id %>" id="nav-nickname-user"><%= current_user.nickname %></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/#">Home 🏠</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/#users/<%= current_user.id %>">Profile 👤</a>
-        </li>
-        
-        <li class="nav-item">
-            <a class="nav-link" href="/#">Guilds 👥</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/#chat">Direct Messages ✉️</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/#channels/default">Chat Rooms 🗣️</a>
-        </li>
-        <li class="nav-item">
-            <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: 'Are you sure?'}, class: 'nav-link' %>
-        </li>
-    </ul>
 </nav>

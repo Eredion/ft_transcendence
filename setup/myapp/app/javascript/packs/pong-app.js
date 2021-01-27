@@ -1,6 +1,7 @@
 import Backbone from "backbone"
 import Workspace from "./routes.js"
 import $ from "jquery"
+import Notification from "./views/notificationView"
 
 $.ajaxPrefilter( function( options ) {
     options.url = 'http://127.0.0.1/' + options.url;
@@ -34,6 +35,7 @@ class App {
         if (Backbone.History.started === false) {
             Backbone.history.start();
         }
+        Notification.view.render() // Global view
     }
 
     navigate (url) {

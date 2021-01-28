@@ -1,6 +1,8 @@
 import Backbone from "backbone"
 import Workspace from "./routes.js"
 import $ from "jquery"
+import Notification from "./views/notificationView"
+import Helper from "./Helper.js";
 
 $.ajaxPrefilter( function( options ) {
     options.url = 'http://127.0.0.1/' + options.url;

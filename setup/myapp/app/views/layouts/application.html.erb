@@ -11,7 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Righteous&display=swap" rel="stylesheet">
 
-    
+    <%# Se tiene que cargar antes que la app de backbone para que funcione la vista global. %>
+    <% if user_signed_in? %>
+      <%= render "notifications" %>
+    <% end %>
+
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application' %>
 
@@ -27,6 +31,9 @@
       <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
 
     <%= yield %>
+
+    <div class="notification-container">
+    </div>
 
     <div class="footer mt-auto bg-dark text-center text-white" id="footer">
       <footer>Developed by @asegovia @darodrig @aserrano @pcuadrad at 42 Madrid</footer>

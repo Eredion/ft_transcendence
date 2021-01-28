@@ -17,4 +17,8 @@ class User < ApplicationRecord
       user.nickname = auth.info.nickname
     end
   end
+
+  def send_notification(type, requestor, content)
+    ActionCable.server.broadcast( "notification_#{self.id}", { type: type, data: content, from: requestor } )
+  end
 end

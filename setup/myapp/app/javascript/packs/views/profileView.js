@@ -5,7 +5,6 @@ import Helper from '../Helper'
 import userscollection from '../models/user.js'
 import blockedsView from './profile/blockedsView'
 import friendsView from './profile/friendsView'
-import friendRequestsView from './profile/friendRequestView'
 
 let profileView = Backbone.View.extend({
 
@@ -20,8 +19,6 @@ let profileView = Backbone.View.extend({
         "click #blockUser": "blockUser",
         "click .unblock-btn": "unblockUser",
         "click .unfriend-btn": "unfriendUser",
-        "click .accept-req": "acceptFriendReq",
-        "click .decline-req": "declineFriendReq"
     },
 
     async initialize(id) {
@@ -38,7 +35,6 @@ let profileView = Backbone.View.extend({
         this.friendsview = new friendsView(this.user_id);
         if (Helper.userId() == this.user_id) {
             this.blockview = new blockedsView(this.user_id);
-            this.friendReqview = new friendRequestsView(this.user_id);
         }
         return this;
     },
@@ -120,44 +116,6 @@ let profileView = Backbone.View.extend({
             Helper.custom_alert('danger', response['error'])
         } else {
             this.blockview.update()
-            Helper.custom_alert('success', response['success'])
-        }
-    },
-
-    async acceptFriendReq(e) {
-        e.preventDefault()
-        console.log('Accept Friend Request call!')
-        var formData = {
-            id: $(e.currentTarget).data().requestId,
-            requestor_id: $(e.currentTarget).data().userfriendId,
-            receiver_id:  Helper.userId(),
-            status: 'accepted'
-        }
-        var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
-        if (response['error']) {
-            Helper.custom_alert('danger', response['error'])
-        } else {
-            this.friendsview.update()
-            this.friendReqview.update()
-            Helper.custom_alert('success', response['success'])
-        }
-    },
-
-    async declineFriendReq(e) {
-        e.preventDefault()
-        console.log('Decline Friend Request call!')
-        var formData = {
-            id: $(e.currentTarget).data().requestId,
-            requestor_id: $(e.currentTarget).data().userfriendId,
-            receiver_id:  Helper.userId(),
-            status: 'denied'
-        }
-        var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
-        if (response['error']) {
-            Helper.custom_alert('danger', response['error'])
-        } else {
-            this.friendsview.update()
-            this.friendReqview.update()
             Helper.custom_alert('success', response['success'])
         }
     },

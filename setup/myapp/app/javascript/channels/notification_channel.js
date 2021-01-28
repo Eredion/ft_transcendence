@@ -1,5 +1,6 @@
 import consumer from "./consumer"
 import Helper from "../packs/Helper"
+import Notification from "../packs/views/notificationView"
 
 consumer.subscriptions.create({
     channel: "NotificationChannel"
@@ -18,6 +19,11 @@ consumer.subscriptions.create({
   received(data) {
     // Called when there's incoming data on the websocket for this channel
     console.log('received function from notification_channel.js')
-    Helper.notification(data['title'], data['body']);
+    Helper.notification();
+    let format = data['data']
+    if (data['type'] == 'Friend Request') {
+      format["nickname"] = data['from']
+    }
+    Notification.view.addNotification(format)
   }
 });

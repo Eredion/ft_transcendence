@@ -18,7 +18,7 @@ class User < ApplicationRecord
     end
   end
 
-  def send_notification(title, content)
-    ActionCable.server.broadcast( "notification_#{self.id}", { title: title, body: content } )
+  def send_notification(type, requestor, content)
+    ActionCable.server.broadcast( "notification_#{self.id}", { type: type, data: content, from: requestor } )
   end
 end

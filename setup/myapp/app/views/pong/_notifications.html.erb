@@ -1,16 +1,43 @@
 <script type="text/template" name="notification_template">
-    <li class="dropdown-item">
-        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0 d-flex">
-            <div class="col">
-                <div class="notify-img">
-                    <img src="http://placehold.it/45x45" alt="">
+    <li class="dropdown">
+        <a href="#" class="btn btn-primary notification-bell" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-bell" aria-hidden="true"></i>
+            <span class="badge"><%%= _.size( notifications ) %></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right notify-drop">
+            <div class="notify-drop-title">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">Notifications</div>
                 </div>
             </div>
-            <div class="col">
-                <p><a href="#">Marvin</a> wants to be your friend.</p>
-                <button type="button" class="btn btn-primary btn-sm">Accept</button>
-                <button type="button" class="btn btn-danger btn-sm">Decline</button>
+            <div class="drop-content">
+            <%% if (_.size( notifications ) > 0) { %>
+
+                <%% _.each( notifications, function(notification) { %>
+                    <li class="dropdown-item">
+                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0 d-flex">
+                            <div class="col text-center">
+                                <p class="h6 text-secondary">Friend request from <a href="/#users/<%%= notification.requestor_id %>"><%%= notification.nickname %></a>.</p>
+                                <div class="ml-3">
+                                    <button class="btn btn-primary btn-sm friend-request" data-request-id="<%%= notification.id %>" data-action="accepted" data-userfriend-id="<%%= notification.requestor_id %>">Accept</button>
+                                    <button class="btn btn-danger btn-sm friend-request" data-request-id="<%%= notification.id %>" data-action="denied" data-userfriend-id="<%%= notification.requestor_id %>">Decline</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <%% }) %>
+
+            <%% } else { %>
+
+                <li class="dropdown-item text-center">
+                    <p class="h6 text-secondary">No new notifications.</p>
+                </li>
+
+            <%% } %>
             </div>
-        </div>
+            <div class="notify-drop-footer">
+            </div>
+        </ul>
     </li>
+
 </script>

@@ -30,23 +30,7 @@
                 <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, data: {confirm: 'Are you sure?'}, class: 'nav-link' %>
             </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="btn btn-primary" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-bell" aria-hidden="true"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right notify-drop">
-                    <div class="notify-drop-title">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6">Notifications</div>
-                        </div>
-                    </div>
-                    <div class="drop-content" id="notifications-menu">
-                    </div>
-                    <div class="notify-drop-footer">
-                    </div>
-                </ul>
-            </li>
+        <ul class="nav navbar-nav navbar-right" id="notifications-menu">
         </ul>
     </div>
 </nav>

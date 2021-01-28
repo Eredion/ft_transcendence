@@ -235,6 +235,16 @@ body {
     border-color: #45ABCD;
 }
 
+.notification-bell .badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 30%;
+    background: red;
+    color: white;
+}
+
 .navbar-dark .dropdown-menu.notify-drop {
     min-width: 330px;
     background-color: #fff;

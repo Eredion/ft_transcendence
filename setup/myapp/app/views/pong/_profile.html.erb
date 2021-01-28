@@ -10,15 +10,6 @@
                 <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
             <% end %>
 
-            <div class="card text-center mx-auto mt-3">
-                <div class="card-body">
-                    <p class="h5 card-title text-info">Notifications</p>
-                    <hr/>
-                    <div id="friend-requests-data" class="notification_list">
-                    </div>
-                </div>
-            </div>
-
         <%% } %>
         </div>
         <div class="col-6 mt-4">
@@ -217,22 +208,6 @@
                         <button class="btn btn-danger unfriend-btn" data-userfriend-id="<%%= user.id %>" >&times</button>
                     </span>
                 <%% } %>
-            </li>
-        <%% }) %>
-    </ul>
-    
-</script>
-
-<script type="text/template" name="friend_requests_template">
-
-    <ul class="list-group">
-        <%% _.each( friend_requests.data, function(request) { %>
-            <li class="list-group-item list-group-item-info" >
-                <p>Friend request from <a href="/#users/<%%= request.requestor_id %>"><%%= request.nickname %></a></p>
-                <span class="row justify-content-between">
-                    <button class="btn btn-primary accept-req" data-request-id="<%%= request.id %>" data-userfriend-id="<%%= request.requestor_id %>">Accept</button>
-                    <button class="btn btn-danger decline-req" data-request-id="<%%= request.id %>" data-userfriend-id="<%%= request.requestor_id %>">Decline</button>
-                </span>
             </li>
         <%% }) %>
     </ul>

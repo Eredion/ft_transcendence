@@ -17,7 +17,10 @@
                 <%% if ($('html').data().userId === user.id) { %>
                     <div class="row">
                         <div class="col text-right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">Edit</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">
+                            Edit
+                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                 <%% } %>
@@ -38,7 +41,43 @@
                     </div>
                 </div>
             </div>
-            <div class="card mx-auto align-bottom">
+            <div class="row flex">
+                <div class="card mx-auto bg-info profile-status" style="width: 7rem">
+                    <div class="card-body text-center">
+                        <div class="tooltips">
+                            <i class="fa fa-rss fa-2" aria-hidden="true"></i>
+                            <span class="tooltiptext">status</span>
+                        </div>
+                        <div>
+                            <p class="h5 text-white card-text">
+                            <%% if (user.status === 0) { %>
+                                Offline
+                            <%% } else { %>
+                                Online 
+                            <%% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mx-auto bg-info profile-status" style="width: 7rem">
+                    <div class="card-body text-center">
+                        <div class="tooltips">
+                            <i class="fa fa-users fa-2" aria-hidden="true"></i>
+                            <span class="tooltiptext">guild</span>
+                        </div>
+                        <div>
+                            <p class="h5 text-white card-text">
+                            <%% if (user.guild_id === null) { %>
+                                #
+                            <%% } else { %>
+                                Guild Name 
+                            <%% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mx-auto align-bottom mt-5">
                 <div class="card-body text-center">
                     <p class="h5 card-title text-info">Last Matches</p>
                     <hr/>

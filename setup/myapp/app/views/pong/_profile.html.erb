@@ -1,90 +1,9 @@
-<script type="text/template" name="userProfile">
-    <div class="row">
-        <div class="col-3 mt-3 text-center">
-            <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= user.avatar.medium.url %>"/>
-
-        <%% if ($('html').data().userId === user.id) { %>
-
-            <%= form_tag update_avatar_user_url(current_user), id: 'avatar-form', :method => :post, multipart: true, remote: true do %>
-                <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'avatarFileInput' %>
-                <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
-            <% end %>
-
-        <%% } %>
+<script type="text/template" id="user_profile_template">
+    <div class="row mt-4 flex">
+        <div class="col-9" id="user_info">
+        <!-- user_info_template -->
         </div>
-        <div class="col-6 mt-4">
-            <div class="p-5">
-                <%% if ($('html').data().userId === user.id) { %>
-                    <div class="row">
-                        <div class="col text-right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">
-                            Edit
-                            <i class="fa fa-wrench" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                <%% } %>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="h4 text-info">Nickname</p>
-                    </div>
-                    <div class="col-4 text-center">
-                        <p class="h5 text-white" id="user-nickname"><%%= user.nickname %></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="h4 text-info">Name</p>
-                    </div>
-                    <div class="col-4 text-center">
-                        <p class="h5 text-white" id="user-name"><%%= user.name %></p>
-                    </div>
-                </div>
-            </div>
-            <div class="row flex">
-                <div class="card mx-auto bg-info profile-status" style="width: 7rem">
-                    <div class="card-body text-center">
-                        <div class="tooltips">
-                            <i class="fa fa-rss fa-2" aria-hidden="true"></i>
-                            <span class="tooltiptext">status</span>
-                        </div>
-                        <div>
-                            <p class="h5 text-white card-text">
-                            <%% if (user.status === 0) { %>
-                                Offline
-                            <%% } else { %>
-                                Online 
-                            <%% } %>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mx-auto bg-info profile-status" style="width: 7rem">
-                    <div class="card-body text-center">
-                        <div class="tooltips">
-                            <i class="fa fa-users fa-2" aria-hidden="true"></i>
-                            <span class="tooltiptext">guild</span>
-                        </div>
-                        <div>
-                            <p class="h5 text-white card-text">
-                            <%% if (user.guild_id === null) { %>
-                                #
-                            <%% } else { %>
-                                Guild Name 
-                            <%% } %>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mx-auto align-bottom mt-5">
-                <div class="card-body text-center">
-                    <p class="h5 card-title text-info">Last Matches</p>
-                    <hr/>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 mt-4">
+        <div class="col-3">
             <%% if ($('html').data().userId !== user.id) { %>
                 <div class="row mb-3">
                     <div class="col">
@@ -95,7 +14,7 @@
                     </div>
                 </div>
             <%% } %>
-            <div class="card text-center mx-auto mb-3" style="width: 18rem;">
+            <div class="card text-center mx-auto mb-3">
                 <div class="card-body">
                     <p class="h5 card-title text-info">Stats</p>
                     <hr/>
@@ -135,7 +54,9 @@
             </div>
             <div class="card text-center mx-auto mb-3" style="width: 18rem;">
                 <div class="card-body">
-                    <p class="h5 card-title text-info">Friends</p>
+                    <p class="h5 card-title text-info">Friends
+                    <i class="fa fa-users fa-2" aria-hidden="true"></i>
+                    </p>
                     <hr/>
                     <div class="mx-auto text-center">
                         <div id="user-friends-data" class="scroll_list">
@@ -211,7 +132,96 @@
     </script>
 </script>
 
-<script type="text/template" name="blocked_users_template">
+<script type="text/template" id="user_info_template">
+<div class="row flex">
+    <div class="col-4 text-center">
+        <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= user.avatar.medium.url %>"/>
+
+        <%% if ($('html').data().userId === user.id) { %>
+
+            <%= form_tag update_avatar_user_url(current_user), id: 'avatar-form', :method => :post, multipart: true, remote: true do %>
+                <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'avatarFileInput' %>
+                <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
+            <% end %>
+
+        <%% } %>
+    </div>
+    <div class="col-8">
+        <div class="p-5">
+            <%% if ($('html').data().userId === user.id) { %>
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">
+                        Edit
+                        <i class="fa fa-wrench" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            <%% } %>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h4 text-info">Nickname</p>
+                </div>
+                <div class="col-4 text-center">
+                    <p class="h5 text-white" id="user-nickname"><%%= user.nickname %></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p class="h4 text-info">Name</p>
+                </div>
+                <div class="col-4 text-center">
+                    <p class="h5 text-white" id="user-name"><%%= user.name %></p>
+                </div>
+            </div>
+        </div>
+        <div class="row flex">
+            <div class="card mx-auto bg-info profile-status" style="width: 7rem">
+                <div class="card-body text-center">
+                    <div class="tooltips">
+                        <i class="fa fa-rss fa-2" aria-hidden="true"></i>
+                        <span class="tooltiptext">status</span>
+                    </div>
+                    <div>
+                        <p class="h5 text-white card-text">
+                        <%% if (user.status === 0) { %>
+                            Offline
+                        <%% } else { %>
+                            Online 
+                        <%% } %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card mx-auto bg-info profile-status" style="width: 7rem">
+                <div class="card-body text-center">
+                    <div class="tooltips">
+                        <i class="fa fa-university fa-2" aria-hidden="true"></i>
+                        <span class="tooltiptext">guild</span>
+                    </div>
+                    <div>
+                        <p class="h5 text-white card-text">
+                        <%% if (user.guild_id === null) { %>
+                            #
+                        <%% } else { %>
+                            Guild Name 
+                        <%% } %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mx-auto align-bottom mt-5">
+            <div class="card-body text-center">
+                <p class="h5 card-title text-info">Last Matches</p>
+                <hr/>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+<script type="text/template" id="blocked_users_template">
 
     <ul class="list-group list-group-flush">
         <%% _.each( blocked_users.data, function(user) { %>
@@ -231,17 +241,24 @@
     
 </script>
 
-<script type="text/template" name="user_friends_template">
+<script type="text/template" id="user_friends_template">
 
     <ul class="list-group list-group-flush">
         <%% _.each( user_friends.data, function(user) { %>
             <li class="list-group-item d-flex justify-content-between align-items-center" >
                 <a href="/#users/<%%= user.id %>">
-                    <span>
+                    <span class="icon-container">
                         <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                        <%% if (user.status === 0) { %>
+                            <div class="status-circle offline">
+                            </div>
+                        <%% } else { %>
+                            <div class="status-circle online">
+                            </div>
+                        <%% } %>
                     </span>
-                    <%%= user.nickname %>
                 </a>
+                    <p class="text-dark"><%%= user.nickname %></p>
                 <%% if ($('html').data().userId == current_user) { %>
                     <span>
                         <button class="btn btn-danger unfriend-btn" data-userfriend-id="<%%= user.id %>" >&times</button>

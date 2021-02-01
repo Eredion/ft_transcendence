@@ -22,17 +22,19 @@
   </head>
 
   <body class="d-flex flex-column min-vh-100">
-    <% flash.each do |type, msg| %>
-      <div class="alert alert-info">
-        <%= msg %>
-      </div>
-    <% end %>
 
-      <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
+    <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
 
     <%= yield %>
 
     <div class="notification-container">
+    </div>
+
+    <div class="tooltips">
+      <button class='flotante btn btn-info btn-circle' href='#' >
+        <i class="fa fa-users fa-2" aria-hidden="true"></i>
+        <span class="tooltiptext">Friends</span>
+      </button>
     </div>
 
     <div class="footer mt-auto bg-dark text-center text-white" id="footer">

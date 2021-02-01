@@ -18,7 +18,7 @@ consumer.subscriptions.create("ChannelMessagesChannel", {
     if ($('#channel-name-title').text() === data.channelname)
     {
       $('#channel_view').append(`<div class="channel_message bg-light p-2">
-          <div class="message_author d-inline text-primary">${data.author} :</div>
+          <div class="message_author d-inline text-primary">${data.author}:</div>
           <div class="message_content d-inline text-dark"> ${data.content}</div>
           </div>`);
     }

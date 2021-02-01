@@ -245,6 +245,32 @@ body {
     color: white;
 }
 
+.icon-container {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.icon-container .status-circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: grey;
+    border: 2px solid white;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+.status-circle.online {
+    background: rgb(78, 255, 78);
+}
+
+.status-circle.offline {
+    background: rgb(115, 115, 115);
+}
+
 .navbar-dark .dropdown-menu.notify-drop {
     min-width: 330px;
     background-color: #fff;
@@ -391,4 +417,19 @@ body {
 
 .tooltips:hover .tooltiptext {
     visibility: visible;
+}
+
+.flotante {
+    display: scroll;
+    position: fixed;
+    bottom: 10%;
+    right: 5%;
+}
+
+.btn-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 12px;
 }

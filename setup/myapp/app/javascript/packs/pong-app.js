@@ -3,6 +3,8 @@ import Workspace from "./routes.js"
 import $ from "jquery"
 import Notification from "./views/notificationView"
 import Helper from "./Helper.js";
+import UserStatus from '../channels/user_status_channel'
+import Notifications from '../channels/notification_channel'
 
 $.ajaxPrefilter( function( options ) {
     options.url = 'http://127.0.0.1/' + options.url;
@@ -35,6 +37,12 @@ class App {
         
         if (Backbone.History.started === false) {
             Backbone.history.start();
+        }
+
+        if (Helper.logged()) {
+            // global channels activation when user is logged
+            UserStatus.channel.connect();
+            Notifications.channel.connect();
         }
     }
 

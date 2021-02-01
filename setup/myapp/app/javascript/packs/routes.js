@@ -1,7 +1,7 @@
 import Backbone from 'backbone'
-import loginView from './views/loginView'
-import registerView from './views/registerView'
-import profileView from './views/profileView'
+import Login from './views/loginView'
+import Register from './views/registerView'
+import Profile from './views/profileView'
 import pongView from './views/pongView'
 import chatView from './views/chatView'
 import conversView from './views/conversationView'
@@ -98,26 +98,21 @@ class Workspace extends Backbone.Router {
         
     }
 
-
- 
-
-
     userSignin() {
         console.log("userSignin route")
-        this.signinView = new loginView()
+        this.signinView = Login.view
         this.signinView.render()
     }
 
     userSignup() {
         console.log("userSignup route.")
-        this.signupView = new registerView()
+        this.signupView = Register.view
         this.signupView.render()
     }
 
     userProfile(id) {
         console.log("userProfile route")
-        this.profileview = new profileView(id)
-            //profileview.render(id)
+        this.profileview = new Profile.view(id)
     }
 
 };

@@ -7,6 +7,7 @@ import chatView from './views/chatView'
 import conversView from './views/conversationView'
 import channelsView from './views/channelsView'
 import userList from './views/userListView'
+import playroomView from './views/game/playroomView'
 import Helper from './Helper'
 
 // Routes
@@ -46,6 +47,9 @@ class Workspace extends Backbone.Router {
             this.profileview.undelegateChildViews()
             this.profileview.undelegateEvents()
         }
+        if (this.playroomview) {
+            this.playroomview.undelegateEvents()
+        }
     }
 
     get routes() {
@@ -57,8 +61,16 @@ class Workspace extends Backbone.Router {
             "users/:id": "userProfile",
             "channels/": "channels",
             "channels/:name": "channels",
+            "playroom":"playroom",
         }
     }
+
+    playroom()
+    {
+        this.playroomview = new playroomView();
+        this.playroomview.render();
+    }
+    
 
     pong() {
         console.log("pong route");

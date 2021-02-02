@@ -1,0 +1,58 @@
+
+<script type="text/template" id="user_friends_button_template">
+    <div class="tooltips">
+        <button class='flotante btn btn-info btn-circle' href='#' data-toggle="modal" data-target="#UserFriendsModal">
+            <i class="fa fa-users fa-2" aria-hidden="true"></i>
+            <span class="tooltiptext">Friends</span>
+        </button>
+    </div>
+    <div class="modal" id="UserFriendsModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Friends</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+                    <ul class="list-group list-group-flush" id="friends_data_container">
+                        <!-- user_friends_data_template -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="user_friends_data_template">
+
+    <%% if (_.size( user_friends ) > 0) { %>
+        <%% _.each( user_friends, function(user) { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center" >
+                <a href="/#users/<%%= user.id %>">
+                    <span class="icon-container">
+                        <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                        <%% if (user.status === 0) { %>
+                            <div class="status-circle offline">
+                            </div>
+                        <%% } else { %>
+                            <div class="status-circle online">
+                            </div>
+                        <%% } %>
+                    </span>
+                </a>
+                <p class="text-dark"><%%= user.nickname %></p>
+                <span class="tooltips">
+                    <button class="btn btn-danger unfriend-btn" data-userfriend-id="<%%= user.id %>" >
+                    &times
+                    <span class="tooltiptext">delete</span>
+                    </button>
+                </span>
+            </li>
+        <%% }) %>
+    <%% } else { %>
+        <li class="list-group-item text-center">
+            <p class="h6 text-secondary">You have no friends.</p>
+        </li>
+    <%% } %>
+                    
+</script>

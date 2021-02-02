@@ -37,7 +37,7 @@ $(function () {
         received(data) {
           // Called when there's incoming data on the websocket for this channel
           console.log('received function from notification_channel.js')
-          Helper.notification();
+          Helper.notification('New notification received.');
           let format = data['data']
           if (data['type'] == 'Friend Request') {
             format["nickname"] = data['from']

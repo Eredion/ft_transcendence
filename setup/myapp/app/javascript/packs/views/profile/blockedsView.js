@@ -7,6 +7,8 @@ const Blockeds = {}
 
 $(function () {
 
+if (Helper.logged()) {
+
     Blockeds.UsersModel = Backbone.Model.extend({
 
         parse (response) {
@@ -57,6 +59,7 @@ $(function () {
         }
     
     });
+}
 })
 
 export default Blockeds;

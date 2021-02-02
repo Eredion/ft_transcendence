@@ -6,8 +6,19 @@
   <%= render "game" %>
   <%= render "chat" %>
   <%= render "channels"%>
+  <%= render "friends"%>
 <% else %>
   <%= render "users/sign_in" %>
 <% end %>
 <div id="content" class="container">
 </div>
+
+<% if user_signed_in? %>
+
+  <div class="notification-container">
+  </div>
+  <div id="friends_container">
+  <!-- user_friends_button_template -->
+  </div>
+
+<% end %>

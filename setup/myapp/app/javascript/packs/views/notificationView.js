@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import Helper from '../Helper';
 import notificationcollection from '../models/notifications'
+import Friends from './friendsView'
 
 const Notification = {}
 
@@ -52,6 +53,7 @@ $(function () {
             } else {
                 this.collection.remove(this.collection.where({ id: formData.id }))
                 Helper.custom_alert('success', response['success'])
+                Friends.view.update()
             }
         },
 

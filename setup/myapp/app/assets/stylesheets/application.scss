@@ -193,14 +193,11 @@ body {
 
 .scroll_list {
     padding: 5px;
-    height: 150px;
-    overflow-y: auto;
-}
-
-.notification_list {
-    padding: 3px;
-    height: 250px;
-    overflow-y: auto;
+    //height: 150px;
+    //overflow-y: auto;
+    min-height: 50px;
+    max-height: 200px;
+    overflow-y: scroll;
 }
 
 .notification-container {
@@ -384,7 +381,6 @@ body {
 .tooltips {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
 }
 
 .tooltips .tooltiptext {
@@ -402,6 +398,7 @@ body {
     bottom: 100%;
     left: 50%;
     margin-left: -60px;
+    font-size: small;
 }
 
 .tooltips .tooltiptext::after {

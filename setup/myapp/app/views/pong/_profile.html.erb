@@ -54,9 +54,7 @@
             </div>
             <div class="card text-center mx-auto mb-3" style="width: 18rem;">
                 <div class="card-body">
-                    <p class="h5 card-title text-info">Friends
-                    <i class="fa fa-users fa-2" aria-hidden="true"></i>
-                    </p>
+                    <p class="h5 card-title text-info">Friends</p>
                     <hr/>
                     <div class="mx-auto text-center">
                         <div id="user-friends-data" class="scroll_list">
@@ -77,42 +75,6 @@
                 </div>
             <%% } %>
         </div>
-        <%% if ($('html').data().userId === user.id) { %>
-            <!-- Modal for edit user info -->
-            <div class="modal" id="editUserModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit Profile</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-
-                        <div class="modal-body text-center">
-                            <form id="edit-user-form">
-                                <div class="form-group row">
-                                    <label for="nickname" class="col-sm-5 col-form-label">Nickname</label>
-                                    <div class="col-sm-7">
-                                        <input class="form-control white" type="text" value="<%%= user.nickname %>" name="nickname" id="form-nickname" placeholder="Enter nickname" required>
-                                        <div class="invalid-feedback">Please fill out this field.</div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="nickname" class="col-sm-5 col-form-label">Name</label>
-                                    <div class="col-sm-7">
-                                        <input class="form-control white" type="text" value="<%%= user.name %>" name="name" id="form-name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-12 text-center">
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <%% } %>
     </div>
     <script>
         function readURL(input) {
@@ -157,6 +119,40 @@
                         </button>
                     </div>
                 </div>
+                <!-- Modal for edit user info -->
+                <div class="modal" id="editUserModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Profile</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body text-center">
+                                <form id="edit-user-form">
+                                    <div class="form-group row">
+                                        <label for="nickname" class="col-sm-5 col-form-label">Nickname</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control white" type="text" value="<%%= user.nickname %>" name="nickname" id="form-nickname" placeholder="Enter nickname" required>
+                                            <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="nickname" class="col-sm-5 col-form-label">Name</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control white" type="text" value="<%%= user.name %>" name="name" id="form-name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 text-center">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <%% } %>
             <div class="row">
                 <div class="col-6">
@@ -183,7 +179,7 @@
                         <span class="tooltiptext">status</span>
                     </div>
                     <div>
-                        <p class="h5 text-white card-text">
+                        <p class="h5 text-white card-text" id="user_status_profile">
                         <%% if (user.status === 0) { %>
                             Offline
                         <%% } else { %>
@@ -224,19 +220,25 @@
 <script type="text/template" id="blocked_users_template">
 
     <ul class="list-group list-group-flush">
-        <%% _.each( blocked_users.data, function(user) { %>
-            <li class="list-group-item d-flex justify-content-between align-items-center" >
-                <a href="/#users/<%%= user.id %>">
+        <%% if (_.size( blocked_users.data ) > 0) { %>
+            <%% _.each( blocked_users.data, function(user) { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center" >
+                    <a href="/#users/<%%= user.id %>">
+                        <span>
+                            <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                        </span>
+                        <%%= user.nickname %>
+                    </a>
                     <span>
-                        <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                        <button class="btn btn-danger unblock-btn" data-userblock-id="<%%= user.id %>" >&times</button>
                     </span>
-                    <%%= user.nickname %>
-                </a>
-                <span>
-                    <button class="btn btn-danger unblock-btn" data-userblock-id="<%%= user.id %>" >&times</button>
-                </span>
+                </li>
+            <%% }) %>
+        <%% } else { %>
+            <li class="list-group-item text-center">
+                <p class="h6 text-secondary">No one is blocked.</p>
             </li>
-        <%% }) %>
+        <%% } %>
     </ul>
     
 </script>
@@ -244,28 +246,22 @@
 <script type="text/template" id="user_friends_template">
 
     <ul class="list-group list-group-flush">
-        <%% _.each( user_friends.data, function(user) { %>
-            <li class="list-group-item d-flex justify-content-between align-items-center" >
-                <a href="/#users/<%%= user.id %>">
-                    <span class="icon-container">
-                        <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
-                        <%% if (user.status === 0) { %>
-                            <div class="status-circle offline">
-                            </div>
-                        <%% } else { %>
-                            <div class="status-circle online">
-                            </div>
-                        <%% } %>
-                    </span>
-                </a>
+        <%% if (_.size( user_friends.data ) > 0) { %>
+            <%% _.each( user_friends.data, function(user) { %>
+                <li class="list-group-item d-flex justify-content-between" >
+                    <a href="/#users/<%%= user.id %>">
+                        <span>
+                            <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                        </span>
+                    </a>
                     <p class="text-dark"><%%= user.nickname %></p>
-                <%% if ($('html').data().userId == current_user) { %>
-                    <span>
-                        <button class="btn btn-danger unfriend-btn" data-userfriend-id="<%%= user.id %>" >&times</button>
-                    </span>
-                <%% } %>
+                </li>
+            <%% }) %>
+        <%% } else { %>
+            <li class="list-group-item text-center">
+                <p class="h6 text-secondary">No friends.</p>
             </li>
-        <%% }) %>
+        <%% } %>
     </ul>
     
 </script>

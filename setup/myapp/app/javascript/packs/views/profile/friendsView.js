@@ -7,6 +7,8 @@ const Friends = {}
 
 $(function () {
 
+if (Helper.logged()) {
+
     Friends.UsersModel = Backbone.Model.extend({
 
         parse (response) {
@@ -26,10 +28,6 @@ $(function () {
     
         template: _.template($('#user_friends_template').html()),
 
-        events: {
-            "click .unfriend-btn": "unfriendUser"
-        },
-
         initialize(id) {
             this.user_id = id
             this.model = new Friends.UsersModel({ user_id: this.user_id })
@@ -43,21 +41,10 @@ $(function () {
         render() {
             this.$el.html(this.template({ 'user_friends': this.model.toJSON(), 'current_user': this.user_id }))
             return this
-        },
-
-        async unfriendUser(e) {
-            e.preventDefault()
-            var formData = { user_id: $(e.currentTarget).data().userfriendId }
-            var response = await Helper.ajax('DELETE', 'api/users/' + Helper.userId() + '/delete_friend', formData)
-            if (response['error']) {
-                Helper.custom_alert('danger', response['error'])
-            } else {
-                this.update()
-                Helper.custom_alert('success', response['success'])
-            }
         }
     
     });
+}
 })
 
 export default Friends;

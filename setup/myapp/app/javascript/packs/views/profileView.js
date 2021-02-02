@@ -10,6 +10,8 @@ const Profile = {}
 
 $(function () {
 
+if (Helper.logged()) {
+
     Profile.view = Backbone.View.extend({
 
         collection: userscollection,
@@ -141,6 +143,7 @@ $(function () {
         }
     
     });
+}
 })
 
 export default Profile;

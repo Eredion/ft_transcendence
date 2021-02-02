@@ -1,6 +1,8 @@
 import consumer from "./consumer"
 import $ from 'jquery'
-//import userscollection from "../packs/models/user"
+import _ from 'underscore'
+import Friends from '../packs/views/friendsView'
+import Helper from "../packs/Helper"
 
 const UserStatus = {}
 
@@ -23,19 +25,30 @@ $(function () {
       },
       {
         connected() {
-          // Called when the subscription is ready for use on the server
           console.log('UserStatusChannel connected')
         },
         disconnected() {
-          // Called when the subscription has been terminated by the server
-          console.log('UserStatusChannel disconnected')
           self.disconnect()
         },
         received(data) {
-          // Called when there's incoming data on the websocket for this channel
           console.log('UserStatusChannel received')
-          console.log('user'+ data['id'] + ' status ' + data['status'])
-          //console.log(Backbone.history.getFragment()) comprobar en que ruta estamos (users/:id) si es el mismo id actualizamos y render()
+          // the status is changed if the actual route match with the user who has changed the status
+          if (Backbone.history.getFragment() === 'users/' + data['id']) {
+            if (data['status'] == 0) {
+              $('#user_status_profile').text('Offline')
+            } else if (data['status'] == 1) {
+              $('#user_status_profile').text('Online')
+            }
+          }
+          // the status is changed in the friend view if the user is our friend
+          let friend = Friends.collection.findWhere({ id: data['id'] })
+          if (friend) {
+              friend.set({status: data['status']})
+              if (data['status'] === 1) {
+                Helper.notification(friend.get('nickname') + ' is online.');
+              }
+              Friends.view.render_data()
+          }
         }
       });
 

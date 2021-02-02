@@ -10,7 +10,7 @@ let User = Backbone.Model.extend({
         return new User(data);
     }, */
     initialize: function() {
-        console.log("Fetching user [" + this.get("nickname") + "]");
+        //console.log("Fetching user [" + this.get("nickname") + "]");
     },
 });
 

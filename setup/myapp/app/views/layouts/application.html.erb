@@ -22,18 +22,10 @@
   </head>
 
   <body class="d-flex flex-column min-vh-100">
-    <% flash.each do |type, msg| %>
-      <div class="alert alert-info">
-        <%= msg %>
-      </div>
-    <% end %>
 
-      <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
+    <h1 id="transcendence-title" ><a href="/">FT_TRANSCENDENCE</a></h1>
 
     <%= yield %>
-
-    <div class="notification-container">
-    </div>
 
     <div class="footer mt-auto bg-dark text-center text-white" id="footer">
       <footer>Developed by @asegovia @darodrig @aserrano @pcuadrad at 42 Madrid</footer>

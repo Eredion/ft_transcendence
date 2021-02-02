@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "nickname", null: false
     t.string "password_digest"
     t.string "avatar"
+    t.integer "status", default: 0, null: false
     t.integer "guild_id"
     t.string "name", default: ""
     t.integer "score", default: 0

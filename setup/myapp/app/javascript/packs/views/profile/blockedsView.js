@@ -3,39 +3,63 @@ import $ from 'jquery'
 import Backbone from 'backbone'
 import Helper from '../../Helper'
 
-let BlockedUsers = Backbone.Model.extend({
+const Blockeds = {}
 
-    parse (response) {
-        return { data: JSON.parse(response.success) }
-    },
+$(function () {
 
-    initialize(options) {
-        this.uid = options.user_id
-        this.urlRoot = 'api/users/' + this.uid + '/show_blockeds'
-    }
+if (Helper.logged()) {
 
-});
+    Blockeds.UsersModel = Backbone.Model.extend({
 
-let blockedsView = Backbone.View.extend({
+        parse (response) {
+            return { data: JSON.parse(response.success) }
+        },
     
-    initialize(id) {
-        console.log('blockedsView initialize')
-        this.$el = $('#blocked-users-data')
-        this.model = new BlockedUsers({user_id: id})
-        this.template = _.template($('script[name="blocked_users_template"]').html())
-        this.update()
-    },
+        initialize(options) {
+            this.uid = options.user_id
+            this.urlRoot = 'api/users/' + this.uid + '/show_blockeds'
+        }
+    });
 
-    async update() {
-        await Helper.fetch(this.model)
-        this.render()
-    },
+    Blockeds.view = Backbone.View.extend({
 
-    render() {
-        this.$el.html(this.template({ 'blocked_users': this.model.toJSON() }))
-        return this
-    }
+        el: "#blocked-users-data",
+    
+        template: _.template($('#blocked_users_template').html()),
 
-});
+        events: {
+            "click .unblock-btn": "unblockUser"
+        },
+    
+        initialize(id) {
+            this.user_id = id
+            this.model = new Blockeds.UsersModel({ user_id: this.user_id })
+        },
+    
+        async update() {
+            await Helper.fetch(this.model)
+            this.render()
+        },
+    
+        render() {
+            this.$el.html(this.template({ 'blocked_users': this.model.toJSON() }))
+            return this
+        },
 
-export default blockedsView
+        async unblockUser(e) {
+            e.preventDefault()
+            var formData = { user_id: $(e.currentTarget).data().userblockId }
+            var response = await Helper.ajax('DELETE', 'users/' + Helper.userId() + '/unblock_user', formData)
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                this.update()
+                Helper.custom_alert('success', response['success'])
+            }
+        }
+    
+    });
+}
+})
+
+export default Blockeds;

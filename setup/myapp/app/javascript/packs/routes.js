@@ -4,6 +4,7 @@ import Register from './views/registerView'
 import Profile from './views/profileView'
 import pongView from './views/pongView'
 import chatView from './views/chatView'
+import SearchMatch from './views/searchMatchView'
 import conversView from './views/conversationView'
 import channelsView from './views/channelsView'
 import userList from './views/userListView'
@@ -46,6 +47,10 @@ class Workspace extends Backbone.Router {
             this.profileview.undelegateChildViews()
             this.profileview.undelegateEvents()
         }
+        if (this.searchmatchView) {
+            this.searchmatchView.removeChannel()
+            this.searchmatchView.undelegateEvents()
+        }
     }
 
     get routes() {
@@ -57,6 +62,7 @@ class Workspace extends Backbone.Router {
             "users/:id": "userProfile",
             "channels/": "channels",
             "channels/:name": "channels",
+            "search_match": "search_match"
         }
     }
 
@@ -113,6 +119,11 @@ class Workspace extends Backbone.Router {
     userProfile(id) {
         console.log("userProfile route")
         this.profileview = new Profile.view(id)
+    }
+
+    search_match() {
+        console.log('search_match route')
+        this.searchmatchView = new SearchMatch.view()
     }
 
 };

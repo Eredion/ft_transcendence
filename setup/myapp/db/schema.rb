@@ -48,6 +48,12 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "matchmakings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "match_type", default: "quick game", null: false
+    t.index ["user_id"], name: "index_matchmakings_on_user_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "chat_id"
@@ -87,6 +93,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   end
 
   add_foreign_key "channels", "users"
+  add_foreign_key "matchmakings", "users"
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "chats"
 end

@@ -10,6 +10,7 @@ class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
   has_many :friend_requests_as_requestor, foreign_key: :requestor_id, class_name: :FriendRequest
   has_many :friend_requests_as_receiver, foreign_key: :receiver_id, class_name: :FriendRequest
+  has_one :matchmaking, dependent: :destroy
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

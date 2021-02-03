@@ -73,6 +73,7 @@ class Api::UsersController < ApplicationController
                 if othuser.friends.include?(current_user.id)
                     othuser.friends.delete(current_user.id)
                     othuser.save
+                    othuser.send_notification('update_friends')
                 end
                 return
             end

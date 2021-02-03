@@ -1,6 +1,5 @@
 import consumer from "./consumer"
 import $ from 'jquery'
-import _ from 'underscore'
 import Friends from '../packs/views/friendsView'
 import Helper from "../packs/Helper"
 

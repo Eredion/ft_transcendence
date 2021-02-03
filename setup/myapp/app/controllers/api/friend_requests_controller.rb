@@ -25,7 +25,7 @@ class Api::FriendRequestsController < ApplicationController
             end
             freq = FriendRequest.new(friend_request_params)
             if freq.save!
-                ufriend.send_notification('Friend Request', current_user.nickname, freq)
+                ufriend.send_notification('notification', 'Friend Request', current_user.nickname, freq)
                 return render json: { "success": "Friend request sent." }
             end
             return render json: { "error": "Something has gone wrong, try again" }

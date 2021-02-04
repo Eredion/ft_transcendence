@@ -11,6 +11,7 @@ let channelsView = Backbone.View.extend({
     cables: [],
     events : {
         'click #reload-channels-button' : 'render_list',
+        'click #exit-channel-button' : 'exit_channel',
     },
     initialize() {
         
@@ -54,14 +55,12 @@ let channelsView = Backbone.View.extend({
     },
 
     render_list() {
-        console.log("RENDER LIST");
         this.fetchcol();
         
         return this;
     },
 
     render() {
-        console.log("RENDER");
         let self = this;
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
@@ -82,7 +81,15 @@ let channelsView = Backbone.View.extend({
             this.cables.push(channelSubscription.joinChannel(name));
         // { nombre: 'cerezas', cantidad: 5 }
         console.log(this.cables.lenght);
-    }
+    },
+
+    exit_channel()
+    {
+        let name = $('#channel-name-title').text();
+        let cable = this.cables.find( cable => cable.name === name);
+        console.log(cable);
+        cable.subscriptions.consumer.disconnect();
+    },
 
 });
 

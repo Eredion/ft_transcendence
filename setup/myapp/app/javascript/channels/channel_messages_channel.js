@@ -50,7 +50,6 @@ let channelSubscription = {
       },
 
       received(data) {
-        console.log("receiving)");
         console.log("DATA RECEIVED" + JSON.stringify(data));
         console.log("LEFT "+ $('#channel-name-title').text());
         console.log("RIGHT "+ data.channelname);

@@ -3,12 +3,12 @@ import $ from 'jquery'
 import _ from 'underscore'
 import Helper from '../Helper'
 import channelcol from '../models/channel'
-
+import channelSubscription from './../../channels/channel_messages_channel'
 let channelsView = Backbone.View.extend({
 
     el: '#content',
     collection: channelcol,
-
+    cables: [],
     events : {
         'click #reload-channels-button' : 'render_list',
     },
@@ -26,7 +26,8 @@ let channelsView = Backbone.View.extend({
 
     async render_channel(name) {
         let self = this;
-        $(`a[href="#channels/${name}"]`).removeClass('border border-success');
+        this.connectCable(name);
+        /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
             console.log(`rendering channel ${name}`);
             $('#channel-name-title').text(name);
@@ -70,11 +71,18 @@ let channelsView = Backbone.View.extend({
                 $('.create-channel-input').val("");
                 self.render_list();
         }, 300);
-        
+
         });
         return this;
     },
 
+    connectCable(name){
+        
+        if (! this.cables.find( cable => cable.name === name ))
+            this.cables.push(channelSubscription.joinChannel(name));
+        // { nombre: 'cerezas', cantidad: 5 }
+        console.log(this.cables.lenght);
+    }
 
 });
 

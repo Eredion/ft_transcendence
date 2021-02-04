@@ -19,7 +19,8 @@ class Api::MessagesController < ApplicationController
         msg.channelname = Channel.find_by(id: params[:channel_id]).name
         puts("LLEGA")
         if msg.save()
-            ActionCable.server.broadcast 'channel_messages_channel', msg
+            puts("channel_messages_#{msg.channelname}")
+            ActionCable.server.broadcast "channel_messages_" + msg.channelname, msg
         else
             puts(Rails.logger.info(msg.errors.inspect))
         end

@@ -15,7 +15,7 @@ let gameConnection = {
         console.log("disconnected to room: "+ this.room);
         // Called when the subscription has been terminated by the server
       },
-    
+
       received(data) {
         console.log(`Received ${data} from playromm ${this.room}`);
         // Called when there's incoming data on the websocket for this channel
@@ -26,7 +26,6 @@ let gameConnection = {
     console.log("ya he enviado")
     return cable;
   },
-
 };
 
 export default gameConnection;

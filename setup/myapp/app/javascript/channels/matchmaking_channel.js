@@ -12,7 +12,7 @@ $(function () {
       this.cable = null;
     }
 
-    connect(user) {
+    connect(user, callback, view) {
       
       if (this.cable) {
         return ;
@@ -42,8 +42,8 @@ $(function () {
               console.log('Waiting for opponent')
               break;
             case 'game_found':
-              console.log('Game found, opponent ' + data.opponent)
-              alert('Game found, opponent ' + data.opponent)
+              console.log('Game found')
+              callback.bind(view)(data.player1, data.player2)
               break;
           }
         }

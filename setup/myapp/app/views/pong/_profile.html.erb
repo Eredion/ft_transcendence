@@ -195,6 +195,10 @@
             <div class="card-body text-center">
                 <p class="h5 card-title text-info">Last Matches</p>
                 <hr/>
+                <div class="mx-auto text-center">
+                    <div id="user-matches-data" class="match_list">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -264,4 +268,43 @@
         <%% } %>
     </ul>
     
+</script>
+
+<script type="text/template" id="user_matches_template">
+
+    <ul class="list-group list-group-flush">
+        <%% if (_.size( matches.data ) > 0) { %>
+            <%% _.each( matches.data, function(match) { %>
+                <li class="list-group-item d-flex justify-content-between" >
+                    <div class="col <%% if (match.winner == match.left_player_id) { %> bg-primary <%% } else { %> bg-light <%% } %>">
+                        <div class="row">
+                            <div class="col">
+                                <img class="img-avatar rounded-circle img-fluid" src="<%%= match.left_player_avatar.thumb.url %>"/>
+                                <p><%%= match.left_player %></p>
+                            </div>
+                            <div class="col">
+                                <p class="h3"><%%= match.left_player_score %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col <%% if (match.winner == match.right_player_id) { %> bg-primary <%% } else { %> bg-light <%% } %>">
+                        <div class="row">
+                            <div class="col">
+                                <p class="h3"><%%= match.right_player_score %></p>
+                            </div>
+                            <div class="col">
+                                <img class="img-avatar rounded-circle img-fluid" src="<%%= match.right_player_avatar.thumb.url %>"/>
+                                <p><%%= match.right_player %></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            <%% }) %>
+        <%% } else { %>
+            <li class="list-group-item text-center">
+                <p class="h6 text-secondary">No matches.</p>
+            </li>
+        <%% } %>
+    </ul>
+
 </script>

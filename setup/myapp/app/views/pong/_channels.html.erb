@@ -12,7 +12,7 @@
                         <%= form.hidden_field :user, value: current_user.id %>
                         <%= form.submit "Create", id: "create-channel-button", class: "btn btn-danger" %>
                         <%= form.check_box :category,{}, "protected", "public"%>
-                        <%= form.text_field :password_digest, placeholder: "password", id: "password-input"%>
+                        <%= form.text_field :password, placeholder: "password", id: "password-input"%>
                         <button type="button" class="btn btn-dark" id="reload-channels-button">
                             <span class="glyphicon glyphicon-repeat"></span>Refresh
                         </button>

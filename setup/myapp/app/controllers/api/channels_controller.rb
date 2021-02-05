@@ -14,7 +14,9 @@ class Api::ChannelsController < ApplicationController
         channel = Channel.new(channel_params)
         channel.user_id = params[:user]
         channel.category = params[:category]
-        #channel.password = params[:password_digest]
+        if params[:password]
+            channel.password_digest = BCrypt::Password.create(params[:password])
+        end
         if channel.name.length < 2
             return 
         end
@@ -34,6 +36,6 @@ class Api::ChannelsController < ApplicationController
 
     private
     def channel_params
-        params.require(:channel).permit(:name, :category, :user, :password_digest)
+        params.require(:channel).permit(:name, :category, :user, :password)
     end
 end

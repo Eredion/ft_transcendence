@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import consumer from '../channels/consumer';
 
 const Helper = {}
 
@@ -79,5 +80,7 @@ Helper.notification = () => {
         });
     }, 2000);
 };
+
+
 
 export default Helper;

@@ -12,6 +12,6 @@ cd /transcendence
 
 #Database creation
 rails db:drop && rails db:create && rails db:migrate && rails db:seed
-
+bundle exec rake webpacker:clobber
 #starts rails server
 rails server -b 0.0.0.0

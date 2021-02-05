@@ -3,11 +3,13 @@ import $ from 'jquery'
 import _ from 'underscore'
 import Helper from '../Helper'
 import channelcol from '../models/channel'
+import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
 let channelsView = Backbone.View.extend({
 
     el: '#content',
     collection: channelcol,
+    cablenames: [],
     cables: [],
     events : {
         'click #reload-channels-button' : 'render_list',
@@ -76,19 +78,27 @@ let channelsView = Backbone.View.extend({
     },
 
     connectCable(name){
+        self = this;
+        $(`a[href="#channels/name"]`).removeClass('border border-success');
         
-        if (! this.cables.find( cable => cable.name === name ))
-            this.cables.push(channelSubscription.joinChannel(name));
+        if (self.cablenames.includes(name))
+        {            
+            console.log("YA EXISTE");
+        }
+        else
+        {
+            self.cablenames.push(name);
+            self.cables.push(channelSubscription.joinChannel(name));
+        }
         // { nombre: 'cerezas', cantidad: 5 }
-        console.log(this.cables.lenght);
-    },
+    }, 
 
     exit_channel()
     {
-        let name = $('#channel-name-title').text();
-        let cable = this.cables.find( cable => cable.name === name);
-        console.log(cable);
-        cable.subscriptions.consumer.disconnect();
+        let tofind = $('#channel-name-title').text();
+        console.log(`Exiting ${tofind}`)
+        this.cables.find(cable => cable.channelname === tofind ).unsubscribe();
+        this.render();
     },
 
 });

@@ -79,7 +79,7 @@ let channelsView = Backbone.View.extend({
 
     connectCable(name){
         self = this;
-        $(`a[href="#channels/name"]`).removeClass('border border-success');
+        $(`a[href="#channels/${name}"]`).removeClass('border border-success');
         
         if (self.cablenames.includes(name))
         {            

@@ -10,8 +10,9 @@
                         <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+",
                             placeholder: "Channel Name", autocomplete: :off, class:"create-channel-input")%>
                         <%= form.hidden_field :user, value: current_user.id %>
-                        
                         <%= form.submit "Create", id: "create-channel-button", class: "btn btn-danger" %>
+                        <%= form.check_box :category,{}, "protected", "public"%>
+                        <%= form.text_field :password_digest, placeholder: "password", id: "password-input"%>
                         <button type="button" class="btn btn-dark" id="reload-channels-button">
                             <span class="glyphicon glyphicon-repeat"></span>Refresh
                         </button>
@@ -33,6 +34,13 @@
         </div>
         
     </div>
+    <script>
+
+        $("#category").click(function()
+        {
+            $('#password-input').toggle();
+        });
+    </script>
 </script>
 
 <script id="online-channels-template" type='text/template'>
@@ -51,7 +59,7 @@
 
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group">
-        <a id="exit-channel-button" class="btn btn-sm btn-secondary pull-right" href='#channels'>Exit channel</a>
+        <a id="exit-channel-button" class="badge badge-light" href='#channels'>Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
         <div class="channel_message bg-light p-2">

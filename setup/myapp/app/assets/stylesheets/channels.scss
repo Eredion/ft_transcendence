@@ -10,6 +10,11 @@
     width: 45%;
 }
 
+.channel_message{
+    border-radius: 1em;
+    margin: 0.4em;
+}
+
 #create-channel-input-wrapper {
     padding: 1em;
 }
@@ -29,4 +34,27 @@
 #password-input
 {
     display:none;
+}
+
+#channel_name, #password-input{
+    padding: 0.3em;
+    border-radius: 2mm;
+    position: relative;
+    width: 100%;
+    border: 3px #EEE;
+}
+.form-element
+{
+    margin: 0.5em;
+    padding: 5px;
+}
+#center-button-wrapper
+{
+    display: grid;
+    position:relative;
+    width: 100%;
+    text-align :center;
+}
+#create-channel-button{
+    align-self: center;
 }

@@ -5,10 +5,11 @@ import chatcol from '../models/chat'
 import conversView from './conversationView'
 import channelsView from './channelsView'
 import Helper from '../Helper';
-
+import dm_channel_helper from '../../channels/dm_channel'
 let chatView = Backbone.View.extend({
     async initialize() {
         console.log("Chat View initialize");
+        this.cable = dm_channel_helper.joinChannel(Helper.current_user());
         this.template_chat = $('script[name="chat"]').html(); // views/chat/_chat.html.erb
         await Helper.fetch(chatcol).then(this.render());
     },

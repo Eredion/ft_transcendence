@@ -36,6 +36,9 @@ class Workspace extends Backbone.Router {
         if (this.chatview) {
             this.chatview.undelegateEvents()
         }
+        if (this.channelView) {
+            this.channelView.undelegateEvents()
+        }
         if (this.signinView) {
             this.signinView.undelegateEvents()
         }
@@ -72,8 +75,8 @@ class Workspace extends Backbone.Router {
 
     chat() {
         console.log("chat route")
-
-        this.chatview = new chatView();
+        if (!this.chatview)
+            this.chatview = new chatView();
         this.chatview.render();
         //var online_users = new userList()
         //let conversview = new conversView();

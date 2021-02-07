@@ -1,0 +1,16 @@
+#gamecanvas-wrapper{
+    align-self: center;
+}
+
+#gamecanvas {
+    padding: 5em;
+    margin-top: 5em;
+    min-width: 800px;
+    max-width: 1600px;
+    width: 80%;
+    min-height: 450px;
+    max-height: 900px;
+    height: 45%;
+    background-color: lightgrey;
+    border-radius: 2%;
+}

@@ -17,9 +17,13 @@ class Api::MessagesController < ApplicationController
         msg.author = User.find_by(id: params[:user_id]).nickname
         msg.channel_id = params[:channel_id]
         msg.channelname = Channel.find_by(id: params[:channel_id]).name
-        puts("LLEGA")
-        if msg.save()
-            ActionCable.server.broadcast 'channel_messages_channel', msg
+        puts(msg.content)
+        if (msg.content.length() < 1)
+            return
+        end
+        if (msg.channel_id && msg.save() )
+            puts("channel_messages_#{msg.channelname}")
+            ActionCable.server.broadcast "channel_messages_" + msg.channelname, msg
         else
             puts(Rails.logger.info(msg.errors.inspect))
         end

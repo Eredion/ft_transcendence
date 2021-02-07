@@ -3,14 +3,19 @@ import $ from 'jquery'
 import _ from 'underscore'
 import Helper from '../Helper'
 import channelcol from '../models/channel'
+import consumer from "./../../channels/consumer"
+import channelSubscription from './../../channels/channel_messages_channel'
+import bcryptjs from 'bcryptjs'
 
 let channelsView = Backbone.View.extend({
 
     el: '#content',
     collection: channelcol,
-
+    cablenames: [],
+    cables: [],
     events : {
         'click #reload-channels-button' : 'render_list',
+        'click #exit-channel-button' : 'exit_channel',
     },
     initialize() {
         
@@ -26,7 +31,8 @@ let channelsView = Backbone.View.extend({
 
     async render_channel(name) {
         let self = this;
-        $(`a[href="#channels/${name}"]`).removeClass('border border-success');
+        this.connectCable(name);
+        /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
             console.log(`rendering channel ${name}`);
             $('#channel-name-title').text(name);
@@ -54,14 +60,12 @@ let channelsView = Backbone.View.extend({
     },
 
     render_list() {
-        console.log("RENDER LIST");
         this.fetchcol();
         
         return this;
     },
 
     render() {
-        console.log("RENDER");
         let self = this;
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
@@ -71,11 +75,35 @@ let channelsView = Backbone.View.extend({
                 $('.create-channel-input').val("");
                 self.render_list();
         }, 300);
-        
+
         });
         return this;
     },
 
+    connectCable(name){
+        self = this;
+        console.log("PROBANDON" + channelcol.where({name: name})[0].get("password-digest"))
+        $(`a[href="#channels/${name}"]`).removeClass('border border-success');
+        
+        if (self.cablenames.includes(name))
+        {            
+            console.log("YA EXISTE");
+        }
+        else
+        {
+            self.cablenames.push(name);
+            self.cables.push(channelSubscription.joinChannel(name));
+        }
+        // { nombre: 'cerezas', cantidad: 5 }
+    }, 
+
+    exit_channel()
+    {
+        let tofind = $('#channel-name-title').text();
+        console.log(`Exiting ${tofind}`)
+        this.cables.find(cable => cable.channelname === tofind ).unsubscribe();
+        this.render();
+    },
 
 });
 

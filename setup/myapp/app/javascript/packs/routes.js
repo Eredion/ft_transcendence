@@ -36,6 +36,9 @@ class Workspace extends Backbone.Router {
         if (this.chatview) {
             this.chatview.undelegateEvents()
         }
+        if (this.channelView) {
+            this.channelView.undelegateEvents()
+        }
         if (this.signinView) {
             this.signinView.undelegateEvents()
         }
@@ -45,6 +48,9 @@ class Workspace extends Backbone.Router {
         if (this.profileview) {
             this.profileview.undelegateChildViews()
             this.profileview.undelegateEvents()
+        }
+        if (this.playroomview) {
+            this.playroomview.undelegateEvents()
         }
     }
 
@@ -59,6 +65,7 @@ class Workspace extends Backbone.Router {
             "channels/:name": "channels",
         }
     }
+   
 
     pong() {
         console.log("pong route");
@@ -68,8 +75,8 @@ class Workspace extends Backbone.Router {
 
     chat() {
         console.log("chat route")
-
-        this.chatview = new chatView();
+        if (!this.chatview)
+            this.chatview = new chatView();
         this.chatview.render();
         //var online_users = new userList()
         //let conversview = new conversView();
@@ -82,14 +89,16 @@ class Workspace extends Backbone.Router {
 
     channel(){
         console.log("channel route");
-        this.channelView = new channelsView();
+        if (!this.channelView)
+            this.channelView = new channelsView();
         this.channelView.render();
     }
     
     channels(name){
         console.log("channel route")
         console.log(name);
-        this.channelView = new channelsView();
+        if (!this.channelView)
+            this.channelView = new channelsView();
         
         if (name != "default")
             this.channelView.render_channel(name);

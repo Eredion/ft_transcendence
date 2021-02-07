@@ -5,6 +5,8 @@ import Helper from '../Helper'
 import channelcol from '../models/channel'
 import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
+import bcryptjs from 'bcryptjs'
+
 let channelsView = Backbone.View.extend({
 
     el: '#content',
@@ -79,6 +81,7 @@ let channelsView = Backbone.View.extend({
 
     connectCable(name){
         self = this;
+        console.log("PROBANDON" + channelcol.where({name: name})[0].get("password-digest"))
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
         
         if (self.cablenames.includes(name))

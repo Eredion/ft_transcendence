@@ -194,14 +194,11 @@ body {
 
 .scroll_list {
     padding: 5px;
-    height: 150px;
-    overflow-y: auto;
-}
-
-.notification_list {
-    padding: 3px;
-    height: 250px;
-    overflow-y: auto;
+    //height: 150px;
+    //overflow-y: auto;
+    min-height: 50px;
+    max-height: 200px;
+    overflow-y: scroll;
 }
 
 .notification-container {
@@ -244,6 +241,32 @@ body {
     border-radius: 30%;
     background: red;
     color: white;
+}
+
+.icon-container {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.icon-container .status-circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: grey;
+    border: 2px solid white;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+.status-circle.online {
+    background: rgb(78, 255, 78);
+}
+
+.status-circle.offline {
+    background: rgb(115, 115, 115);
 }
 
 .navbar-dark .dropdown-menu.notify-drop {
@@ -346,4 +369,65 @@ body {
     bottom: 0;
     position: relative;
     padding: 8px 15px;
+}
+
+.profile-status {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.fa-2 {
+    font-size: 2em;
+}
+
+.tooltips {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltips .tooltiptext {
+    visibility: hidden;
+    background-color: rgb(100, 100, 100);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: small;
+}
+
+.tooltips .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(100, 100, 100) transparent transparent transparent;
+  }
+
+.tooltips:hover .tooltiptext {
+    visibility: visible;
+}
+
+.flotante {
+    display: scroll;
+    position: fixed;
+    bottom: 10%;
+    right: 5%;
+}
+
+.btn-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 12px;
 }

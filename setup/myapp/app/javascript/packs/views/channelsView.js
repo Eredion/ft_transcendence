@@ -50,6 +50,7 @@ let channelsView = Backbone.View.extend({
                 setTimeout(function(){
                     $('#input-msg-channel-form').val("");
                     self.render_channel(name);
+                    $('#input-msg-channel-form').focus();
                 }, 300);
 
             });

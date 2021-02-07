@@ -4,13 +4,13 @@ class Api::UsersController < ApplicationController
 
     def index
         users = User.all
-        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :matches_won, :matches_lost])
+        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost])
         render json: fusers
     end
 
     def show
         user = User.find(params[:id])
-        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :matches_won, :matches_lost])
+        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost])
         render json: fuser
     end
 
@@ -52,7 +52,7 @@ class Api::UsersController < ApplicationController
         ret = []
         if friend_list
             friend_list.each do |user_id|
-                ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))
+                ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar, :status]))
             end
             return render json: {"success": ret.to_json}, status: :ok
         end

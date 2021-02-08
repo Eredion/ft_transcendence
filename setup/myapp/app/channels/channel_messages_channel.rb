@@ -1,6 +1,7 @@
 class ChannelMessagesChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "channel_messages_channel"
+    puts("SUSCRITO A " + "channel_messages_#{params[:name]}")
+    stream_from "channel_messages_#{params[:name]}"
   end
 
   def unsubscribed

@@ -13,10 +13,14 @@ class Api::ChannelsController < ApplicationController
         puts("channel controller create")
         channel = Channel.new(channel_params)
         channel.user_id = params[:user]
+        channel.category = params[:category]
+        if params[:password]
+            channel.password_digest = BCrypt::Password.create(params[:password])
+        end
         if channel.name.length < 2
             return 
         end
-        channel.category= "public"
+        #channel.category= "public"
         if channel.save
             send_connected_channel(channel)
         else
@@ -32,6 +36,6 @@ class Api::ChannelsController < ApplicationController
 
     private
     def channel_params
-        params.require(:channel).permit(:name, :category, :user)
+        params.require(:channel).permit(:name, :category, :user, :password)
     end
 end

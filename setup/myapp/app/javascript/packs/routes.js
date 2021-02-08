@@ -51,14 +51,9 @@ class Workspace extends Backbone.Router {
             this.profileview.undelegateChildViews()
             this.profileview.undelegateEvents()
         }
-<<<<<<< HEAD
         if (this.searchmatchView) {
             this.searchmatchView.removeChannel()
             this.searchmatchView.undelegateEvents()
-=======
-        if (this.playroomview) {
-            this.playroomview.undelegateEvents()
->>>>>>> origin/main
         }
     }
 

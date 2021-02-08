@@ -1,32 +1,30 @@
 import consumer from "./consumer"
 import $ from 'jquery'
-import Helper from "../packs/Helper"
 
-const Matchmaking = {}
+const Matches = {}
 
 $(function () {
 
-  class MatchmakingChannel {
+  class MatchChannel {
 
     constructor() {
       this.cable = null;
     }
 
-    connect(user, callback, view) {
+    connect(match, callback, view) {
       
       if (this.cable) {
         return ;
       }
       const self = this;
       this.cable = consumer.subscriptions.create({
-        channel: "MatchmakingChannel",
-        id: user
+        channel: "MatchChannel",
+        id: match
       },
       {
         connected() {
           // Called when the subscription is ready for use on the server
-          console.log('connected function from matchmaking_channel.js')
-          this.perform('search_game')
+          console.log('connected function from match_channel.js')
         },
     
         disconnected() {
@@ -36,18 +34,14 @@ $(function () {
     
         received(data) {
           // Called when there's incoming data on the websocket for this channel
-          console.log('received function from matchmaking_channel.js')
-          switch (data.action) {
-            case 'searching':
-              console.log('Waiting for opponent')
-              break;
-            case 'game_found':
-              console.log('Game found')
-              callback.bind(view)(data.player1, data.player2, data.match)
-              break;
-          }
+          console.log('received function from match_channel.js')
+          callback.bind(view)(data)
         }
       });
+    }
+
+    perform(server_func, params) {
+      this.cable.perform(server_func, params)
     }
 
     disconnect() {
@@ -59,8 +53,9 @@ $(function () {
 
   }
 
-  Matchmaking.channel = new MatchmakingChannel();
+  Matches.channel = new MatchChannel();
 
 });
 
-export default Matchmaking;
+export default Matches;
+

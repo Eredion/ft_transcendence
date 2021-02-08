@@ -42,3 +42,35 @@
         </div>
     </div>
 </script>
+
+
+<script type="text/template" id="match_template">
+
+    <div class="row">
+        <div class="col-sm-12 my-auto">
+            <div id="cnv">
+                <div class="row">
+                    <div class="col">
+                        <p class="h3 text-white"> LEFT PLAYER </p>
+                        <p class="h4 text-white">Score</p>
+                        <p class="h4 text-white"><%%= match.left_player_score %></p>
+                        <img class="img-avatar rounded-circle img-fluid" src="<%%= match.left_player_avatar.thumb.url %>"/>
+                        <p class="text-white"><%%= match.left_player %></p>
+                    </div>
+                    <div class="col-7">
+                        <canvas id="canvas" width="600" height="400"></canvas>
+                    </div>
+                    <div class="col">
+                        <p class="h3 text-white"> RIGHT PLAYER </p>
+                        <p class="h4 text-white">Score</p>
+                        <p class="h4 text-white"><%%= match.right_player_score %></p>
+                        <img class="img-avatar rounded-circle img-fluid" src="<%%= match.right_player_avatar.thumb.url %>"/>
+                        <p class="text-white"><%%= match.right_player %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+

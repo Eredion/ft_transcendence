@@ -15,8 +15,10 @@ class MatchmakingChannel < ApplicationCable::Channel
     if opponent = Matchmaking.where(:match_type => 'quick game').first
       player1 = current_user.as_json(only: [:id, :nickname, :avatar, :score])
       player2 = opponent.user.as_json(only: [:id, :nickname, :avatar, :score])
-      ActionCable.server.broadcast( "Matchmaking_#{current_user.id}", { action: 'game_found' , player1: player1, player2: player2 } )
-      ActionCable.server.broadcast( "Matchmaking_#{opponent.user_id}", { action: 'game_found' , player1: player2, player2: player1 } )
+      l_player, r_player = [current_user, opponent.user].shuffle
+      match = Match.create!(match_type: "quick game", left_player_id: l_player.id, right_player_id: r_player.id)
+      ActionCable.server.broadcast( "Matchmaking_#{current_user.id}", { action: 'game_found' , player1: player1, player2: player2, match: match.id } )
+      ActionCable.server.broadcast( "Matchmaking_#{opponent.user_id}", { action: 'game_found' , player1: player2, player2: player1, match: match.id } )
       Matchmaking.delete(opponent.id)
     # if not the user is added for the next user search
     # searching action is sent

@@ -7,6 +7,7 @@ import chatView from './views/chatView'
 import SearchMatch from './views/searchMatchView'
 import conversView from './views/conversationView'
 import channelsView from './views/channelsView'
+import Match from './views/matchView'
 import userList from './views/userListView'
 import Helper from './Helper'
 
@@ -62,7 +63,8 @@ class Workspace extends Backbone.Router {
             "users/:id": "userProfile",
             "channels/": "channels",
             "channels/:name": "channels",
-            "search_match": "search_match"
+            "search_match": "search_match",
+            "match/:id": "match"
         }
     }
 
@@ -124,6 +126,11 @@ class Workspace extends Backbone.Router {
     search_match() {
         console.log('search_match route')
         this.searchmatchView = new SearchMatch.view()
+    }
+
+    match(id) {
+        console.log('match route')
+        this.matchView = new Match.view(id)
     }
 
 };

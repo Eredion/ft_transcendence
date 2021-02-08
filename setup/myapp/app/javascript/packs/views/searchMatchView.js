@@ -33,12 +33,16 @@ if (Helper.logged()) {
         },
 
         // this function is called from matchmaking_channel when a match game is found
-        render_match_found(player1, player2) {
+        render_match_found(player1, player2, match_id) {
             console.log('match_found render')
             $('#search_match_modal').modal('hide')
             this.$el.html(this.match_found_template({'player1': player1, 'player2': player2}));
             $('#match_found_modal').modal('show')
-            return this;
+            //Redirection to the match
+            setTimeout(function () {
+                $('#match_found_modal').modal('hide')
+                window.location.hash = 'match/'+match_id
+            }, 3000)
         },
 
         removeChannel() {

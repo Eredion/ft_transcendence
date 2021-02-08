@@ -1,4 +1,5 @@
 
+import Matches from  '../channels/match_channel'
 
 class Player {
 
@@ -9,25 +10,6 @@ class Player {
         this.h = canvas.height / 5
         this.y = canvas.height / 2 - this.h / 2
         this.speed = 5
-        this.move_up = 0
-        this.move_down = 0
-        this.points = 0
-    }
-
-    get up() {
-        return this.move_up
-    }
-
-    set up(val) {
-        this.move_up = val
-    }
-
-    get down() {
-        return this.move_down
-    }
-
-    set down(val) {
-        this.move_down = val
     }
 
     draw = (ctx) => {
@@ -35,11 +17,11 @@ class Player {
         ctx.fillRect(this.x, this.y, this.w, this.h)
     }
 
-    move = (canvas) => {
-        if (this.move_up == 1 && this.y > 0)
-            this.y -= this.speed
-        if (this.move_down == 1 && this.y < (canvas.height - this.h))
-            this.y += this.speed
+    move = (canvas, position) => {
+        if (this.y > 0 || this.y < (canvas.height - this.h)) {
+            this.y = position
+            this.draw(canvas)
+        }
     }
 
     reset = (canvas) => {
@@ -48,7 +30,7 @@ class Player {
         this.y = canvas.height / 2 - this.h / 2
     }
 }
-
+/*
 class Ball {
     constructor(canvas) {
         this.x = canvas.width / 2
@@ -81,32 +63,52 @@ class Ball {
         this.dy = Math.sin(this.angle) * this.speed
     }
 }
+*/
 
 class Pong {
-    constructor() {
+    constructor(match_id) {
         console.log("Pong game constructor")
         this.canvas = document.getElementById('canvas')
         this.ctx = canvas.getContext('2d')
-        this.p1 = new Player(canvas.width * 0.05, 'blue')
-        this.p2 = new Player(canvas.width * 0.95, 'red')
-        this.ball = new Ball(this.canvas)
+        this.user = 0
+        this.side = null
+        this.match = match_id
+        this.left_player = new Player(canvas.width * 0.05, 'blue')
+        this.right_player = new Player(canvas.width * 0.95, 'red')
+        //this.ball = new Ball(this.canvas)
 
         this.ctx.clearRect(0, 0, canvas.width, canvas.height)
 		this.drawMiddleLinne()
-        this.p1.draw(this.ctx)
-        this.p2.draw(this.ctx)
+        this.left_player.draw(this.ctx)
+        this.right_player.draw(this.ctx)
     }
 
+    send_move = (move) => {
+        //connection with channel
+        var actor = {
+            match: this.match,
+            from: this.user,
+            side: this.side,
+            move: move
+        }
+        Matches.channel.perform('receive_move', actor)
+    }
+
+    update_players = (players) => {
+        this.left_player.move(this.canvas, players.left_player)
+        this.right_player.move(this.canvas, players.right_player)
+    }
+/*
     gameLoop = () => {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height)
         this.drawMiddleLinne()
         this.drawPoints()
-        this.p1.draw(this.ctx)
-        this.p2.draw(this.ctx)
+        this.left_player.draw(this.ctx)
+        this.right_player.draw(this.ctx)
         this.ball.draw(this.ctx)
         this.moveBall()
-        this.p1.move(this.canvas)
-        this.p2.move(this.canvas)
+        this.left_player.move(this.canvas)
+        this.right_player.move(this.canvas)
         requestAnimationFrame(this.gameLoop);
     }
 
@@ -117,20 +119,20 @@ class Pong {
         if (this.ball.x - this.ball.size <= 0) {
             this.ball.resetPos(this.canvas);
             this.ball.angle = 0
-            this.p2.points += 1
-            this.p1.reset(this.canvas)
-            this.p2.reset(this.canvas)
+            this.right_player.points += 1
+            this.left_player.reset(this.canvas)
+            this.right_player.reset(this.canvas)
         } else if (this.ball.x + this.ball.size >= canvas.width) {
             this.ball.resetPos(this.canvas);
             this.ball.angle = Math.PI;
-            this.p1.points += 1
-            this.p1.reset(this.canvas)
-            this.p2.reset(this.canvas)
+            this.left_player.points += 1
+            this.left_player.reset(this.canvas)
+            this.right_player.reset(this.canvas)
         } else if (this.ball.y + this.ball.size >= canvas.height || this.ball.y - this.ball.size <= 0)
             this.ball.angle = 2 * Math.PI - this.ball.angle
         else {
-            this.checkCollistion(this.p1, this.ball)
-            this.checkCollistion(this.p2, this.ball)
+            this.checkCollistion(this.left_player, this.ball)
+            this.checkCollistion(this.right_player, this.ball)
         }
         this.ball.calcDir()
         this.ball.x += this.ball.dx;
@@ -161,10 +163,10 @@ class Pong {
         this.ctx.font = size + 'px Righteous';
         this.ctx.strokeStyle = 'black';
         this.ctx.fillStyle = 'black';
-        this.ctx.fillText(this.p1.points, canvas.width * 0.25, canvas.height * 0.15)
-        this.ctx.fillText(this.p2.points, canvas.width * 0.75, canvas.height * 0.15)
+        this.ctx.fillText(this.left_player.points, canvas.width * 0.25, canvas.height * 0.15)
+        this.ctx.fillText(this.right_player.points, canvas.width * 0.75, canvas.height * 0.15)
     }
-
+*/
     drawMiddleLinne = () => {
         this.ctx.strokeStyle = '#EEE'
         this.ctx.setLineDash([10, 5])
@@ -176,29 +178,31 @@ class Pong {
 
     keyDown = (key) => {
         if (key.key == 'ArrowUp')
-            this.p2.up = 1
+            this.send_move(1)
         if (key.key == 'ArrowDown')
-            this.p2.down = 1
-        if (key.key == 'w')
-            this.p1.up = 1
+            this.send_move(2)
+        /*if (key.key == 'w')
+            this.left_player.up = 1
         if (key.key == 's')
-            this.p1.down = 1
+            this.left_player.down = 1*/
         key.preventDefault()
     }
 
     keyUp = (key) => {
         if (key.key == 'ArrowUp')
-            this.p2.up = 0
+            this.send_move(0)
         if (key.key == 'ArrowDown')
-            this.p2.down = 0
-        if (key.key == 'w')
-            this.p1.up = 0
+            this.send_move(0)
+        /*if (key.key == 'w')
+            this.left_player.up = 0
         if (key.key == 's')
-            this.p1.down = 0
+            this.left_player.down = 0*/
         key.preventDefault()
     }
 
-    listen = () => {
+    listen = (user_id, side) => {
+        this.user = user_id
+        this.side = side
         window.addEventListener('keydown', this.keyDown)
         window.addEventListener('keyup', this.keyUp)
     }

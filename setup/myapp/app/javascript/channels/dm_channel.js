@@ -1,17 +1,17 @@
 import consumer from "./consumer"
-
+import helper from "./../packs/Helper"
 
 let dm_channel_helper = {
-  joinChannel(username)
+  joinChannel(userID)
   {
     let cable = consumer.subscriptions.create(
       { 
         channel: "DmChannel",
-        user: username,
+        userID: userID,
       },
       {
         connected() {
-          console.log(`subscription to dm ${username}`);
+          console.log(`subscription to dm ID: ${userID}`);
           // Called when the subscription is ready for use on the server
         },
       

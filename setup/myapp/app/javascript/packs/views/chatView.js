@@ -6,38 +6,38 @@ import conversView from './conversationView'
 import channelsView from './channelsView'
 import Helper from '../Helper';
 import dm_channel_helper from '../../channels/dm_channel'
+import usercollection from '../models/user'
 let chatView = Backbone.View.extend({
-    async initialize() {
-        console.log("Chat View initialize");
-        this.cable = dm_channel_helper.joinChannel(Helper.current_user());
-        this.template_chat = $('script[name="chat"]').html(); // views/chat/_chat.html.erb
-        await Helper.fetch(chatcol).then(this.render());
+
+    el: '#content',
+    chatsCol: chatcol,
+    userCol: usercollection,
+    
+    initialize() {
+        this.cable = dm_channel_helper.joinChannel(Helper.userId());
+        this.render();
+    },
+
+    async fetchUsers() {
+        await Helper.fetch(this.userCol).then(function() {
+            let current_user = Helper.current_user();
+            let template = _.template($("#online-users-template").html())
+            let output = template({'users':usercollection.toJSON(), 'current_user':current_user});
+            $('#available-users').html(output);
+        });
+    },
+
+    render_user_list() {
+        this.fetchUsers();
+        return this;
     },
 
     render() {
-        $("#content").html(_.template(this.template_chat));
-        this.append_click_event()
-
-        return this;
-    },
-    async append_click_event() {
-        await Helper.fetch(chatcol).then(function() {
-            let conversview = new conversView();
-            
-            for (let i = 0; i < chatcol.length; i++) {
-                let namestr = chatcol.models[i].get("name");
-                $('#' + namestr + "-button").on("click", function() { // append click event to every button of the online users.
-                    let nametag = $('#' + namestr + "-button").val();
-                    $('#current-conversation').text(nametag);
-                    conversview.setName(namestr);
-                    conversview.on("change:chatName", conversview.render());
-
-                });
-
-            }
-           
-           
-        });
+        let self = this;
+        let template = _.template($("#chats-template").html())
+        this.$el.html(template);
+        this.render_user_list();
+        return self;
     },
 });
 

@@ -14,6 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if user.save
       sign_in(user)
+      send_connected_user(user)
       #render json: {data: 'OK'}, status: :ok
       respond_to do |format|
         format.json { render json: { location: root_path, status: 'ok' } }
@@ -36,6 +37,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.permit(:nickname, :email, :password, :password_confirmation)
+  end
+
+  private
+  def send_connected_user(user)
+   ActionCable.server.broadcast 'available_user_channel',
+       user.nickname
   end
 
   # GET /resource/edit

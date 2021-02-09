@@ -75,7 +75,7 @@ let channelsView = Backbone.View.extend({
         $('#create-channel-button').click(function(){
             setTimeout(function(){
                 $('.create-channel-input').val("");
-                self.render_list();
+                //self.render_list();
         }, 300);
 
         });
@@ -84,7 +84,7 @@ let channelsView = Backbone.View.extend({
 
     connectCable(name){
         self = this;
-        console.log("PROBANDON" + channelcol.where({name: name})[0].get("password-digest"))
+
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
         
         if (self.cablenames.includes(name))

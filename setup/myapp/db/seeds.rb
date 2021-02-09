@@ -47,5 +47,5 @@ Message.create(content: "second msg!", chat_id: 5, user_id: 2)
 Message.create(content: "bye!", chat_id: 5, user_id: 2)
 ch = Channel.create(name: "canal7", user_id: 1, category: "public")
 
-ch.messages.create(content: "Hola, soy Aserrano", channel_id: 1, user_id: 2, author: "aserrano")
-ch.messages.create(content: "Me encanta ft_transcendence", channel_id: 1, user_id: 2, author: "aserrano")
+ch.messages.create(content: "Hola, soy Aserrano", channel_id: 1, user_id: 2, author: "marvin")
+ch.messages.create(content: "Me encanta ft_transcendence", channel_id: 1, user_id: 2, author: "marvin")

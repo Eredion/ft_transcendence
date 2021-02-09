@@ -69,7 +69,7 @@
     </div>
     <%% for (msg of messages) {%>
         <div class="channel_message bg-light p-2">
-            <div class="message_author d-inline text-primary"><%%= msg.author %>:</div>
+            <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
             
             <div class="message_content d-inline text-dark"><%%= msg.content %></div>
         </div>
@@ -86,4 +86,20 @@
                         
     <% end %>
     <%% $('#hiddenfield').val(channel.id); %>
+</script>
+
+<div id="popup1" class="overlay">
+	<div class="popup">
+		<h2 class="popup-user-title"></h2>
+		<a class="close" href="javascript:history.back()">&times;</a>
+		<div class="popup-content">
+			
+		</div>
+	</div>
+</div>
+<script>
+    function render_popup(el){
+        let user = el.text.replace(':','');
+        $('.popup-user-title').text(user);
+    }
 </script>

@@ -5,7 +5,7 @@ import Helper from '../Helper'
 import channelcol from '../models/channel'
 import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
-import bcryptjs from 'bcryptjs'
+
 
 let channelsView = Backbone.View.extend({
 
@@ -58,6 +58,8 @@ let channelsView = Backbone.View.extend({
         });
         return this;
     },
+
+
 
     render_list() {
         this.fetchcol();

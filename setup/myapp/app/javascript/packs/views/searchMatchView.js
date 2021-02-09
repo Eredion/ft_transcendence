@@ -22,7 +22,7 @@ if (Helper.logged()) {
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
             this.render()
-            Matchmaking.channel.connect(Helper.userId(), this.render_match_found, this)
+            Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
         },
         
         render() {
@@ -33,19 +33,38 @@ if (Helper.logged()) {
         },
 
         // this function is called from matchmaking_channel when a match game is found
+        receive_data(data) {
+            switch (data.action) {
+                case 'searching':
+                  console.log('Waiting for opponent')
+                  break;
+                case 'game_found':
+                  console.log('Game found')
+                  this.render_match_found(data.player1, data.player2, data.match)
+                  break;
+                case 'current_game':
+                  console.log('Redirection to current game')
+                  $('#search_match_modal').modal('hide')
+                  setTimeout(function () {
+                    window.location.hash = 'match/' + data.match
+                  }, 250)
+                  break;
+            }
+        },
+            
         render_match_found(player1, player2, match_id) {
             console.log('match_found render')
             $('#search_match_modal').modal('hide')
             this.$el.html(this.match_found_template({'player1': player1, 'player2': player2}));
             $('#match_found_modal').modal('show')
-            //Redirection to the match
             setTimeout(function () {
                 $('#match_found_modal').modal('hide')
+                //Redirection to the match
                 setTimeout(function () {
                     window.location.hash = 'match/' + match_id
                 }, 250)
             }, 3000)
-        },
+        },    
 
         removeChannel() {
             Matchmaking.channel.disconnect()

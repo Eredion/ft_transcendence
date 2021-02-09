@@ -37,15 +37,7 @@ $(function () {
         received(data) {
           // Called when there's incoming data on the websocket for this channel
           console.log('received function from matchmaking_channel.js')
-          switch (data.action) {
-            case 'searching':
-              console.log('Waiting for opponent')
-              break;
-            case 'game_found':
-              console.log('Game found')
-              callback.bind(view)(data.player1, data.player2, data.match)
-              break;
-          }
+          callback.bind(view)(data)
         }
       });
     }

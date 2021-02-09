@@ -11,6 +11,7 @@ class FriendRequest < ApplicationRecord
             if !user.friends.include?(self.receiver_id)
                 user.friends.push(self.receiver_id)
                 user.save
+                user.send_notification('update_friends')
             end
 
             user = User.find_by(id: self.receiver_id)

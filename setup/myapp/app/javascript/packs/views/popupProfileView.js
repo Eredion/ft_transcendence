@@ -8,6 +8,7 @@ import userscollection from '../models/user.js'
 let PopupProfileView = Backbone.View.extend({
     el: '.popup-content',
     userCol: userscollection,
+    
     async fetchUsers() {
         self = this;
         await Helper.fetch(this.userCol).then(function() {
@@ -23,8 +24,18 @@ let PopupProfileView = Backbone.View.extend({
     render(){
         console.log(`searching for ${this.username}`)
         this.model = this.userCol.where({ nickname: this.username })[0];
-        this.$el.append("<button class=\"button btn-sm\">" + "Challenge " + this.model.get("nickname")+ "</button>");
-       
+        console.log("ESTE USERNAME" + this.username)
+        console.log("ESTE USERNAME" + Helper.current_user())
+        if (this.username != Helper.current_user())
+        {
+            
+            this.$el.html("<div><a class=\"btn btn-dark\">" + "Challenge " + this.model.get("nickname")+ "</a></div>");
+            this.$el.html("<div><a href =\"#users/"+this.model.get("id")+"\" class=\"btn btn-dark\">" + "Go to " + this.model.get("nickname")+ " profile</a></div>");
+        }
+        else{
+            this.$el.html("<h3>This is yourself!</h3>");
+        }
+        $('#popup-user-avatar').html(`<img src="${this.model.toJSON().avatar.thumb.url}"></img>`)
     }
 });
 

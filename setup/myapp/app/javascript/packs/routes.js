@@ -69,8 +69,7 @@ class Workspace extends Backbone.Router {
     }
    
     popup_profile(){
-        if (!this.popupprofile)
-            this.popupprofile = new PopupProfileView(($('.popup-user-title').text()));
+        this.popupprofile = new PopupProfileView(($('.popup-user-title').text()));
     }
 
     pong() {

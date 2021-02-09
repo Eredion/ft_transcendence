@@ -1,7 +1,7 @@
 
 <script type="text/template" name="channels" id="channels-template">
     <div class="row">
-        <div id="channel-list" class="col-sm">
+        <div id="channel-list" class="col">
             <div>
                 <h1 class="title">Create new channel</h1>
             </div>
@@ -31,7 +31,7 @@
             
         </div>
         
-        <div class="col-sm">
+        <div class="col-6">
             <h1 class="title" id="channel-name-title">Channel</h1>
             <div id="channel_view" class="bg-dark overflow-auto">
 
@@ -89,8 +89,12 @@
 </script>
 
 <div id="popup1" class="overlay">
-	<div class="popup">
-		<h2 class="popup-user-title"></h2>
+	<div class="popup ">
+        <div class="row">
+            <h2 class="popup-user-title col"></h2>
+            <div class="col" id="popup-user-avatar"></div>
+        </div>
+		
 		<a class="close" href="javascript:history.back()">&times;</a>
 		<div class="popup-content">
 			
@@ -102,4 +106,8 @@
         let user = el.text.replace(':','');
         $('.popup-user-title').text(user);
     }
+</script>
+
+<script id="channel-msg-input-template" type='text/template'>
+
 </script>

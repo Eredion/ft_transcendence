@@ -110,6 +110,8 @@
   .popup .popup-content {
     max-height: 30%;
     overflow: auto;
+    text-align:center;
+    margin-top: 1em;
   }
   
   @media screen and (max-width: 700px){
@@ -134,3 +136,15 @@
     z-index:2;
   }
   
+  #popup-user-avatar img
+  {
+    height: 3em;
+    max-width: 5em;
+    text-align:left;
+    vertical-align: center;
+    border-radius: 50%;
+  }
+.popup-user-title
+  {
+    text-align:right;
+  }

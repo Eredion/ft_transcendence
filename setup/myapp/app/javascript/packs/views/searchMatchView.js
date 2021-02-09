@@ -41,7 +41,9 @@ if (Helper.logged()) {
             //Redirection to the match
             setTimeout(function () {
                 $('#match_found_modal').modal('hide')
-                window.location.hash = 'match/'+match_id
+                setTimeout(function () {
+                    window.location.hash = 'match/' + match_id
+                }, 250)
             }, 3000)
         },
 

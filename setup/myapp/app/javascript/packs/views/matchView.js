@@ -29,6 +29,10 @@ if (Helper.logged()) {
         el: "#content",
 
         template: _.template($('#match_template').html()),
+
+        events: {
+            "click #f-match": "finish_match"
+        },
     
         async initialize(id) {
             console.log('Match View initialize')
@@ -63,6 +67,19 @@ if (Helper.logged()) {
             } else {
                 console.log(data)
             }
+        },
+
+        finish_match(e) {
+            console.log('Sending action to finish the match')
+            e.preventDefault()
+            var data = {
+                match: this.match_id
+            }
+            Matches.channel.perform('finish_match', data)
+        },
+
+        removeChannel() {
+            Matches.channel.disconnect()
         }
     });
 }

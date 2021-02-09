@@ -18,6 +18,14 @@ class MatchChannel < ApplicationCable::Channel
     ActionCable.server.broadcast("Match_#{data['match']}", data.to_json)
   end
 
+  # finish match manually for testings
+  def finish_match(data)
+    c_match = Match.find_by(id: data['match'])
+    c_match.finished = true
+    c_match.save!
+    ActionCable.server.broadcast("Match_#{data['match']}", {action: 'Match Finished'})
+  end
+
 =begin
   ball and paddles in server side to share with the clients ?
   

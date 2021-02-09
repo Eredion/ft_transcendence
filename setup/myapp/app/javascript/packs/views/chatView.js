@@ -12,6 +12,9 @@ let chatView = Backbone.View.extend({
     el: '#content',
     chatsCol: chatcol,
     userCol: usercollection,
+    events : {
+        'click #online-user-button' : 'render_conversation'
+    },
     
     initialize() {
         this.cable = dm_channel_helper.joinChannel(Helper.userId());
@@ -30,6 +33,12 @@ let chatView = Backbone.View.extend({
     render_user_list() {
         this.fetchUsers();
         return this;
+    },
+
+    render_conversation(param){
+        console.log($(param.currentTarget).text());
+        //let valor = $(this).html();
+        //console.log(valor);
     },
 
     render() {

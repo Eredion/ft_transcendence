@@ -1,6 +1,15 @@
 <script type="text/template" name="chats" id="chats-template">
-
-    <div id='available-users'></div>
+    <div class="row">
+        <div id="user-list" class="col-sm">
+            <div>
+                <h1 class="title">Users</h1>
+            </div>
+            <div id='available-users'></div>
+    </div>
+        <div class="col-sm">
+                <h1 class="title" id="chat-name-title">chat</h1>
+                <div id="chat_view" class="bg-dark overflow-auto"></div>
+        </div>
 
 </script>
 
@@ -12,9 +21,9 @@
     <div>
     <%% const url = "#users/" + users[i].nickname; %>
         <%% if(current_user != users[i].nickname){ %>
-            <a  class="btn btn-danger btn-sm" id="online-user-button" href=<%%= url %>>
+            <button class="btn btn-danger btn-sm" id="online-user-button">
                 <%%= users[i].nickname%>
-            </a>
+            </button>
         <%% };%>
     </div>
     <%% }; %>

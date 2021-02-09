@@ -80,6 +80,7 @@ if (Helper.logged()) {
 
         removeChannel() {
             Matches.channel.disconnect()
+            this.pong.stop()
         }
     });
 }

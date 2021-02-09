@@ -47,7 +47,7 @@ if (Helper.logged()) {
                   $('#search_match_modal').modal('hide')
                   setTimeout(function () {
                     window.location.hash = 'match/' + data.match
-                  }, 250)
+                  }, 300)
                   break;
             }
         },
@@ -62,7 +62,7 @@ if (Helper.logged()) {
                 //Redirection to the match
                 setTimeout(function () {
                     window.location.hash = 'match/' + match_id
-                }, 250)
+                }, 300)
             }, 3000)
         },    
 

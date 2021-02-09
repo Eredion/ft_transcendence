@@ -17,10 +17,9 @@ class Player {
         ctx.fillRect(this.x, this.y, this.w, this.h)
     }
 
-    move = (canvas, position) => {
+    move = (position) => {
         if (this.y > 0 || this.y < (canvas.height - this.h)) {
             this.y = position
-            this.draw(canvas)
         }
     }
 
@@ -76,8 +75,11 @@ class Pong {
         this.left_player = new Player(canvas.width * 0.05, 'blue')
         this.right_player = new Player(canvas.width * 0.95, 'red')
         //this.ball = new Ball(this.canvas)
+        this.update_frames()
+    }
 
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height)
+    update_frames = () => {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 		this.drawMiddleLinne()
         this.left_player.draw(this.ctx)
         this.right_player.draw(this.ctx)
@@ -95,8 +97,9 @@ class Pong {
     }
 
     update_players = (players) => {
-        this.left_player.move(this.canvas, players.left_player)
-        this.right_player.move(this.canvas, players.right_player)
+        this.left_player.move(players[0]['y'])
+        this.right_player.move(players[1]['y'])
+        this.update_frames()
     }
 /*
     gameLoop = () => {
@@ -181,10 +184,6 @@ class Pong {
             this.send_move(1)
         if (key.key == 'ArrowDown')
             this.send_move(2)
-        /*if (key.key == 'w')
-            this.left_player.up = 1
-        if (key.key == 's')
-            this.left_player.down = 1*/
         key.preventDefault()
     }
 
@@ -193,10 +192,6 @@ class Pong {
             this.send_move(0)
         if (key.key == 'ArrowDown')
             this.send_move(0)
-        /*if (key.key == 'w')
-            this.left_player.up = 0
-        if (key.key == 's')
-            this.left_player.down = 0*/
         key.preventDefault()
     }
 

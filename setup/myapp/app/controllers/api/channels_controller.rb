@@ -29,7 +29,7 @@ class Api::ChannelsController < ApplicationController
     end
 
    private
-   def send_connected_channel|(channel)
+   def send_connected_channel(channel)
     ActionCable.server.broadcast 'available_channels_channel',
         channel.name
    end

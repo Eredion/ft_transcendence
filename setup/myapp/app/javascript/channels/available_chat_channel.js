@@ -1,8 +1,10 @@
 import consumer from "./consumer"
+import $ from 'jquery'
+import Helper from "../packs/Helper";
 
 consumer.subscriptions.create("AvailableChatChannel", {
   connected() {
-    console.log("Listening to available_channels");
+    console.log("Listening to available_chats");
   },
 
   disconnected() {
@@ -10,7 +12,10 @@ consumer.subscriptions.create("AvailableChatChannel", {
   },
 
   received(data) {
-    $('#available-users-buttons').append(`<a href="#users/${data}" class="btn btn-danger btn-sm" id="online-user-button">
-    ${data}</a>`);
+    if (data != Helper.current_user && $('.btn btn-danger btn-sm').find(Helper.current_user) === undefined)
+    {
+      $('#available-users-buttons').append(`<a href="#users/${data}" class="btn btn-danger btn-sm" id="online-user-button">
+        ${data}</a>`);
+    }
   }
 });

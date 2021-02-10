@@ -15,8 +15,15 @@ class Api::MessagesController < ApplicationController
         msg = Message.new(message_params)
         msg.user_id = params[:user_id]
         msg.author = User.find_by(id: params[:user_id]).nickname
-        msg.channel_id = params[:channel_id]
-        msg.channelname = Channel.find_by(id: params[:channel_id]).name
+        if (params[:channel_id])
+            msg.channel_id = params[:channel_id]
+            msg.channelname = Channel.find_by(id: params[:channel_id]).name
+        elsif (params[:chat_id])
+            msg.chat_id = params[:chat_id]
+        else
+            return
+        end
+        
         puts(msg.content)
         if (msg.content.length() < 1)
             return
@@ -24,6 +31,8 @@ class Api::MessagesController < ApplicationController
         if (msg.channel_id && msg.save() )
             puts("channel_messages_#{msg.channelname}")
             ActionCable.server.broadcast "channel_messages_" + msg.channelname, msg
+        elsif (msg.chat_id && msg.save() )
+            puts "OK CHAT MESSAGE"
         else
             puts(Rails.logger.info(msg.errors.inspect))
         end

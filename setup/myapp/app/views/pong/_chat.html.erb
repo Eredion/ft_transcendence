@@ -5,12 +5,13 @@
                 <h1 class="title">Users</h1>
             </div>
             <div id='available-users'></div>
-    </div>
+        </div>
         <div class="col-sm">
                 <h1 class="title" id="chat-name-title">chat</h1>
                 <div id="chat_view" class="bg-dark overflow-auto"></div>
+                <div id="chat-input-form-wrapper"></div>
         </div>
-
+    </div>
 </script>
 
 
@@ -28,4 +29,26 @@
     </div>
     <%% }; %>
 <div>
+</script>
+
+<script id="chat_view_template" type='text/template'>
+    <%% for (msg of messages) {%>
+        <div class="chat_message bg-light p-2 rounded-pill mt-1">
+            <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
+            
+            <div class="message_content d-inline text-dark"><%%= msg.content %></div>
+        </div>
+    <%% };%>
+</script>
+
+<script id="chat-msg-imput-template" type='text/temlate'>
+    <%= form_with url: "api/messages", id: "chat-msg-input-form", method: :create do |form|%>
+        <%= text_field(:message, :content,minlenght: 1, maxlenght: 280,
+            placeholder: "Type here...", autocomplete: :off) %>
+        <%= form.hidden_field :user_id, value: current_user.id %>
+        <%= form.hidden_field :author, value: current_user %>
+        <%%= `<input id="hiddenfield" value="${chat.id}"type="hidden" name="chat_id">` %>
+        <%= form.submit "Send", id: "send-chat-message-button", class: "btn btn-primary" %>
+        <% end %>
+        <%% $('#hiddenfield').val(chat.id); %>
 </script>

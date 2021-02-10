@@ -21,9 +21,6 @@ let chatView = Backbone.View.extend({
     initialize() {
         this.ownCable = dm_channel_helper.joinChannel(Helper.userId());
         this.commonCable = AvailableChatCable;
-        //this.cables.push(this.ownCable);
-        //this.cables.push(this.commonCable);
-        //console.log("Joder que si esta definido!. Mide : " + this.cables.length)
         this.render();
     },
 
@@ -48,11 +45,41 @@ let chatView = Backbone.View.extend({
         return this;
     },
 
+    connectCable(id) {
+        if (this.cables.find(cable => cable.userid === id) === undefined)
+        {
+            this.cables.push(dm_channel_helper.joinChannel(id));
+        }
+    },
+
+    renderMessages(chat) {
+        let msg = chat.get("messages");
+        console.log(msg);
+        let template = _.template($("#chat_view_template").html())
+        let output = template({'messages':chat.get("messages")});
+        $('#chat_view').html(output);
+        let template2 = _.template($("#chat-msg-imput-template").html());
+        let output2 = template2({'chat': chat});
+        $('#chat-input-form-wrapper').html(output2);
+        $('#send-chat-message-button').click(function(){
+            setTimeout(function(){
+                $('#chat-msg-input-form').val("");
+                //self.render_channel(name);
+                $('#chat-msg-input-form').focus();
+            }, 300);
+
+        });
+        $("#msg-input-form").submit(function(event) {
+            event.preventDefault();
+          }); 
+    },
+
     async renderConversation(param){
         
         let self = this;
         this.fetchUsers();
         let userNick = $(param.currentTarget).text().trim();
+        $('#chat-name-title').text(userNick);
         let chatName = this.buildChatName(Helper.current_user(), userNick);
         await Helper.fetch(this.chatCol).then(function() {
             if (self.chatCol.where({ name: chatName}).length === 0) {
@@ -60,11 +87,9 @@ let chatView = Backbone.View.extend({
                 self.commonCable.perform('create_channel', {name: chatName})
             }
             let chat = self.chatCol.where({ name: chatName})[0];
+            self.connectCable(Helper.getIdbyNickname(userNick));
+            self.renderMessages(chat);
         });
-        let cable2 = dm_channel_helper.joinChannel(Helper.getIdbyNickname(userNick));
-        console.log(self.cables)
-        self.cables.push(cable2);
-        //if (self.cables.length === 0)
     },
 
     render() {

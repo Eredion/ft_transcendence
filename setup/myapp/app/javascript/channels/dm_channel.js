@@ -24,6 +24,7 @@ let dm_channel_helper = {
         }
       }
     );
+    cable.userid = userID;
     return cable;
   }
 }

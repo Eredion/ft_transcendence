@@ -9,9 +9,7 @@ class AvailableChatChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def create_channel(data)
-    puts "intento crearlo"
-    puts data['name']
+  def create_chat(data)
     Chat.create(name: data['name']) 
   end
 

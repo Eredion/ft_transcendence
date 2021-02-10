@@ -5,8 +5,7 @@ import Helper from '../Helper'
 import channelcol from '../models/channel'
 import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
-
-
+import newchannelscable from "./../../channels/available_channels_channel"
 let channelsView = Backbone.View.extend({
 
     el: '#content',
@@ -36,6 +35,8 @@ let channelsView = Backbone.View.extend({
     async render_channel(name) {
         let self = this;
         $('#input-msg-channel-form').focus();
+        if (this.check_password(name) === false)
+            return;
         this.connectCable(name);
         /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
@@ -110,7 +111,7 @@ let channelsView = Backbone.View.extend({
         c.perform("add_user_to_channel", {channel: name, user: Helper.current_user()});
 
         // { nombre: 'cerezas', cantidad: 5 }
-    }, 
+    },
 
     exit_channel()
     {
@@ -124,6 +125,12 @@ let channelsView = Backbone.View.extend({
         self.cables.splice(index, 1);
         this.render();
     },
+
+    check_password(name)
+    {
+        console.log(newchannelscable);
+        return (true);
+    }
 
 });
 

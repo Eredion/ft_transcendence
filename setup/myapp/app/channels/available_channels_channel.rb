@@ -4,20 +4,5 @@ class AvailableChannelsChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
-    puts("ciao pescao")
   end
 end

@@ -2,7 +2,7 @@ import consumer from "./consumer"
 import $ from 'jquery'
 import Helper from "../packs/Helper";
 
-consumer.subscriptions.create("AvailableChatChannel", {
+let AvailableChatCable = consumer.subscriptions.create("AvailableChatChannel", {
   connected() {
     console.log("Listening to available_chats");
   },
@@ -19,3 +19,5 @@ consumer.subscriptions.create("AvailableChatChannel", {
     }
   }
 });
+
+export default AvailableChatCable;

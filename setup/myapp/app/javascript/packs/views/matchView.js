@@ -46,10 +46,10 @@ if (Helper.logged()) {
 
                 if (this.current_user === this.model.get('left_player_id')) {
                     console.log('left_player ' + this.current_user + ' listening keymoves')
-                    this.pong.listen(this.current_user, 'left');
+                    this.pong.listen(this.current_user, 'l');
                 } else if (this.current_user === this.model.get('right_player_id')) {
                     console.log('right_player ' + this.current_user + ' listening keymoves')
-                    this.pong.listen(this.current_user, 'right');
+                    this.pong.listen(this.current_user, 'r');
                 }
             }
             Matches.channel.connect(this.match_id, this.update_match, this)
@@ -62,8 +62,8 @@ if (Helper.logged()) {
         },
 
         update_match(data) {
-            if (data['players']) {
-                this.pong.update_players(data['players'])
+            if (data['actors']) {
+                this.pong.update_players(data['actors'])
             } else {
                 console.log(data)
             }

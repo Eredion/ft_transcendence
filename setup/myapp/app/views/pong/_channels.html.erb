@@ -1,14 +1,14 @@
 
 <script type="text/template" name="channels" id="channels-template">
     <div class="row">
-        <div id="channel-list" class="col-sm">
+        <div id="channel-list" class="col-4">
             <div>
                 <h1 class="title">Create new channel</h1>
             </div>
             <div class="form-group mb-2 bg-secondary center" id="create-channel-input-wrapper">
                 <%= form_with url: "api/channels", method: :create do |form| %>
                         <div class="form-element">
-                        <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "[a-zA-Z0-9 ]+",
+                        <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "^[a-zA-Z0-9]*$",
                             placeholder: "Channel Name", autocomplete: :off, class:"create-channel-input")%>
                         <%= form.hidden_field :user, value: current_user.id %>
                         </div>
@@ -31,7 +31,7 @@
             
         </div>
         
-        <div class="col-sm">
+        <div class="col-6">
             <h1 class="title" id="channel-name-title">Channel</h1>
             <div id="channel_view" class="bg-dark overflow-auto">
 
@@ -50,7 +50,7 @@
 </script>
 
 <script id="online-channels-template" type='text/template'>
-    <div class="bg-secondary" id = "available-channel-buttons">
+    <div class="bg-secondary btn-group-vertical" id = "available-channel-buttons">
         <%% for (let i = 0; i < channels.length; i++){ %>
         <div>
         <%% const url = "#channels/" + channels[i].name; %>
@@ -65,11 +65,11 @@
 
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group">
-        <a id="exit-channel-button" class="badge badge-danger" href='#channels/default'>Exit channel</a>
+        <a id="exit-channel-button" class="btn btn-danger exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
         <div class="channel_message bg-light p-2">
-            <div class="message_author d-inline text-primary"><%%= msg.author %>:</div>
+            <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
             
             <div class="message_content d-inline text-dark"><%%= msg.content %></div>
         </div>
@@ -87,3 +87,24 @@
     <% end %>
     <%% $('#hiddenfield').val(channel.id); %>
 </script>
+
+<div id="popup1" class="overlay">
+	<div class="popup ">
+        <div class="row">
+            <h2 class="popup-user-title col"></h2>
+            <div class="col" id="popup-user-avatar"></div>
+        </div>
+		
+		<a class="close" href="javascript:history.back()">&times;</a>
+		<div class="popup-content">
+			
+		</div>
+	</div>
+</div>
+<script>
+    function render_popup(el){
+        let user = el.text.replace(':','');
+        $('.popup-user-title').text(user);
+    }
+</script>
+

@@ -1,5 +1,5 @@
 import consumer from "./consumer"
-
+import Helper from "./../packs/Helper"
 
 let dm_channel_helper = {
   joinChannel(username)
@@ -12,6 +12,7 @@ let dm_channel_helper = {
       {
         connected() {
           console.log(`subscription to dm ${username}`);
+          console.log(`${Helper.userId()} es mi ID`);
           // Called when the subscription is ready for use on the server
         },
       

@@ -8,14 +8,17 @@
 				<canvas id="canvas" width="600" height="400"><canvas>
 			</div>
 		</div>
-		<div class="col-sm-2">
-			<h2>Users</h2>
-			<div class="list-group">
+		<div class="col-sm-2 online-user-list">
+			<h2 class="title">Users</h2>
+				<ul class="btn-group-vertical user-list-group">
 				<% @users.each do |user| %>
-					<%= image_tag user.avatar.thumb.url, class: 'img-avatar' %>
-					<a class="list-group-item list-group-item-action" href="/#users/<%=user.id%>"> <%= user.nickname %> </a>
+					<button class="btn btn-dark user-button ">
+					
+						<a class="text-white" href="/#users/<%=user.id%>"> <%= user.nickname %> </a>
+						<span class="user-avatar"><%= image_tag user.avatar.thumb.url, class: 'img-avatar' %></span>
+					</button>
 				<% end %>
-			</div>
+				</li>
 		</div>
 	</div>
 </script>

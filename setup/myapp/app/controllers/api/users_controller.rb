@@ -73,11 +73,38 @@ class Api::UsersController < ApplicationController
                 if othuser.friends.include?(current_user.id)
                     othuser.friends.delete(current_user.id)
                     othuser.save
+                    othuser.send_notification('update_friends')
                 end
                 return
             end
             return render json: {"error": "The request could not be made, please try again."}, status: :ok
 
+        end
+        render json: {"error": 'Forbidden.'}, status: :ok
+    end
+
+    def match_history
+        if user = User.find_by(id: params[:id])
+            ret = []
+            matches = Match.includes(:left_player, :right_player).user_matches(params[:id]).references(:left_player, :right_player)
+            matches.each do |match|
+                ret.push({
+                    :match_id => match.id,
+                    :match_type => match.match_type,
+                    :left_player_score => match.left_score,
+                    :left_player_id => match.left_player.id,
+                    :left_player => match.left_player.nickname,
+                    :left_player_avatar => match.left_player.avatar,
+                    :right_player_score => match.right_score,
+                    :right_player_id => match.right_player.id,
+                    :right_player => match.right_player.nickname,
+                    :right_player_avatar => match.right_player.avatar,
+                    :winner => match.winner_id,
+                    :loser => match.loser_id,
+                    :date => match.created_at
+                })
+            end
+            return render json: {"success": ret.to_json}, status: :ok
         end
         render json: {"error": 'Forbidden.'}, status: :ok
     end

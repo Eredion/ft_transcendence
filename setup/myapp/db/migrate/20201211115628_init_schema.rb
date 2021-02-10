@@ -62,12 +62,30 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "name", default: "default_chann", null: false, unique: true
       t.belongs_to :user
       t.string "password_digest", optional: true
-      #t.references :users, array: true, index: true, optional: true
+      t.integer "users", default: [], array: true
+      t.integer "members", default: [], array: true
       t.string "category", null: false
       t.integer "messages", default: [], array: true
       t.bigint "admins", references: :users, default: [], array: true
       t.bigint "banned", references: :users, default: [], array: true
       t.bigint "silenced", references: :users, default: [], array: true
+    end
+
+    create_table "matchmakings" do |t|
+      t.belongs_to :user, foreign_key: true, unique: true
+      t.string "match_type", default: "quick game", null: false
+    end
+
+    create_table "matches" do |t|
+      t.string "match_type", null: false
+      t.references :left_player, null: false
+      t.references :right_player, null: false
+      t.integer :left_score, default: 0
+      t.integer :right_score, default: 0
+      t.references :winner
+      t.references :loser
+      t.boolean :finished, default: false
+      t.datetime "created_at", precision: 6, null: false
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

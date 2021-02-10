@@ -22,7 +22,15 @@ body {
     background: rgb(0, 0, 0);
     background: linear-gradient(348deg, rgba(0, 0, 0, 1) 0%, rgba(43, 43, 50, 1) 100%);
     font-family: Raleway;
+
 }
+
+.user-list-group{
+    
+    margin-left:0;
+    padding-inline-start: 0;
+}
+
 
 .content {
     align-content: center;
@@ -53,12 +61,13 @@ body {
     font-family: "Righteous";
     border: 10px 25%;
     border-color: black;
-    padding: 50px;
+    padding: 10px;
 }
 
 #online-user-button {
     margin-block-end: 2px;
-    width: 15em;
+    max-width: 15em;
+    min-width: 8em;
 }
 
 #transcendence-title {
@@ -186,6 +195,7 @@ body {
 .img-avatar {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
 }
 
 #user-nickname {
@@ -198,6 +208,13 @@ body {
     //overflow-y: auto;
     min-height: 50px;
     max-height: 200px;
+    overflow-y: scroll;
+}
+
+.match_list {
+    padding: 2px;
+    min-height: 50px;
+    max-height: 250px;
     overflow-y: scroll;
 }
 

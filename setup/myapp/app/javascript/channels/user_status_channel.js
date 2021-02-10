@@ -1,6 +1,5 @@
 import consumer from "./consumer"
 import $ from 'jquery'
-import _ from 'underscore'
 import Friends from '../packs/views/friendsView'
 import Helper from "../packs/Helper"
 
@@ -31,7 +30,6 @@ $(function () {
           self.disconnect()
         },
         received(data) {
-          console.log('UserStatusChannel received')
           // the status is changed if the actual route match with the user who has changed the status
           if (Backbone.history.getFragment() === 'users/' + data['id']) {
             if (data['status'] == 0) {

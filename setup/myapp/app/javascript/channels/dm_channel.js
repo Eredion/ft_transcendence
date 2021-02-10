@@ -1,5 +1,5 @@
 import consumer from "./consumer"
-import helper from "./../packs/Helper"
+import Helper from "./../packs/Helper"
 
 let dm_channel_helper = {
   joinChannel(userID)

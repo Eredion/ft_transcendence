@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "name", default: "default_chann", null: false
     t.bigint "user_id"
     t.string "password_digest"
+    t.integer "users", default: [], array: true
+    t.integer "members", default: [], array: true
     t.string "category", null: false
     t.integer "messages", default: [], array: true
     t.bigint "admins", default: [], array: true
@@ -46,6 +48,28 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "officers", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.string "match_type", null: false
+    t.bigint "left_player_id", null: false
+    t.bigint "right_player_id", null: false
+    t.integer "left_score", default: 0
+    t.integer "right_score", default: 0
+    t.bigint "winner_id"
+    t.bigint "loser_id"
+    t.boolean "finished", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.index ["left_player_id"], name: "index_matches_on_left_player_id"
+    t.index ["loser_id"], name: "index_matches_on_loser_id"
+    t.index ["right_player_id"], name: "index_matches_on_right_player_id"
+    t.index ["winner_id"], name: "index_matches_on_winner_id"
+  end
+
+  create_table "matchmakings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "match_type", default: "quick game", null: false
+    t.index ["user_id"], name: "index_matchmakings_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -87,6 +111,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   end
 
   add_foreign_key "channels", "users"
+  add_foreign_key "matchmakings", "users"
   add_foreign_key "messages", "channels"
   add_foreign_key "messages", "chats"
 end

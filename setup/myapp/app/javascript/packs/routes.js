@@ -10,8 +10,9 @@ import channelsView from './views/channelsView'
 import Match from './views/matchView'
 import userList from './views/userListView'
 import Helper from './Helper'
+import PopupProfileView from './views/popupProfileView'
 
-// Routes
+
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
@@ -70,11 +71,15 @@ class Workspace extends Backbone.Router {
             "users/:id": "userProfile",
             "channels/": "channels",
             "channels/:name": "channels",
+            "popup1": "popup_profile",
             "search_match": "search_match",
             "match/:id": "match"
         }
     }
    
+    popup_profile(){
+        this.popupprofile = new PopupProfileView(($('.popup-user-title').text()));
+    }
 
     pong() {
         console.log("pong route");

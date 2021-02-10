@@ -98,11 +98,8 @@ let channelsView = Backbone.View.extend({
     connectCable(name){
         self = this;
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
-        console.log(self.cables);
         if (self.cablenames.includes(name))
-        {            
             console.log("YA EXISTE");
-        }
         else
         {
             self.cablenames.push(name);
@@ -110,7 +107,6 @@ let channelsView = Backbone.View.extend({
             self.cables.push(c);
         }
         let c = self.cables.find( cable => cable.channelname === name );
-        console.log(self.cablenames);
         c.perform("add_user_to_channel", {channel: name, user: Helper.current_user()});
 
         // { nombre: 'cerezas', cantidad: 5 }
@@ -122,13 +118,10 @@ let channelsView = Backbone.View.extend({
         let tofind = $('#channel-name-title').text();
         self.cablenames = self.cablenames.filter(function(e) { return e !== tofind })
         console.log(`Exiting ${tofind}`)
-        console.log(self.cables);
         let cable = this.cables.find(cable => cable.channelname === tofind )
-        console.log(cable);
         consumer.subscriptions.remove(cable)
         let index = self.cables.indexOf(cable)
         self.cables.splice(index, 1);
-        console.log(self.cables);
         this.render();
     },
 

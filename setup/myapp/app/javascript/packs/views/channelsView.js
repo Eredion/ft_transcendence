@@ -14,10 +14,14 @@ let channelsView = Backbone.View.extend({
     cablenames: [],
     cables: [],
     events : {
-        'click #reload-channels-button' : 'render_list',
-        'click #exit-channel-button' : 'exit_channel',
+        "click #exit-channel-button" : "consolelog",
+    },
+
+    consolelog(){
+        console.log("pollas")
     },
     initialize() {
+        console.log("INITIALIZING CHANNELVIEW");
         
     },
     async fetchcol() {
@@ -31,6 +35,7 @@ let channelsView = Backbone.View.extend({
 
     async render_channel(name) {
         let self = this;
+        $('#input-msg-channel-form').focus();
         this.connectCable(name);
         /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
@@ -54,11 +59,18 @@ let channelsView = Backbone.View.extend({
                 }, 300);
 
             });
+            $("#msg-input-form").submit(function(event) {
+                event.preventDefault();
+              }); 
+            $('#exit-channel-button').click(function(){
+
+                self.exit_channel();
+             }
+            ); 
             
         });
         return this;
     },
-
 
 
     render_list() {
@@ -68,6 +80,7 @@ let channelsView = Backbone.View.extend({
     },
 
     render() {
+        console.log("sizeoef cables " + this.cables.length);
         let self = this;
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
@@ -84,9 +97,8 @@ let channelsView = Backbone.View.extend({
 
     connectCable(name){
         self = this;
-
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
-        
+        console.log(self.cables);
         if (self.cablenames.includes(name))
         {            
             console.log("YA EXISTE");
@@ -94,16 +106,29 @@ let channelsView = Backbone.View.extend({
         else
         {
             self.cablenames.push(name);
-            self.cables.push(channelSubscription.joinChannel(name));
+            let c = channelSubscription.joinChannel(name)
+            self.cables.push(c);
         }
+        let c = self.cables.find( cable => cable.channelname === name );
+        console.log(self.cablenames);
+        c.perform("add_user_to_channel", {channel: name, user: Helper.current_user()});
+
         // { nombre: 'cerezas', cantidad: 5 }
     }, 
 
     exit_channel()
     {
+        self = this;
         let tofind = $('#channel-name-title').text();
+        self.cablenames = self.cablenames.filter(function(e) { return e !== tofind })
         console.log(`Exiting ${tofind}`)
-        this.cables.find(cable => cable.channelname === tofind ).unsubscribe();
+        console.log(self.cables);
+        let cable = this.cables.find(cable => cable.channelname === tofind )
+        console.log(cable);
+        consumer.subscriptions.remove(cable)
+        let index = self.cables.indexOf(cable)
+        self.cables.splice(index, 1);
+        console.log(self.cables);
         this.render();
     },
 

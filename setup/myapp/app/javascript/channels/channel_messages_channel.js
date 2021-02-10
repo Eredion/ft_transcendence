@@ -52,15 +52,16 @@ let channelSubscription = {
         },
 
         received(data) {
-          console.log("DATA RECEIVED" + JSON.stringify(data));
-          console.log("LEFT "+ $('#channel-name-title').text());
-          console.log("RIGHT "+ data.channelname);
+          console.log("ChannelMessagesChannel" + " DATA RECEIVED: " + JSON.stringify(data));
           if ($('#channel-name-title').text() === data.channelname)
           {
             $('#channel_view').append(`<div class="channel_message bg-light p-2">
                 <div class="message_author d-inline text-primary">${data.author} :</div>
                 <div class="message_content d-inline text-dark"> ${data.content}</div>
                 </div>`);
+            $('#input-msg-channel-form').focus();
+            let chatHistory= $('#channel_view');
+            chatHistory.scrollTop = chatHistory.scrollHeight;
           }
           else
           {

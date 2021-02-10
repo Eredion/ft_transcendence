@@ -4,6 +4,20 @@ class AvailableChannelsChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
+    puts("ciao pescao")
   end
 end

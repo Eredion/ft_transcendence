@@ -62,7 +62,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "name", default: "default_chann", null: false, unique: true
       t.belongs_to :user
       t.string "password_digest", optional: true
-      #t.references :users, array: true, index: true, optional: true
+      t.integer "users", default: [], array: true
+      t.integer "members", default: [], array: true
       t.string "category", null: false
       t.integer "messages", default: [], array: true
       t.bigint "admins", references: :users, default: [], array: true

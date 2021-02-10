@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "name", default: "default_chann", null: false
     t.bigint "user_id"
     t.string "password_digest"
+    t.integer "users", default: [], array: true
+    t.integer "members", default: [], array: true
     t.string "category", null: false
     t.integer "messages", default: [], array: true
     t.bigint "admins", default: [], array: true

@@ -65,7 +65,7 @@
 
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group">
-        <a id="exit-channel-button" class="badge badge-danger" href='#channels/default'>Exit channel</a>
+        <a id="exit-channel-button" class="btn btn-danger exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
         <div class="channel_message bg-light p-2">
@@ -108,6 +108,3 @@
     }
 </script>
 
-<script id="channel-msg-input-template" type='text/template'>
-
-</script>

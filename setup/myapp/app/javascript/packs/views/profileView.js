@@ -5,6 +5,7 @@ import Helper from '../Helper'
 import userscollection from '../models/user.js'
 import Blockeds from './profile/blockedsView'
 import Friends from './profile/friendsView'
+import MatchHistory from './profile/match_history'
 
 const Profile = {}
 
@@ -36,6 +37,8 @@ if (Helper.logged()) {
             this.render_userInfo()
             this.friendView = new Friends.view(this.user_id)
             this.friendView.update()
+            this.matchhistoryView = new MatchHistory.view(this.user_id)
+            this.matchhistoryView.update()
             if (Helper.userId() == this.user_id) { // Only show block user list if is the current_user
                 this.blockView = new Blockeds.view(this.user_id)
                 this.blockView.update()
@@ -139,6 +142,9 @@ if (Helper.logged()) {
             }
             if (this.friendView) {
                 this.friendView.undelegateEvents()
+            }
+            if (this.matchhistoryView) {
+                this.matchhistoryView.undelegateEvents()
             }
         }
     

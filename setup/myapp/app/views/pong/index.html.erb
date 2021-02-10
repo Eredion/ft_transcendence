@@ -7,10 +7,11 @@
   <%= render "chat" %>
   <%= render "channels"%>
   <%= render "friends"%>
+  <%= render "match"%>
 <% else %>
   <%= render "users/sign_in" %>
 <% end %>
-<div id="content" class="container">
+<div id="content" class="container h-100">
 </div>
 
 <% if user_signed_in? %>

@@ -22,12 +22,14 @@ Rails.application.routes.draw do
         get :show_friends
         get :show_blockeds
         delete :delete_friend
+        get :match_history
       end
     end
     resources :chats
     resources :messages
     resources :channels
     resources :friend_requests, only: [:show, :create, :update, :delete]
+    resources :matches, only: [:index, :show]
   end
 
   devise_scope :user do

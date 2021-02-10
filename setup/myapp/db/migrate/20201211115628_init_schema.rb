@@ -71,6 +71,23 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.bigint "silenced", references: :users, default: [], array: true
     end
 
+    create_table "matchmakings" do |t|
+      t.belongs_to :user, foreign_key: true, unique: true
+      t.string "match_type", default: "quick game", null: false
+    end
+
+    create_table "matches" do |t|
+      t.string "match_type", null: false
+      t.references :left_player, null: false
+      t.references :right_player, null: false
+      t.integer :left_score, default: 0
+      t.integer :right_score, default: 0
+      t.references :winner
+      t.references :loser
+      t.boolean :finished, default: false
+      t.datetime "created_at", precision: 6, null: false
+    end
+
     add_foreign_key :messages, :chats, column: :chat_id
     add_foreign_key :messages, :channels, column: :channel_id
     add_foreign_key :channels, :users, column: :user_id

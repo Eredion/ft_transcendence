@@ -49,3 +49,9 @@ ch = Channel.create(name: "canal7", user_id: 1, category: "public")
 
 ch.messages.create(content: "Hola, soy Aserrano", channel_id: 1, user_id: 2, author: "marvin")
 ch.messages.create(content: "Me encanta ft_transcendence", channel_id: 1, user_id: 2, author: "marvin")
+
+
+Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 2, left_score: 10, right_score: 5, winner_id: 1, loser_id: 2, finished: true)
+Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 3, left_score: 10, right_score: 7, winner_id: 1, loser_id: 3, finished: true)
+Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 4, left_score: 3, right_score: 10, winner_id: 4, loser_id: 1, finished: true)
+

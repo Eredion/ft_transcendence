@@ -61,7 +61,7 @@ body {
     font-family: "Righteous";
     border: 10px 25%;
     border-color: black;
-    padding: 50px;
+    padding: 10px;
 }
 
 #online-user-button {
@@ -208,6 +208,13 @@ body {
     //overflow-y: auto;
     min-height: 50px;
     max-height: 200px;
+    overflow-y: scroll;
+}
+
+.match_list {
+    padding: 2px;
+    min-height: 50px;
+    max-height: 250px;
     overflow-y: scroll;
 }
 

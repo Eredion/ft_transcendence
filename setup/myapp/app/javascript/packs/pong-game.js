@@ -53,7 +53,27 @@ class Pong {
         this.left_player = new Player(canvas.width * 0.05, 'blue', this.canvas)
         this.right_player = new Player(canvas.width * 0.95, 'red', this.canvas)
         this.ball = new Ball(this.canvas)
+        this.lastCalledTime = null;
+        this.fps = 0;
         this.update_frames()
+    }
+
+    print_fps = () => {
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "12px Arial";
+        this.ctx.fillText("FPS: " + Math.round(this.fps), 500, 20);
+    }
+
+    calc_fps = () => {
+        if (!this.lastCalledTime) {
+            this.lastCalledTime = performance.now()
+            this.fps = 0;
+            return;
+        }
+        let delta = (performance.now() - this.lastCalledTime) / 1000;
+        this.lastCalledTime = performance.now();
+        this.fps = 1 / delta;
+        this.print_fps();
     }
 
     update_frames = () => {
@@ -62,6 +82,7 @@ class Pong {
         this.ball.draw(this.ctx)
         this.left_player.draw(this.ctx)
         this.right_player.draw(this.ctx)
+        this.calc_fps()
     }
 
     send_move = (move) => {

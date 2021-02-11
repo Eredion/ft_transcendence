@@ -44,11 +44,13 @@
 <script id="chat-msg-imput-template" type='text/temlate'>
     <%= form_with url: "api/messages", id: "chat-msg-input-form", method: :create do |form|%>
         <%= text_field(:message, :content,minlenght: 1, maxlenght: 280,
-            placeholder: "Type here...", autocomplete: :off) %>
+            placeholder: "Type here...", autocomplete: :off, id: "input-msg-chat-form") %>
         <%= form.hidden_field :user_id, value: current_user.id %>
         <%= form.hidden_field :author, value: current_user %>
+        <%%= `<input id="hiddenDest" value="${chat.dest}"type="hidden" name="dest">` %>
         <%%= `<input id="hiddenfield" value="${chat.id}"type="hidden" name="chat_id">` %>
         <%= form.submit "Send", id: "send-chat-message-button", class: "btn btn-primary" %>
         <% end %>
         <%% $('#hiddenfield').val(chat.id); %>
+        <%% $('#hiddenDest').val(chat.dest); %>
 </script>

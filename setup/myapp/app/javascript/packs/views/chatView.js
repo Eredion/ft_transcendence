@@ -16,7 +16,6 @@ let chatView = Backbone.View.extend({
     events : {
         'click #online-user-button' : 'renderConversation'
     },
-    cables: [],
     
     initialize() {
         this.ownCable = dm_channel_helper.joinChannel(Helper.userId());
@@ -45,16 +44,10 @@ let chatView = Backbone.View.extend({
         return this;
     },
 
-    connectCable(id) {
-        if (this.cables.find(cable => cable.userid === id) === undefined)
-        {
-            this.cables.push(dm_channel_helper.joinChannel(id));
-        }
-    },
-
-    renderMessages(chat) {
-        let msg = chat.get("messages");
-        console.log(msg);
+    renderMessages(conversation) {
+        self = this;
+        let chat = conversation;
+        console.log("Renderizo messages");
         let template = _.template($("#chat_view_template").html())
         let output = template({'messages':chat.get("messages")});
         $('#chat_view').html(output);
@@ -62,20 +55,26 @@ let chatView = Backbone.View.extend({
         let output2 = template2({'chat': chat});
         $('#chat-input-form-wrapper').html(output2);
         $('#send-chat-message-button').click(function(){
-            setTimeout(function(){
-                $('#chat-msg-input-form').val("");
-                //self.render_channel(name);
-                $('#chat-msg-input-form').focus();
-            }, 300);
-
+            if (($('#input-msg-chat-form').val()).length === 0)
+            {
+                return;
+            }
+            setTimeout(async function(){
+                $('#chat_view').append(`<div class="channel_message bg-light p-2">
+                <div class="message_author d-inline text-primary">${Helper.current_user()} :</div>
+                <div class="message_content d-inline text-dark"> ${$('#input-msg-chat-form').val()}</div>
+                </div>`);
+                $('#input-msg-channel-form').focus();
+                $('#input-msg-chat-form').val("");
+                $('#input-msg-chat-form').focus();
+            }, 1);
         });
-        $("#msg-input-form").submit(function(event) {
+        $("#input-msg-chat-form").submit(function(event) {
             event.preventDefault();
           }); 
     },
 
     async renderConversation(param){
-        
         let self = this;
         this.fetchUsers();
         let userNick = $(param.currentTarget).text().trim();
@@ -84,11 +83,15 @@ let chatView = Backbone.View.extend({
         await Helper.fetch(this.chatCol).then(function() {
             if (self.chatCol.where({ name: chatName}).length === 0) {
                 console.log("El chat no existe, tengo que crearlo");
-                self.commonCable.perform('create_channel', {name: chatName})
+                self.commonCable.perform('create_chat', {name: chatName})
+                self.renderConversation(param)  
             }
-            let chat = self.chatCol.where({ name: chatName})[0];
-            self.connectCable(Helper.getIdbyNickname(userNick));
-            self.renderMessages(chat);
+            else
+            {
+                let chat = self.chatCol.where({ name: chatName})[0];
+                chat.dest = userNick;
+                self.renderMessages(chat);
+            }
         });
     },
 

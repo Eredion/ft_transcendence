@@ -1,6 +1,7 @@
 class Pong
 
     @@matches = {}
+    @@winning_score = 5
 
     def initialize(match_id)
         p "New match creation id #{match_id}"
@@ -16,26 +17,40 @@ class Pong
 
     def move_ball
 
-        if @ball.x + @ball.size >= @canvas_width || @ball.x - @ball.size <= 0
+        if @ball.x + @ball.radius >= @canvas_width || @ball.x - @ball.radius <= 0
             @ball.angle = Math::PI - @ball.angle
         end
-        if @ball.x - @ball.size <= 0
-            # sumar los puntos para el jugador de la derecha
+        if @ball.x - @ball.radius <= 0
+            @match.right_score += 1
+            @match.save
             @ball.reset
             @ball.angle = 0
             @paddles[0].reset
             @paddles[1].reset
-        elsif @ball.x + @ball.size >= @canvas_width
-            # sumar los puntos para el jugador de la izquierda
+        elsif @ball.x + @ball.radius >= @canvas_width
+            @match.left_score += 1
+            @match.save
             @ball.reset
             @ball.angle = Math::PI
             @paddles[0].reset
             @paddles[1].reset
-        elsif @ball.y + @ball.size >= @canvas_height || @ball.y - @ball.size <= 0
+        elsif @ball.y + @ball.radius >= @canvas_height || @ball.y - @ball.radius <= 0
             @ball.angle = 2 * Math::PI - @ball.angle
         else
             @ball.check_collision(@paddles[0])
             @ball.check_collision(@paddles[1])
+        end
+        if @match.right_score == @@winning_score || @match.left_score == @@winning_score
+            if @match.right_score > @match.left_score
+                @match.winner = @match.right_player
+                @match.loser = @match.left_player
+            else
+                @match.winner = @match.left_player
+                @match.loser = @match.right_player
+            end
+            @match.finished = true
+            @match.save!
+            return
         end
         @ball.calculate_direction
     end
@@ -72,6 +87,10 @@ class Pong
                 ball: {
                     x: @ball.x,
                     y: @ball.y
+                },
+                score: {
+                    left: @match.left_score,
+                    right: @match.right_score
                 }
             }
         })

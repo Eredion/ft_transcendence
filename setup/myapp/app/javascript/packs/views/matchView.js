@@ -63,7 +63,7 @@ if (Helper.logged()) {
 
         update_match(data) {
             if (data['actors']) {
-                this.pong.update_players(data['actors'])
+                this.pong.update_match(data['actors'])
             } else {
                 console.log(data)
             }

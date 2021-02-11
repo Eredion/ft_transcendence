@@ -16,8 +16,12 @@ class Player {
     }
 
     move = (pos) => {
-        this.x = pos['x']
-        this.y = pos['y']
+        if (this.x != pos['x']) {
+            this.x = pos['x']
+        }
+        if (this.y != pos['y']) {
+            this.y = pos['y']
+        }
     }
 }
 
@@ -25,7 +29,7 @@ class Ball {
     constructor(canvas) {
         this.x = canvas.width / 2
         this.y = canvas.height / 2
-        this.size = canvas.width / 60
+        this.radius = canvas.width / 100
     }
 
     move = (pos) => {
@@ -35,7 +39,7 @@ class Ball {
 
     draw = (ctx) => {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = 'green';
         ctx.fill();
     }
@@ -53,6 +57,8 @@ class Pong {
         this.left_player = new Player(canvas.width * 0.05, 'blue', this.canvas)
         this.right_player = new Player(canvas.width * 0.95, 'red', this.canvas)
         this.ball = new Ball(this.canvas)
+        this.left_score = 0
+        this.right_score = 0
         this.lastCalledTime = null;
         this.fps = 0;
         this.update_frames()
@@ -79,6 +85,7 @@ class Pong {
     update_frames = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         this.drawMiddleLinne()
+        this.drawScore()
         this.ball.draw(this.ctx)
         this.left_player.draw(this.ctx)
         this.right_player.draw(this.ctx)
@@ -96,23 +103,32 @@ class Pong {
         Matches.channel.perform('receive_move', actor)
     }
 
-    update_players = (actors) => {
+    update_score = (score) => {
+        if (this.left_score != score['left']) {
+            this.left_score = score['left']
+        }
+        if (this.right_score != score['right']) {
+            this.right_score = score['right']
+        }
+    }
+
+    update_match = (actors) => {
         this.ball.move(actors['ball'])
         this.left_player.move(actors['players'][0])
         this.right_player.move(actors['players'][1])
+        this.update_score(actors['score'])
         this.update_frames()
     }
-/*
 
-    drawPoints = () => {
+    drawScore = () => {
         const size = (canvas.height / 10).toString()
         this.ctx.font = size + 'px Righteous';
         this.ctx.strokeStyle = 'black';
         this.ctx.fillStyle = 'black';
-        this.ctx.fillText(this.left_player.points, canvas.width * 0.25, canvas.height * 0.15)
-        this.ctx.fillText(this.right_player.points, canvas.width * 0.75, canvas.height * 0.15)
+        this.ctx.fillText(this.left_score, canvas.width * 0.25, canvas.height * 0.15)
+        this.ctx.fillText(this.right_score, canvas.width * 0.75, canvas.height * 0.15)
     }
-*/
+
     drawMiddleLinne = () => {
         this.ctx.strokeStyle = '#EEE'
         this.ctx.setLineDash([10, 5])

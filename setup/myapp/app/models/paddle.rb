@@ -37,4 +37,8 @@ class Paddle
     def height
         return @height
     end
+
+    def width
+        return @width
+    end
 end

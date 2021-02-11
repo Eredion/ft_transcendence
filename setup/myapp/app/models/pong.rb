@@ -1,5 +1,4 @@
 class Pong
-    include ActiveModel::Model
 
     @@matches = {}
 

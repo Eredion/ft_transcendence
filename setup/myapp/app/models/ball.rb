@@ -1,7 +1,6 @@
 class Ball
-    include ActiveModel::Model
 
-    @@SPEED = 12
+    @@SPEED = 10
 
     def initialize(canvas_w, canvas_h)
         @canvas_width = canvas_w

@@ -1,5 +1,4 @@
 class Paddle
-    include ActiveModel::Model
 
     def initialize(canvas_w, canvas_h, side)
         @canvas_width = canvas_w

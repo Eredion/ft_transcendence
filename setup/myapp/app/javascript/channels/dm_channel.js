@@ -2,17 +2,16 @@ import consumer from "./consumer"
 import Helper from "./../packs/Helper"
 
 let dm_channel_helper = {
-  joinChannel(username)
+  joinChannel(userID)
   {
     let cable = consumer.subscriptions.create(
       { 
         channel: "DmChannel",
-        user: username,
+        userID: userID,
       },
       {
         connected() {
-          console.log(`subscription to dm ${username}`);
-          console.log(`${Helper.userId()} es mi ID`);
+          console.log(`subscription to dm ID: ${userID}`);
           // Called when the subscription is ready for use on the server
         },
       
@@ -21,10 +20,18 @@ let dm_channel_helper = {
         },
       
         received(data) {
-          // Called when there's incoming data on the websocket for this channel
+          if($('#chat-name-title').text() === data.author)
+          {
+            $('#chat_view').append(`<div class="channel_message bg-light p-2">
+            <div class="message_author d-inline text-primary">${data.author} :</div>
+            <div class="message_content d-inline text-dark"> ${data.content}</div>
+            </div>`);
+            $('#input-msg-chat-form').focus();
+          }
         }
       }
     );
+    cable.userid = userID;
     return cable;
   }
 }

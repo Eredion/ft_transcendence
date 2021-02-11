@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import consumer from '../channels/consumer';
+import usercollection from "../packs/models/user"
 
 const Helper = {}
 
@@ -38,6 +39,14 @@ Helper.logged = () => {
 Helper.userId = () => {
     return $('html').data().userId
 };
+
+Helper.getIdbyNickname = (nickname) => {
+    return (usercollection.where({ nickname: nickname })[0].get('id'));
+}
+
+Helper.getNicknamebyId = (id) => {
+    return (usercollection.where({ id: id })[0].get('nickname'));
+}
 
 Helper.custom_alert = (type, message) => {
 

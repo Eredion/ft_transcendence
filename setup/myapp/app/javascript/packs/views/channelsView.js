@@ -24,7 +24,6 @@ let channelsView = Backbone.View.extend({
     },
     async fetchcol() {
         await Helper.fetch(channelcol).then(function() {
-            console.log("FETCHCOL");
             let template = _.template($("#online-channels-template").html())
             let output = template({'channels':channelcol.toJSON()});
             $('#available-channels').html(output);

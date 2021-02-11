@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.bigint "channel_id"
     t.bigint "user_id"
     t.string "author"
+    t.string "dest"
     t.string "channelname"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

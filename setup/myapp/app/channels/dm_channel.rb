@@ -1,6 +1,7 @@
 class DmChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+   puts "Me uno a dm + dm_#{current_user.id}"
+   stream_from "dm_#{current_user.id}"
   end
 
   def unsubscribed

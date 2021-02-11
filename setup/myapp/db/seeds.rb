@@ -46,7 +46,7 @@ Message.create(content: "Probando mi segundo nuevo chat", chat_id: 5, user_id: 2
 Message.create(content: "second msg!", chat_id: 5, user_id: 2)
 Message.create(content: "bye!", chat_id: 5, user_id: 2)
 ch = Channel.create(name: "canal7", user_id: 1, category: "public", banned: [16])
-ch = Channel.create(name: "c-anal8", user_id: 1, category: "public")
+ch = Channel.create(name: "canal8", user_id: 1, category: "public")
 
 
 ch.messages.create(content: "Hola, soy Marvin, el androide paranoide", channel_id: 1, user_id: 1, author: "marvin")

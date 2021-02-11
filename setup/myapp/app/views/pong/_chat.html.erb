@@ -1,92 +1,56 @@
-<script type="text/template" name="chat">
-
+<script type="text/template" name="chats" id="chats-template">
     <div class="row">
-        <div class="user-list-container col-sm">
-            <h1 class="title">Users</h1>
-            <div id="chat-user-list" class="button-grid">
-
-                <% users = User.all %>
-                <% users.each do |user| %>
-                    <% id1 = user.id %>
-                    <% id2 = current_user.id %>
-                    <% if Integer(id1) < Integer(id2) %>
-                        <% chatid = id1.to_s + '-' + id2.to_s %>
-                    <% else %>
-                        <% chatid = id2.to_s + '-' + id1.to_s %>
-                    <% end %>
-                    <% if current_user.id == user.id %>
-                        <% next %> <!--skip current_user button-->
-                    <%end%>
-                    <%= button_to user.nickname.capitalize, {
-                            :action=>"create",
-                            params: { chat: { name: chatid } },
-                            :controller=>"chats",
-                            :method=>:create,
-                            :remote=>true
-                        },
-                        {
-                            class: 'btn btn-secondary btn-sm chat-user-list-button',
-                            id: chatid + "-button",
-                        }
-                    %>
-
-                <% end %>
+        <div id="user-list" class="col-sm">
+            <div>
+                <h1 class="title">Users</h1>
             </div>
-            <div class="btn-group-vertical h-100 d-inline-block overflow-auto" id="online-users">
-            </div>
+            <div id='available-users'></div>
         </div>
-
-        <div class="jumbtron col-sm container-fluid">
-            <h1 class="title" id="current-conversation">Chat</h1>
-            <ul id="conversation" class="list-group h-200 overflow-auto">
-                <li class="list-group-item">Haz click en un usuario para enviarle un mensaje!</li>
-            </ul>
-            <%# <div class="well" id="chatbox" style="height:250px; border: solid 1px #222222; overflow-y : scroll">
-                <% @messages.each do |message| %>
-                   <%#  <%= render 'messages/message', message: message %>
-                <%# <% end %>
-            <%# </div>  %>
-
-            <%# <%= form_with model: @message, remote: true, :html => { :id => 'message_form' } do |f| %>
-                <%# <div class="input-group mb-3 " id="message-input">
-                    <%= f.text_field :content, placeholder:"Type your message here...", class: 'form-control' %>
-                    <%# <div>
-                        <%= f.submit "Send", class:"btn btn-dark" %>
-                    <%#  </div>
-                </div>
-            <% end %>
-            
-            <script>
-                $('.btn btn-primary').click(function(){
-                    $('.form-control').value = '';
-                });
-            </script>
+        <div class="col-sm">
+                <h1 class="title" id="chat-name-title">chat</h1>
+                <div id="chat_view" class="bg-dark overflow-auto"></div>
+                <div id="chat-input-form-wrapper"></div>
         </div>
-        <div id="channel-container"></div>
     </div>
-    
-</script>
-<!-- Template para user list -->
-<script id="online_user_template" type='text/template'>
-    <%% for (let i = 0; i < online_users.length; i++){ %>
-        <button type="button" class="btn btn-secondary btn-sm" id="online-user-button">
-            <%%= online_users[i].nickname %>
-
-        </button>
-        <%% }; %>
 </script>
 
-<script id="conversation_template" type='text/template'>
-    <%% for (let i = 0; i < message_history.length; i++){ %>
 
-			<%% if (message_history[i].id === message_history[0].id){ %>
-				<li class="list-group-item rounded-pill">
-					 <%%= message_history[i].content  %>
-				</li>
-			<%% } else { %>
-				<li class="list-group-item rounded-pill list-group-item-dark">
-					 <%%= message_history[i].content  %>
-				</li>
-			<%% }; %>
+
+<script id="online-users-template" type='text/template'>
+<div class="bg-secondary" id = "available-users-buttons">
+    <%% for (let i = 0; i < users.length; i++){ %>
+    <div>
+    <%% const url = "#users/" + users[i].nickname; %>
+        <%% if(current_user != users[i].nickname){ %>
+            <button class="btn btn-danger btn-sm" id="online-user-button">
+                <%%= users[i].nickname%>
+            </button>
+        <%% };%>
+    </div>
+    <%% }; %>
+<div>
+</script>
+
+<script id="chat_view_template" type='text/template'>
+    <%% for (msg of messages) {%>
+        <div class="chat_message bg-light p-2 rounded-pill mt-1">
+            <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
+            
+            <div class="message_content d-inline text-dark"><%%= msg.content %></div>
+        </div>
     <%% };%>
+</script>
+
+<script id="chat-msg-imput-template" type='text/temlate'>
+    <%= form_with url: "api/messages", id: "chat-msg-input-form", method: :create do |form|%>
+        <%= text_field(:message, :content,minlenght: 1, maxlenght: 280,
+            placeholder: "Type here...", autocomplete: :off, id: "input-msg-chat-form") %>
+        <%= form.hidden_field :user_id, value: current_user.id %>
+        <%= form.hidden_field :author, value: current_user %>
+        <%%= `<input id="hiddenDest" value="${chat.dest}"type="hidden" name="dest">` %>
+        <%%= `<input id="hiddenfield" value="${chat.id}"type="hidden" name="chat_id">` %>
+        <%= form.submit "Send", id: "send-chat-message-button", class: "btn btn-primary" %>
+        <% end %>
+        <%% $('#hiddenfield').val(chat.id); %>
+        <%% $('#hiddenDest').val(chat.dest); %>
 </script>

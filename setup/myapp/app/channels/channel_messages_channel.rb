@@ -10,14 +10,6 @@ class ChannelMessagesChannel < ApplicationCable::Channel
 
   def add_user_to_channel(data)
     puts("FOUND")
-    puts("FOUND")
-    puts("FOUND")
-    puts("FOUND")
-    puts("FOUND")
-    puts("FOUND")
-    puts("FOUND")
-    puts("FOUND")
-    puts("FOUND")
     puts("DATA:")
     puts(data)
     c = Channel.find_by(name: data["channel"])
@@ -39,5 +31,17 @@ class ChannelMessagesChannel < ApplicationCable::Channel
     p(c.members)
     c.save
     #
+  end
+
+  def remove_user(data)
+    cha = Channel.find_by(name: data["channel"])
+    arr = cha.members
+    puts "removing user" + data["user"]
+    user = User.find_by(nickname: data["user"])
+    puts "found user #{user.nickname}"
+    cha.members.delete(user.id)
+    p cha.members
+    cha.save
+    p cha.members
   end
 end

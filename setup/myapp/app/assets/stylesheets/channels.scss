@@ -114,11 +114,18 @@
     text-align:center;
     margin-top: 1em;
   }
+
+  #channel-password-form
+  {
+    align-items:center;
+    text-align: center;
+    padding: 1em;
+  }
   
   @media screen and (max-width: 700px){
     .box{
       width: 70%;
-      z-index:2;
+      z-index:3;
     }
     .popup{
       width: 70%;
@@ -134,7 +141,7 @@
     border-radius: 20px/50px;
     background-clip: padding-box;
     text-align: center;
-    z-index:2;
+    z-index:3;
   }
   
   #popup-user-avatar img
@@ -149,3 +156,7 @@
   {
     text-align:right;
   }
+
+#ch-popup-user-title{
+  text-align: center;
+}

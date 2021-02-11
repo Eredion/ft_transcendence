@@ -118,7 +118,6 @@ class Workspace extends Backbone.Router {
             this.channelView.render_channel(name);
         /* else
             this.channelView.render(); */
-        
     }
 
     userSignin() {

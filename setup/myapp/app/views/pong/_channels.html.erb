@@ -101,6 +101,23 @@
 		</div>
 	</div>
 </div>
+<div id="channel-password-popup" class="overlay">
+    <div class="popup">
+        
+            <h4 class="ch-popup-user-title col">This channel is private</h4>
+            <form id="channel-password-form">
+                <p>Introduce the password to enter:</p>
+                <input type="password" name="chpassword">
+                <input type="submit" class="btn btn-dark">
+            </form>
+        
+		
+		<a class="close" href="#channels/default">&times;</a>
+		<div class="popup-content">
+			
+		</div>
+	</div>
+</div>
 <script>
     function render_popup(el){
         let user = el.text.replace(':','');

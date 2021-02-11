@@ -17,24 +17,24 @@ class Pong
 
     def move_ball
 
-        if @ball.x + @ball.size >= @canvas_width || @ball.x - @ball.size <= 0
+        if @ball.x + @ball.radius >= @canvas_width || @ball.x - @ball.radius <= 0
             @ball.angle = Math::PI - @ball.angle
         end
-        if @ball.x - @ball.size <= 0
+        if @ball.x - @ball.radius <= 0
             @match.right_score += 1
             @match.save
             @ball.reset
             @ball.angle = 0
             @paddles[0].reset
             @paddles[1].reset
-        elsif @ball.x + @ball.size >= @canvas_width
+        elsif @ball.x + @ball.radius >= @canvas_width
             @match.left_score += 1
             @match.save
             @ball.reset
             @ball.angle = Math::PI
             @paddles[0].reset
             @paddles[1].reset
-        elsif @ball.y + @ball.size >= @canvas_height || @ball.y - @ball.size <= 0
+        elsif @ball.y + @ball.radius >= @canvas_height || @ball.y - @ball.radius <= 0
             @ball.angle = 2 * Math::PI - @ball.angle
         else
             @ball.check_collision(@paddles[0])

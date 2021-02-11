@@ -29,7 +29,7 @@ class Ball {
     constructor(canvas) {
         this.x = canvas.width / 2
         this.y = canvas.height / 2
-        this.size = canvas.width / 60
+        this.radius = canvas.width / 100
     }
 
     move = (pos) => {
@@ -39,7 +39,7 @@ class Ball {
 
     draw = (ctx) => {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = 'green';
         ctx.fill();
     }

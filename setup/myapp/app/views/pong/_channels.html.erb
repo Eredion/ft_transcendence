@@ -20,7 +20,7 @@
                             <span class="glyphicon glyphicon-repeat"></span>Refresh
                         </button> %>
                         <div id="center-button-wrapper">
-                            <%= form.submit "Create", id: "create-channel-button", class: "btn btn-danger" %>
+                            <%= form.submit "Create", id: "create-channel-button", class: "btn btn-dark" %>
                         </div>
                     
                 <% end %>
@@ -54,7 +54,7 @@
         <%% for (let i = 0; i < channels.length; i++){ %>
         <div>
         <%% const url = "#channels/" + channels[i].name; %>
-            <a  class="btn btn-danger btn-sm" id="online-user-button" href=<%%= url %>>
+            <a  class="btn btn-dark btn-sm" id="online-user-button" href=<%%= url %>>
                 <%%= channels[i].name %>
 
             </a>
@@ -65,7 +65,7 @@
 
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group">
-        <a id="exit-channel-button" class="btn btn-danger exitbutton" href="#channels/default" >Exit channel</a>
+        <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
         <div class="channel_message bg-light p-2">

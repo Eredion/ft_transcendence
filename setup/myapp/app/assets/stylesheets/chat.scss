@@ -1,6 +1,7 @@
 // Place all the styles related to the chat controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
 #chatbar td {
     font-family: Raleway;
     font-weight: normal;
@@ -65,4 +66,13 @@ h1 {
 
 #channel_view {
     height: 500px;
+}
+
+#chat_view {
+    height: 500px;
+}
+
+#available-users {
+    padding: 1em;
+    text-align: center;
 }

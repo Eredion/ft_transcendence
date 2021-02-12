@@ -3,6 +3,7 @@ import $ from 'jquery'
 import _ from 'underscore'
 import Helper from '../Helper'
 import channelcol from '../models/channel'
+import userscol from '../models/user'
 import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
 import newchannelscable from "./../../channels/available_channels_channel"
@@ -27,6 +28,17 @@ let channelsView = Backbone.View.extend({
             let template = _.template($("#online-channels-template").html())
             let output = template({'channels':channelcol.toJSON()});
             $('#available-channels').html(output);
+        });
+    },
+
+    async updateBlockedUsers(){
+        await Helper.fetch(userscol).then(function(){
+            let myself = userscol.findWhere({id: Helper.userId()})
+            console.log(myself.get("nickname") + "ENCONTRADDO");
+            let blocked = myself.get("blocked");
+            console.log("BLOCKED : " + blocked)
+            $('#blocked-users-data').data({"blocked": myself.get("blocked")});
+            console.log("guardao" + $('#blocked-users-data').data())
         });
     },
 
@@ -78,6 +90,7 @@ let channelsView = Backbone.View.extend({
 
     render() {
         let self = this;
+        this.updateBlockedUsers();
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
         this.render_list();

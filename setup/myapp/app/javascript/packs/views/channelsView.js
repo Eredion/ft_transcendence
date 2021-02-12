@@ -7,7 +7,7 @@ import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
 import newchannelscable from "./../../channels/available_channels_channel"
 import Workspace from '../routes'
-
+import bcryptjs from 'bcryptjs'
 let channelsView = Backbone.View.extend({
 
     el: '#content',
@@ -162,6 +162,20 @@ let channelsView = Backbone.View.extend({
                 $('.close').click(function(){
                     self.hide_popup();
                 });
+                $('#channel-password-form').submit(function(){
+                    let hash = chan.get("password_digest");
+                    let pass = $('#channel-password-form').find('input[name="pass"]').val();
+                    if (bcryptjs.compareSync(pass, hash))
+                    {
+                        self.hide_popup();
+                        self.render_channel(name);
+                    }
+                    else
+                        alert("That's not the right password");
+                    /* console.log(chan.get("password_digest"));
+                    console.log($('#channel-password-form').find('input[name="pass"]').val());
+ */
+                })
                 
             }
                 //newchannelscable.perform()

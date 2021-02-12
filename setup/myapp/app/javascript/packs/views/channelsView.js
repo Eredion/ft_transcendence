@@ -65,7 +65,6 @@ let channelsView = Backbone.View.extend({
                 event.preventDefault();
               }); 
             $('#exit-channel-button').click(function(){
-
                 self.exit_channel();
              }
             ); 
@@ -82,7 +81,6 @@ let channelsView = Backbone.View.extend({
     },
 
     render() {
-        console.log("sizeoef cables " + this.cables.length);
         let self = this;
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
@@ -101,7 +99,7 @@ let channelsView = Backbone.View.extend({
         self = this;
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
         if (self.cablenames.includes(name))
-            console.log("YA EXISTE");
+            console.log("Already subscribed to this channel.");
         else
         {
             self.cablenames.push(name);
@@ -120,7 +118,7 @@ let channelsView = Backbone.View.extend({
         await Helper.fetch(channelcol).then(function(){
             let chan = channelcol.where({name: tofind})[0];
             let members = chan.get("members");
-            console.log("members IN THIS CHAT: "+members);
+            console.log("members in this channel: "+members);
         });
         
         self.cablenames = self.cablenames.filter(function(e) { return e !== tofind })
@@ -148,19 +146,20 @@ let channelsView = Backbone.View.extend({
         await Helper.fetch(self.collection).then(function(){
             let chan = self.collection.where({name: name})[0];
             let members = chan.get("members");
-            console.log("members IN THIS CHAT: "+members);
-            if (members.includes(Helper.userId()))
+            console.log("members in this channel: "+members);
+            
+            let categ = chan.get("category");
+            if (categ === "public" && members.includes(Helper.userId()))
             {
                 console.log("user already in");
                 return true;
             }
-            let categ = chan.get("category");
-            if (categ === "public")
+            else if (categ === "public")
             {
                 console.log("entering public chat");
                 return true;
             }
-            if (categ === "protected")
+            else
             {
                 console.log("asking for password")
                 self.show_popup();

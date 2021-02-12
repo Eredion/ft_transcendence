@@ -17,7 +17,6 @@ class MatchChannel < ApplicationCable::Channel
   # move 2 -> down move
   def receive_move(data)
 	Pong.set_move(data)
-	#ActionCable.server.broadcast("Match_#{data['match']}", data.to_json)
   end
 
   # finish match manually for testings

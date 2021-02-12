@@ -67,7 +67,7 @@ body {
 #online-user-button {
     margin-block-end: 2px;
     max-width: 15em;
-    min-width: 8em;
+    min-width: 9em;
 }
 
 #transcendence-title {
@@ -439,6 +439,7 @@ body {
     position: fixed;
     bottom: 10%;
     right: 5%;
+    z-index:2;
 }
 
 .btn-circle {

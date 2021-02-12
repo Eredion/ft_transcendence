@@ -14,13 +14,13 @@
                         </div>
                         <div class="form-element">
                             <%= form.check_box :category, {}, "protected", "public"%> Private chat
-                            <%= form.text_field :password, placeholder: "password", id: "password-input"%>
+                            <%= form.password_field :password, placeholder: "password", id: "password-input"%>
                         </div>
                         <%# <button type="button" class="btn btn-dark" id="reload-channels-button">
                             <span class="glyphicon glyphicon-repeat"></span>Refresh
                         </button> %>
                         <div id="center-button-wrapper">
-                            <%= form.submit "Create", id: "create-channel-button", class: "btn btn-danger" %>
+                            <%= form.submit "Create", id: "create-channel-button", class: "btn btn-dark" %>
                         </div>
                     
                 <% end %>
@@ -32,7 +32,7 @@
         </div>
         
         <div class="col-6">
-            <h1 class="title" id="channel-name-title">Channel</h1>
+            <h1 class="title" id="channel-name-title"></h1>
             <div id="channel_view" class="bg-dark overflow-auto">
 
             </div>
@@ -50,22 +50,22 @@
 </script>
 
 <script id="online-channels-template" type='text/template'>
-    <div class="bg-secondary" id = "available-channel-buttons">
+    <div class="bg-secondary btn-group-vertical" id = "available-channel-buttons">
         <%% for (let i = 0; i < channels.length; i++){ %>
-        <div>
+        
         <%% const url = "#channels/" + channels[i].name; %>
-            <a  class="btn btn-danger btn-sm" id="online-user-button" href=<%%= url %>>
+            <a  class="btn btn-dark btn-sm" id="online-user-button" href=<%%= url %>>
                 <%%= channels[i].name %>
 
             </a>
-        </div>
+        
         <%% }; %>
     <div>
 </script>
 
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group">
-        <a id="exit-channel-button" class="btn btn-danger exitbutton" href="#channels/default" >Exit channel</a>
+        <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
         <div class="channel_message bg-light p-2">
@@ -96,6 +96,41 @@
         </div>
 		
 		<a class="close" href="javascript:history.back()">&times;</a>
+		<div class="popup-content">
+			
+		</div>
+	</div>
+</div>
+<div id="channel-password-popup" class="overlay">
+    <div class="popup">
+        
+            <h4 class="ch-popup-user-title col">This channel is private</h4>
+            <%# <form  method="post">
+                <p>Introduce the password to enter:</p>
+                <input type="password" name="chpassword">
+                <input type="submit" class="btn btn-dark">
+            </form> %>
+            <form id="channel-password-form" class="form1" onsubmit="validateForm(); return false;">
+                <div class="row uniform half collapse-at-2">
+                    <div class="8u">
+                        <input type="password" name="pass" id="password" placeholder="Input password"/>
+                    </div>
+                <div class="4u">
+                    <input class="fit" type="submit" value="Go" />
+                </div>
+                </div>
+            </form>
+            <script type="text/javascript">
+            function validateForm()
+            {
+                var pass = document.getElementById('password').value;
+                if(pass == '1234') //here 1234 is your password
+                    window.location = 'https://www.google.com';
+            }
+            </script>
+        
+		
+		<a class="close" href="#channels/default">&times;</a>
 		<div class="popup-content">
 			
 		</div>

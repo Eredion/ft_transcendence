@@ -2,14 +2,12 @@
 import Matches from  '../channels/match_channel'
 
 class Player {
-
-    constructor(x, color) {
+    constructor(x, color, canvas) {
         this.x = x
         this.color = color
         this.w = canvas.width / 100
         this.h = canvas.height / 5
         this.y = canvas.height / 2 - this.h / 2
-        this.speed = 5
     }
 
     draw = (ctx) => {
@@ -17,52 +15,36 @@ class Player {
         ctx.fillRect(this.x, this.y, this.w, this.h)
     }
 
-    move = (position) => {
-        if (this.y > 0 || this.y < (canvas.height - this.h)) {
-            this.y = position
+    move = (pos) => {
+        if (this.x != pos['x']) {
+            this.x = pos['x']
+        }
+        if (this.y != pos['y']) {
+            this.y = pos['y']
         }
     }
-
-    reset = (canvas) => {
-        this.w = canvas.width / 100
-        this.h = canvas.height / 5
-        this.y = canvas.height / 2 - this.h / 2
-    }
 }
-/*
+
 class Ball {
     constructor(canvas) {
         this.x = canvas.width / 2
         this.y = canvas.height / 2
-        this.speed = 5
-        this.size = canvas.width / 60
-        this.angle = -2 * Math.PI
-        this.speed = 5
-        this.dx = 5
-        this.dy = 0
+        this.radius = canvas.width / 100
     }
 
-    resetPos(canvas) {
-        this.x = canvas.width / 2;
-        this.y = canvas.height / 2;
-        this.speed = 5;
+    move = (pos) => {
+        this.x = pos['x']
+        this.y = pos['y']
     }
 
     draw = (ctx) => {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = 'green';
         ctx.fill();
     }
-
-    calcDir = () => {
-        if (this.angle > (2 * Math.PI))
-            this.angle = this.angle % (2 * Math.PI)
-        this.dx = Math.cos(this.angle) * this.speed
-        this.dy = Math.sin(this.angle) * this.speed
-    }
 }
-*/
+
 
 class Pong {
     constructor(match_id) {
@@ -72,17 +54,42 @@ class Pong {
         this.user = 0
         this.side = null
         this.match = match_id
-        this.left_player = new Player(canvas.width * 0.05, 'blue')
-        this.right_player = new Player(canvas.width * 0.95, 'red')
-        //this.ball = new Ball(this.canvas)
+        this.left_player = new Player(canvas.width * 0.05, 'blue', this.canvas)
+        this.right_player = new Player(canvas.width * 0.95, 'red', this.canvas)
+        this.ball = new Ball(this.canvas)
+        this.left_score = 0
+        this.right_score = 0
+        this.lastCalledTime = null;
+        this.fps = 0;
         this.update_frames()
+    }
+
+    print_fps = () => {
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "12px Arial";
+        this.ctx.fillText("FPS: " + Math.round(this.fps), 500, 20);
+    }
+
+    calc_fps = () => {
+        if (!this.lastCalledTime) {
+            this.lastCalledTime = performance.now()
+            this.fps = 0;
+            return;
+        }
+        let delta = (performance.now() - this.lastCalledTime) / 1000;
+        this.lastCalledTime = performance.now();
+        this.fps = 1 / delta;
+        this.print_fps();
     }
 
     update_frames = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-		this.drawMiddleLinne()
+        this.drawMiddleLinne()
+        this.drawScore()
+        this.ball.draw(this.ctx)
         this.left_player.draw(this.ctx)
         this.right_player.draw(this.ctx)
+        this.calc_fps()
     }
 
     send_move = (move) => {
@@ -96,80 +103,32 @@ class Pong {
         Matches.channel.perform('receive_move', actor)
     }
 
-    update_players = (players) => {
-        this.left_player.move(players[0]['y'])
-        this.right_player.move(players[1]['y'])
+    update_score = (score) => {
+        if (this.left_score != score['left']) {
+            this.left_score = score['left']
+        }
+        if (this.right_score != score['right']) {
+            this.right_score = score['right']
+        }
+    }
+
+    update_match = (actors) => {
+        this.ball.move(actors['ball'])
+        this.left_player.move(actors['players'][0])
+        this.right_player.move(actors['players'][1])
+        this.update_score(actors['score'])
         this.update_frames()
     }
-/*
-    gameLoop = () => {
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height)
-        this.drawMiddleLinne()
-        this.drawPoints()
-        this.left_player.draw(this.ctx)
-        this.right_player.draw(this.ctx)
-        this.ball.draw(this.ctx)
-        this.moveBall()
-        this.left_player.move(this.canvas)
-        this.right_player.move(this.canvas)
-        requestAnimationFrame(this.gameLoop);
-    }
 
-    moveBall = () => {
-        if (this.ball.x + this.ball.size >= canvas.width || this.ball.x - this.ball.size <= 0) {
-            this.ball.angle = Math.PI - this.ball.angle
-        }
-        if (this.ball.x - this.ball.size <= 0) {
-            this.ball.resetPos(this.canvas);
-            this.ball.angle = 0
-            this.right_player.points += 1
-            this.left_player.reset(this.canvas)
-            this.right_player.reset(this.canvas)
-        } else if (this.ball.x + this.ball.size >= canvas.width) {
-            this.ball.resetPos(this.canvas);
-            this.ball.angle = Math.PI;
-            this.left_player.points += 1
-            this.left_player.reset(this.canvas)
-            this.right_player.reset(this.canvas)
-        } else if (this.ball.y + this.ball.size >= canvas.height || this.ball.y - this.ball.size <= 0)
-            this.ball.angle = 2 * Math.PI - this.ball.angle
-        else {
-            this.checkCollistion(this.left_player, this.ball)
-            this.checkCollistion(this.right_player, this.ball)
-        }
-        this.ball.calcDir()
-        this.ball.x += this.ball.dx;
-        this.ball.y += this.ball.dy;
-    }
-
-    calculateBounceAngle = (player, ball) => {
-        const playerMiddle = player.y + (player.h / 2);
-        const offset = (playerMiddle - ball.y) / (player.h);
-        ball.angle = -offset * (Math.PI * 0.42);
-        if (player.x > canvas.width / 2)
-            ball.angle = Math.PI - ball.angle
-    }
-
-    checkCollistion = (player, ball) => {
-        if (ball.y + ball.size >= player.y && ball.y - ball.size <= player.y + player.h) {
-            if ((player.x < canvas.width / 2 && ball.x - ball.size <= player.x) ||
-                (player.x > canvas.width / 2 && ball.x + ball.size >= player.x)) {
-                ball.speed *= 1.02
-                console.log(ball.speed)
-                this.calculateBounceAngle(player, ball);
-            }
-        }
-    }
-
-    drawPoints = () => {
+    drawScore = () => {
         const size = (canvas.height / 10).toString()
         this.ctx.font = size + 'px Righteous';
         this.ctx.strokeStyle = 'black';
         this.ctx.fillStyle = 'black';
-        this.ctx.fillText(this.left_player.points, canvas.width * 0.25, canvas.height * 0.15)
-        this.ctx.fillText(this.right_player.points, canvas.width * 0.75, canvas.height * 0.15)
+        this.ctx.fillText(this.left_score, canvas.width * 0.25, canvas.height * 0.15)
+        this.ctx.fillText(this.right_score, canvas.width * 0.75, canvas.height * 0.15)
     }
-*/
+
     drawMiddleLinne = () => {
         this.ctx.strokeStyle = '#EEE'
         this.ctx.setLineDash([10, 5])
@@ -180,19 +139,20 @@ class Pong {
     }
 
     keyDown = (key) => {
-        if (key.key == 'ArrowUp')
+        if (key.key == 'ArrowUp') {
             this.send_move(1)
-        if (key.key == 'ArrowDown')
+            key.preventDefault()
+        } else if (key.key == 'ArrowDown') {
             this.send_move(2)
-        key.preventDefault()
+            key.preventDefault()
+        }
     }
 
     keyUp = (key) => {
-        if (key.key == 'ArrowUp')
+        if (key.key == 'ArrowUp' || key.key == 'ArrowDown') {
             this.send_move(0)
-        if (key.key == 'ArrowDown')
-            this.send_move(0)
-        key.preventDefault()
+            key.preventDefault()
+        }
     }
 
     listen = (user_id, side) => {

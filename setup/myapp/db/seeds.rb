@@ -8,7 +8,7 @@
 
 User.create(nickname: 'marvin', email: 'marvin@marvin.com', score: 42, matches_won: 6, matches_lost: 1, friends: [2, 3, 4, 5])
 User.create(nickname: 'pabgonza', email: 'pabgonza@marvin.com', score: 27, matches_won: 3, matches_lost: 4, friends: [1, 3, 4, 5])
-User.create(nickname: 'apitaasdf', email: 'apita@marvin.com', score: 32, matches_won: 4, matches_lost: 2, friends: [1, 2, 4, 5])
+User.create(nickname: 'apita-da', email: 'apita@marvin.com', score: 32, matches_won: 4, matches_lost: 2, friends: [1, 2, 4, 5])
 User.create(nickname: 'alemania', email: 'alemania@marvin.com', score: 5, matches_won: 1, matches_lost: 0, friends: [1, 2, 3, 5])
 User.create(nickname: 'marvina', email: 'marvina@marvin.com', score: 24, matches_won: 3, matches_lost: 1, friends: [1, 2, 3, 4])
 User.create(nickname: 'marvino', email: 'marvino@marvin.com', score: 15, matches_won: 3, matches_lost: 4, friends: [7, 8])
@@ -20,7 +20,7 @@ User.create(nickname: 'marvinette', email: 'marvinette@marvin.com', score: 64, m
 User.create(nickname: 'ledesma', email: 'xxxxgmail@marvin.com', score: 46, matches_won: 5, matches_lost: 2, friends: [13, 14, 15])
 User.create(nickname: 'santana', email: 'blacked@marvin.com', score: 27, matches_won: 4, matches_lost: 3, friends: [12, 14, 15])
 User.create(nickname: 'castela', email: 'castela@marvin.com', score: 40, matches_won: 5, matches_lost: 2, friends: [12, 13, 15])
-User.create(nickname: 'luismicrack', email: 'luismicrack@marvin.com', score: 69, matches_won: 7, matches_lost: 2, friends: [12, 13, 14])
+User.create(nickname: 'dorodrig', email: 'luismicrack@marvin.com', score: 69, matches_won: 7, matches_lost: 2, friends: [12, 13, 14])
 
 FriendRequest.create(requestor_id: 1, receiver_id: 2, status: 'pending')
 FriendRequest.create(requestor_id: 2, receiver_id: 3, status: 'accepted')
@@ -45,10 +45,13 @@ Chat.create("name": '2-16')
 Message.create(content: "Probando mi segundo nuevo chat", chat_id: 5, user_id: 2)
 Message.create(content: "second msg!", chat_id: 5, user_id: 2)
 Message.create(content: "bye!", chat_id: 5, user_id: 2)
-ch = Channel.create(name: "canal7", user_id: 1, category: "public")
+ch = Channel.create(name: "canal7", user_id: 1, category: "public", banned: [16])
+Channel.create(name: "canal8", user_id: 1, category: "public")
+Channel.create(name: "private", user_id: 1, category: "protected", password_digest:"$2a$12$ADIVd921XhaeQYfVAFsv.ey8ok7aaXlVDdXvU7nubq2/q9zvfBCRm")
 
-ch.messages.create(content: "Hola, soy Aserrano", channel_id: 1, user_id: 2, author: "marvin")
-ch.messages.create(content: "Me encanta ft_transcendence", channel_id: 1, user_id: 2, author: "marvin")
+
+ch.messages.create(content: "Hola, soy Marvin, el androide paranoide", channel_id: 1, user_id: 1, author: "marvin")
+ch.messages.create(content: "Me encanta ft_transcendence", channel_id: 1, user_id: 1, author: "marvin")
 
 
 Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 2, left_score: 10, right_score: 5, winner_id: 1, loser_id: 2, finished: true)

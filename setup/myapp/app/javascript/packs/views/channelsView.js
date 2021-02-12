@@ -7,7 +7,7 @@ import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
 import newchannelscable from "./../../channels/available_channels_channel"
 import Workspace from '../routes'
-
+import bcryptjs from 'bcryptjs'
 let channelsView = Backbone.View.extend({
 
     el: '#content',
@@ -33,11 +33,7 @@ let channelsView = Backbone.View.extend({
     async render_channel(name) {
         let self = this;
         $('#input-msg-channel-form').focus();
-        if (this.check_password(name) === false)
-        {
-            //Workspace.navigate('#channels/default', { trigger: true });
-            return;
-        }
+        
         this.connectCable(name);
         /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
@@ -65,7 +61,6 @@ let channelsView = Backbone.View.extend({
                 event.preventDefault();
               }); 
             $('#exit-channel-button').click(function(){
-
                 self.exit_channel();
              }
             ); 
@@ -82,7 +77,6 @@ let channelsView = Backbone.View.extend({
     },
 
     render() {
-        console.log("sizeoef cables " + this.cables.length);
         let self = this;
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
@@ -101,7 +95,7 @@ let channelsView = Backbone.View.extend({
         self = this;
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
         if (self.cablenames.includes(name))
-            console.log("YA EXISTE");
+            console.log("Already subscribed to this channel.");
         else
         {
             self.cablenames.push(name);
@@ -120,7 +114,7 @@ let channelsView = Backbone.View.extend({
         await Helper.fetch(channelcol).then(function(){
             let chan = channelcol.where({name: tofind})[0];
             let members = chan.get("members");
-            console.log("members IN THIS CHAT: "+members);
+            console.log("members in this channel: "+members);
         });
         
         self.cablenames = self.cablenames.filter(function(e) { return e !== tofind })
@@ -148,32 +142,45 @@ let channelsView = Backbone.View.extend({
         await Helper.fetch(self.collection).then(function(){
             let chan = self.collection.where({name: name})[0];
             let members = chan.get("members");
-            console.log("members IN THIS CHAT: "+members);
-            if (members.includes(Helper.userId()))
+            console.log("members in this channel: "+members);
+
+            let categ = chan.get("category");
+            if (categ === "public" && members.includes(Helper.userId()))
             {
                 console.log("user already in");
-                return true;
+                self.render_channel(name);
             }
-            let categ = chan.get("category");
-            if (categ === "public")
+            else if (categ === "public")
             {
                 console.log("entering public chat");
-                return true;
+                self.render_channel(name);
             }
-            if (categ === "protected")
+            else
             {
                 console.log("asking for password")
                 self.show_popup();
                 $('.close').click(function(){
                     self.hide_popup();
-                    return(false);
                 });
+                $('#channel-password-form').submit(function(){
+                    let hash = chan.get("password_digest");
+                    let pass = $('#channel-password-form').find('input[name="pass"]').val();
+                    if (bcryptjs.compareSync(pass, hash))
+                    {
+                        self.hide_popup();
+                        self.render_channel(name);
+                    }
+                    else
+                        self.hide_popup();
+                    /* console.log(chan.get("password_digest"));
+                    console.log($('#channel-password-form').find('input[name="pass"]').val());
+ */
+                })
                 
             }
                 //newchannelscable.perform()
         });
         //console.log(newchannelscable);
-        return (true);
     },
 
     

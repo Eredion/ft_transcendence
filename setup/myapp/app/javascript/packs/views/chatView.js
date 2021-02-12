@@ -60,7 +60,7 @@ let chatView = Backbone.View.extend({
                 return;
             }
             setTimeout(async function(){
-                $('#chat_view').append(`<div class="channel_message bg-light p-2">
+                $('#chat_view').append(`<div class="chat_message bg-light p-2 rounded-pill mt-1">
                 <div class="message_author d-inline text-primary">${Helper.current_user()} :</div>
                 <div class="message_content d-inline text-dark"> ${$('#input-msg-chat-form').val()}</div>
                 </div>`);

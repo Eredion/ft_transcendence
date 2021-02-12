@@ -101,23 +101,23 @@ class Workspace extends Backbone.Router {
     }
 
 
-    channel(){
+  /*   channel(){
         console.log("channel route");
         if (!this.channelView)
             this.channelView = new channelsView();
         this.channelView.render();
     }
-    
+     */
     channels(name){
         console.log("channel route")
         console.log(name);
         if (!this.channelView)
             this.channelView = new channelsView();
-        this.channelView.render();
         if (name != "default")
-            this.channelView.render_channel(name);
-        /* else
-            this.channelView.render(); */
+            this.channelView.check_password(name);
+            //this.channelView.render_channel(name);
+        else
+            this.channelView.render(); 
     }
 
     userSignin() {

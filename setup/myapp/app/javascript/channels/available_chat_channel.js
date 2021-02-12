@@ -4,7 +4,7 @@ import Helper from "../packs/Helper";
 
 let AvailableChatCable = consumer.subscriptions.create("AvailableChatChannel", {
   connected() {
-    console.log("Listening to available_chats");
+    // Called when connected
   },
 
   disconnected() {
@@ -12,7 +12,7 @@ let AvailableChatCable = consumer.subscriptions.create("AvailableChatChannel", {
   },
 
   received(data) {
-    if (data != Helper.current_user && $('.btn btn-danger btn-sm').find(Helper.current_user) === undefined)
+    if (data != Helper.current_user() && ($("#available-users").text().includes(data)) === false)
     {
       $('#available-users-buttons').append(`<a href="#users/${data}" class="btn btn-danger btn-sm" id="online-user-button">
         ${data}</a>`);
@@ -21,3 +21,4 @@ let AvailableChatCable = consumer.subscriptions.create("AvailableChatChannel", {
 });
 
 export default AvailableChatCable;
+

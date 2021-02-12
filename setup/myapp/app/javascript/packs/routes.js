@@ -114,7 +114,8 @@ class Workspace extends Backbone.Router {
         if (!this.channelView)
             this.channelView = new channelsView();
         if (name != "default")
-            this.channelView.render_channel(name);
+            this.channelView.check_password(name);
+            //this.channelView.render_channel(name);
         else
             this.channelView.render(); 
     }

@@ -33,11 +33,7 @@ let channelsView = Backbone.View.extend({
     async render_channel(name) {
         let self = this;
         $('#input-msg-channel-form').focus();
-        if (this.check_password(name) === false)
-        {
-            //Workspace.navigate('#channels/default', { trigger: true });
-            return;
-        }
+        
         this.connectCable(name);
         /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
@@ -147,17 +143,17 @@ let channelsView = Backbone.View.extend({
             let chan = self.collection.where({name: name})[0];
             let members = chan.get("members");
             console.log("members in this channel: "+members);
-            
+
             let categ = chan.get("category");
             if (categ === "public" && members.includes(Helper.userId()))
             {
                 console.log("user already in");
-                return true;
+                self.render_channel(name);
             }
             else if (categ === "public")
             {
                 console.log("entering public chat");
-                return true;
+                self.render_channel(name);
             }
             else
             {
@@ -165,14 +161,12 @@ let channelsView = Backbone.View.extend({
                 self.show_popup();
                 $('.close').click(function(){
                     self.hide_popup();
-                    return(false);
                 });
                 
             }
                 //newchannelscable.perform()
         });
         //console.log(newchannelscable);
-        return (true);
     },
 
     

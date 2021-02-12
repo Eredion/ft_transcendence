@@ -171,7 +171,7 @@ let channelsView = Backbone.View.extend({
                         self.render_channel(name);
                     }
                     else
-                        alert("That's not the right password");
+                        hide_popup();
                     /* console.log(chan.get("password_digest"));
                     console.log($('#channel-password-form').find('input[name="pass"]').val());
  */

@@ -13,14 +13,11 @@ let chatView = Backbone.View.extend({
     el: '#content',
     chatCol: chatcol,
     userCol: usercollection,
-    events : {
-        'click #online-user-button' : 'renderConversation'
-    },
     
     initialize() {
         this.ownCable = dm_channel_helper.joinChannel(Helper.userId());
         this.commonCable = AvailableChatCable;
-        this.render();
+        return this;
     },
 
     async fetchUsers() {
@@ -30,6 +27,7 @@ let chatView = Backbone.View.extend({
             let output = template({'users':usercollection.toJSON(), 'current_user':current_user});
             $('#available-users').html(output);
         });
+        return this;
     },
 
     buildChatName(user1, user2) {
@@ -62,7 +60,7 @@ let chatView = Backbone.View.extend({
             setTimeout(async function(){
                 $('#chat_view').append(`<div class="chat_message bg-light p-2 rounded-pill mt-1">
                 <div class="message_author d-inline text-primary">${Helper.current_user()} :</div>
-                <div class="message_content d-inline text-dark"> ${$('#input-msg-chat-form').val()}</div>
+                <div class="message_content d-inline text-dark">${$('#input-msg-chat-form').val()}</div>
                 </div>`);
                 $('#input-msg-channel-form').focus();
                 $('#input-msg-chat-form').val("");
@@ -71,28 +69,30 @@ let chatView = Backbone.View.extend({
         });
         $("#input-msg-chat-form").submit(function(event) {
             event.preventDefault();
-          }); 
+          });
+        return self; 
     },
 
-    async renderConversation(param){
+    async renderConversation(name){
+        console.log("El evento se activa");
         let self = this;
         this.fetchUsers();
-        let userNick = $(param.currentTarget).text().trim();
-        $('#chat-name-title').text(userNick);
-        let chatName = this.buildChatName(Helper.current_user(), userNick);
+        $('#chat-name-title').text(name);
+        let chatName = this.buildChatName(Helper.current_user(), name);
         await Helper.fetch(this.chatCol).then(function() {
             if (self.chatCol.where({ name: chatName}).length === 0) {
                 console.log("El chat no existe, tengo que crearlo");
                 self.commonCable.perform('create_chat', {name: chatName})
-                self.renderConversation(param)  
+                self.renderConversation(name)  
             }
             else
             {
                 let chat = self.chatCol.where({ name: chatName})[0];
-                chat.dest = userNick;
+                chat.dest = name;
                 self.renderMessages(chat);
             }
         });
+        return self;
     },
 
     render() {

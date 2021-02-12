@@ -1,5 +1,6 @@
-import $ from 'jquery';
-import consumer from '../channels/consumer';
+import Backbone from 'backbone'
+import $ from 'jquery'
+import consumer from '../channels/consumer'
 import usercollection from "../packs/models/user"
 
 const Helper = {}
@@ -41,11 +42,11 @@ Helper.userId = () => {
 };
 
 Helper.getIdbyNickname = (nickname) => {
-    return (usercollection.where({ nickname: nickname })[0].get('id'));
+    return (usercollection.findWhere({ nickname: nickname }).get('id'));
 }
 
 Helper.getNicknamebyId = (id) => {
-    return (usercollection.where({ id: id })[0].get('nickname'));
+    return (usercollection.findWhere({ id: id }).get('nickname'));
 }
 
 Helper.custom_alert = (type, message) => {

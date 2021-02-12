@@ -23,8 +23,8 @@ let dm_channel_helper = {
           if($('#chat-name-title').text() === data.author)
           {
             $('#chat_view').append(`<div class="chat_message bg-light p-2 rounded-pill mt-1">
-            <div class="message_author d-inline text-primary">${data.author} :</div>
-            <div class="message_content d-inline text-dark"> ${data.content}</div>
+            <div class="message_author d-inline text-primary">${data.author}: </div>
+            <div class="message_content d-inline text-dark">${data.content}</div>
             </div>`);
             $('#input-msg-chat-form').focus();
           }

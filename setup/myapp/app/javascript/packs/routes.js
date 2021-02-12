@@ -66,6 +66,7 @@ class Workspace extends Backbone.Router {
         return {
             "": "pong",
             "chat": "chat",
+            "chat/:name": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
             "users/:id": "userProfile",
@@ -87,11 +88,17 @@ class Workspace extends Backbone.Router {
         //pongview.render();
     }
 
-    chat() {
+    chat(name) {
         console.log("chat route")
         if (!this.chatview)
             this.chatview = new chatView();
-        this.chatview.render();
+        if (name)
+        {
+            console.log("Me llega el nombre " + name );
+            this.chatview.renderConversation(name);
+        }
+        else
+            this.chatview.render();
         //var online_users = new userList()
         //let conversview = new conversView();
         //conversview.setName("1-2");

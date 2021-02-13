@@ -161,12 +161,23 @@
   text-align: center;
 }
 .sidepannel-user{
-  height: 4em ;
   width: 100% ;
   display: inline-block;
   text-align:center;
-  border-width: 0.6em;
-  border-color: #DDD;
+  vertical-align: center;
+  border: 20px;
+  border-color: #FFF;
+  background-color: #DDD;
+  padding: 0.3em;
+  margin-bottom: 0.2em;
+}
+
+.sidepannel-user:hover{
+  background-color:#BBC;
+}
+.sidepannel-user a:link{
+  color:white;
+
 }
 
 .channel-smallavatar{

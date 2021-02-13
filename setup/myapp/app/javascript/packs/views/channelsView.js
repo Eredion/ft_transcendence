@@ -210,12 +210,6 @@ let channelsView = Backbone.View.extend({
             let output = template({'members': members});
             $('#channel-sidepanel').html(output);
         });
-
-        /* let template = _.template($("#channel_view_template").html())
-            let channel = channelcol.where({name: name})[0];
-            console.log(channel.get("name"));
-            let output = template({'messages':channel.get("messages")});
-            $('#channel_view').html(output); */
     },
 
     

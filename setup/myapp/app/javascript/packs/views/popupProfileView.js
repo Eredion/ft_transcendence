@@ -26,6 +26,7 @@ let PopupProfileView = Backbone.View.extend({
         this.model = this.userCol.where({ nickname: this.username })[0];
         console.log("ESTE USERNAME" + this.username)
         console.log("ESTE USERNAME" + Helper.current_user())
+        
         if (this.username != Helper.current_user())
         {
             

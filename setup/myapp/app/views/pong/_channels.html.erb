@@ -152,13 +152,20 @@
         
             <%% for (let m of members){ %>
 
-                    <button class="sidepannel-user">
-                        <span>
+                    
+                        <%%= '<a class="sidepannel-user" onClick="setuserpopup(\'' + m.toJSON().nickname + '\')" href="#popup1" >' %>
+                        
                             <%%=  m.get("nickname") %>
                             <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
-                        </span>
-                    </button>
+                        </a>
             <%% } %>
-        
+    
     </div>
+
+    
+</script>
+<script>
+    function setuserpopup(name){
+        $('.popup-user-title').text(name);
+    }
 </script>

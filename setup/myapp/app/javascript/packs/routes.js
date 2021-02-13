@@ -87,12 +87,10 @@ class Workspace extends Backbone.Router {
     }
 
     chat(name) {
-        console.log("chat route")
         if (!this.chatview)
             this.chatview = new chatView();
         if (name)
         {
-            console.log("Me llega el nombre " + name );
             this.chatview.renderConversation(name);
         }
         else

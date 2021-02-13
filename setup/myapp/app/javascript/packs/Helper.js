@@ -42,12 +42,20 @@ Helper.userId = () => {
 };
 
 Helper.getIdbyNickname = (nickname) => {
-    return (usercollection.findWhere({ nickname: nickname }).get('id'));
+    return (usercollection.where({ nickname: nickname })[0].get('id'));
 }
 
 Helper.getNicknamebyId = (id) => {
-    return (usercollection.findWhere({ id: id }).get('nickname'));
+	console.log(id);
+	let name = (usercollection.where({ id: id })[0].get('nickname'));
+	console.log(name);
+    return (usercollection.where({ id: id })[0].get('nickname'));
 }
+
+Helper.data = {
+	newMsg: [],
+};
+
 
 Helper.custom_alert = (type, message) => {
 

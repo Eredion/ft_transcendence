@@ -34,7 +34,7 @@
         <%% if (msg.invisible === true && msg.author != $('#nav-nickname-user').text()) { continue; } %>
         <div class="chat_message bg-light p-2 rounded-pill mt-1">
             <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
-            
+
             <div class="message_content d-inline text-dark"><%%= msg.content %></div>
         </div>
     <%% };%>

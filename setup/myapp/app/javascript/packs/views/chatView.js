@@ -2,9 +2,7 @@ import _ from 'underscore'
 import $ from 'jquery';
 import Backbone from 'backbone'
 import chatcol from '../models/chat'
-import channelsView from './channelsView'
 import Helper from '../Helper';
-import dm_channel_helper from '../../channels/dm_channel'
 import usercollection from '../models/user'
 import AvailableChatCable from "../../channels/available_chat_channel"
 import consumer from '../../channels/consumer'
@@ -21,12 +19,20 @@ let chatView = Backbone.View.extend({
         return this;
     },
 
+	greenUsers() {
+		for (let i in Helper.data.newMsg)
+		{
+            $(`[data-author=${Helper.data.newMsg[i]}]`).removeClass('btn btn-dark btn-sm').addClass('btn btn-success btn-sm');
+		}
+	},
     async fetchUsers() {
+		self = this;
         await Helper.fetch(this.userCol).then(function() {
             let current_user = Helper.current_user();
             let template = _.template($("#online-users-template").html())
             let output = template({'users':usercollection.toJSON(), 'current_user':current_user});
             $('#available-users').html(output);
+			self.greenUsers();
         });
         return this;
     },
@@ -38,6 +44,7 @@ let chatView = Backbone.View.extend({
         return (chatName)
     },
 
+
     renderUserList() {
         this.fetchUsers();
         return this;
@@ -46,7 +53,6 @@ let chatView = Backbone.View.extend({
     renderMessages(conversation) {
         self = this;
         let chat = conversation;
-        console.log("Renderizo messages");
         let template = _.template($("#chat_view_template").html())
         let output = template({'messages':chat.get("messages")});
         $('#chat_view').html(output);
@@ -74,15 +80,17 @@ let chatView = Backbone.View.extend({
         return self;
     },
 
+	ungreen(name) {
+		$(`[data-author=${name}]`).removeClass('btn btn-success btn-sm').addClass('btn btn-dark btn-sm');
+		Helper.data.newMsg.splice(Helper.data.newMsg.indexOf(name), 1);
+	},
+
     async renderConversation(name){
-        console.log("El evento se activa");
         let self = this;
-        this.fetchUsers();
         $('#chat-name-title').text(name);
         let chatName = this.buildChatName(Helper.current_user(), name);
         await Helper.fetch(this.chatCol).then(function() {
             if (self.chatCol.where({ name: chatName}).length === 0) {
-                console.log("El chat no existe, tengo que crearlo");
                 self.commonCable.perform('create_chat', {name: chatName})
                 self.renderConversation(name)
             }
@@ -90,6 +98,7 @@ let chatView = Backbone.View.extend({
             {
                 let chat = self.chatCol.where({ name: chatName})[0];
                 chat.dest = name;
+				self.ungreen(name);
                 self.renderMessages(chat);
             }
         });

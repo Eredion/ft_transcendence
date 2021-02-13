@@ -1,24 +1,24 @@
 import consumer from "./consumer"
 import Helper from "./../packs/Helper"
-
+import Workspace from "../packs/routes"
 let dm_channel_helper = {
   joinChannel(userID)
   {
     let cable = consumer.subscriptions.create(
-      { 
+      {
         channel: "DmChannel",
         userID: userID,
       },
       {
         connected() {
-          console.log(`subscription to dm ID: ${userID}`);
+          //console.log(`subscription to dm ID: ${userID}`);
           // Called when the subscription is ready for use on the server
         },
-      
+
         disconnected() {
           // Called when the subscription has been terminated by the server
         },
-      
+
         received(data) {
           if($('#chat-name-title').text() === data.author)
           {
@@ -31,6 +31,7 @@ let dm_channel_helper = {
           else
           {
             $(`[data-author=${data.author}]`).removeClass('btn btn-dark btn-sm').addClass('btn btn-success btn-sm');
+			Helper.data.newMsg.push(data.author);
           }
         }
       }

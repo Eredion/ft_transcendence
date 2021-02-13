@@ -175,18 +175,18 @@ let channelsView = Backbone.View.extend({
                 $('.popup-content').html("<div></div>");
                 self.show_popup();
                 $('.close').click(function(){
-                    channelsView.hide_popup();
+                    self.hide_popup();
                 });
                 $('#channel-password-form').submit(function(){
                     let hash = chan.get("password_digest");
                     let pass = $('#channel-password-form').find('input[name="pass"]').val();
                     if (bcryptjs.compareSync(pass, hash))
                     {
-                        channelsView.hide_popup();
+                        self.hide_popup();
                         self.render_channel(name);
                     }
                     else
-                        channelsView.hide_popup();
+                        self.hide_popup();
                 })
                 
             }

@@ -14,7 +14,7 @@ let AvailableChatCable = consumer.subscriptions.create("AvailableChatChannel", {
   received(data) {
     if (data != Helper.current_user() && ($("#available-users").text().includes(data)) === false)
     {
-      $('#available-users-buttons').append(`<a href="#users/${data}" class="btn btn-danger btn-sm" id="online-user-button">
+      $('#available-users-buttons').append(`<a href="#chat/${data}" class="btn btn-dark btn-sm" id="online-user-button" data-author='${data}'">
         ${data}</a>`);
     }
   }

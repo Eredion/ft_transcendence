@@ -18,6 +18,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.belongs_to "user"
       t.string "author"
       t.string "dest", optional:true
+      t.boolean "invisible", default: false, optional:true
       t.string "channelname", optional: true
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false

@@ -6,6 +6,7 @@ import Friends from "./views/friendsView"
 import Helper from "./Helper.js";
 import UserStatus from '../channels/user_status_channel'
 import Notifications from '../channels/notification_channel'
+import dm_channel from '../channels/dm_channel'
 
 $.ajaxPrefilter( function( options ) {
     options.url = 'http://127.0.0.1/' + options.url;
@@ -33,9 +34,9 @@ class App {
 
     constructor() {
         console.log("App initialize");
-        
+
         this.router = new Workspace();
-        
+
         if (Backbone.History.started === false) {
             Backbone.history.start();
         }
@@ -45,6 +46,7 @@ class App {
             Friends.view.update();
             UserStatus.channel.connect();
             Notifications.channel.connect();
+			dm_channel.joinChannel(Helper.userId());
         }
     }
 

@@ -71,6 +71,7 @@ class Workspace extends Backbone.Router {
             "channels/": "channels",
             "channels/:name": "channels",
             "popup1": "popup_profile",
+            "popup1/:name": "popup_profile",
             "search_match": "search_match",
             "match/:id": "match"
         }

@@ -3,6 +3,7 @@ import $ from 'jquery'
 import _ from 'underscore'
 import Helper from '../Helper'
 import channelcol from '../models/channel'
+import userscol from '../models/user'
 import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
 import newchannelscable from "./../../channels/available_channels_channel"
@@ -15,7 +16,6 @@ let channelsView = Backbone.View.extend({
     cablenames: [],
     cables: [],
     events : {
-        "click #exit-channel-button" : "",
     },
 
     initialize() {
@@ -27,6 +27,17 @@ let channelsView = Backbone.View.extend({
             let template = _.template($("#online-channels-template").html())
             let output = template({'channels':channelcol.toJSON()});
             $('#available-channels').html(output);
+        });
+    },
+
+    async updateBlockedUsers(){
+        await Helper.fetch(userscol).then(function(){
+            let myself = userscol.findWhere({id: Helper.userId()})
+            console.log(myself.get("nickname") + "ENCONTRADDO");
+            let blocked = myself.get("blocked");
+            console.log("BLOCKED : " + blocked)
+            $('#blocked-users-data').data({"blocked": myself.get("blocked")});
+            console.log("guardao" + $('#blocked-users-data').data())
         });
     },
 
@@ -48,6 +59,10 @@ let channelsView = Backbone.View.extend({
             let input_template = _.template($('#channel-msg-input-template').html());
             let output2 = input_template({'channel': channel});
             $('#msg-input-form-wrapper').html(output2);
+
+            //render side panel
+            self.render_sidepanel(name);
+            //
             // input-msg-channel-form
             $('#send-message-button').click(function(){
                 setTimeout(function(){
@@ -55,7 +70,6 @@ let channelsView = Backbone.View.extend({
                     self.render_channel(name);
                     $('#input-msg-channel-form').focus();
                 }, 300);
-
             });
             $("#msg-input-form").submit(function(event) {
                 event.preventDefault();
@@ -63,7 +77,7 @@ let channelsView = Backbone.View.extend({
             $('#exit-channel-button').click(function(){
                 self.exit_channel();
              }
-            ); 
+            );
             
         });
         return this;
@@ -78,13 +92,13 @@ let channelsView = Backbone.View.extend({
 
     render() {
         let self = this;
+        this.updateBlockedUsers();
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
         this.render_list();
         $('#create-channel-button').click(function(){
             setTimeout(function(){
                 $('.create-channel-input').val("");
-                //self.render_list();
         }, 300);
 
         });
@@ -158,6 +172,7 @@ let channelsView = Backbone.View.extend({
             else
             {
                 console.log("asking for password")
+                $('.popup-content').html("<div></div>");
                 self.show_popup();
                 $('.close').click(function(){
                     self.hide_popup();
@@ -172,15 +187,30 @@ let channelsView = Backbone.View.extend({
                     }
                     else
                         self.hide_popup();
-                    /* console.log(chan.get("password_digest"));
-                    console.log($('#channel-password-form').find('input[name="pass"]').val());
- */
                 })
                 
             }
-                //newchannelscable.perform()
         });
-        //console.log(newchannelscable);
+    },
+
+    async render_sidepanel(name){
+        let template = _.template($("#channel-sidepanel-template").html())
+        let channel = channelcol.where({name: name})[0];
+        let member_ids = channel.get("members");
+        await Helper.fetch(userscol)
+            .then(function(){
+            let members = userscol.filter(function(u){
+                let id = u.get("id")
+                for (let m of member_ids)
+                {
+                    if (m === id)
+                        return true;
+                }
+                return false;
+            });
+            let output = template({'members': members});
+            $('#channel-sidepanel').html(output);
+        });
     },
 
     

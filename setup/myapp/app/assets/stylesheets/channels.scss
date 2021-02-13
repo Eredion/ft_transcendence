@@ -160,3 +160,27 @@
 #ch-popup-user-title{
   text-align: center;
 }
+.sidepannel-user{
+  height: 4em ;
+  width: 100% ;
+  display: inline-block;
+  text-align:center;
+  border-width: 0.6em;
+  border-color: #DDD;
+}
+
+.channel-smallavatar{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+#channel-sidepanel{
+  max-height: 100vh;
+}
+
+@media screen and (max-width: 1024px) {
+  #channel-sidepanel {
+      display: none !important;
+  }
+}

@@ -16,7 +16,6 @@ let channelsView = Backbone.View.extend({
     cablenames: [],
     cables: [],
     events : {
-        "click #exit-channel-button" : "",
     },
 
     initialize() {
@@ -60,6 +59,10 @@ let channelsView = Backbone.View.extend({
             let input_template = _.template($('#channel-msg-input-template').html());
             let output2 = input_template({'channel': channel});
             $('#msg-input-form-wrapper').html(output2);
+
+            //render side panel
+            self.render_sidepanel(name);
+            //
             // input-msg-channel-form
             $('#send-message-button').click(function(){
                 setTimeout(function(){
@@ -67,7 +70,6 @@ let channelsView = Backbone.View.extend({
                     self.render_channel(name);
                     $('#input-msg-channel-form').focus();
                 }, 300);
-
             });
             $("#msg-input-form").submit(function(event) {
                 event.preventDefault();
@@ -75,7 +77,7 @@ let channelsView = Backbone.View.extend({
             $('#exit-channel-button').click(function(){
                 self.exit_channel();
              }
-            ); 
+            );
             
         });
         return this;
@@ -97,7 +99,6 @@ let channelsView = Backbone.View.extend({
         $('#create-channel-button').click(function(){
             setTimeout(function(){
                 $('.create-channel-input').val("");
-                //self.render_list();
         }, 300);
 
         });
@@ -185,15 +186,36 @@ let channelsView = Backbone.View.extend({
                     }
                     else
                         self.hide_popup();
-                    /* console.log(chan.get("password_digest"));
-                    console.log($('#channel-password-form').find('input[name="pass"]').val());
- */
                 })
                 
             }
-                //newchannelscable.perform()
         });
-        //console.log(newchannelscable);
+    },
+
+    async render_sidepanel(name){
+        let template = _.template($("#channel-sidepanel-template").html())
+        let channel = channelcol.where({name: name})[0];
+        let member_ids = channel.get("members");
+        await Helper.fetch(userscol)
+            .then(function(){
+            let members = userscol.filter(function(u){
+                let id = u.get("id")
+                for (let m of member_ids)
+                {
+                    if (m === id)
+                        return true;
+                }
+                return false;
+            });
+            let output = template({'members': members});
+            $('#channel-sidepanel').html(output);
+        });
+
+        /* let template = _.template($("#channel_view_template").html())
+            let channel = channelcol.where({name: name})[0];
+            console.log(channel.get("name"));
+            let output = template({'messages':channel.get("messages")});
+            $('#channel_view').html(output); */
     },
 
     

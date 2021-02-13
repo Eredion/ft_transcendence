@@ -38,7 +38,7 @@
             </div>
             <div id="msg-input-form-wrapper"></div>
         </div>
-        <div class="channel-sidepanel col-1">
+        <div id="channel-sidepanel" class="col-2">
         
         </div>
         
@@ -146,3 +146,19 @@
     }
 </script>
 
+<script id="channel-sidepanel-template" type='text/template'>
+    <div class="title"><h5>Online</h5></div>
+    <div id="channel-sidepanel-user-list">
+        
+            <%% for (let m of members){ %>
+
+                    <button class="sidepannel-user">
+                        <span>
+                            <%%=  m.get("nickname") %>
+                            <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
+                        </span>
+                    </button>
+            <%% } %>
+        
+    </div>
+</script>

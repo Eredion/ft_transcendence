@@ -172,6 +172,7 @@ let channelsView = Backbone.View.extend({
             else
             {
                 console.log("asking for password")
+                $('.popup-content').html("<div></div>");
                 self.show_popup();
                 $('.close').click(function(){
                     self.hide_popup();

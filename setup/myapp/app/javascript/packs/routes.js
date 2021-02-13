@@ -5,10 +5,8 @@ import Profile from './views/profileView'
 import pongView from './views/pongView'
 import chatView from './views/chatView'
 import SearchMatch from './views/searchMatchView'
-import conversView from './views/conversationView'
 import channelsView from './views/channelsView'
 import Match from './views/matchView'
-import userList from './views/userListView'
 import Helper from './Helper'
 import PopupProfileView from './views/popupProfileView'
 
@@ -77,7 +75,7 @@ class Workspace extends Backbone.Router {
             "match/:id": "match"
         }
     }
-   
+
     popup_profile(){
         this.popupprofile = new PopupProfileView(($('.popup-user-title').text()));
     }
@@ -99,12 +97,6 @@ class Workspace extends Backbone.Router {
         }
         else
             this.chatview.render();
-        //var online_users = new userList()
-        //let conversview = new conversView();
-        //conversview.setName("1-2");
-        //conversview.on("change:chatName", conversview.render());
-        //conversview.setName("1-3");
-        //conversview.setName("default");
     }
 
 
@@ -124,7 +116,7 @@ class Workspace extends Backbone.Router {
             this.channelView.check_password(name);
             //this.channelView.render_channel(name);
         else
-            this.channelView.render(); 
+            this.channelView.render();
     }
 
     userSignin() {

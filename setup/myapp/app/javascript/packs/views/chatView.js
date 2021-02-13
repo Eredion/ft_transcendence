@@ -2,20 +2,21 @@ import _ from 'underscore'
 import $ from 'jquery';
 import Backbone from 'backbone'
 import chatcol from '../models/chat'
-import conversView from './conversationView'
 import channelsView from './channelsView'
 import Helper from '../Helper';
 import dm_channel_helper from '../../channels/dm_channel'
 import usercollection from '../models/user'
 import AvailableChatCable from "../../channels/available_chat_channel"
+import consumer from '../../channels/consumer'
+
 let chatView = Backbone.View.extend({
 
     el: '#content',
     chatCol: chatcol,
     userCol: usercollection,
-    
+
     initialize() {
-        this.ownCable = dm_channel_helper.joinChannel(Helper.userId());
+		this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"DmChannel\",\"userID\":${Helper.userId()}`)));
         this.commonCable = AvailableChatCable;
         return this;
     },
@@ -70,7 +71,7 @@ let chatView = Backbone.View.extend({
         $("#input-msg-chat-form").submit(function(event) {
             event.preventDefault();
           });
-        return self; 
+        return self;
     },
 
     async renderConversation(name){
@@ -83,7 +84,7 @@ let chatView = Backbone.View.extend({
             if (self.chatCol.where({ name: chatName}).length === 0) {
                 console.log("El chat no existe, tengo que crearlo");
                 self.commonCable.perform('create_chat', {name: chatName})
-                self.renderConversation(name)  
+                self.renderConversation(name)
             }
             else
             {

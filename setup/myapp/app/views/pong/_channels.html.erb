@@ -28,7 +28,7 @@
             </div>
              
             <div id="available-channels"></div>
-            
+            <div id="blocked-users-data" data-blocked="15"></div>
         </div>
         
         <div class="col-6">
@@ -37,6 +37,9 @@
 
             </div>
             <div id="msg-input-form-wrapper"></div>
+        </div>
+        <div id="channel-sidepanel" class="col-2">
+        
         </div>
         
     </div>
@@ -143,3 +146,26 @@
     }
 </script>
 
+<script id="channel-sidepanel-template" type='text/template'>
+    <div class="title"><h5>Online</h5></div>
+    <div id="channel-sidepanel-user-list">
+        
+            <%% for (let m of members){ %>
+
+                    
+                        <%%= '<a class="sidepannel-user" onClick="setuserpopup(\'' + m.toJSON().nickname + '\')" href="#popup1" >' %>
+                        
+                            <%%=  m.get("nickname") %>
+                            <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
+                        </a>
+            <%% } %>
+    
+    </div>
+
+    
+</script>
+<script>
+    function setuserpopup(name){
+        $('.popup-user-title').text(name);
+    }
+</script>

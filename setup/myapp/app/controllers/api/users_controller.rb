@@ -10,7 +10,7 @@ class Api::UsersController < ApplicationController
 
     def show
         user = User.find(params[:id])
-        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost])
+        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked])
         render json: fuser
     end
 

@@ -16,6 +16,14 @@ class Api::MessagesController < ApplicationController
         msg.user_id = params[:user_id]
         msg.author = User.find_by(id: params[:user_id]).nickname
         if (params[:channel_id])
+            if (msg.user_id.in?(Channel.find(params[:channel_id]).silenced))
+                puts "IM SILENCED"
+                return
+            else
+                puts"NOPE IM NOT SILENCED"
+            end
+            p Channel.find_by(id: params[:channel_id]).silenced
+            puts "ENd"
             msg.channel_id = params[:channel_id]
             msg.channelname = Channel.find_by(id: params[:channel_id]).name
         elsif (params[:chat_id])

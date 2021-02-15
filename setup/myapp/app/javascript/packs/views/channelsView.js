@@ -16,6 +16,7 @@ let channelsView = Backbone.View.extend({
     cablenames: [],
     cables: [],
     events : {
+        ".mute1min": "mute1min",
     },
 
     initialize() {
@@ -102,6 +103,7 @@ let channelsView = Backbone.View.extend({
         }, 300);
 
         });
+        
         return this;
     },
 
@@ -194,6 +196,7 @@ let channelsView = Backbone.View.extend({
     },
 
     async render_sidepanel(name){
+        self = this;
         let template = _.template($("#channel-sidepanel-template").html())
         let channel = channelcol.where({name: name})[0];
         let member_ids = channel.get("members");
@@ -209,8 +212,25 @@ let channelsView = Backbone.View.extend({
                 return false;
             });
             let output = template({'members': members});
+            
             $('#channel-sidepanel').html(output);
+            $('.mute1min').click(function(){
+                self.mute1min();
+            });
         });
+    },
+
+    mute1min(){
+        console.log("silence button clicked");
+        newchannelscable.perform(
+            "silence",
+            {
+                nickname: "marvin",
+                channel: $('#channel-name-title').text(),
+                tsec: 60
+            }
+        );
+    
     },
 
     

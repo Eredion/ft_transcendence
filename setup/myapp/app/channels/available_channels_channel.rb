@@ -5,4 +5,9 @@ class AvailableChannelsChannel < ApplicationCable::Channel
 
   def unsubscribed
   end
+
+  def silence(data)
+    puts "entra"
+    SilenceJob.perform_later(data["nickname"], data["channel"], data["tsec"])
+  end
 end

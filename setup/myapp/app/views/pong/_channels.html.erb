@@ -153,15 +153,22 @@
             <%% for (let m of members){ %>
 
                     
-                        <%%= '<a class="sidepannel-user" onClick="setuserpopup(\'' + m.toJSON().nickname + '\')" href="#popup1" >' %>
-                        
-                            <%%=  m.get("nickname") %>
-                            <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
-                        </a>
+                <%%= '<a class="sidepannel-user" onClick="setuserpopup(\'' + m.toJSON().nickname + '\')" href="#popup1" >' %>
+                    <%%=  m.get("nickname") %>
+                    <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
+
+                </a>
+                <a><button
+                    class="badge badge-sm badge-ligth mute1min" 
+                    data-id="<%%=m.toJSON().id%>"
+                    data-channel="<%%= $('#channel-name-title').text()%>"
+                    >Mute</button></a>
             <%% } %>
     
     </div>
-
+    <%% $('.popover-dismiss').popover({
+    trigger: 'focus'
+    }) %>
     
 </script>
 <script>

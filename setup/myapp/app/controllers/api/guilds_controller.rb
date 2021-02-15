@@ -23,4 +23,23 @@ class Api::GuildsController < ApplicationController
         end
         render json: { "error": 'Not Found.' }
     end
+
+    def create
+        if Guild.exists?(:title => params[:title])
+            return render json: { "error": params[:title] + ' already exists.' }
+        end
+        if Guild.exists?(:anagram => params[:anagram].upcase)
+            return render json: { "error": params[:anagram] + ' already exists.' }
+        end
+        user = User.find_by(:id => current_user.id)
+        if user.guild_id
+            return render json: { "error": 'Already in a guild, leave first.' }
+        end
+        guild = Guild.create(:title => params[:title], :anagram => params[:anagram].upcase, :owner => user)
+        user.guild_id = guild.id
+        if guild.save! && user.save!
+            return render json: { "success": guild }
+        end
+        render json: { "error": "Some error happened. Try Again" }
+    end
 end

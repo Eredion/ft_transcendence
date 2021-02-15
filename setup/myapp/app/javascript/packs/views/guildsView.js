@@ -35,13 +35,19 @@ $(function () {
             return this
         },
 
-        newGuild(e) {
+        async newGuild(e) {
             console.log('newGuild function called')
             e.preventDefault()
             e.stopPropagation()
             var formData = $('#new-guild-form').serialize()
             console.log(formData)
-            document.getElementById("new-guild-form").reset()
+            var response = await Helper.ajax('POST', 'api/guilds', formData)
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                document.getElementById("new-guild-form").reset()
+                Helper.custom_alert('success', response['success'])
+            }
         }
     });
 

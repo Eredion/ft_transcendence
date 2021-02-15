@@ -34,12 +34,8 @@ let channelsView = Backbone.View.extend({
     async updateBlockedUsers(){
         await Helper.fetch(userscol).then(function(){
             let myself = userscol.findWhere({id: Helper.userId()})
-            console.log(myself.get("nickname") + "ENCONTRADDO");
-            let blocked = myself.get("blocked");
-            console.log("BLOCKED : " + blocked)
-            $('#blocked-users-data').data({"blocked": myself.get("blocked")});
-            console.log("guardao" + $('#blocked-users-data').data())
-        });
+            Helper.data.blockedUsers = myself.get("blocked");
+            });
     },
 
     async render_channel(name) {
@@ -49,16 +45,14 @@ let channelsView = Backbone.View.extend({
         this.connectCable(name);
         /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
-            console.log(`rendering channel ${name}`);
             $('#channel-name-title').text(name);
             let template = _.template($("#channel_view_template").html())
             let channel = channelcol.where({name: name})[0];
-            console.log(channel.get("name"));
-            let output = template({'messages':channel.get("messages")});
+            console.log(Helper.data.blockedUsers);
+            let output = template({'messages':channel.get("messages"), 'blockedUsers': Helper.data.blockedUsers});
             $('#channel_view').html(output);
-
             let input_template = _.template($('#channel-msg-input-template').html());
-            let output2 = input_template({'channel': channel});
+            let output2 = input_template({'channel': channel,});
             $('#msg-input-form-wrapper').html(output2);
 
             //render side panel

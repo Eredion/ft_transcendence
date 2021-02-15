@@ -29,6 +29,11 @@ class Api::MessagesController < ApplicationController
         elsif (params[:chat_id])
             msg.chat_id = params[:chat_id]
             msg.dest = params[:dest]
+            dest_user = User.find_by(nickname: msg.dest)
+            if dest_user.blocked.include? msg.user_id
+                msg.invisible = true
+                puts "Usuario bloqueado, mensaje invisiiiible!"
+            end
         else
             return
         end
@@ -41,11 +46,11 @@ class Api::MessagesController < ApplicationController
             puts("channel_messages_#{msg.channelname}")
             ActionCable.server.broadcast "channel_messages_" + msg.channelname, msg
         elsif (msg.chat_id && msg.save() )
-            #id1, id2 = get_users(Chat.find_by(id: msg[:chat_id]).name)
-            puts msg.dest
-            dest_id = User.find_by(nickname: msg.dest).id
-            puts "El destinatario es #{msg.dest} con el id #{dest_id}"
-            ActionCable.server.broadcast "dm_" + dest_id.to_s, msg
+      #      dest_id = User.find_by(nickname: msg.dest).id
+            if (msg.invisible)
+                return
+            end
+            ActionCable.server.broadcast "dm_" + dest_user.id.to_s, msg
         else
             puts(Rails.logger.info(msg.errors.inspect))
         end

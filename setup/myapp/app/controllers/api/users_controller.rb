@@ -4,7 +4,7 @@ class Api::UsersController < ApplicationController
 
     def index
         users = User.all
-        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost])
+        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked])
         render json: fusers
     end
 

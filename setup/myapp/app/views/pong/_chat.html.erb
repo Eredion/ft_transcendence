@@ -15,31 +15,31 @@
 </script>
 
 
-
 <script id="online-users-template" type='text/template'>
 <div class="bg-secondary" id = "available-users-buttons">
     <%% for (let i = 0; i < users.length; i++){ %>
-    <div>
     <%% const url = "#users/" + users[i].nickname; %>
         <%% if(current_user != users[i].nickname){ %>
-           <%%=`<button class="btn btn-dark btn-sm" id=online-user-button data-author=${users[i].nickname}>` %>
+           <%%=`<a href="#chat/${users[i].nickname}" class="btn btn-dark btn-sm" id='online-user-button' data-author=${users[i].nickname}>` %>
                 <%%= users[i].nickname%>
-            </button>
+            </a>
         <%% };%>
-    </div>
     <%% }; %>
 <div>
 </script>
 
+
 <script id="chat_view_template" type='text/template'>
     <%% for (msg of messages) {%>
+        <%% if (msg.invisible === true && msg.author != $('#nav-nickname-user').text()) { continue; } %>
         <div class="chat_message bg-light p-2 rounded-pill mt-1">
             <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
-            
+
             <div class="message_content d-inline text-dark"><%%= msg.content %></div>
         </div>
     <%% };%>
 </script>
+
 
 <script id="chat-msg-imput-template" type='text/temlate'>
     <%= form_with url: "api/messages", id: "chat-msg-input-form", method: :create do |form|%>

@@ -1,9 +1,9 @@
 class UnsilenceJob < ApplicationJob
   queue_as :default
 
-  def perform(nickname, channel, tsec)
+  def perform(id, channel, tsec)
     #puts "silencing #{nickname} from #{channel} for #{tsec}"
-    user = User.find_by(nickname: "darodrig")
+    user = User.find_by(id: id)
     channel = Channel.find_by(name: channel)
     p channel.silenced
     channel.silenced.delete(user.id)

@@ -153,7 +153,11 @@ let channelsView = Backbone.View.extend({
             let chan = self.collection.where({name: name})[0];
             let members = chan.get("members");
             console.log("members in this channel: "+members);
-
+            if (chan.get("banned").includes(Helper.userId()))
+            {
+                alert("You are banned from this channel.")
+                return;
+            }
             let categ = chan.get("category");
             if (categ === "public" && members.includes(Helper.userId()))
             {
@@ -205,22 +209,23 @@ let channelsView = Backbone.View.extend({
                 }
                 return false;
             });
-            let output = template({'members': members});
+            let output = template({'members': members, 'channel': channel});
             
             $('#channel-sidepanel').html(output);
             $('.mute1min').click(function(){
-                self.mute1min();
+                console.log($(this).data())
+                self.mute1min($(this).data("id"), $(this).data("channel"))
             });
         });
     },
 
-    mute1min(){
+    mute1min(id, channel){
         console.log("silence button clicked");
         newchannelscable.perform(
             "silence",
             {
-                nickname: "marvin",
-                channel: $('#channel-name-title').text(),
+                id: id,
+                channel: channel,
                 tsec: 60
             }
         );

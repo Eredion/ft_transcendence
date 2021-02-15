@@ -45,7 +45,7 @@ Chat.create("name": '2-16')
 Message.create(content: "Probando mi segundo nuevo chat", chat_id: 5, user_id: 2, author: "marvin")
 Message.create(content: "second msg!", chat_id: 5, user_id: 2, author: "marvin")
 Message.create(content: "bye!", chat_id: 5, user_id: 2, author: "marvin")
-ch = Channel.create(name: "canal7", user_id: 1, category: "public", banned: [16])
+ch = Channel.create(name: "canal7", user_id: 1, category: "public", admins: [16])
 Channel.create(name: "canal8", user_id: 1, category: "public")
 Channel.create(name: "private", user_id: 1, category: "protected", password_digest:"$2a$12$ADIVd921XhaeQYfVAFsv.ey8ok7aaXlVDdXvU7nubq2/q9zvfBCRm")
 

@@ -8,6 +8,6 @@ class AvailableChannelsChannel < ApplicationCable::Channel
 
   def silence(data)
     puts "entra"
-    SilenceJob.perform_later(data["nickname"], data["channel"], data["tsec"])
+    SilenceJob.perform_later(data["id"], data["channel"], data["tsec"])
   end
 end

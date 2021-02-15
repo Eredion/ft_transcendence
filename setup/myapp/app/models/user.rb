@@ -1,6 +1,5 @@
 class User < ApplicationRecord
 
-  belongs_to :guild, optional: true
   has_many :messages
   has_many :channels
   has_many :chats
@@ -15,6 +14,7 @@ class User < ApplicationRecord
   has_many :matches_as_right_player, :class_name => 'Match', :foreign_key => 'right_player_id'
   has_many :matches_as_winner, :class_name => 'Match', :foreign_key => 'winner_id'
   has_many :matches_as_loser, :class_name => 'Match', :foreign_key => 'loser_id'
+  has_one :guild, class_name: "Guild"
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

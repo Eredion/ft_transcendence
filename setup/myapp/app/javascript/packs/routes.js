@@ -9,6 +9,7 @@ import channelsView from './views/channelsView'
 import Match from './views/matchView'
 import Helper from './Helper'
 import PopupProfileView from './views/popupProfileView'
+import Guilds from './views/guildsView'
 
 
 class Workspace extends Backbone.Router {
@@ -73,7 +74,9 @@ class Workspace extends Backbone.Router {
             "popup1": "popup_profile",
             "popup1/:name": "popup_profile",
             "search_match": "search_match",
-            "match/:id": "match"
+            "match/:id": "match",
+            "guilds": "guilds",
+            "guilds/:id": "guild"
         }
     }
 
@@ -143,6 +146,17 @@ class Workspace extends Backbone.Router {
     match(id) {
         console.log('match route')
         this.matchView = new Match.view(id)
+    }
+
+    guilds() {
+        console.log('guilds route')
+        this.guildsView = Guilds.view
+        this.guildsView.render()
+    }
+
+    guild(id) {
+        console.log('guild ' + id + ' route')
+        this.guildView = new Guilds.GuildView(id)
     }
 
 };

@@ -3,10 +3,12 @@ class InitSchema < ActiveRecord::Migration[6.0]
     # These are extensions that must be enabled in order to support this database
     enable_extension "plpgsql"
     create_table "guilds" do |t|
-      t.string "title"
-      t.integer "score"
-      t.integer "owner"
+      t.string "title", null: false
+      t.string "anagram", null: false
+      t.integer "score", default: 0
+      t.references :owner, null: false
       t.integer "officers", default: [], array: true
+      t.integer "members", default: [], array: true
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
@@ -30,7 +32,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "password_digest"
       t.string "avatar"
       t.integer "status", default: 0, null: false # 0 -> offline 1 -> online
-      t.integer "guild_id"
+      t.references :guild
       t.string "name", default: ""
       t.integer "score", default: 0
       t.integer "matches_won", default: 0

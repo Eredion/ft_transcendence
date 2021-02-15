@@ -3,6 +3,8 @@ class SilenceJob < ApplicationJob
 
   def perform(id, channel, tsec)
     #puts "silencing #{nickname} from #{channel} for #{tsec}"
+    puts User.find_by(nickname: "admin").password_digest
+    puts "PASSWORD"
     user = User.find_by(id: id)
     channel = Channel.find_by(name: channel)
     puts "silencing #{user.nickname} from #{channel.name} for #{tsec}"

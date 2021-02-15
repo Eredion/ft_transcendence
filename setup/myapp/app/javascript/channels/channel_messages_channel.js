@@ -1,4 +1,5 @@
 import consumer from "./consumer"
+import Helper from "../packs/Helper"
 
 /* 
 consumer.subscriptions.create("ChannelMessagesChannel", {
@@ -53,10 +54,13 @@ let channelSubscription = {
 
         received(data) {
           console.log("ChannelMessagesChannel" + " DATA RECEIVED: " + JSON.stringify(data));
+          if (Helper.data.blockedUsers.includes(data.user_id) === true)
+            return;
           if ($('#channel-name-title').text() === data.channelname)
           {
             $('#channel_view').append(`<div class="channel_message bg-light p-2">
-                <div class="message_author d-inline text-primary">${data.author} :</div>
+                <div class="message_author d-inline text-primary">
+                <a href="#popup1" onclick="render_popup(this)">${data.author} :</a></div>
                 <div class="message_content d-inline text-dark"> ${data.content}</div>
                 </div>`);
             $('#input-msg-channel-form').focus();

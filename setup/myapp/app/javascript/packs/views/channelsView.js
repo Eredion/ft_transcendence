@@ -15,9 +15,6 @@ let channelsView = Backbone.View.extend({
     collection: channelcol,
     cablenames: [],
     cables: [],
-    events : {
-        ".mute1min": "mute1min",
-    },
 
     initialize() {
         console.log("INITIALIZING CHANNELVIEW");
@@ -209,6 +206,7 @@ let channelsView = Backbone.View.extend({
                 }
                 return false;
             });
+            console.log(channel);
             let output = template({'members': members, 'channel': channel});
             
             $('#channel-sidepanel').html(output);
@@ -230,6 +228,15 @@ let channelsView = Backbone.View.extend({
             }
         );
     
+    },
+
+    kick(id, channel){
+        console.log("Kick")
+
+    },
+
+    setAdmin(id, channel){
+        console.log("SetAdmin")
     },
 
     

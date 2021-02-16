@@ -40,9 +40,15 @@ class ChannelMessagesChannel < ApplicationCable::Channel
     user = User.find_by(nickname: data["user"])
     puts "found user #{user.nickname}"
     cha.members.delete(user.id)
+    if (user.id.in?(cha.admins))
+      cha.admins.delete(user.id)
+    end
     if (cha.members.length > 0)
       cha.user_id = cha.members[0]
+      cha.admins.push(cha.user_id)
     else
+      ActionCable.server.broadcast "available_channels_channel",
+      "force_render_channel_list"
       cha.destroy
       return
     end

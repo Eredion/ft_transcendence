@@ -16,7 +16,6 @@ let channelsView = Backbone.View.extend({
     cablenames: [],
     cables: [],
     events:{
-        //"update_channels_event": "render_list",
     },
 
     initialize() {
@@ -25,6 +24,9 @@ let channelsView = Backbone.View.extend({
         $(document).on("update_channels_event", function(event){
             console.log(event)
             self.render_list();
+            let chname= $('#channel-name-title').text();
+            if (chname.length > 0)
+                self.render_sidepanel(chname);
         });
     },
     async fetchcol() {
@@ -156,7 +158,9 @@ let channelsView = Backbone.View.extend({
         self = this;
         await Helper.fetch(self.collection).then(function(){
             let chan = self.collection.where({name: name})[0];
-            let members = chan.get("members");
+            let members = []
+            if (chan != undefined)
+                members = chan.get("members");
             console.log("members in this channel: "+members);
             if (chan.get("banned").includes(Helper.userId()))
             {
@@ -198,13 +202,13 @@ let channelsView = Backbone.View.extend({
         });
     },
 
-    async render_sidepanel(name){
+    render_sidepanel(name){
         self = this;
-        let template = _.template($("#channel-sidepanel-template").html())
-        let channel = channelcol.where({name: name})[0];
-        let member_ids = channel.get("members");
-        await Helper.fetch(userscol)
+        let template = _.template($("#channel-sidepanel-template").html())        
+        Promise.all([Helper.fetch(userscol), Helper.fetch(channelcol)])
             .then(function(){
+            let channel = channelcol.where({name: name})[0];
+            let member_ids = channel.get("members");
             let members = userscol.filter(function(u){
                 let id = u.get("id")
                 for (let m of member_ids)

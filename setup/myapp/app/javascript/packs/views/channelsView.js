@@ -74,6 +74,7 @@ let channelsView = Backbone.View.extend({
             let channel = channelcol.where({name: name})[0];
             console.log(Helper.data.blockedUsers);
             let myself = userscol.findWhere({id: Helper.userId()});
+            let channeladmin = channel.get("admins").includes(Helper.userId())
             let output = template(
                 {
                     'messages':channel.get("messages"),
@@ -81,6 +82,7 @@ let channelsView = Backbone.View.extend({
                     'channel_id':parseInt(channel.get("id")),
                     'channelname':channel.get("name"),
                     'admin': myself.get('admin'),
+                    'channeladmin': channeladmin,
                 });
             $('#channel_view').html(output);
             let input_template = _.template($('#channel-msg-input-template').html());

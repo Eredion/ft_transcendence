@@ -16,6 +16,11 @@ class AvailableChannelsChannel < ApplicationCable::Channel
     puts "sending update order"
   end
 
+  def kick(data)
+    ActionCable.server.broadcast "available_channels_channel",
+      {"action":"kick", "user_id": data["user"], "channel": data["channel"] }
+  end
+
   def setAdmin(data)
     channel = Channel.find_by(name: data["channel"])
     if (data['id'].to_i.in?(channel.admins) == false)

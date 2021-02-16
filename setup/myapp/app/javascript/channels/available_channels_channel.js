@@ -18,6 +18,16 @@ let newchannelscable = consumer.subscriptions.create("AvailableChannelsChannel",
       console.log("someone has left a channel")
       return;
     }
+    if (data.action != undefined && data.action.length > 0)
+    {
+      if (data.action === "kick")
+      {
+        console.log(data.channel);
+
+        $(document).trigger("kick", [data.user_id, data.channel]);
+      }
+      return
+    }
     if ($("#available-channel-buttons").find(data).length > 0)
       return;
     $('#available-channel-buttons').append(`<a href="#channels/${data}" class="btn btn-dark btn-sm" id="online-user-button">

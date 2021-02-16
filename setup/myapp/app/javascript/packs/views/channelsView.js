@@ -28,6 +28,16 @@ let channelsView = Backbone.View.extend({
             if (chname.length > 0)
                 self.render_sidepanel(chname);
         });
+        $(document).on("kick", function(event, user, channel){
+            console.log(event);
+            console.log("kick " + user +" from " + channel);
+            if ($('#channel-name-title').text() === channel && Helper.userId() === user)
+            {
+                self.exit_channel();
+                console.log("me teng oque ir ")
+            }
+            console.log("USER KICKED")
+        });
     },
     async fetchcol() {
         await Helper.fetch(channelcol).then(function() {
@@ -246,8 +256,10 @@ let channelsView = Backbone.View.extend({
     },
 
     kick(id, channel){
-        cable.perform("remove_user", {channel: channel, user: id});
-        newchannelscable.perform("force_render_channel_list");
+        console.log("KICKING")
+        let cable = this.cables.find(cable => cable.channelname === channel )
+        newchannelscable.perform("kick", {channel: channel, user: id});
+        //newchannelscable.perform("force_render_channel_list");
     },
 
     setAdmin(id, channel){

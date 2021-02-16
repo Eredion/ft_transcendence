@@ -15,10 +15,17 @@ let channelsView = Backbone.View.extend({
     collection: channelcol,
     cablenames: [],
     cables: [],
+    events:{
+        //"update_channels_event": "render_list",
+    },
 
     initialize() {
+        self = this;
         console.log("INITIALIZING CHANNELVIEW");
-        
+        $(document).on("update_channels_event", function(event){
+            console.log(event)
+            self.render_list();
+        });
     },
     async fetchcol() {
         await Helper.fetch(channelcol).then(function() {
@@ -128,6 +135,7 @@ let channelsView = Backbone.View.extend({
         console.log(`Exiting ${tofind}`)
         let cable = self.cables.find(cable => cable.channelname === tofind )
         cable.perform("remove_user", {channel: tofind, user: Helper.current_user()});
+        newchannelscable.perform("force_render_channel_list");
         consumer.subscriptions.remove(cable)
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);

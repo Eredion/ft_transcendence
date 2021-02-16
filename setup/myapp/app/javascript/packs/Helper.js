@@ -53,7 +53,8 @@ Helper.getNicknamebyId = (id) => {
 }
 
 Helper.data = {
-	newMsg: [],
+    newMsg: [],
+    blockedUsers: [],
 };
 
 

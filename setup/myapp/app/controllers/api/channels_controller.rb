@@ -14,6 +14,7 @@ class Api::ChannelsController < ApplicationController
         channel = Channel.new(channel_params)
         channel.user_id = params[:user]
         channel.category = params[:category]
+        channel.admins.push(channel.user_id)
         if params[:password]
             channel.password_digest = BCrypt::Password.create(params[:password])
         end
@@ -28,6 +29,22 @@ class Api::ChannelsController < ApplicationController
         end
     end
 
+    def update
+        channel = Channel.find(params[:id])
+        channel.password_digest = BCrypt::Password.create(params[:password])
+        channel.category="protected"
+        channel.save
+        puts channel.name
+    end
+
+    def delete
+        if (channel_params[:name])
+            ch = Channel.find_by(name: channel_params[:name])
+            puts "Deleting #{ch.name} channel"
+            ch.destroy
+        end
+    end
+
    private
    def send_connected_channel(channel)
     ActionCable.server.broadcast 'available_channels_channel',
@@ -36,6 +53,7 @@ class Api::ChannelsController < ApplicationController
 
     private
     def channel_params
-        params.require(:channel).permit(:name, :category, :user, :password)
+        p params
+        params.require(:channel).permit(:id, :name, :category, :user, :password, :admins, :channel)
     end
 end

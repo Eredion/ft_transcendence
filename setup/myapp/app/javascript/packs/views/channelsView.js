@@ -8,20 +8,45 @@ import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
 import newchannelscable from "./../../channels/available_channels_channel"
 import Workspace from '../routes'
-import bcryptjs from 'bcryptjs'
+import bcryptjs from 'bcryptjs'    
 let channelsView = Backbone.View.extend({
 
     el: '#content',
     collection: channelcol,
     cablenames: [],
     cables: [],
-    events : {
+    events:{
     },
 
     initialize() {
-        console.log("INITIALIZING CHANNELVIEW");
-        
+        self = this;
+        $(document).on("update_channels_event", function(event){
+            self.render_list();
+            let chname= $('#channel-name-title').text();
+            if (chname.length > 0)
+                self.render_sidepanel(chname);
+        });
+        $(document).on("kick", function(event, user, channel){
+            if ($('#channel-name-title').text() === channel && Helper.userId() === user)
+            {
+                self.exit_channel();
+                self.render();
+            }
+        });
+        $(document).on("render_full_view", function(event, channel){
+            console.log("Estoy viendo el canal....")
+            console.log($('#channel-name-title').text())
+            if ($('#channel-name-title').text() === channel)
+            {
+                if ((userscol.findWhere({id: Helper.userId()})).get("admin") === false)
+                    alert(`The channel "${channel}" was removed`);
+                self.render();
+            }
+            else
+                self.render_list();
+        });
     },
+
     async fetchcol() {
         await Helper.fetch(channelcol).then(function() {
             let template = _.template($("#online-channels-template").html())
@@ -29,16 +54,12 @@ let channelsView = Backbone.View.extend({
             $('#available-channels').html(output);
         });
     },
-
+    
     async updateBlockedUsers(){
         await Helper.fetch(userscol).then(function(){
             let myself = userscol.findWhere({id: Helper.userId()})
-            console.log(myself.get("nickname") + "ENCONTRADDO");
-            let blocked = myself.get("blocked");
-            console.log("BLOCKED : " + blocked)
-            $('#blocked-users-data').data({"blocked": myself.get("blocked")});
-            console.log("guardao" + $('#blocked-users-data').data())
-        });
+            Helper.data.blockedUsers = myself.get("blocked");
+            });
     },
 
     async render_channel(name) {
@@ -48,21 +69,29 @@ let channelsView = Backbone.View.extend({
         this.connectCable(name);
         /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
-            console.log(`rendering channel ${name}`);
             $('#channel-name-title').text(name);
             let template = _.template($("#channel_view_template").html())
             let channel = channelcol.where({name: name})[0];
-            console.log(channel.get("name"));
-            let output = template({'messages':channel.get("messages")});
+            console.log(Helper.data.blockedUsers);
+            let myself = userscol.findWhere({id: Helper.userId()});
+            let channeladmin = channel.get("admins").includes(Helper.userId())
+            let output = template(
+                {
+                    'messages':channel.get("messages"),
+                    'blockedUsers': Helper.data.blockedUsers,
+                    'channel_id':parseInt(channel.get("id")),
+                    'channelname':channel.get("name"),
+                    'admin': myself.get('admin'),
+                    'channeladmin': channeladmin,
+                });
             $('#channel_view').html(output);
-
             let input_template = _.template($('#channel-msg-input-template').html());
-            let output2 = input_template({'channel': channel});
+            let output2 = input_template({'channel': channel,});
             $('#msg-input-form-wrapper').html(output2);
 
             //render side panel
             self.render_sidepanel(name);
-            //
+
             // input-msg-channel-form
             $('#send-message-button').click(function(){
                 setTimeout(function(){
@@ -76,8 +105,11 @@ let channelsView = Backbone.View.extend({
               }); 
             $('#exit-channel-button').click(function(){
                 self.exit_channel();
-             }
-            );
+             });
+            $('#delete-channel-button').click(function(){
+                if (myself.get('admin') === true)
+                    newchannelscable.perform("destroy_channel", {channel: $('#channel-name-title').text()})
+            });
             
         });
         return this;
@@ -102,6 +134,7 @@ let channelsView = Backbone.View.extend({
         }, 300);
 
         });
+        
         return this;
     },
 
@@ -135,6 +168,7 @@ let channelsView = Backbone.View.extend({
         console.log(`Exiting ${tofind}`)
         let cable = self.cables.find(cable => cable.channelname === tofind )
         cable.perform("remove_user", {channel: tofind, user: Helper.current_user()});
+        newchannelscable.perform("force_render_channel_list");
         consumer.subscriptions.remove(cable)
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);
@@ -155,9 +189,15 @@ let channelsView = Backbone.View.extend({
         self = this;
         await Helper.fetch(self.collection).then(function(){
             let chan = self.collection.where({name: name})[0];
-            let members = chan.get("members");
-            console.log("members in this channel: "+members);
-
+            let members = []
+            if (chan != undefined)
+                members = chan.get("members");
+            console.log("members in this channel: "+ members);
+            if (chan.get("banned").includes(Helper.userId()))
+            {
+                alert("You are banned from this channel.")
+                return;
+            }
             let categ = chan.get("category");
             if (categ === "public" && members.includes(Helper.userId()))
             {
@@ -193,12 +233,13 @@ let channelsView = Backbone.View.extend({
         });
     },
 
-    async render_sidepanel(name){
-        let template = _.template($("#channel-sidepanel-template").html())
-        let channel = channelcol.where({name: name})[0];
-        let member_ids = channel.get("members");
-        await Helper.fetch(userscol)
+    render_sidepanel(name){
+        self = this;
+        let template = _.template($("#channel-sidepanel-template").html())        
+        Promise.all([Helper.fetch(userscol), Helper.fetch(channelcol)])
             .then(function(){
+            let channel = channelcol.where({name: name})[0];
+            let member_ids = channel.get("members");
             let members = userscol.filter(function(u){
                 let id = u.get("id")
                 for (let m of member_ids)
@@ -208,9 +249,49 @@ let channelsView = Backbone.View.extend({
                 }
                 return false;
             });
-            let output = template({'members': members});
+            console.log(channel.get('admins'));
+            let output = template({'members': members, 'channel': channel});
+            
             $('#channel-sidepanel').html(output);
+            $('.mute1min').click(function(){
+                self.mute1min($(this).data("id"), $(this).data("channel"))
+            });
+            $('.kick').click(function(){
+                self.kick($(this).data("id"), $(this).data("channel"))
+            });
+            $('.set-admin').click(function(){
+                self.setAdmin($(this).data("id"), $(this).data("channel"))
+            });
+            $('#refresh-sidepanel-button').click(function(){
+                self.render_sidepanel($('#channel-name-title').text());
+            });
         });
+    },
+
+    mute1min(id, channel){
+        newchannelscable.perform(
+            "silence",
+            {
+                id: id,
+                channel: channel,
+                tsec: 60
+            }
+        );
+    },
+
+    kick(id, channel){
+        console.log("KICKING")
+        let cable = this.cables.find(cable => cable.channelname === channel);
+        newchannelscable.perform("kick", {channel: channel, user: id});
+    },
+
+    setAdmin(id, channel){
+        newchannelscable.perform(
+            "setAdmin",
+            {
+                id: id,
+                channel: channel,
+            });
     },
 
     

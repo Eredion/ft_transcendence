@@ -10,7 +10,7 @@ import Match from './views/matchView'
 import Helper from './Helper'
 import PopupProfileView from './views/popupProfileView'
 import Guilds from './views/guildsView'
-
+import Errors from './views/notFoundView'
 
 class Workspace extends Backbone.Router {
 
@@ -76,7 +76,9 @@ class Workspace extends Backbone.Router {
             "search_match": "search_match",
             "match/:id": "match",
             "guilds": "guilds",
-            "guilds/:id": "guild"
+            "guilds/:id": "guild",
+
+            "*actions": "notFound"
         }
     }
 
@@ -157,6 +159,12 @@ class Workspace extends Backbone.Router {
     guild(id) {
         console.log('guild ' + id + ' route')
         this.guildView = new Guilds.GuildView(id)
+    }
+
+    notFound() {
+        console.log('error 404 Not Found')
+        this.error404 = Errors.NotFound
+        this.error404.render()
     }
 
 };

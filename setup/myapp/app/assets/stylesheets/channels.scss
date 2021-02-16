@@ -23,6 +23,8 @@
     padding: 1em;
     text-align: center;
     display:grid;
+    max-height: 400px;
+    overflow: auto;
 }
 
 #channel-toolbar

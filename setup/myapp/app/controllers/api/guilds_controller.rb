@@ -38,7 +38,7 @@ class Api::GuildsController < ApplicationController
         guild = Guild.create(:title => params[:title], :anagram => params[:anagram].upcase, :owner => user)
         user.guild_id = guild.id
         if guild.save! && user.save!
-            return render json: { "success": guild }
+            return render json: { "success": "Guild created successfully.", "data": guild }
         end
         render json: { "error": "Some error happened. Try Again" }
     end
@@ -62,5 +62,39 @@ class Api::GuildsController < ApplicationController
     end
 
     def eject_member
+    end
+
+    def leave_guild
+        if current_user.id == params[:user_id].to_i
+            member = User.find_by(id: params[:user_id])
+            if member.guild_id != nil
+                guild = Guild.find_by(id: params[:id])
+                if guild.owner_id == member.id
+                    # owner leave the guild and no one can be owner -> destroy guild
+                    if guild.officers.empty?
+                        member.guild_id = nil
+                        member.save!
+                        User.where(id: guild.officers).where(id: guild.members).update_all(guild_id: nil)
+                        guild.destroy
+                        return render json: { "success": "You left the guild." }
+                    else
+                        guild.owner_id = guild.officers.shift #the first officer become owner of the guild
+                    end
+                elsif guild.officers.include?(member.id)
+                    guild.officers.delete(member.id)
+                elsif guild.members.include?(member.id)
+                    guild.members.delete(member.id)
+                else
+                    return render json: { "error": "You don't belong to this guild." }
+                end
+                member.guild_id = nil
+                if guild.save! && member.save!
+                    return render json: { "success": "You left the guild." }
+                end
+                return render json: { "error": "Some error happened. Try Again" }
+            end
+            return render json: { "error": "You are not in any guild." }
+        end
+        render json: { "error": "Forbidden." }
     end
 end

@@ -73,7 +73,13 @@
             <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
         </div>
         <div class="col-4">
-            <button class="btn btn-success" id="join_guild" data-guild-id="<%% guild.id %>"> Join Guild </button>
+            <%% if ( ( _.findIndex( guild.members, { id: $('html').data().userId } ) !== -1) ||
+                    ( _.findIndex( guild.officers, { id: $('html').data().userId } ) !== -1) ||
+                    (guild.owner.owner_id == $('html').data().userId) ) { %>
+                <button class="btn btn-danger" id="leave_guild" data-guild-id="<%% guild.id %>"> Leave Guild </button>
+            <%% } else { %>
+                <button class="btn btn-success" id="join_guild" data-guild-id="<%% guild.id %>"> Join Guild </button>
+            <%% } %>
         </div>
     </div>
     <div class="row">
@@ -111,13 +117,13 @@
             <p class="h4 text-white">Members</p>
             <ul class="list-group list-group-flush">
                 <%% if (_.size( guild.members ) > 0) { %>
-                    <%% _.each( guild.members, function(officer) { %>
+                    <%% _.each( guild.members, function(member) { %>
                         <li class="list-group-item d-flex">
                             <p class="text-dark">
                                 <span>
-                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= officer.avatar.thumb.url %>"/>
+                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= member.avatar.thumb.url %>"/>
                                 </span>
-                                <a href="/#users/<%%= officer.id %>"><%%= officer.nickname %></a>
+                                <a href="/#users/<%%= member.id %>"><%%= member.nickname %></a>
                             </p>
                         </li>
                     <%% }) %>

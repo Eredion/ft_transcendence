@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import Helper from '../Helper';
 import GuildCollection from '../models/guilds'
+import MyApp from '../application'
 
 const Guilds = {}
 
@@ -21,7 +22,7 @@ $(function () {
         template: _.template($('#guilds-list-template').html()),
 
         events: {
-            "submit #new-guild-form": "newGuild"
+            "click #new-guild": "newGuild"
         },
         
         initialize() {
@@ -39,15 +40,16 @@ $(function () {
         async newGuild(e) {
             console.log('newGuild function called')
             e.preventDefault()
-            e.stopPropagation()
+            if (!document.getElementById("form-guild-title").value.length || !document.getElementById("form-guild-anagram").value.length)
+                return
             var formData = $('#new-guild-form').serialize()
-            console.log(formData)
             var response = await Helper.ajax('POST', 'api/guilds', formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
             } else {
                 document.getElementById("new-guild-form").reset()
                 Helper.custom_alert('success', response['success'])
+                MyApp.core.navigate('guilds/' + response['data']['id'])
             }
         }
     });
@@ -71,7 +73,8 @@ $(function () {
         template: _.template($('#guild-show-template').html()),
 
         events: {
-            "click #join_guild": "joinGuild"
+            "click #join_guild": "joinGuild",
+            "click #leave_guild": "leaveGuild"
         },
         
         async initialize(id) {
@@ -105,6 +108,21 @@ $(function () {
             } else {
                 Helper.custom_alert('success', response['success'])
                 this.update()
+            }
+        },
+
+        async leaveGuild(e) {
+            e.preventDefault()
+            console.log('Leave Guild Button pressed!!!!')
+            var data = {
+                user_id: Helper.userId()
+            }
+            var response = await Helper.ajax('DELETE', 'api/guilds/' + this.guild_id + '/leave_guild', data)
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+                MyApp.core.navigate('guilds')
             }
         }
     });

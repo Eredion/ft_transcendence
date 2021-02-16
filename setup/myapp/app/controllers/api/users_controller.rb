@@ -9,8 +9,8 @@ class Api::UsersController < ApplicationController
     end
 
     def show
-        user = User.find(params[:id])
-        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked])
+        user = User.find_by(id: params[:id])
+        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost])
         render json: fuser
     end
 
@@ -107,6 +107,18 @@ class Api::UsersController < ApplicationController
             return render json: {"success": ret.to_json}, status: :ok
         end
         render json: {"error": 'Forbidden.'}, status: :ok
+    end
+
+    def guild
+        if user = User.find_by(id: params[:id])
+            if user.guild_id
+                guild = Guild.find_by(id: user.guild_id).as_json(only: [:id, :title, :anagram, :score, :owner_id, :officers, :members])
+            else
+                guild = nil
+            end
+            return render json: guild
+        end
+        render json: {"error": 'Forbidden.'}
     end
 
 end

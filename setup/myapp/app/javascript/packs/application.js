@@ -13,9 +13,11 @@ global._ = global.underscore = underscore;
 //App Entrypoint
 import App from './pong-app.js'
 
+let MyApp = {}
+
 $(function() {
 
-    var MyApp = new App();
+    MyApp.core = new App();
 
     $(document).on("click", "a[href^='/']", function(event) {
 
@@ -28,9 +30,10 @@ $(function() {
             // Remove first slash for backbone route match right
             var url = href.replace(/^\//, '')
                 // Instruct Backbone to trigger routing events
-            MyApp.navigate(url);
+            MyApp.core.navigate(url);
             return false
         }
     });
 });
 
+export default MyApp;

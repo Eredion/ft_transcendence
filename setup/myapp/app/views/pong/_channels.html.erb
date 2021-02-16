@@ -67,8 +67,10 @@
 </script>
 
 <script id="channel_view_template" type='text/template'>
-    <div id="channel-toolbar" class="btn-group">
-        <a id="modify-password-channel-button" class="btn btn-light">Set password <span><input value="newpassword" type="text"></input</span></a>
+    <div id="channel-toolbar" class="btn-group d-flex flex-row">
+        <form id="change_ch_password_form" class="form-horizontal">
+            <a id="modify-password-channel-button" class="btn btn-dark">Set password <span><input placeholder="..." maxlength="16" type="password"></input</span></a>
+        </form>
         <a id="delete-channel-button" class="btn btn-danger">Delete</a>
         <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>

@@ -176,15 +176,15 @@
     <div id="channel-sidepanel-user-list">
         
             <%% for (let m of members){ %>
-                    
+                <%% if (m.get("admin") === true) { continue;} %> 
                 <%%= '<a class="sidepannel-user" onClick="setuserpopup(\'' + m.toJSON().nickname + '\')" href="#popup1" >' %>
                     <%%=  m.get("nickname") %>
                     <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
 
                 </a>
-                <%% if (m.toJSON().id === ($('html').data().userId)) { continue; } %>
-                <%% if (channel.get("admins").includes(m.toJSON().id)) { continue; } %>  
-                <%% if (channel.get("admins").includes($('html').data().userId)){ %> 
+                <%% if (m.toJSON().id === ($('html').data().userId && admin === false)) { continue; } %>
+                <%% if (channel.get("admins").includes(m.toJSON().id) && admin === false) { continue; } %>  
+                <%% if (channel.get("admins").includes($('html').data().userId) || admin === true){ %> 
                 <a><button
                     class="badge badge-sm badge-ligth mute1min" 
                     data-id="<%%=m.toJSON().id%>"
@@ -195,7 +195,7 @@
                     data-id="<%%=m.toJSON().id%>"
                     data-channel="<%%= $('#channel-name-title').text()%>"
                     >Ban</button></a>
-                <%% if (channel.get('user_id') != ($('html').data().userId)){ continue;} %>
+                <%% if (channel.get('user_id') != ($('html').data().userId) && admin === false){ continue;} %>
                 <a><button
                     class="badge badge-sm badge-ligth set-admin" 
                     data-id="<%%=m.toJSON().id%>"

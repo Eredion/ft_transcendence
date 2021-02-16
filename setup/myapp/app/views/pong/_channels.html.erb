@@ -86,7 +86,11 @@
                 
             })
         %>
-        <a id="delete-channel-button" class="btn btn-danger">Delete</a>
+
+        <a id="modify-password-channel-button" class="btn btn-light">Set password <span><input value="newpassword" type="text"></input</span></a>
+        <%% if (admin === true){ %> 
+            <a id="delete-channel-button" class="btn btn-danger">Delete</a>
+        <%% }; %>
         <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
@@ -211,26 +215,3 @@
         $('.popup-user-title').text(name);
     }
 </script>
-
-<!--
-  <%% if (channel.get("admins").includes($('html').data().userId) && %>
-      <%% !(channel.get("admins").includes(m.toJSON().id))) { %>
-  <a><button
-      class="badge badge-sm badge-ligth mute1min" 
-      data-id="<%%=m.toJSON().id%>"
-      data-channel="<%%= $('#channel-name-title').text()%>"
-      >Mute</button></a>
-<a><button
-      class="badge badge-sm badge-ligth kick" 
-      data-id="<%%=m.toJSON().id%>"
-      data-channel="<%%= $('#channel-name-title').text()%>"
-      >Kick</button></a>
-  <%% if (channel.user_id != ($('html').data().userId){ continue;} %>
-  <a><button
-      class="badge badge-sm badge-ligth set-admin" 
-      data-id="<%%=m.toJSON().id%>"
-      data-channel="<%%= $('#channel-name-title').text()%>"
-      >Set Admin</button></a>
-  <%% } %>
-<%% } %> 
--->

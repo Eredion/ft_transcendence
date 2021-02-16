@@ -13,7 +13,6 @@ class AvailableChannelsChannel < ApplicationCable::Channel
   def force_render_channel_list
     ActionCable.server.broadcast "available_channels_channel",
       "force_render_channel_list"
-    puts "sending update order"
   end
 
   def kick(data)
@@ -32,4 +31,14 @@ class AvailableChannelsChannel < ApplicationCable::Channel
       channel.save       
     end
   end
+
+  def  destroy_channel(data)
+    channel = Channel.find_by(name: data["channel"])
+    channel.messages.each{|msg_id| Message.find_by(id: msg_id).destroy}
+    channel.messages.destroy
+    channel.destroy
+    ActionCable.server.broadcast "available_channels_channel",
+      {"action":"force_render_all", "channel": data["channel"]}
+  end
+
 end

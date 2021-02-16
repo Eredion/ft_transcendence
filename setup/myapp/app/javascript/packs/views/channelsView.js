@@ -20,27 +20,33 @@ let channelsView = Backbone.View.extend({
 
     initialize() {
         self = this;
-        console.log("INITIALIZING CHANNELVIEW");
         $(document).on("update_channels_event", function(event){
-            console.log(event)
             self.render_list();
             let chname= $('#channel-name-title').text();
             if (chname.length > 0)
                 self.render_sidepanel(chname);
         });
         $(document).on("kick", function(event, user, channel){
-            console.log(event);
-            console.log("kick " + user +" from " + channel);
             if ($('#channel-name-title').text() === channel && Helper.userId() === user)
             {
                 self.exit_channel();
                 self.render();
-                console.log("me teng oque ir ")
             }
-            console.log("USER KICKED")
         });
-        
+        $(document).on("render_full_view", function(event, channel){
+            console.log("Estoy viendo el canal....")
+            console.log($('#channel-name-title').text())
+            if ($('#channel-name-title').text() === channel)
+            {
+                if ((userscol.findWhere({id: Helper.userId()})).get("admin") === false)
+                    alert(`The channel "${channel}" was removed`);
+                self.render();
+            }
+            else
+                self.render_list();
+        });
     },
+
     async fetchcol() {
         await Helper.fetch(channelcol).then(function() {
             let template = _.template($("#online-channels-template").html())
@@ -48,7 +54,7 @@ let channelsView = Backbone.View.extend({
             $('#available-channels').html(output);
         });
     },
-
+    
     async updateBlockedUsers(){
         await Helper.fetch(userscol).then(function(){
             let myself = userscol.findWhere({id: Helper.userId()})
@@ -67,12 +73,14 @@ let channelsView = Backbone.View.extend({
             let template = _.template($("#channel_view_template").html())
             let channel = channelcol.where({name: name})[0];
             console.log(Helper.data.blockedUsers);
+            let myself = userscol.findWhere({id: Helper.userId()});
             let output = template(
                 {
                     'messages':channel.get("messages"),
                     'blockedUsers': Helper.data.blockedUsers,
                     'channel_id':parseInt(channel.get("id")),
                     'channelname':channel.get("name"),
+                    'admin': myself.get('admin'),
                 });
             $('#channel_view').html(output);
             let input_template = _.template($('#channel-msg-input-template').html());
@@ -95,8 +103,11 @@ let channelsView = Backbone.View.extend({
               }); 
             $('#exit-channel-button').click(function(){
                 self.exit_channel();
-             }
-            );
+             });
+            $('#delete-channel-button').click(function(){
+                if (myself.get('admin') === true)
+                    newchannelscable.perform("destroy_channel", {channel: $('#channel-name-title').text()})
+            });
             
         });
         return this;

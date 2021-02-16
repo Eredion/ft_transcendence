@@ -46,16 +46,18 @@ class ChannelMessagesChannel < ApplicationCable::Channel
     if (cha.members.length > 0 && cha.user_id == user.id)
       cha.user_id = cha.members[0]
       cha.admins.push(cha.user_id)
-      cha.save
     elsif cha.members.length == 0
       cha.destroy
+      ActionCable.server.broadcast "available_channels_channel",
+      "force_render_channel_list"
       return
     end
-    ActionCable.server.broadcast "available_channels_channel",
-      "force_render_channel_list"
+    
     p cha.members
     cha.save
     p cha.members
+    ActionCable.server.broadcast "available_channels_channel",
+      "force_render_channel_list"
 
   end
 end

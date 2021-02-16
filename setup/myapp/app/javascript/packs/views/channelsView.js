@@ -38,6 +38,7 @@ let channelsView = Backbone.View.extend({
             }
             console.log("USER KICKED")
         });
+        
     },
     async fetchcol() {
         await Helper.fetch(channelcol).then(function() {
@@ -171,7 +172,7 @@ let channelsView = Backbone.View.extend({
             let members = []
             if (chan != undefined)
                 members = chan.get("members");
-            console.log("members in this channel: "+members);
+            console.log("members in this channel: "+ members);
             if (chan.get("banned").includes(Helper.userId()))
             {
                 alert("You are banned from this channel.")
@@ -240,6 +241,9 @@ let channelsView = Backbone.View.extend({
             });
             $('.set-admin').click(function(){
                 self.setAdmin($(this).data("id"), $(this).data("channel"))
+            });
+            $('#refresh-sidepanel-button').click(function(){
+                self.render_sidepanel($('#channel-name-title').text());
             });
         });
     },

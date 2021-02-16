@@ -68,6 +68,8 @@
 
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group">
+        <a id="modify-password-channel-button" class="btn btn-light">Set password <span><input value="newpassword" type="text"></input</span></a>
+        <a id="delete-channel-button" class="btn btn-danger">Delete</a>
         <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
@@ -148,7 +150,7 @@
 </script>
 
 <script id="channel-sidepanel-template" type='text/template'>
-    <div class="title"><h5>Online</h5></div>
+    <div class="title"><h5>Online</h5><span class="d-flex flex-row-reverse badge badge-pill"><a id="refresh-sidepanel-button"><button>&#8634</button></a></span></div>
     <div id="channel-sidepanel-user-list">
         
             <%% for (let m of members){ %>

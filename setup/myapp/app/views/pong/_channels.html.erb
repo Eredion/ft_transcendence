@@ -158,12 +158,24 @@
                     <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
 
                 </a>
-                <%% if (channel.get("admins").includes($('html').data().userId) ) {%>
+                <%% if (m.toJSON().id === ($('html').data().userId)) { continue; } %> 
+                <%% if (channel.get("admins").includes($('html').data().userId)){ %> 
                 <a><button
                     class="badge badge-sm badge-ligth mute1min" 
                     data-id="<%%=m.toJSON().id%>"
                     data-channel="<%%= $('#channel-name-title').text()%>"
                     >Mute</button></a>
+                <a><button
+                    class="badge badge-sm badge-ligth kick" 
+                    data-id="<%%=m.toJSON().id%>"
+                    data-channel="<%%= $('#channel-name-title').text()%>"
+                    >Kick</button></a>
+                <%% if (channel.get('user_id') != ($('html').data().userId)){ continue;} %>
+                <a><button
+                    class="badge badge-sm badge-ligth set-admin" 
+                    data-id="<%%=m.toJSON().id%>"
+                    data-channel="<%%= $('#channel-name-title').text()%>"
+                    >Admin</button></a>
                 <%% } %>
             <%% } %>
     
@@ -178,3 +190,26 @@
         $('.popup-user-title').text(name);
     }
 </script>
+
+<!--
+  <%% if (channel.get("admins").includes($('html').data().userId) && %>
+      <%% !(channel.get("admins").includes(m.toJSON().id))) { %>
+  <a><button
+      class="badge badge-sm badge-ligth mute1min" 
+      data-id="<%%=m.toJSON().id%>"
+      data-channel="<%%= $('#channel-name-title').text()%>"
+      >Mute</button></a>
+<a><button
+      class="badge badge-sm badge-ligth kick" 
+      data-id="<%%=m.toJSON().id%>"
+      data-channel="<%%= $('#channel-name-title').text()%>"
+      >Kick</button></a>
+  <%% if (channel.user_id != ($('html').data().userId){ continue;} %>
+  <a><button
+      class="badge badge-sm badge-ligth set-admin" 
+      data-id="<%%=m.toJSON().id%>"
+      data-channel="<%%= $('#channel-name-title').text()%>"
+      >Set Admin</button></a>
+  <%% } %>
+<%% } %> 
+-->

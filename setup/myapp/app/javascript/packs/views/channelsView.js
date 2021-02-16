@@ -16,7 +16,7 @@ let channelsView = Backbone.View.extend({
     cablenames: [],
     cables: [],
     events : {
-        ".mute1min": "mute1min",
+        //"click .mute1min": "mute1min",
     },
 
     initialize() {
@@ -57,7 +57,7 @@ let channelsView = Backbone.View.extend({
 
             //render side panel
             self.render_sidepanel(name);
-            //
+
             // input-msg-channel-form
             $('#send-message-button').click(function(){
                 setTimeout(function(){

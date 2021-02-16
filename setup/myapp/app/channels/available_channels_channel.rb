@@ -17,6 +17,15 @@ class AvailableChannelsChannel < ApplicationCable::Channel
   end
 
   def kick(data)
+    channel = Channel.find_by(name: data["channel"])
+    p channel
+    puts data["user"]
+    puts "Baneados = " 
+    p channel.banned
+    channel.banned.push(data["user"].to_i)
+    channel.members.delete(data["user"].to_i)
+    channel.save
+    p channel
     ActionCable.server.broadcast "available_channels_channel",
       {"action":"kick", "user_id": data["user"], "channel": data["channel"] }
   end

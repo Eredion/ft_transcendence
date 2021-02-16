@@ -259,7 +259,6 @@ let channelsView = Backbone.View.extend({
         console.log("KICKING")
         let cable = this.cables.find(cable => cable.channelname === channel )
         newchannelscable.perform("kick", {channel: channel, user: id});
-        //newchannelscable.perform("force_render_channel_list");
     },
 
     setAdmin(id, channel){

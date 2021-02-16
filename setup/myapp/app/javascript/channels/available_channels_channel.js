@@ -22,9 +22,11 @@ let newchannelscable = consumer.subscriptions.create("AvailableChannelsChannel",
     {
       if (data.action === "kick")
       {
-        console.log(data.channel);
-
         $(document).trigger("kick", [data.user_id, data.channel]);
+      }
+      else if (data.action === 'force_render_all')
+      {
+        $(document).trigger("render_full_view", [data.channel])
       }
       return
     }

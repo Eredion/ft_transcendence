@@ -69,7 +69,9 @@
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group">
         <a id="modify-password-channel-button" class="btn btn-light">Set password <span><input value="newpassword" type="text"></input</span></a>
-        <a id="delete-channel-button" class="btn btn-danger">Delete</a>
+        <%% if (admin === true){ %> 
+            <a id="delete-channel-button" class="btn btn-danger">Delete</a>
+        <%% }; %>
         <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>

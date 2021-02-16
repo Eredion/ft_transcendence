@@ -2,6 +2,7 @@ import Backbone from 'backbone'
 import $ from 'jquery'
 import consumer from '../channels/consumer'
 import usercollection from "../packs/models/user"
+import userscollection from '../packs/models/user'
 
 const Helper = {}
 
@@ -52,6 +53,10 @@ Helper.getNicknamebyId = (id) => {
     return (usercollection.where({ id: id })[0].get('nickname'));
 }
 
+Helper.amIAdmin = () => {
+    return (userscollection.findWhere({id: Helper.userId()})).get("admin")
+};
+
 Helper.data = {
     newMsg: [],
     blockedUsers: [],
@@ -81,6 +86,7 @@ Helper.custom_alert = (type, message) => {
 Helper.current_user = () => {
     return $('#nav-nickname-user').text();
 };
+
 
 Helper.notification = (message) => {
     var notification = document.createElement('div')

@@ -192,14 +192,13 @@ let channelsView = Backbone.View.extend({
             let members = []
             if (chan != undefined)
                 members = chan.get("members");
-            console.log("members in this channel: "+ members);
-            if (chan.get("banned").includes(Helper.userId()))
+            if (chan.get("banned").includes(Helper.userId()) && Helper.amIAdmin() === false)
             {
                 alert("You are banned from this channel.")
                 return;
             }
             let categ = chan.get("category");
-            if (categ === "public" && members.includes(Helper.userId()))
+            if (Helper.amIAdmin() === true ||(categ === "public" && members.includes(Helper.userId())))
             {
                 console.log("user already in");
                 self.render_channel(name);
@@ -249,9 +248,12 @@ let channelsView = Backbone.View.extend({
                 }
                 return false;
             });
-            console.log(channel.get('admins'));
-            let output = template({'members': members, 'channel': channel});
-            
+            let output = template(
+                {
+                    'members': members,
+                    'channel': channel,
+                    'admin' : (userscol.findWhere({id: Helper.userId()})).get("admin")
+                });
             $('#channel-sidepanel').html(output);
             $('.mute1min').click(function(){
                 self.mute1min($(this).data("id"), $(this).data("channel"))

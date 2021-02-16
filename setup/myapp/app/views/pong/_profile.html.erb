@@ -176,17 +176,33 @@
             <div class="card mx-auto bg-info profile-status" style="width: 7rem">
                 <div class="card-body text-center">
                     <div class="tooltips">
+                    <%% if (guild) { %>
+                        <a class="text-dark" href="/#guilds/<%%= guild.guild_id %>">
+                    <%% } else {%>
+                        <a class="text-dark" href="/#guilds">
+                    <%% } %>
                         <i class="fa fa-university fa-2" aria-hidden="true"></i>
-                        <span class="tooltiptext">guild</span>
+                        <%% if (user.guild_id === null) { %>
+                            <span class="tooltiptext">guild</span>
+                        <%% } else { %>
+                            <span class="tooltiptext"><%%= guild.guild_title %></span>
+                        <%% } %>
+                    </a>
                     </div>
                     <div>
+                    <%% if (guild) { %>
+                        <a href="/#guilds/<%%= guild.guild_id %>">
+                    <%% } %>
                         <p class="h5 text-white card-text">
                         <%% if (user.guild_id === null) { %>
                             #
                         <%% } else { %>
-                            Guild Name 
+                            <%%= guild.guild_anagram %>
                         <%% } %>
                         </p>
+                    <%% if (guild) { %>
+                        </a>
+                    <%% } %>
                     </div>
                 </div>
             </div>

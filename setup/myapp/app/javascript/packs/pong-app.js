@@ -46,7 +46,7 @@ class App {
             Friends.view.update();
             UserStatus.channel.connect();
             Notifications.channel.connect();
-			dm_channel.joinChannel(Helper.userId());
+			      dm_channel.joinChannel(Helper.userId());
         }
     }
 

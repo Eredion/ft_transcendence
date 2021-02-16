@@ -1,0 +1,132 @@
+<script type="text/template" id="guilds-list-template">
+    <div class="row mt-4 flex">
+        <%% if (user_guild) { %>
+        <div id="guild-info" class="col-4 text-center">
+            <p class="h4 text-white"> <%%= user_guild.title %> (<%%= user_guild.anagram %>)</p>
+            <p class="text-primary">Score: <span class="text-white"><%%= user_guild.score %></span></p>
+            <p class="text-white">
+                <%% if (user_guild.owner_id == $('html').data().userId) { %>
+                    Owner of Guild
+                <%% } if ( _.indexOf( user_guild.officers, $('html').data().userId ) !== -1) { %>
+                    Officer of Guild
+                <%% } if ( _.indexOf( user_guild.members, $('html').data().userId ) !== -1) { %>
+                    Member of Guild
+                <%% } %>
+            </p>
+
+            <a class="btn btn-primary" href="/#guilds/<%%= user_guild.id %>"> Go to Guild </a>
+        </div>
+        <%% } else { %>
+        <div id="guild-form" class="col-4">
+            <p class="h4 text-white">Create new Guild</p>
+            <form id="new-guild-form">
+                <div class="form-group row">
+                    <label for="title" class="col-sm-5 col-form-label text-white">Title</label>
+                    <div class="col-sm-7">
+                        <input class="form-control white" type="text" name="title" id="form-guild-title" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="anagram" class="col-sm-5 col-form-label text-white">Anagram</label>
+                    <div class="col-sm-7">
+                        <input class="form-control white" type="text" name="anagram" id="form-guild-anagram" minlength="1" maxlength="5" onkeyup="this.value = this.value.toUpperCase();" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 text-center">
+                        <button class="btn btn-success" id="new-guild">Create Guild</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <%% } %>
+        <div id="guild-list" class="col-6">
+            <div class="text-center">
+                <p class="h4 text-white">Guilds</p>
+            </div>
+            <ul class="list-group list-group-flush">
+            <%% if (_.size( guilds ) > 0) { %>
+                <%% _.each( guilds, function(guild) { %>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <a href="/#guilds/<%%= guild.id %>">
+                            <p class="text-dark">(<%%= guild.anagram %>) <%%= guild.title %></p>
+                        </a>
+                        <span>
+                            <p class="text-primary">Score: <span class="text-dark"><%%= guild.score %></span></p>
+                        </span>
+                    </li>
+                <%% }) %>
+            <%% } else { %>
+                <li class="list-group-item text-center">
+                    <p class="h6 text-secondary">No guilds are created.</p>
+                </li>
+            <%% } %>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="guild-show-template">
+    <div class="row mt-4 justify-content-between">
+        <div class="col-4">
+            <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
+            <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-success" id="join_guild" data-guild-id="<%% guild.id %>"> Join Guild </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4" id="guild-onwer">
+            <p class="h4 text-white">Owner</p>
+            <p class="text-dark">
+                <span>
+                    <img class="img-avatar rounded-circle img-fluid" src="<%%= guild.owner.owner_avatar.thumb.url %>"/>
+                </span>
+                <a href="/#users/<%%= guild.owner.owner_id %>"><%%= guild.owner.owner_nickname %></a>
+            </p>
+        </div>
+        <div class="col-4" id="guild-officers">
+            <p class="h4 text-white">Officers</p>
+            <ul class="list-group list-group-flush">
+                <%% if (_.size( guild.officers ) > 0) { %>
+                    <%% _.each( guild.officers, function(officer) { %>
+                        <li class="list-group-item d-flex">
+                            <p class="text-dark">
+                                <span>
+                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= officer.avatar.thumb.url %>"/>
+                                </span>
+                                <a href="/#users/<%%= officer.id %>"><%%= officer.nickname %></a>
+                            </p>
+                        </li>
+                    <%% }) %>
+                <%% } else { %>
+                    <li class="list-group-item text-center">
+                        <p class="h6 text-secondary">No Officials.</p>
+                    </li>
+                <%% } %>
+            </ul>
+        </div>
+        <div class="col-4" id="guild-members">
+            <p class="h4 text-white">Members</p>
+            <ul class="list-group list-group-flush">
+                <%% if (_.size( guild.members ) > 0) { %>
+                    <%% _.each( guild.members, function(officer) { %>
+                        <li class="list-group-item d-flex">
+                            <p class="text-dark">
+                                <span>
+                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= officer.avatar.thumb.url %>"/>
+                                </span>
+                                <a href="/#users/<%%= officer.id %>"><%%= officer.nickname %></a>
+                            </p>
+                        </li>
+                    <%% }) %>
+                <%% } else { %>
+                    <li class="list-group-item text-center">
+                        <p class="h6 text-secondary">No Members.</p>
+                    </li>
+                <%% } %>
+            </ul>
+        </div>
+    </div>
+</script>

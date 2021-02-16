@@ -3,6 +3,7 @@ import _ from 'underscore'
 import Backbone from 'backbone'
 import Helper from '../Helper'
 import Matchmaking from '../../channels/matchmaking_channel'
+import MyApp from '../application'
 
 const SearchMatch = {}
 
@@ -36,19 +37,19 @@ if (Helper.logged()) {
         receive_data(data) {
             switch (data.action) {
                 case 'searching':
-                  console.log('Waiting for opponent')
-                  break;
+                    console.log('Waiting for opponent')
+                    break;
                 case 'game_found':
-                  console.log('Game found')
-                  this.render_match_found(data.player1, data.player2, data.match)
-                  break;
+                    console.log('Game found')
+                    this.render_match_found(data.player1, data.player2, data.match)
+                    break;
                 case 'current_game':
-                  console.log('Redirection to current game')
-                  $('#search_match_modal').modal('hide')
-                  setTimeout(function () {
-                    window.location.hash = 'match/' + data.match
-                  }, 300)
-                  break;
+                    console.log('Redirection to current game')
+                    $('#search_match_modal').modal('hide')
+                    setTimeout(function () {
+                        MyApp.core.navigate('match/' + data.match)
+                    }, 300)
+                    break;
             }
         },
             
@@ -61,7 +62,7 @@ if (Helper.logged()) {
                 $('#match_found_modal').modal('hide')
                 //Redirection to the match
                 setTimeout(function () {
-                    window.location.hash = 'match/' + match_id
+                    MyApp.core.navigate('match/' + match_id)
                 }, 300)
             }, 3000)
         },    

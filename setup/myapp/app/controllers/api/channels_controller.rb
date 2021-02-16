@@ -29,6 +29,14 @@ class Api::ChannelsController < ApplicationController
         end
     end
 
+    def delete
+        if (channel_params[:name])
+            ch = Channel.find_by(name: channel_params[:name])
+            puts "Deleting #{ch.name} channel"
+            ch.destroy
+        end
+    end
+
    private
    def send_connected_channel(channel)
     ActionCable.server.broadcast 'available_channels_channel',

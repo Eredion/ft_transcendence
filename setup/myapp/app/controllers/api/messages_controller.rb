@@ -12,7 +12,7 @@ class Api::MessagesController < ApplicationController
             return
         end
         msg = Message.new(message_params)
-        msg.user_id = params[:user_id]
+        msg.user_id = User.find_by(id: params[:user_id]).id
         msg.author = User.find_by(id: params[:user_id]).nickname
         if (params[:channel_id])
             ## check if user is silenced

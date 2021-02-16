@@ -4,14 +4,10 @@ class MatchmakingChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    if user = Matchmaking.find_by(:user_id => current_user.id)
-      user.destroy
-    end
+    Matchmaking.destroy_by(user_id: current_user.id)
   end
 
   def search_game
-    # search for the first user who is waiting for a match of type quick game
-    # if true a match can be created, game_found action is sent
-    SearchGameJob.perform_later(current_user)
+      SearchGameJob.perform_later(current_user)
   end
 end

@@ -40,8 +40,15 @@ class ChannelMessagesChannel < ApplicationCable::Channel
     user = User.find_by(nickname: data["user"])
     puts "found user #{user.nickname}"
     cha.members.delete(user.id)
+    if (cha.members.length > 0)
+      cha.user_id = cha.members[0]
+    else
+      cha.destroy
+      return
+    end
     p cha.members
     cha.save
     p cha.members
+
   end
 end

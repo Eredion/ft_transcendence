@@ -8,7 +8,7 @@ import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
 import newchannelscable from "./../../channels/available_channels_channel"
 import Workspace from '../routes'
-import bcryptjs from 'bcryptjs'
+import bcryptjs from 'bcryptjs'    
 let channelsView = Backbone.View.extend({
 
     el: '#content',
@@ -206,19 +206,23 @@ let channelsView = Backbone.View.extend({
                 }
                 return false;
             });
-            console.log(channel);
+            console.log(channel.get('admins'));
             let output = template({'members': members, 'channel': channel});
             
             $('#channel-sidepanel').html(output);
             $('.mute1min').click(function(){
-                console.log($(this).data())
                 self.mute1min($(this).data("id"), $(this).data("channel"))
+            });
+            $('.kick').click(function(){
+                self.kick($(this).data("id"), $(this).data("channel"))
+            });
+            $('.set-admin').click(function(){
+                self.setAdmin($(this).data("id"), $(this).data("channel"))
             });
         });
     },
 
     mute1min(id, channel){
-        console.log("silence button clicked");
         newchannelscable.perform(
             "silence",
             {
@@ -231,12 +235,21 @@ let channelsView = Backbone.View.extend({
     },
 
     kick(id, channel){
-        console.log("Kick")
+        console.log("Kick");
+        
+        console.log(id);
+        console.log(channel);
 
     },
 
     setAdmin(id, channel){
-        console.log("SetAdmin")
+        console.log("SetAdmin");
+        newchannelscable.perform(
+            "setAdmin",
+            {
+                id: id,
+                channel: channel,
+            });
     },
 
     

@@ -8,7 +8,6 @@ class Api::MessagesController < ApplicationController
     end
 
     def create
-        puts("api messages create controller")
         if (params[:content] == "")
             return
         end
@@ -21,7 +20,6 @@ class Api::MessagesController < ApplicationController
                 return
             end
             p Channel.find_by(id: params[:channel_id]).silenced
-            puts "ENd"
             msg.channel_id = params[:channel_id]
             msg.channelname = Channel.find_by(id: params[:channel_id]).name
         elsif (params[:chat_id])
@@ -30,13 +28,10 @@ class Api::MessagesController < ApplicationController
             dest_user = User.find_by(nickname: msg.dest)
             if dest_user.blocked.include? msg.user_id
                 msg.invisible = true
-                puts "Usuario bloqueado, mensaje invisiiiible!"
             end
         else
             return
         end
-        
-        puts(msg.content)
         if (msg.content.length() < 1)
             return
         end

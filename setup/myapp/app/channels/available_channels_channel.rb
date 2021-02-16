@@ -7,7 +7,15 @@ class AvailableChannelsChannel < ApplicationCable::Channel
   end
 
   def silence(data)
-    puts "entra"
     SilenceJob.perform_later(data["id"], data["channel"], data["tsec"])
+  end
+
+  def setAdmin(data)
+    channel = Channel.find_by(name: data["channel"])
+    puts("Que si quiere bolsa")
+    if (data['id'].to_i.in?(channel.admins) == false)
+      channel.admins.push(data['id'].to_i)
+      channel.save       
+    end
   end
 end

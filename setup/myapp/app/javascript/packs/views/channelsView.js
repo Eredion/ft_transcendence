@@ -34,6 +34,7 @@ let channelsView = Backbone.View.extend({
             if ($('#channel-name-title').text() === channel && Helper.userId() === user)
             {
                 self.exit_channel();
+                self.render();
                 console.log("me teng oque ir ")
             }
             console.log("USER KICKED")
@@ -261,9 +262,8 @@ let channelsView = Backbone.View.extend({
 
     kick(id, channel){
         console.log("KICKING")
-        let cable = this.cables.find(cable => cable.channelname === channel )
+        let cable = this.cables.find(cable => cable.channelname === channel);
         newchannelscable.perform("kick", {channel: channel, user: id});
-        //newchannelscable.perform("force_render_channel_list");
     },
 
     setAdmin(id, channel){

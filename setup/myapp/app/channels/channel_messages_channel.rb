@@ -52,12 +52,9 @@ class ChannelMessagesChannel < ApplicationCable::Channel
       "force_render_channel_list"
       return
     end
-    
-    p cha.members
-    cha.save
-    p cha.members
     ActionCable.server.broadcast "available_channels_channel",
       "force_render_channel_list"
+    cha.save
 
   end
 end

@@ -160,7 +160,8 @@
                     <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
 
                 </a>
-                <%% if (m.toJSON().id === ($('html').data().userId)) { continue; } %> 
+                <%% if (m.toJSON().id === ($('html').data().userId)) { continue; } %>
+                <%% if (channel.get("admins").includes(m.toJSON().id)) { continue; } %>  
                 <%% if (channel.get("admins").includes($('html').data().userId)){ %> 
                 <a><button
                     class="badge badge-sm badge-ligth mute1min" 
@@ -171,7 +172,7 @@
                     class="badge badge-sm badge-ligth kick" 
                     data-id="<%%=m.toJSON().id%>"
                     data-channel="<%%= $('#channel-name-title').text()%>"
-                    >Kick</button></a>
+                    >Ban</button></a>
                 <%% if (channel.get('user_id') != ($('html').data().userId)){ continue;} %>
                 <a><button
                     class="badge badge-sm badge-ligth set-admin" 

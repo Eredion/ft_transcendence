@@ -239,19 +239,14 @@ let channelsView = Backbone.View.extend({
                 tsec: 60
             }
         );
-    
     },
 
     kick(id, channel){
-        console.log("Kick");
-        
-        console.log(id);
-        console.log(channel);
-
+        cable.perform("remove_user", {channel: channel, user: id});
+        newchannelscable.perform("force_render_channel_list");
     },
 
     setAdmin(id, channel){
-        console.log("SetAdmin");
         newchannelscable.perform(
             "setAdmin",
             {

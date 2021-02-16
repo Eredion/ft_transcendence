@@ -68,9 +68,24 @@
 
 <script id="channel_view_template" type='text/template'>
     <div id="channel-toolbar" class="btn-group d-flex flex-row">
-        <form id="change_ch_password_form" class="form-horizontal">
-            <a id="modify-password-channel-button" class="btn btn-dark">Set password <span><input placeholder="..." maxlength="16" type="password"></input</span></a>
-        </form>
+        <%= form_with url:
+            "/api/channels/",
+            class:"form-horizontal",
+            id:"set_new_pass_form",
+            method: :put do |form| 
+        %>
+            <%= form.password_field :password, minlength: 1, maxlength: 10 %>
+            <!--- <%%= `<input id="hiddenfield-pass" value=1 type="hidden" name="id">` %> --->
+            <%%= `<input id="hiddenfield-pass" value=${channel_id}  type="hidden" name="channel">` %>
+            <!-- <%%= `<input id="hiddenfield-pass" value=${channel_id}  type="hidden" name="channel">` %> -->
+            <%= form.submit "Set password" %>
+        <% end %>
+        <%% 
+            $(document).ready(function(){
+                $('#set_new_pass_form').attr("action", "/api/channels/" + $('#hiddenfield-pass').val())
+                
+            })
+        %>
         <a id="delete-channel-button" class="btn btn-danger">Delete</a>
         <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>
@@ -94,6 +109,7 @@
                         
     <% end %>
     <%% $('#hiddenfield').val(channel.id); %>
+    
 </script>
 
 <div id="popup1" class="overlay">

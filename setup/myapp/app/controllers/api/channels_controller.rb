@@ -29,6 +29,14 @@ class Api::ChannelsController < ApplicationController
         end
     end
 
+    def update
+        channel = Channel.find(params[:id])
+        channel.password_digest = BCrypt::Password.create(params[:password])
+        channel.category="protected"
+        channel.save
+        puts channel.name
+    end
+
     def delete
         if (channel_params[:name])
             ch = Channel.find_by(name: channel_params[:name])
@@ -45,6 +53,7 @@ class Api::ChannelsController < ApplicationController
 
     private
     def channel_params
-        params.require(:channel).permit(:name, :category, :user, :password, :admins)
+        p params
+        params.require(:channel).permit(:id, :name, :category, :user, :password, :admins, :channel)
     end
 end

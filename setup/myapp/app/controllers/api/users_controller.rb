@@ -109,4 +109,16 @@ class Api::UsersController < ApplicationController
         render json: {"error": 'Forbidden.'}, status: :ok
     end
 
+    def guild
+        if user = User.find_by(id: params[:id])
+            if user.guild_id
+                guild = Guild.find_by(id: user.guild_id).as_json(only: [:id, :title, :anagram, :score, :owner_id, :officers, :members])
+            else
+                guild = nil
+            end
+            return render json: guild
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
 end

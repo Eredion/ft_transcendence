@@ -27,11 +27,12 @@ $(function () {
         initialize() {
             console.log('Guilds View initialize')
         },
-
+        
         async render() {
             console.log('render call')
             await Helper.fetch(this.collection)
-            this.$el.html(this.template( { 'guilds': this.collection.toJSON() } ));
+            this.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
+            this.$el.html(this.template( { 'guilds': this.collection.toJSON(), 'user_guild': this.userGuild } ));
             return this
         },
 
@@ -68,6 +69,10 @@ $(function () {
         el: "#content",
     
         template: _.template($('#guild-show-template').html()),
+
+        events: {
+            "click #join_guild": "joinGuild"
+        },
         
         async initialize(id) {
             console.log('Guild '+ id +' View initialize')
@@ -77,10 +82,30 @@ $(function () {
             this.render()
         },
 
+        async update() {
+            await Helper.fetch(this.model)
+            this.render()
+        },
+
         render() {
             console.log('render call')
             this.$el.html(this.template( { 'guild': this.model.toJSON() } ));
             return this
+        },
+
+        async joinGuild(e) {
+            e.preventDefault()
+            console.log('Join Guild Button pressed!!!!')
+            var data = {
+                user_id: Helper.userId()
+            }
+            var response = await Helper.ajax('POST', 'api/guilds/' + this.guild_id + '/new_member', data)
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+                this.update()
+            }
         }
     });
 

@@ -59,6 +59,12 @@ class Workspace extends Backbone.Router {
             this.matchView.removeChannel()
             this.matchView.undelegateEvents()
         }
+        if (this.guildsView) {
+            this.guildsView.undelegateEvents()
+        }
+        if (this.guildView) {
+            this.guildView.undelegateEvents()
+        }
     }
 
     get routes() {

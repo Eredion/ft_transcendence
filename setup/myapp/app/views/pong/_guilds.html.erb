@@ -1,5 +1,22 @@
 <script type="text/template" id="guilds-list-template">
     <div class="row mt-4 flex">
+        <%% if (user_guild) { %>
+        <div id="guild-info" class="col-4 text-center">
+            <p class="h4 text-white"> <%%= user_guild.title %> (<%%= user_guild.anagram %>)</p>
+            <p class="text-primary">Score: <span class="text-white"><%%= user_guild.score %></span></p>
+            <p class="text-white">
+                <%% if (user_guild.owner_id == $('html').data().userId) { %>
+                    Owner of Guild
+                <%% } if ( _.indexOf( user_guild.officers, $('html').data().userId ) !== -1) { %>
+                    Officer of Guild
+                <%% } if ( _.indexOf( user_guild.members, $('html').data().userId ) !== -1) { %>
+                    Member of Guild
+                <%% } %>
+            </p>
+
+            <a class="btn btn-primary" href="/#guilds/<%%= user_guild.id %>"> Go to Guild </a>
+        </div>
+        <%% } else { %>
         <div id="guild-form" class="col-4">
             <p class="h4 text-white">Create new Guild</p>
             <form id="new-guild-form">
@@ -22,6 +39,7 @@
                 </div>
             </form>
         </div>
+        <%% } %>
         <div id="guild-list" class="col-6">
             <div class="text-center">
                 <p class="h4 text-white">Guilds</p>
@@ -49,8 +67,15 @@
 </script>
 
 <script type="text/template" id="guild-show-template">
-    <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
-    <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
+    <div class="row mt-4 justify-content-between">
+        <div class="col-4">
+            <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
+            <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-success" id="join_guild" data-guild-id="<%% guild.id %>"> Join Guild </button>
+        </div>
+    </div>
     <div class="row">
         <div class="col-4" id="guild-onwer">
             <p class="h4 text-white">Owner</p>

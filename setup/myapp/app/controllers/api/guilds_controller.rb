@@ -42,4 +42,25 @@ class Api::GuildsController < ApplicationController
         end
         render json: { "error": "Some error happened. Try Again" }
     end
+
+    def new_member
+        if current_user.id == params[:user_id].to_i
+            member = User.find_by(id: params[:user_id])
+            if member.guild_id != nil
+                return render json: { "error": "Already in a guild, leave it first." }
+            end
+            if guild = Guild.find_by(id: params[:id])
+                guild.members.push(member.id)
+                member.guild_id = guild.id
+                if member.save! && guild.save!
+                    return render json: { "success": "You have joined " + guild.title + " guild" }
+                end
+                return render json: { "error": "Some error happened. Try Again" }
+            end
+        end
+        render json: { "error": "Forbidden." }
+    end
+
+    def eject_member
+    end
 end

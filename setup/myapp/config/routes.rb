@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         get :show_blockeds
         delete :delete_friend
         get :match_history
+        get :guild
       end
     end
     resources :chats
@@ -30,7 +31,12 @@ Rails.application.routes.draw do
     resources :channels
     resources :friend_requests, only: [:show, :create, :update, :delete]
     resources :matches, only: [:index, :show]
-    resources :guilds, only: [:index, :show, :create]
+    resources :guilds, only: [:index, :show, :create] do
+      member do
+        post :new_member
+        delete :eject_member
+      end
+    end
   end
 
   devise_scope :user do

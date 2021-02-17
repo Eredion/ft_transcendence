@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import Helper from '../Helper';
 import GuildCollection from '../models/guilds'
 import MyApp from '../application'
+import Guild from '../../channels/guild_channel'
 
 const Guilds = {}
 
@@ -22,7 +23,7 @@ $(function () {
         template: _.template($('#guilds-list-template').html()),
 
         events: {
-            "click #new-guild": "newGuild"
+            "submit #new-guild-form": "newGuild"
         },
         
         initialize() {
@@ -38,8 +39,8 @@ $(function () {
         },
 
         async newGuild(e) {
-            console.log('newGuild function called')
             e.preventDefault()
+            console.log('newGuild function called')
             if (!document.getElementById("form-guild-title").value.length || !document.getElementById("form-guild-anagram").value.length)
                 return
             var formData = $('#new-guild-form').serialize()
@@ -53,6 +54,8 @@ $(function () {
             }
         }
     });
+
+    Guilds.view = new Guilds.GuildsView();
 
     Guilds.Model = Backbone.Model.extend({
 
@@ -74,7 +77,10 @@ $(function () {
 
         events: {
             "click #join_guild": "joinGuild",
-            "click #leave_guild": "leaveGuild"
+            "click #leave_guild": "leaveGuild",
+            "click .become-officer-btn": "becomeOfficer",
+            "click .remove-officer-btn": "removeOfficer",
+            "click .kick-btn": "kickMember"
         },
         
         async initialize(id) {
@@ -83,6 +89,15 @@ $(function () {
             this.model = new Guilds.Model( { guild_id: this.guild_id } )
             await Helper.fetch(this.model)
             this.render()
+            Guild.channel.connect(this.guild_id, this.manage_guild, this)
+        },
+
+        manage_guild(data) {
+            if (data['action'] == 'update') {
+                this.update()
+            } if (data['action'] == 'guild_removed') {
+                MyApp.core.navigate('guilds')
+            }
         },
 
         async update() {
@@ -124,10 +139,42 @@ $(function () {
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds')
             }
+        },
+
+        becomeOfficer(e) {
+            e.preventDefault()
+            console.log('becomeOfficer Button pressed!!!!')
+            Guild.channel.perform('made_officer', {
+                guild: this.guild_id,
+                from: Helper.userId(),
+                member: $(e.currentTarget).data().memberId
+            })
+        },
+
+        removeOfficer(e) {
+            e.preventDefault()
+            console.log('removeOfficer Button pressed!!!!')
+            Guild.channel.perform('remove_officer', {
+                guild: this.guild_id,
+                from: Helper.userId(),
+                member: $(e.currentTarget).data().officerId
+            })
+        },
+
+        kickMember(e) {
+            e.preventDefault()
+            console.log('kickMember Button pressed!!!!')
+            Guild.channel.perform('kick', {
+                guild: this.guild_id,
+                from: Helper.userId(),
+                member: $(e.currentTarget).data().memberId
+            })
+        },
+
+        removeChannel() {
+            Guild.channel.disconnect()
         }
     });
-
-    Guilds.view = new Guilds.GuildsView();
 
 });
 

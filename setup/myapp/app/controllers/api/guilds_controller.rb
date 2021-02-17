@@ -53,15 +53,15 @@ class Api::GuildsController < ApplicationController
                 guild.members.push(member.id)
                 member.guild_id = guild.id
                 if member.save! && guild.save!
+                    ActionCable.server.broadcast( "Guild_#{guild.id}", {
+                        action: 'update'
+                    })
                     return render json: { "success": "You have joined " + guild.title + " guild" }
                 end
                 return render json: { "error": "Some error happened. Try Again" }
             end
         end
         render json: { "error": "Forbidden." }
-    end
-
-    def eject_member
     end
 
     def leave_guild
@@ -74,9 +74,14 @@ class Api::GuildsController < ApplicationController
                     if guild.officers.empty?
                         member.guild_id = nil
                         member.save!
-                        User.where(id: guild.officers).where(id: guild.members).update_all(guild_id: nil)
+                        User.where(id: guild.officers).or(User.where(id: guild.members)).update_all(guild_id: nil)
+                        tmp_id = guild.id
                         guild.destroy
-                        return render json: { "success": "You left the guild." }
+                        render json: { "success": "You left the guild." }
+                        ActionCable.server.broadcast( "Guild_#{tmp_id}", {
+                            action: 'guild_removed'
+                        })
+                        return
                     else
                         guild.owner_id = guild.officers.shift #the first officer become owner of the guild
                     end
@@ -89,6 +94,9 @@ class Api::GuildsController < ApplicationController
                 end
                 member.guild_id = nil
                 if guild.save! && member.save!
+                    ActionCable.server.broadcast( "Guild_#{guild.id}", {
+                        action: 'update'
+                    })
                     return render json: { "success": "You left the guild." }
                 end
                 return render json: { "error": "Some error happened. Try Again" }

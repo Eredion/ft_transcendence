@@ -67,15 +67,25 @@
 </script>
 
 <script type="text/template" id="guild-show-template">
+    <%%
+        let grade = 0;
+        if ( ( _.findIndex( guild.members, { id: $('html').data().userId } ) !== -1) ) {
+            grade = 1
+        }
+        if ( ( _.findIndex( guild.officers, { id: $('html').data().userId } ) !== -1) ) {
+            grade = 2
+        }
+        if ( (guild.owner.owner_id == $('html').data().userId) ) {
+            grade = 3
+        }
+    %>
     <div class="row mt-4 justify-content-between">
         <div class="col-4">
             <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
             <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
         </div>
         <div class="col-4">
-            <%% if ( ( _.findIndex( guild.members, { id: $('html').data().userId } ) !== -1) ||
-                    ( _.findIndex( guild.officers, { id: $('html').data().userId } ) !== -1) ||
-                    (guild.owner.owner_id == $('html').data().userId) ) { %>
+            <%% if ( grade > 0 ) { %>
                 <button class="btn btn-danger" id="leave_guild" data-guild-id="<%% guild.id %>"> Leave Guild </button>
             <%% } else { %>
                 <button class="btn btn-success" id="join_guild" data-guild-id="<%% guild.id %>"> Join Guild </button>
@@ -97,13 +107,21 @@
             <ul class="list-group list-group-flush">
                 <%% if (_.size( guild.officers ) > 0) { %>
                     <%% _.each( guild.officers, function(officer) { %>
-                        <li class="list-group-item d-flex">
+                        <li class="list-group-item d-flex justify-content-between">
                             <p class="text-dark">
                                 <span>
                                     <img class="img-avatar rounded-circle img-fluid" src="<%%= officer.avatar.thumb.url %>"/>
                                 </span>
                                 <a href="/#users/<%%= officer.id %>"><%%= officer.nickname %></a>
                             </p>
+                        <%% if (grade == 3) { %>
+                            <span class="tooltips">
+                                <button class="btn btn-danger remove-officer-btn" data-officer-id="<%%= officer.id %>" >
+                                &times
+                                <span class="tooltiptext">Remove officer</span>
+                                </button>
+                            </span>
+                        <%% } %>
                         </li>
                     <%% }) %>
                 <%% } else { %>
@@ -118,13 +136,29 @@
             <ul class="list-group list-group-flush">
                 <%% if (_.size( guild.members ) > 0) { %>
                     <%% _.each( guild.members, function(member) { %>
-                        <li class="list-group-item d-flex">
+                        <li class="list-group-item d-flex justify-content-between">
                             <p class="text-dark">
                                 <span>
                                     <img class="img-avatar rounded-circle img-fluid" src="<%%= member.avatar.thumb.url %>"/>
                                 </span>
                                 <a href="/#users/<%%= member.id %>"><%%= member.nickname %></a>
                             </p>
+                        <%% if (grade == 3) { %>
+                            <span class="tooltips">
+                                <button class="btn btn-primary become-officer-btn" data-member-id="<%%= member.id %>" >
+                                    <i class="fa fa-user-secret" aria-hidden="true"></i>
+                                    <span class="tooltiptext">Make officer</span>
+                                </button>
+                            </span>
+                        <%% } %>
+                        <%% if (grade > 1) { %>
+                            <span class="tooltips">
+                                <button class="btn btn-danger kick-btn" data-member-id="<%%= member.id %>" >
+                                &times
+                                <span class="tooltiptext">Kick out</span>
+                                </button>
+                            </span>
+                        <%% } %>
                         </li>
                     <%% }) %>
                 <%% } else { %>

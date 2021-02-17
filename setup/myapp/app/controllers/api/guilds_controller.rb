@@ -1,6 +1,6 @@
 class Api::GuildsController < ApplicationController
     def index
-        guilds = Guild.all.as_json(only: [:id, :title, :anagram, :score])
+        guilds = Guild.all.as_json(only: [:id, :title, :anagram, :score, :guild_avatar])
         render json: guilds
     end
 
@@ -9,6 +9,7 @@ class Api::GuildsController < ApplicationController
             ret = {
                 :guild_id => guild.id,
                 :guild_title => guild.title,
+                :guild_avatar => guild.guild_avatar,
                 :guild_anagram => guild.anagram,
                 :score => guild.score,
                 owner: {

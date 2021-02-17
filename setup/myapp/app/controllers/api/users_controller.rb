@@ -112,7 +112,7 @@ class Api::UsersController < ApplicationController
     def guild
         if user = User.find_by(id: params[:id])
             if user.guild_id
-                guild = Guild.find_by(id: user.guild_id).as_json(only: [:id, :title, :anagram, :score, :owner_id, :officers, :members])
+                guild = Guild.find_by(id: user.guild_id).as_json(only: [:id, :title, :anagram, :score, :owner_id, :officers, :members, :guild_avatar])
             else
                 guild = nil
             end

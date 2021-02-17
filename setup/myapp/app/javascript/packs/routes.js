@@ -63,6 +63,7 @@ class Workspace extends Backbone.Router {
             this.guildsView.undelegateEvents()
         }
         if (this.guildView) {
+            this.guildView.removeChannel()
             this.guildView.undelegateEvents()
         }
     }
@@ -132,12 +133,14 @@ class Workspace extends Backbone.Router {
     userSignin() {
         console.log("userSignin route")
         this.signinView = Login.view
+        this.signinView.delegateEvents()
         this.signinView.render()
     }
 
     userSignup() {
         console.log("userSignup route.")
         this.signupView = Register.view
+        this.signupView.delegateEvents()
         this.signupView.render()
     }
 
@@ -159,6 +162,7 @@ class Workspace extends Backbone.Router {
     guilds() {
         console.log('guilds route')
         this.guildsView = Guilds.view
+        this.guildsView.delegateEvents()
         this.guildsView.render()
     }
 

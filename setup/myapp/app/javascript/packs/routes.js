@@ -12,7 +12,7 @@ import PopupProfileView from './views/popupProfileView'
 import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
 import rankingView from './views/rankingView'
-
+import adminview from './views/adminView'
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
@@ -86,9 +86,13 @@ class Workspace extends Backbone.Router {
             "guilds": "guilds",
             "guilds/:id": "guild",
             "ranking": "ranking",
-
+            "admin": "admin",
             "*actions": "notFound"
         }
+    }
+    admin(){
+        this.adminview = adminview;
+        this.adminview.render();
     }
 
     popup_profile(){

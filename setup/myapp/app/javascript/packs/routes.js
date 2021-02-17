@@ -11,6 +11,7 @@ import Helper from './Helper'
 import PopupProfileView from './views/popupProfileView'
 import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
+import rankingView from './views/rankingView'
 
 class Workspace extends Backbone.Router {
 
@@ -84,6 +85,7 @@ class Workspace extends Backbone.Router {
             "match/:id": "match",
             "guilds": "guilds",
             "guilds/:id": "guild",
+            "ranking": "ranking",
 
             "*actions": "notFound"
         }
@@ -108,6 +110,12 @@ class Workspace extends Backbone.Router {
         }
         else
             this.chatview.render();
+    }
+
+    ranking() {
+        if (!this.rankView)
+            this.rankView = new rankingView();
+        this.rankView.render();
     }
 
 

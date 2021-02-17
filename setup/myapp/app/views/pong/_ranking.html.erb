@@ -1,0 +1,37 @@
+<script type="text/template" name="ranking" id="ranking-template">
+    <div class="row">
+        <div id="user-ranking-div" class="col-sm">
+            <div>
+                <h1 class="title">Users</h1>
+            </div>
+            <div id='user-ranking'></div>
+        </div>
+        <div id="guild-ranking-div" class="col-sm">
+            <div>
+                <h1 class="title">Guilds</h1>
+            </div>
+            <div id='guild-ranking'></div>
+        </div>
+    </div>
+    </div>
+</script>
+
+<script id="user-ranking-template" type='text/template'>
+    <%% for (user of users) {%>
+        <div class="bg-light p-2 ">
+            <div  class="d-inline text-primary"><%%= user.nickname%>:</div>
+
+            <div class="d-inline text-dark"><%%= user.score %></div>
+        </div>
+    <%% };%> 
+</script>
+
+<script id="guild-ranking-template" type='text/template'>
+    <%% for (guild of guilds) {%>
+        <div class="bg-light p-2 ">
+            <div  class="d-inline text-primary"><%%= guild.title%>:</div>
+
+            <div class="d-inline text-dark"><%%= guild.score %></div>
+        </div>
+    <%% };%> 
+</script>

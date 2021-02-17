@@ -1,0 +1,51 @@
+<script type="text/template" name="ranking" id="ranking-template">
+    <div class="row">
+        <div id="user-ranking-div" class="col-sm">
+            <div>
+                <h1 class="title">Top Players</h1>
+            </div>
+            <div id='user-ranking'></div>
+        </div>
+        <div id="guild-ranking-div" class="col-sm">
+            <div>
+                <h1 class="title">Top Guilds</h1>
+            </div>
+            <div id='guild-ranking'></div>
+        </div>
+    </div>
+    </div>
+</script>
+
+<script id="user-ranking-template" type='text/template'>
+    <%% let i = 0; %>
+    <%% for (user of users) {%>
+        <%% i+= 1; %>
+        <div class="bg-light d-flex flex-row">
+            <%% if (i === 1){ %>
+            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</div>
+            <%% } else if (i === 2){ %>
+            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</div>
+            <%% }  else if (i === 3){ %>
+            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</div>
+            <%% }  else { %>
+            <div  class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</div>
+            <%% } %>
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.score %></div>
+        </div>
+    <%% };%> 
+</script>
+
+<script id="guild-ranking-template" type='text/template'>
+    <div class="flex-col">
+    <%% let i = 0; %>
+    <%% for (guild of guilds) {%>
+        <div class="bg-light p-2 flex-row mb-2">
+            
+             <div  class="d-inline text-dark w-10"><%%= "[" + guild.anagram + "] " + guild.title%>:</div>
+
+             <div class="d-inline text-primary align-self-end w-10"><%%= guild.score %></div>
+           
+        </div>
+    <%% };%> 
+    </div>
+</script>

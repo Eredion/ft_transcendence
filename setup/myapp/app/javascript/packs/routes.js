@@ -11,7 +11,8 @@ import Helper from './Helper'
 import PopupProfileView from './views/popupProfileView'
 import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
-
+import rankingView from './views/rankingView'
+import adminview from './views/adminView'
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
@@ -84,9 +85,14 @@ class Workspace extends Backbone.Router {
             "match/:id": "match",
             "guilds": "guilds",
             "guilds/:id": "guild",
-
+            "ranking": "ranking",
+            "admin": "admin",
             "*actions": "notFound"
         }
+    }
+    admin(){
+        this.adminview = adminview;
+        this.adminview.render();
     }
 
     popup_profile(){
@@ -108,6 +114,12 @@ class Workspace extends Backbone.Router {
         }
         else
             this.chatview.render();
+    }
+
+    ranking() {
+        if (!this.rankView)
+            this.rankView = new rankingView();
+        this.rankView.render();
     }
 
 

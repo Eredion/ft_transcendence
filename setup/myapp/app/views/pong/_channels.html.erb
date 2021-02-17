@@ -67,10 +67,34 @@
 </script>
 
 <script id="channel_view_template" type='text/template'>
-    <div id="channel-toolbar" class="btn-group">
+    <div id="channel-toolbar" class="btn-group d-flex flex-row">
+    <%% if (channeladmin === true || admin === true){ %> 
+        <%= form_with url:
+            "/api/channels/",
+            class:"form-horizontal",
+            id:"set_new_pass_form",
+            method: :put do |form| 
+        %>
+            <%= form.password_field :password, minlength: 1, maxlength: 10 %>
+            <!--- <%%= `<input id="hiddenfield-pass" value=1 type="hidden" name="id">` %> --->
+            <%%= `<input id="hiddenfield-pass" value=${channel_id}  type="hidden" name="channel">` %>
+            <!-- <%%= `<input id="hiddenfield-pass" value=${channel_id}  type="hidden" name="channel">` %> -->
+            <%= form.submit "Set password" %>
+        <% end %>
+        <%% 
+            $(document).ready(function(){
+                $('#set_new_pass_form').attr("action", "/api/channels/" + $('#hiddenfield-pass').val())
+                
+            })
+        %>
+    <%% }; %>
+        <%% if (admin === true){ %> 
+            <a id="delete-channel-button" class="btn btn-danger">Delete</a>
+        <%% }; %>
         <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
+        <%% if (blockedUsers.includes(msg.user_id) === true) { continue; } %>
         <div class="channel_message bg-light p-2">
             <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
             
@@ -89,6 +113,7 @@
                         
     <% end %>
     <%% $('#hiddenfield').val(channel.id); %>
+    
 </script>
 
 <div id="popup1" class="overlay">
@@ -147,21 +172,42 @@
 </script>
 
 <script id="channel-sidepanel-template" type='text/template'>
-    <div class="title"><h5>Online</h5></div>
+    <div class="title"><h5>Online</h5><span class="d-flex flex-row-reverse badge badge-pill"><a id="refresh-sidepanel-button"><button>&#8634</button></a></span></div>
     <div id="channel-sidepanel-user-list">
         
             <%% for (let m of members){ %>
+                <%% if (m.get("admin") === true) { continue;} %> 
+                <%%= '<a class="sidepannel-user" onClick="setuserpopup(\'' + m.toJSON().nickname + '\')" href="#popup1" >' %>
+                    <%%=  m.get("nickname") %>
+                    <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
 
-                    
-                        <%%= '<a class="sidepannel-user" onClick="setuserpopup(\'' + m.toJSON().nickname + '\')" href="#popup1" >' %>
-                        
-                            <%%=  m.get("nickname") %>
-                            <img class="channel-smallavatar" src="<%%= m.toJSON().avatar.thumb.url%>"></img>
-                        </a>
+                </a>
+                <%% if (m.toJSON().id === ($('html').data().userId && admin === false)) { continue; } %>
+                <%% if (channel.get("admins").includes(m.toJSON().id) && admin === false) { continue; } %>  
+                <%% if (channel.get("admins").includes($('html').data().userId) || admin === true){ %> 
+                <a><button
+                    class="badge badge-sm badge-ligth mute1min" 
+                    data-id="<%%=m.toJSON().id%>"
+                    data-channel="<%%= $('#channel-name-title').text()%>"
+                    >Mute</button></a>
+                <a><button
+                    class="badge badge-sm badge-ligth kick" 
+                    data-id="<%%=m.toJSON().id%>"
+                    data-channel="<%%= $('#channel-name-title').text()%>"
+                    >Ban</button></a>
+                <%% if (channel.get('user_id') != ($('html').data().userId) && admin === false){ continue;} %>
+                <a><button
+                    class="badge badge-sm badge-ligth set-admin" 
+                    data-id="<%%=m.toJSON().id%>"
+                    data-channel="<%%= $('#channel-name-title').text()%>"
+                    >Admin</button></a>
+                <%% } %>
             <%% } %>
     
     </div>
-
+    <%% $('.popover-dismiss').popover({
+    trigger: 'focus'
+    }) %>
     
 </script>
 <script>

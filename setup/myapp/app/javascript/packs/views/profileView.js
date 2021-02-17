@@ -33,6 +33,8 @@ if (Helper.logged()) {
         async initialize(id) {
             this.user_id = id
             await Helper.fetch(this.collection)
+            this.user = this.collection.get(this.user_id);
+            this.guild = await Helper.ajax('GET', 'api/guilds/' + this.user.get('guild_id'))
             this.render()
             this.render_userInfo()
             this.friendView = new Friends.view(this.user_id)
@@ -46,14 +48,16 @@ if (Helper.logged()) {
         },
         
         render() {
-            this.user = this.collection.get(this.user_id);
-            this.$el.html(this.template({'user': this.user.toJSON()}));
+            this.$el.html(this.template( { 'user': this.user.toJSON() } ));
             return this;
         },
 
         render_userInfo() {
-            this.user = this.collection.get(this.user_id);
-            this.$el.find('#user_info').html(this.uinfo_template({'user': this.user.toJSON()}));
+            var guild = null
+            if (this.guild['success']) {
+                guild = JSON.parse(this.guild['success'])
+            }
+            this.$el.find('#user_info').html(this.uinfo_template({'user': this.user.toJSON(), 'guild': guild }));
         },
 
         render_friends() {

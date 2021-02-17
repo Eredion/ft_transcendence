@@ -42,12 +42,15 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   end
 
   create_table "guilds", force: :cascade do |t|
-    t.string "title"
-    t.integer "score"
-    t.integer "owner"
+    t.string "title", null: false
+    t.string "anagram", null: false
+    t.integer "score", default: 0
+    t.bigint "owner_id", null: false
     t.integer "officers", default: [], array: true
+    t.integer "members", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["owner_id"], name: "index_guilds_on_owner_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -94,7 +97,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "password_digest"
     t.string "avatar"
     t.integer "status", default: 0, null: false
-    t.integer "guild_id"
+    t.bigint "guild_id"
     t.string "name", default: ""
     t.integer "score", default: 0
     t.integer "matches_won", default: 0
@@ -108,6 +111,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["guild_id"], name: "index_users_on_guild_id"
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
     t.index ["uid"], name: "index_users_on_uid"
   end

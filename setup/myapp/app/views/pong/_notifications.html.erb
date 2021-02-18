@@ -2,7 +2,7 @@
     <li class="dropdown">
         <a href="#" class="btn btn-primary notification-bell" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-bell" aria-hidden="true"></i>
-            <span class="badge"><%%= _.size( notifications ) %></span>
+            <span class="badge" id="notification-count"><%%= _.size( notifications ) %></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-right notify-drop">
             <div class="notify-drop-title">
@@ -10,7 +10,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">Notifications</div>
                 </div>
             </div>
-            <div class="drop-content">
+            <div class="drop-content" id="notification-list">
             <%% if (_.size( notifications ) > 0) { %>
 
                 <%% _.each( notifications, function(notification) { %>
@@ -40,4 +40,11 @@
         </ul>
     </li>
 
+</script>
+
+
+<script type="text/template" name="challenge_notif_template">
+    <div class="dropdown-item">You have been challeged by <%%= from %></div>
+
+    </div>
 </script>

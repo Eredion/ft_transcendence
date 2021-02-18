@@ -13,6 +13,10 @@ import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
 import rankingView from './views/rankingView'
 import adminview from './views/adminView'
+import playview from './views/playView'
+import adminView from './views/adminView'
+import waitView from './views/challengeWaitingView'
+
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
@@ -77,6 +81,7 @@ class Workspace extends Backbone.Router {
             "chat/:name": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
+            "play": 'play',
             "users/:id": "userProfile",
             "channels/": "channels",
             "channels/:name": "channels",
@@ -88,11 +93,19 @@ class Workspace extends Backbone.Router {
             "guilds/:id": "guild",
             "ranking": "ranking",
             "admin": "admin",
+            "challenge/:id": "wait",
             "*actions": "notFound"
         }
     }
+
+    wait(id){
+        this.waitview = new waitView(id);
+        this.waitview.render();
+    }
+
     admin(){
-        this.adminview = adminview;
+        if (!this.adminview)
+            this.adminview = new adminView();
         this.adminview.render();
     }
 
@@ -160,6 +173,12 @@ class Workspace extends Backbone.Router {
     userProfile(id) {
         console.log("userProfile route")
         this.profileview = new Profile.view(id)
+    }
+
+    play(){
+        console.log("playview route")
+        this.playview = playview;
+        this.playview.render();
     }
 
     search_match() {

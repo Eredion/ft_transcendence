@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         post :new_member
         delete :eject_member
         delete :leave_guild
+        post :update_guild_avatar
       end
     end
   end

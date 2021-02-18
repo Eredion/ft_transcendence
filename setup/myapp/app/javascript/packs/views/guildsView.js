@@ -96,7 +96,8 @@ $(function () {
             "click .remove-officer-btn": "removeOfficer",
             "click .kick-btn": "kickMember",
             "click #destroy-guild-btn": "destroyGuild",
-            "submit #edit-guild-form": "editGuild"
+            "submit #edit-guild-form": "editGuild",
+            "submit #guild_avatar-form" : "updateGuildAvatar",
         },
         
         async initialize(id) {
@@ -214,6 +215,19 @@ $(function () {
                     Helper.custom_alert('success', response['success'])
                 }
             })
+        },
+
+        updateGuildAvatar(e) {
+            var input = document.getElementById('guildFileInput')
+            if (input.files && input.files[0]) { //Checks if a file is uploaded
+                const self = this
+                setTimeout(function() {
+                    self.update();
+                }, 1000)
+            } else {
+                e.preventDefault()
+                e.stopPropagation()
+            }
         },
 
         removeChannel() {

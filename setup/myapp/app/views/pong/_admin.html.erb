@@ -1,0 +1,23 @@
+<script type="text/template" name="admin" id="admin-template">
+    <div>
+        <h1 class="title">Admin control panel</h1>
+    </div>
+    <div id="admin-user-grid">
+        <%% for (let user of users){ %>
+            
+                <div class="admin-user-el bg-white">
+                    <p><%%= user.nickname %></p>
+                    <span>
+                        <%% if (user.banned === false) { %>
+                        <div class="ban-user-button btn btn-danger" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">BAN</div>
+
+                        <%% } else { %>
+                        <div class="unban-user-button btn btn-success" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">UNBAN</div>
+
+                        <%% } %>
+                    </span>
+                </div>
+
+        <%% }%>
+    </div>
+</script>

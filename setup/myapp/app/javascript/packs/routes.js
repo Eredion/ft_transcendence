@@ -11,7 +11,8 @@ import Helper from './Helper'
 import PopupProfileView from './views/popupProfileView'
 import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
-
+import rankingView from './views/rankingView'
+import adminview from './views/adminView'
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
@@ -63,6 +64,7 @@ class Workspace extends Backbone.Router {
             this.guildsView.undelegateEvents()
         }
         if (this.guildView) {
+            this.guildView.removeChannel()
             this.guildView.undelegateEvents()
         }
     }
@@ -83,9 +85,14 @@ class Workspace extends Backbone.Router {
             "match/:id": "match",
             "guilds": "guilds",
             "guilds/:id": "guild",
-
+            "ranking": "ranking",
+            "admin": "admin",
             "*actions": "notFound"
         }
+    }
+    admin(){
+        this.adminview = adminview;
+        this.adminview.render();
     }
 
     popup_profile(){
@@ -107,6 +114,12 @@ class Workspace extends Backbone.Router {
         }
         else
             this.chatview.render();
+    }
+
+    ranking() {
+        if (!this.rankView)
+            this.rankView = new rankingView();
+        this.rankView.render();
     }
 
 
@@ -132,12 +145,14 @@ class Workspace extends Backbone.Router {
     userSignin() {
         console.log("userSignin route")
         this.signinView = Login.view
+        this.signinView.delegateEvents()
         this.signinView.render()
     }
 
     userSignup() {
         console.log("userSignup route.")
         this.signupView = Register.view
+        this.signupView.delegateEvents()
         this.signupView.render()
     }
 
@@ -159,6 +174,7 @@ class Workspace extends Backbone.Router {
     guilds() {
         console.log('guilds route')
         this.guildsView = Guilds.view
+        this.guildsView.delegateEvents()
         this.guildsView.render()
     }
 

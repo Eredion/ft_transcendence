@@ -4,7 +4,7 @@ class Api::UsersController < ApplicationController
 
     def index
         users = User.all
-        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin])
+        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost,:banned, :blocked, :admin])
         render json: fusers
     end
 
@@ -20,6 +20,13 @@ class Api::UsersController < ApplicationController
     end
 
     def update
+        if (params[:banned] && current_user.admin)
+            user = User.find(params[:id])
+            user.banned = params[:banned]
+            user.save
+            puts "banning user"
+            return
+        end
         user = User.find(current_user.id)
         if params[:nickname] != user.nickname
             if User.exists?(nickname: params[:nickname])
@@ -27,6 +34,8 @@ class Api::UsersController < ApplicationController
             end
             user.nickname = params[:nickname]
         end
+        puts params
+        
         if params[:name] != user.name
             user.name = params[:name]
         end

@@ -29,7 +29,7 @@ let chatView = Backbone.View.extend({
 		self = this;
         await Helper.fetch(this.userCol).then(function() {
             let current_user = Helper.current_user();
-            let template = _.template($("#online-users-template").html())
+            let template = _.template($("#online-users-template").html());
             let output = template({'users':usercollection.toJSON(), 'current_user':current_user});
             $('#available-users').html(output);
 			self.greenUsers();

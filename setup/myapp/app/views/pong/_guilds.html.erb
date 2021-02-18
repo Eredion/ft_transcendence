@@ -2,6 +2,7 @@
     <div class="row mt-4 flex">
         <%% if (user_guild) { %>
         <div id="guild-info" class="col-4 text-center">
+            <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= user_guild.guild_avatar.medium.url %>"/>
             <p class="h4 text-white"> <%%= user_guild.title %> (<%%= user_guild.anagram %>)</p>
             <p class="text-primary">Score: <span class="text-white"><%%= user_guild.score %></span></p>
             <p class="text-white">
@@ -48,10 +49,13 @@
             <%% if (_.size( guilds ) > 0) { %>
                 <%% _.each( guilds, function(guild) { %>
                     <li class="list-group-item d-flex justify-content-between">
-                        <a href="/#guilds/<%%= guild.id %>">
-                            <p class="text-dark">(<%%= guild.anagram %>) <%%= guild.title %></p>
-                        </a>
-                        <span>
+                        <p class="text-dark">
+                            <span>
+                                <img class="img-avatar rounded-circle img-fluid" src="<%%= guild.guild_avatar.thumb.url %>"/>
+                            </span>
+                            <a href="/#guilds/<%%= guild.id %>">(<%%= guild.anagram %>) <%%= guild.title %></a>
+                        </p>
+                        <span class="pr-3">
                             <p class="text-primary">Score: <span class="text-dark"><%%= guild.score %></span></p>
                         </span>
                     </li>
@@ -80,9 +84,50 @@
         }
     %>
     <div class="row mt-4 justify-content-between">
-        <div class="col-4">
+        <div class="col-3 text-center">
+            <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= guild.guild_avatar.medium.url %>"/>
             <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
             <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
+            <%% if (grade == 3) { %>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editGuildModal">
+                    Edit <i class="fa fa-wrench" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger" id="destroy-guild-btn" data-guild-id="<%%= guild.id %>"> Destroy Guild </button>
+                <!-- Modal for edit guild info -->
+                <div class="modal" id="editGuildModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Guild</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <form id="edit-guild-form">
+                                    <div class="form-group row">
+                                        <label for="title" class="col-sm-5 col-form-label">Title</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control white" type="text" value="<%%= guild.guild_title %>" name="title" id="form-title" placeholder="Enter a title" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="anagram" class="col-sm-5 col-form-label">Anagram</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control white" type="text" value="<%%= guild.guild_anagram %>" name="anagram" id="form-anagram">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 text-center">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%% } %>
+        </div>
+        <div class="col-5">
         </div>
         <div class="col-4">
             <%% if ( grade > 0 ) { %>
@@ -90,83 +135,102 @@
             <%% } else { %>
                 <button class="btn btn-success" id="join_guild" data-guild-id="<%% guild.id %>"> Join Guild </button>
             <%% } %>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-4" id="guild-onwer">
-            <p class="h4 text-white">Owner</p>
-            <p class="text-dark">
-                <span>
-                    <img class="img-avatar rounded-circle img-fluid" src="<%%= guild.owner.owner_avatar.thumb.url %>"/>
-                </span>
-                <a href="/#users/<%%= guild.owner.owner_id %>"><%%= guild.owner.owner_nickname %></a>
-            </p>
-        </div>
-        <div class="col-4" id="guild-officers">
-            <p class="h4 text-white">Officers</p>
-            <ul class="list-group list-group-flush">
-                <%% if (_.size( guild.officers ) > 0) { %>
-                    <%% _.each( guild.officers, function(officer) { %>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <p class="text-dark">
-                                <span>
-                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= officer.avatar.thumb.url %>"/>
-                                </span>
-                                <a href="/#users/<%%= officer.id %>"><%%= officer.nickname %></a>
-                            </p>
-                        <%% if (grade == 3) { %>
-                            <span class="tooltips">
-                                <button class="btn btn-danger remove-officer-btn" data-officer-id="<%%= officer.id %>" >
-                                &times
-                                <span class="tooltiptext">Remove officer</span>
-                                </button>
-                            </span>
-                        <%% } %>
-                        </li>
-                    <%% }) %>
-                <%% } else { %>
-                    <li class="list-group-item text-center">
-                        <p class="h6 text-secondary">No Officials.</p>
-                    </li>
-                <%% } %>
-            </ul>
-        </div>
-        <div class="col-4" id="guild-members">
-            <p class="h4 text-white">Members</p>
-            <ul class="list-group list-group-flush">
-                <%% if (_.size( guild.members ) > 0) { %>
-                    <%% _.each( guild.members, function(member) { %>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <p class="text-dark">
-                                <span>
-                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= member.avatar.thumb.url %>"/>
-                                </span>
-                                <a href="/#users/<%%= member.id %>"><%%= member.nickname %></a>
-                            </p>
-                        <%% if (grade == 3) { %>
-                            <span class="tooltips">
-                                <button class="btn btn-primary become-officer-btn" data-member-id="<%%= member.id %>" >
-                                    <i class="fa fa-user-secret" aria-hidden="true"></i>
-                                    <span class="tooltiptext">Make officer</span>
-                                </button>
-                            </span>
-                        <%% } %>
-                        <%% if (grade > 1) { %>
-                            <span class="tooltips">
-                                <button class="btn btn-danger kick-btn" data-member-id="<%%= member.id %>" >
-                                &times
-                                <span class="tooltiptext">Kick out</span>
-                                </button>
-                            </span>
-                        <%% } %>
-                        </li>
-                    <%% }) %>
-                <%% } else { %>
-                    <li class="list-group-item text-center">
-                        <p class="h6 text-secondary">No Members.</p>
-                    </li>
-                <%% } %>
-            </ul>
+            <div class="card text-center mx-auto mt-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <p class="h5 card-title text-info">Owner</p>
+                        <hr/>
+                        <div class="mx-auto text-center">
+                            <div id="blocked-users-data" class="scroll_list">
+                                <p class="text-dark">
+                                    <span>
+                                        <img class="img-avatar rounded-circle img-fluid" src="<%%= guild.owner.owner_avatar.thumb.url %>"/>
+                                    </span>
+                                    <a class="text-dark" href="/#users/<%%= guild.owner.owner_id %>"><%%= guild.owner.owner_nickname %></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="card text-center mx-auto mt-2" style="width: 18rem;">
+                <div class="card-body">
+                    <p class="h5 card-title text-info">Officers</p>
+                    <hr/>
+                    <div class="mx-auto text-center">
+                        <div id="user-friends-data" class="scroll_list">
+                            <ul class="list-group list-group-flush">
+                                <%% if (_.size( guild.officers ) > 0) { %>
+                                    <%% _.each( guild.officers, function(officer) { %>
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <p>
+                                                <span>
+                                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= officer.avatar.thumb.url %>"/>
+                                                </span>
+                                                <a class="text-dark" href="/#users/<%%= officer.id %>"><%%= officer.nickname %></a>
+                                            </p>
+                                        <%% if (grade == 3) { %>
+                                            <span class="tooltips">
+                                                <button class="btn btn-danger remove-officer-btn" data-officer-id="<%%= officer.id %>" >
+                                                &times
+                                                <span class="tooltiptext">Remove officer</span>
+                                                </button>
+                                            </span>
+                                        <%% } %>
+                                        </li>
+                                    <%% }) %>
+                                <%% } else { %>
+                                    <li class="list-group-item text-center">
+                                        <p class="h6 text-secondary">No Officials.</p>
+                                    </li>
+                                <%% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-center mx-auto mt-2" style="width: 18rem;">
+                <div class="card-body">
+                    <p class="h5 card-title text-info">Members</p>
+                    <hr/>
+                    <div class="mx-auto text-center">
+                        <div id="user-friends-data" class="scroll_list">
+                            <ul class="list-group list-group-flush">
+                                <%% if (_.size( guild.members ) > 0) { %>
+                                    <%% _.each( guild.members, function(member) { %>
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <p>
+                                                <span>
+                                                    <img class="img-avatar rounded-circle img-fluid" src="<%%= member.avatar.thumb.url %>"/>
+                                                </span>
+                                                <a class="text-dark" href="/#users/<%%= member.id %>"><%%= member.nickname %></a>
+                                            </p>
+                                        <%% if (grade == 3) { %>
+                                            <span class="tooltips">
+                                                <button class="btn btn-primary become-officer-btn" data-member-id="<%%= member.id %>" >
+                                                    <i class="fa fa-user-secret" aria-hidden="true"></i>
+                                                    <span class="tooltiptext">Make officer</span>
+                                                </button>
+                                            </span>
+                                        <%% } %>
+                                        <%% if (grade > 1) { %>
+                                            <span class="tooltips">
+                                                <button class="btn btn-danger kick-btn" data-member-id="<%%= member.id %>" >
+                                                &times
+                                                <span class="tooltiptext">Kick out</span>
+                                                </button>
+                                            </span>
+                                        <%% } %>
+                                        </li>
+                                    <%% }) %>
+                                <%% } else { %>
+                                    <li class="list-group-item text-center">
+                                        <p class="h6 text-secondary">No Members.</p>
+                                    </li>
+                                <%% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </script>

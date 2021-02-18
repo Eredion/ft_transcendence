@@ -92,6 +92,17 @@ class Api::GuildsController < ApplicationController
         render json: { "error": 'Guild not Found.' }
     end
 
+    def update_guild_avatar
+        guild = Guild.find_by(id: params[:id])
+        if params[:guild][:guild_avatar]
+            File.open(params[:guild][:guild_avatar]) do |f|
+                guild.guild_avatar = f
+            end
+            guild.save!
+            return render json: {'success': 'Image successfully updated.'}, status: :ok
+        end
+    end
+
     def new_member
         if current_user.id == params[:user_id].to_i
             member = User.find_by(id: params[:user_id])

@@ -1,5 +1,6 @@
 
 <!-- User is login -->
+
 <% if user_signed_in? %>
   <%= render "nav" %>
   <%= render "profile" %>
@@ -9,6 +10,8 @@
   <%= render "friends"%>
   <%= render "match"%>
   <%= render "guilds"%>
+  <%= render "ranking"%>
+  <%= render "admin"%>
 <% else %>
   <%= render "users/sign_in" %>
 <% end %>

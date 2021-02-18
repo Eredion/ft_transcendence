@@ -29,9 +29,9 @@ Rails.application.routes.draw do
     resources :chats
     resources :messages
     resources :channels
-    resources :friend_requests, only: [:show, :create, :update, :delete]
+    resources :friend_requests, only: [:show, :create, :update]
     resources :matches, only: [:index, :show]
-    resources :guilds, only: [:index, :show, :create] do
+    resources :guilds, only: [:index, :show, :create, :update, :destroy] do
       member do
         post :new_member
         delete :eject_member

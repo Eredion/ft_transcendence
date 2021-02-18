@@ -5,6 +5,7 @@ import Helper from '../Helper';
 import GuildCollection from '../models/guilds'
 import MyApp from '../application'
 import Guild from '../../channels/guild_channel'
+import AvailableGuilds from '../../channels/available_guilds_channel'
 
 const Guilds = {}
 
@@ -35,7 +36,14 @@ $(function () {
             await Helper.fetch(this.collection)
             this.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
             this.$el.html(this.template( { 'guilds': this.collection.toJSON(), 'user_guild': this.userGuild } ));
+            AvailableGuilds.channel.connect(this.manage_data, this);
             return this
+        },
+
+        manage_data(data) {
+            if (data['action'] == 'update') {
+                this.render()
+            }
         },
 
         async newGuild(e) {
@@ -52,6 +60,10 @@ $(function () {
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds/' + response['data']['id'])
             }
+        },
+
+        removeChannel() {
+            AvailableGuilds.channel.disconnect()
         }
     });
 
@@ -60,7 +72,9 @@ $(function () {
     Guilds.Model = Backbone.Model.extend({
 
         parse (response) {
-            return JSON.parse(response.success)
+            if (response.success) {
+                return JSON.parse(response.success)
+            }
         },
     
         initialize(options) {
@@ -80,7 +94,9 @@ $(function () {
             "click #leave_guild": "leaveGuild",
             "click .become-officer-btn": "becomeOfficer",
             "click .remove-officer-btn": "removeOfficer",
-            "click .kick-btn": "kickMember"
+            "click .kick-btn": "kickMember",
+            "click #destroy-guild-btn": "destroyGuild",
+            "submit #edit-guild-form": "editGuild"
         },
         
         async initialize(id) {
@@ -113,7 +129,6 @@ $(function () {
 
         async joinGuild(e) {
             e.preventDefault()
-            console.log('Join Guild Button pressed!!!!')
             var data = {
                 user_id: Helper.userId()
             }
@@ -128,7 +143,6 @@ $(function () {
 
         async leaveGuild(e) {
             e.preventDefault()
-            console.log('Leave Guild Button pressed!!!!')
             var data = {
                 user_id: Helper.userId()
             }
@@ -143,7 +157,6 @@ $(function () {
 
         becomeOfficer(e) {
             e.preventDefault()
-            console.log('becomeOfficer Button pressed!!!!')
             Guild.channel.perform('made_officer', {
                 guild: this.guild_id,
                 from: Helper.userId(),
@@ -153,7 +166,6 @@ $(function () {
 
         removeOfficer(e) {
             e.preventDefault()
-            console.log('removeOfficer Button pressed!!!!')
             Guild.channel.perform('remove_officer', {
                 guild: this.guild_id,
                 from: Helper.userId(),
@@ -163,11 +175,44 @@ $(function () {
 
         kickMember(e) {
             e.preventDefault()
-            console.log('kickMember Button pressed!!!!')
             Guild.channel.perform('kick', {
                 guild: this.guild_id,
                 from: Helper.userId(),
                 member: $(e.currentTarget).data().memberId
+            })
+        },
+
+        async destroyGuild(e) {
+            e.preventDefault()
+            var data = {
+                user_id: Helper.userId()
+            }
+            var response = await Helper.ajax('DELETE', 'api/guilds/' + this.guild_id, data)
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+                MyApp.core.navigate('guilds')
+            }
+        },
+
+        editGuild(e) {
+            e.preventDefault()
+            var formData = {
+                title: $('#form-title').val(),
+                anagram: $('#form-anagram').val()
+            }
+            const self = this
+            Helper.ajax('PUT', 'api/guilds/' + this.guild_id, formData).then( function (response) {
+                $('#editGuildModal').modal('hide')
+                if (response['error']) {
+    
+                    document.getElementById('edit-guild-form').reset()
+                    Helper.custom_alert('danger', response['error'])
+                } else {
+                    self.update()
+                    Helper.custom_alert('success', response['success'])
+                }
             })
         },
 

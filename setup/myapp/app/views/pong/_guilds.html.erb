@@ -88,6 +88,44 @@
             <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= guild.guild_avatar.medium.url %>"/>
             <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
             <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
+            <%% if (grade == 3) { %>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editGuildModal">
+                    Edit <i class="fa fa-wrench" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger" id="destroy-guild-btn" data-guild-id="<%%= guild.id %>"> Destroy Guild </button>
+                <!-- Modal for edit guild info -->
+                <div class="modal" id="editGuildModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Guild</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <form id="edit-guild-form">
+                                    <div class="form-group row">
+                                        <label for="title" class="col-sm-5 col-form-label">Title</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control white" type="text" value="<%%= guild.guild_title %>" name="title" id="form-title" placeholder="Enter a title" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="anagram" class="col-sm-5 col-form-label">Anagram</label>
+                                        <div class="col-sm-7">
+                                            <input class="form-control white" type="text" value="<%%= guild.guild_anagram %>" name="anagram" id="form-anagram">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 text-center">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%% } %>
         </div>
         <div class="col-5">
         </div>

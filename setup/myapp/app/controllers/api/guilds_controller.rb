@@ -39,9 +39,57 @@ class Api::GuildsController < ApplicationController
         guild = Guild.create(:title => params[:title], :anagram => params[:anagram].upcase, :owner => user)
         user.guild_id = guild.id
         if guild.save! && user.save!
-            return render json: { "success": "Guild created successfully.", "data": guild }
+            render json: { "success": "Guild created successfully.", "data": guild }
+            ActionCable.server.broadcast('available_guilds', { action: 'update' })
+            return 
         end
         render json: { "error": "Some error happened. Try Again" }
+    end
+
+    def update
+        if guild = Guild.find_by(id: params[:id])
+            if guild.owner_id == current_user.id
+                if params[:title] != guild.title
+                    if Guild.exists?(:title => params[:title])
+                        return render json: { "error": params[:title] + ' already exists.' }
+                    end
+                end
+                if params[:anagram] != guild.anagram
+                    if Guild.exists?(:anagram => params[:anagram].upcase)
+                        return render json: { "error": params[:anagram] + ' already exists.' }
+                    end
+                end
+                guild.title = params[:title]
+                guild.anagram = params[:anagram]
+                if guild.save!
+                    ActionCable.server.broadcast('available_guilds', { action: 'update' })
+                    return render json: { "success": "Guild updated successfully." }
+                end
+            end
+            return render json: { "error": "You don't have permissions." }
+        end
+        render json: { "error": 'Not Found.' }
+    end
+
+    def destroy
+        if guild = Guild.find_by(id: params[:id])
+            if current_user.id == params[:user_id].to_i && params[:user_id].to_i == guild.owner_id
+                owner = User.find_by(id: params[:user_id])
+                owner.guild_id = nil
+                owner.save
+                User.where(id: guild.officers).or(User.where(id: guild.members)).update_all(guild_id: nil)
+                tmp_id = guild.id
+                guild.destroy
+                render json: { "success": "Guild successfully eliminated." }
+                ActionCable.server.broadcast('available_guilds', { action: 'update' })
+                ActionCable.server.broadcast( "Guild_#{tmp_id}", {
+                    action: 'guild_removed'
+                })
+                return
+            end
+            return render json: { "error": "You don't have permissions." }
+        end
+        render json: { "error": 'Guild not Found.' }
     end
 
     def new_member
@@ -79,6 +127,7 @@ class Api::GuildsController < ApplicationController
                         tmp_id = guild.id
                         guild.destroy
                         render json: { "success": "You left the guild." }
+                        ActionCable.server.broadcast('available_guilds', { action: 'update' })
                         ActionCable.server.broadcast( "Guild_#{tmp_id}", {
                             action: 'guild_removed'
                         })

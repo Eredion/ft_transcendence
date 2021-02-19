@@ -12,7 +12,7 @@ $(function () {
       this.cable = null;
     }
 
-    connect(user, callback, view) {
+    connect(user, callback, view, action = 'search_game', peer = undefined) {
       
       if (this.cable) {
         return ;
@@ -20,13 +20,19 @@ $(function () {
       const self = this;
       this.cable = consumer.subscriptions.create({
         channel: "MatchmakingChannel",
-        id: user
+        id: user,
+        action: action,
+        peer: peer,
       },
       {
         connected() {
           // Called when the subscription is ready for use on the server
           console.log('connected function from matchmaking_channel.js')
-          this.perform('search_game')
+          this.perform(action)
+          if (action === 'search_game')
+            this.perform(action)
+          else if (action === 'wait_peer')
+            this.perform(action, {"peer": peer})
         },
     
         disconnected() {

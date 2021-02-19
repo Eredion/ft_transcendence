@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   create_table "guilds", force: :cascade do |t|
     t.string "title", null: false
     t.string "anagram", null: false
+    t.string "guild_avatar"
     t.integer "score", default: 0
     t.bigint "owner_id", null: false
     t.integer "officers", default: [], array: true

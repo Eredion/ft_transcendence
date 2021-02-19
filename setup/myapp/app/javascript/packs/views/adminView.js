@@ -2,12 +2,11 @@ import _ from 'underscore'
 import $ from 'jquery';
 import Backbone from 'backbone'
 import Helper from '../Helper';
-import usercollection from '../models/user'
-import userscollection from '../models/user';
+import userscollection from '../models/user'
 
 let adminView = Backbone.View.extend({
     el: '#content',
-    col: usercollection,
+    col: userscollection,
     admin: false,
     initialize(){
         self = this;
@@ -56,6 +55,5 @@ let adminView = Backbone.View.extend({
     },
 });
 
-let adminview = new adminView();
 
-export default adminview;
+export default adminView;

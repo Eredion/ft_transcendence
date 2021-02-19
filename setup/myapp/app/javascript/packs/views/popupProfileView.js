@@ -30,10 +30,11 @@ let PopupProfileView = Backbone.View.extend({
         if (this.username != Helper.current_user())
         {
             let output=
-                "<div><a class=\"btn btn-dark\">" + "Challenge " + this.model.get("nickname")+ "</a></div>" +
+                "<div><a href=\"#challenge/"+ this.model.get("id") +"\" data-challenge=\""+ this.model.get("id") + "\" class=\"btn btn-dark challengebutton\">" + "Challenge " + this.model.get("nickname")+ "</a></div>" +
                 "<div><a href =\"#users/"+this.model.get("id")+"\" class=\"btn btn-dark\">" + "Go to " + this.model.get("nickname")+ " profile</a></div>" +
                 "<div class=\"blockbutton\" ><a href =\"#users/"+this.model.get("id")+"\" class=\"btn btn-danger\">" + "Block " + this.model.get("nickname")+ " profile</a></div>";
-
+            let template = _.template($("#popup-template").html());
+            output = template({user: this.model.toJSON()});
             this.$el.html(output);
             //this.$el.append("<div><a href =\"#users/"+this.model.get("id")+"\" class=\"btn btn-dark\">" + "Go to " + this.model.get("nickname")+ " profile</a></div>");
         }
@@ -42,6 +43,8 @@ let PopupProfileView = Backbone.View.extend({
 
         }
         $('#popup-user-avatar').html(`<img src="${this.model.toJSON().avatar.thumb.url}"></img>`)
+
+        Helper.notification("tu puta madre")
     }
 });
 

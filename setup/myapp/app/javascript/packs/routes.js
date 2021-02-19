@@ -94,7 +94,7 @@ class Workspace extends Backbone.Router {
             "ranking": "ranking",
             "admin": "admin",
             "challenge/:id": "search_match",
-            "accept/:id": "search_match",
+            "challenge/:id/accept/:from": "search_match",
             "*actions": "notFound"
         }
     }
@@ -182,12 +182,14 @@ class Workspace extends Backbone.Router {
         this.playview.render();
     }
 
-    search_match(id) {
+    search_match(id, from) {
         console.log('search_match route')
-        if (id)
+        if (id && id.length > 0 && from && from.length > 0)
+            this.searchmatchView = new SearchMatch.view(id, from)
+        else if (id && id.length > 0)
             this.searchmatchView = new SearchMatch.view(id)
         else
-            this.searchmatchView = new SearchMatch.view(id)
+            this.searchmatchView = new SearchMatch.view()
     }
 
     match(id) {

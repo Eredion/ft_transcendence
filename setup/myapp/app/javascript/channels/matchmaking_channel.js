@@ -33,6 +33,8 @@ $(function () {
             this.perform(action)
           else if (action === 'wait_peer')
             this.perform(action, {"peer": peer, "from": this.id})
+          else if (action === 'accept_peer')
+            this.perform(action, {"peer": peer, "from": this.id})
         },
     
         disconnected() {

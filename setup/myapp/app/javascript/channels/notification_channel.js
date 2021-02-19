@@ -50,7 +50,7 @@ $(function () {
               let notif_count = parseInt($('#notification-count').text())
               $('#notification-count').text(parseInt($('#notification-count').text()) + 1)
               let template = _.template($("#challenge_notif_template").html())
-              let output = template({'from':data['from'], 'id': data.data.from})
+              let output = template({'from':data['from'], 'id': data.data.from, currentuser: Helper.userId()})
               if (notif_count === 0)
                 $('#notification-list').html(output) 
               else

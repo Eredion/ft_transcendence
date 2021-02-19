@@ -46,7 +46,7 @@
 <script type="text/template" id="challenge_notif_template">
     <div class="dropdown-item challenge-dropdown" id="<%%= id %>">You have been challeged by <%%= from %>
         <div class="d-flex flex-row justify-content-center">
-            <a class="accept-challenge btn btn-success fit mr-2" data-id="<%%= id %>" data-nickname="<%%= from %>">Accept</a>
+            <a class="accept-challenge btn btn-success fit mr-2" href="/#challenge/<%%= id+"/accept/"+currentuser %>" data-id="<%%= id %>" data-nickname="<%%= from %>">Accept</a>
             <a class="btn btn-danger fit decline-challenge" data-id="<%%= id %>" data-nickname="<%%= from %>">Decline</a>
         </div>
     </div>

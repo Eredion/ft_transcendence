@@ -47,4 +47,16 @@ class GuildChannel < ApplicationCable::Channel
 			end
 		end
 	end
+
+	def add_message(data)
+		user = User.find_by(id: data['from'])
+		chat = Chat.find_by(id: data['chat'])
+		if user && chat
+			mess = Message.create!(:content => data['message'], :user_id => user.id, :author => user.nickname, :chat_id => chat.id)
+			ActionCable.server.broadcast( "Guild_#{data['guild']}", {
+				action: 'new_message',
+				data: mess
+			})
+		end
+	end
 end

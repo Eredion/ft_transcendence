@@ -18,7 +18,8 @@ class Api::GuildsController < ApplicationController
                     :owner_avatar => guild.owner.avatar
                 },
                 :officers => User.where(id: guild.officers).as_json(only: [:id, :nickname, :avatar]),
-                :members => User.where(id: guild.members).as_json(only: [:id, :nickname, :avatar])
+                :members => User.where(id: guild.members).as_json(only: [:id, :nickname, :avatar]),
+                :chat_id => guild.chat_id
             }
             return render json: { "success": ret.to_json }
         end
@@ -37,6 +38,9 @@ class Api::GuildsController < ApplicationController
             return render json: { "error": 'Already in a guild, leave first.' }
         end
         guild = Guild.create(:title => params[:title], :anagram => params[:anagram].upcase, :owner => user)
+        chat = Chat.create(:name => "guild#{guild.id}")
+        guild.chat_id = chat.id
+        Message.create(:content => 'probando', :user_id => user.id, :author => user.nickname, :chat_id => chat.id)
         user.guild_id = guild.id
         if guild.save! && user.save!
             render json: { "success": "Guild created successfully.", "data": guild }

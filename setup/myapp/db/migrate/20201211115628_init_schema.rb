@@ -10,6 +10,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :owner, null: false
       t.integer "officers", default: [], array: true
       t.integer "members", default: [], array: true
+      t.references :chat, index: true, optional: true
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end

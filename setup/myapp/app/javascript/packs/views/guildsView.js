@@ -84,11 +84,21 @@ $(function () {
         }
     });
 
+    Guilds.ChatModel = Backbone.Model.extend({
+    
+        initialize(options) {
+            this.gid = options.chat_id
+            this.urlRoot = 'api/chats/'+this.gid
+        }
+    });
+
     Guilds.GuildView = Backbone.View.extend({
 
         el: "#content",
     
         template: _.template($('#guild-show-template').html()),
+
+        chat_tmpl: _.template($("#chat_guild_view_template").html()),
 
         events: {
             "click #join_guild": "joinGuild",
@@ -99,6 +109,7 @@ $(function () {
             "click #destroy-guild-btn": "destroyGuild",
             "submit #edit-guild-form": "editGuild",
             "submit #guild_avatar-form" : "updateGuildAvatar",
+            "submit #chat_message_form": "newMessage"
         },
         
         async initialize(id) {
@@ -108,25 +119,57 @@ $(function () {
             this.update()
             Guild.channel.connect(this.guild_id, this.manage_guild, this)
         },
-
+        
         manage_guild(data) {
             if (data['action'] == 'update') {
                 this.update()
-            } if (data['action'] == 'guild_removed') {
+            }
+            if (data['action'] == 'guild_removed') {
                 MyApp.core.navigate('guilds')
             }
+            if (data['action'] == 'new_message') {
+                $('#chat_view').append(`<div class="chat_message bg-light p-2 rounded-pill mt-1">
+                    <div class="message_author d-inline text-primary">
+                    <a href="#popup1" onclick="render_popup(this)">${data['data'].author} :</a></div>
+                    <div class="message_content d-inline text-dark">${data['data'].content}</div>
+                    </div>`);
+                    var chatDiv = document.getElementById('chat_view')
+                    chatDiv.scrollTop = chatDiv.scrollHeight;
+            }
         },
-
+        
         async update() {
             await Helper.fetch(this.model)
             await Helper.fetch(userscol)
+            // check if user belongs to the guild
+            this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
+            await Helper.fetch(this.chat_model)
             this.render()
+            this.render_chat()
         },
 
         render() {
             console.log('render call')
             this.$el.html(this.template( { 'guild': this.model.toJSON(), 'admin': userscol.findWhere({id: Helper.userId()}).get('admin') } ));
             return this
+        },
+
+        render_chat() {
+            this.$el.find('#chat_view').html(this.chat_tmpl( { 'messages': this.chat_model.get('messages') } ));
+            var chatDiv = document.getElementById('chat_view')
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        },
+
+        newMessage(e) {
+            e.preventDefault()
+            Guild.channel.perform('add_message', {
+                chat: this.model.get('chat_id'),
+                guild: this.guild_id,
+                from: Helper.userId(),
+                message: document.getElementById("message_chat_guild").value
+            })
+            document.getElementById('chat_message_form').reset()
+            document.getElementById("message_chat_guild").focus()
         },
 
         async joinGuild(e) {

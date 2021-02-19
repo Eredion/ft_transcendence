@@ -49,8 +49,10 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.bigint "owner_id", null: false
     t.integer "officers", default: [], array: true
     t.integer "members", default: [], array: true
+    t.bigint "chat_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["chat_id"], name: "index_guilds_on_chat_id"
     t.index ["owner_id"], name: "index_guilds_on_owner_id"
   end
 

@@ -2,21 +2,17 @@ import _ from 'underscore'
 import $ from 'jquery';
 import Backbone from 'backbone'
 import Helper from '../Helper';
-import usercollection from '../models/user'
-import userscollection from '../models/user';
+import userscollection from '../models/user'
 
 let adminView = Backbone.View.extend({
     el: '#content',
-    col: usercollection,
+    col: userscollection,
     admin: false,
     initialize(){
         self = this;
         Helper.fetch(this.col).then(function(){
             if (self.col.findWhere({'nickname':Helper.current_user()}).get("admin") === true)
-            {
                 self.admin = true;
-                console.log("Initialize admin view")
-            }
         });
     },
 
@@ -32,7 +28,6 @@ let adminView = Backbone.View.extend({
         if (this.admin === false)
             return;
         await Helper.fetch(this.col);
-        console.log("RENDERING ADMIN VIEW")
         let template = _.template($("#admin-template").html());
         let usersSorted = self.sortByKey(userscollection.toJSON(), "id");
         let output = template({'users':usersSorted});
@@ -56,6 +51,5 @@ let adminView = Backbone.View.extend({
     },
 });
 
-let adminview = new adminView();
 
-export default adminview;
+export default adminView;

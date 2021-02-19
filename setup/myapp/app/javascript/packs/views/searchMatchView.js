@@ -19,11 +19,22 @@ if (Helper.logged()) {
 
         match_found_template: _.template($('#match_found_template').html()),
     
-        initialize() {
+        initialize(id, from) {
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
             this.render()
-            Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
+            if (id && id.length > 0 && from &&  from.length > 0)
+            {
+                console.log("accepting challenge")
+                Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, "accept_peer", id)
+            }
+            else if (id && id.length > 0)
+            {
+                console.log("challenging someone")
+                Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, "wait_peer", id)
+            }
+            else
+                Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
         },
         
         render() {

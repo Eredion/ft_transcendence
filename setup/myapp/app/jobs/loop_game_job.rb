@@ -7,8 +7,6 @@ class LoopGameJob < ApplicationJob
             match = game.get_match
             if match.finished
 				puts match.as_json
-				puts match.winner_id
-				puts match[:winner_id]
 				puts rank_points(match)
                 break
             end
@@ -19,13 +17,24 @@ class LoopGameJob < ApplicationJob
     end
 
 	def rank_points(match)
-		puts "Hola desde rank_points"
+		if match.match_type != "ranked game"
+			puts "No soy ranked, gilipollas"
+			return
+		end
 		match.winner_id
 		loser = User.find_by(id: match[:loser_id])
 		winner = User.find_by(id: match[:winner_id])
 		dif_points = (loser.score - winner.score) / 10
-		winner.score += 100 + (dif_points < -50 ? -50 : dif_points)
-		loser.score -= 100 + (dif_points > 50 ? 50 : dif_points)
+		winner_points = 100 + dif_points
+		loser_points = winner_points
+		if winner_points < 50
+			winner_points = 0
+		end
+		if loser_points > 150
+			loser_points = 10
+		end
+		winner.score += winner_points
+		loser.score -= loser_points
 		if loser.score <= 0
 			loser.score = 0
 		end
@@ -33,9 +42,8 @@ class LoopGameJob < ApplicationJob
 		loser.save
 		if winner.guild_id
 			winner_guild = Guild.find_by(id: winner.guild_id)
-			winner_guild.score += 10
+			winner_guild.score += (winner_points / 10)
 			winner_guild.save
 		end
-
 	end
 end

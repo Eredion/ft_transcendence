@@ -173,11 +173,10 @@
                                                 </span>
                                                 <a class="text-dark" href="/#users/<%%= officer.id %>"><%%= officer.nickname %></a>
                                             </p>
-                                        <%% if (grade == 3) { %>
-                                            <span class="tooltips">
-                                                <button class="btn btn-danger remove-officer-btn" data-officer-id="<%%= officer.id %>" >
+                                        <%% if (grade == 3 || admin === true) { %>
+                                            <span>
+                                                <button class="btn btn-danger remove-officer-btn" data-officer-id="<%%= officer.id %>" data-toggle="tooltip" data-placement="left" title="Remove officer" >
                                                 &times
-                                                <span class="tooltiptext">Remove officer</span>
                                                 </button>
                                             </span>
                                         <%% } %>
@@ -209,19 +208,17 @@
                                                 </span>
                                                 <a class="text-dark" href="/#users/<%%= member.id %>"><%%= member.nickname %></a>
                                             </p>
-                                        <%% if (grade == 3) { %>
-                                            <span class="tooltips">
-                                                <button class="btn btn-primary become-officer-btn" data-member-id="<%%= member.id %>" >
+                                        <%% if (grade == 3 || admin === true) { %>
+                                            <span>
+                                                <button class="btn btn-primary become-officer-btn" data-member-id="<%%= member.id %>" data-toggle="tooltip" data-placement="left" title="Make officer" >
                                                     <i class="fa fa-user-secret" aria-hidden="true"></i>
-                                                    <span class="tooltiptext">Make officer</span>
                                                 </button>
                                             </span>
                                         <%% } %>
-                                        <%% if (grade > 1) { %>
-                                            <span class="tooltips">
-                                                <button class="btn btn-danger kick-btn" data-member-id="<%%= member.id %>" >
+                                        <%% if (grade > 1 || admin === true) { %>
+                                            <span>
+                                                <button class="btn btn-danger kick-btn" data-member-id="<%%= member.id %>" data-toggle="tooltip" data-placement="left" title="Kick out" >
                                                 &times
-                                                <span class="tooltiptext">Kick out</span>
                                                 </button>
                                             </span>
                                         <%% } %>
@@ -240,6 +237,9 @@
         </div>
     </div>
 <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();

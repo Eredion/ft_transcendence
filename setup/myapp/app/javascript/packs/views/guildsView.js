@@ -6,6 +6,7 @@ import GuildCollection from '../models/guilds'
 import MyApp from '../application'
 import Guild from '../../channels/guild_channel'
 import AvailableGuilds from '../../channels/available_guilds_channel'
+import userscol from '../models/user'
 
 const Guilds = {}
 
@@ -104,8 +105,7 @@ $(function () {
             console.log('Guild '+ id +' View initialize')
             this.guild_id = id
             this.model = new Guilds.Model( { guild_id: this.guild_id } )
-            await Helper.fetch(this.model)
-            this.render()
+            this.update()
             Guild.channel.connect(this.guild_id, this.manage_guild, this)
         },
 
@@ -119,12 +119,13 @@ $(function () {
 
         async update() {
             await Helper.fetch(this.model)
+            await Helper.fetch(userscol)
             this.render()
         },
 
         render() {
             console.log('render call')
-            this.$el.html(this.template( { 'guild': this.model.toJSON() } ));
+            this.$el.html(this.template( { 'guild': this.model.toJSON(), 'admin': userscol.findWhere({id: Helper.userId()}).get('admin') } ));
             return this
         },
 

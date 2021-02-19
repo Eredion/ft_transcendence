@@ -1,7 +1,7 @@
 class Pong
 
     @@matches = {}
-    @@winning_score = 5
+    @@winning_score = 1
 
     def initialize(match_id)
         p "New match creation id #{match_id}"

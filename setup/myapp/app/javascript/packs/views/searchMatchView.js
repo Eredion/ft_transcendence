@@ -20,15 +20,16 @@ if (Helper.logged()) {
         match_found_template: _.template($('#match_found_template').html()),
 
         initialize(type) {
+			this.type = type;
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
-            this.render(type)
+            this.render()
             Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, type + "_game")
         },
 
-        render(type) {
-            console.log('Search Match View render type ' + type)
-			let output = this.template({'type': type})
+        render() {
+            console.log('Search Match View render type ' + this.type)
+			let output = this.template({'type': this.type})
             this.$el.html(output);
             $('#search_match_modal').modal('show')
             return this;
@@ -55,10 +56,19 @@ if (Helper.logged()) {
             }
         },
 
+		capitalize(word) {
+			return word[0].toUpperCase() + word.slice(1).toLowerCase();
+	  	},
+
+
         render_match_found(player1, player2, match_id) {
             console.log('match_found render')
             $('#search_match_modal').modal('hide')
-            this.$el.html(this.match_found_template({'player1': player1, 'player2': player2}));
+            this.$el.html(this.match_found_template({
+				'player1': player1,
+				'player2': player2,
+				'type': this.capitalize(this.type)
+				}));
             $('#match_found_modal').modal('show')
             setTimeout(function () {
                 $('#match_found_modal').modal('hide')

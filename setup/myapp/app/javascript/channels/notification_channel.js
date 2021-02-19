@@ -47,12 +47,14 @@ $(function () {
             } else if (data['type'] === 'challenge')
             {
               format["nickname"] = data['from']
-              console.log("Challenge!!!!")
+              let notif_count = parseInt($('#notification-count').text())
               $('#notification-count').text(parseInt($('#notification-count').text()) + 1)
               let template = _.template($("#challenge_notif_template").html())
-              let output = template({'from':data['from']})
-              console.log(output)
-              $('#notification-list').html(output)
+              let output = template({'from':data['from'], 'id': data.data.from})
+              if (notif_count === 0)
+                $('#notification-list').html(output) 
+              else
+                $('#notification-list').append(output)
               return;
             }
               

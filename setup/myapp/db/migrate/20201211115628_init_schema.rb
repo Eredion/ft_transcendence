@@ -78,6 +78,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
 
     create_table "matchmakings" do |t|
       t.belongs_to :user, foreign_key: true, unique: true
+      t.integer "challenge", array: true, default: []
       t.string "match_type", default: "quick game", null: false
     end
 

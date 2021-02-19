@@ -19,11 +19,14 @@ if (Helper.logged()) {
 
         match_found_template: _.template($('#match_found_template').html()),
     
-        initialize() {
+        initialize(id) {
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
             this.render()
-            Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
+            if (id)
+                Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, "wait_peer", id)
+            else
+                Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
         },
         
         render() {

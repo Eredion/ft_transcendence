@@ -32,7 +32,7 @@ $(function () {
           if (action === 'search_game')
             this.perform(action)
           else if (action === 'wait_peer')
-            this.perform(action, {"peer": peer})
+            this.perform(action, {"peer": peer, "from": this.id})
         },
     
         disconnected() {

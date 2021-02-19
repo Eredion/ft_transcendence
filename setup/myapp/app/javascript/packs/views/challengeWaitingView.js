@@ -30,9 +30,7 @@ let waitView = Backbone.View.extend({
             console.log(model)
             let output = template({user: model.toJSON()});
             $('#content').html(output);
-
         })
-        
     },
 });
 

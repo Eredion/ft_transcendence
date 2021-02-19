@@ -93,15 +93,16 @@ class Workspace extends Backbone.Router {
             "guilds/:id": "guild",
             "ranking": "ranking",
             "admin": "admin",
-            "challenge/:id": "wait",
+            "challenge/:id": "search_match",
+            "accept/:id": "search_match",
             "*actions": "notFound"
         }
     }
-
+/* 
     wait(id){
         this.waitview = new waitView(id);
         this.waitview.render();
-    }
+    } */
 
     admin(){
         if (!this.adminview)
@@ -181,9 +182,12 @@ class Workspace extends Backbone.Router {
         this.playview.render();
     }
 
-    search_match() {
+    search_match(id) {
         console.log('search_match route')
-        this.searchmatchView = new SearchMatch.view()
+        if (id)
+            this.searchmatchView = new SearchMatch.view(id)
+        else
+            this.searchmatchView = new SearchMatch.view(id)
     }
 
     match(id) {

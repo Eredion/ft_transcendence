@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import Helper from '../Helper';
 import notificationcollection from '../models/notifications'
 import Friends from './friendsView'
+import Matchmaking from '../../channels/matchmaking_channel'
 
 const Notification = {}
 

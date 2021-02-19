@@ -7,8 +7,13 @@ class MatchmakingChannel < ApplicationCable::Channel
     Matchmaking.destroy_by(user_id: current_user.id)
   end
 
-  def search_game
-      SearchGameJob.perform_later(current_user)
+  def quick_game
+	  puts "quick_game"
+      QuickGameJob.perform_later(current_user)
+  end
+
+  def ranked_game
+      RankedGameJob.perform_later(current_user)
   end
 
   def wait_peer(data)

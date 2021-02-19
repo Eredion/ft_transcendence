@@ -12,8 +12,8 @@ $(function () {
       this.cable = null;
     }
 
-    connect(user, callback, view, action = 'search_game', peer = undefined) {
-      
+    connect(user, callback, view, action = 'quick_game', peer = undefined) {
+
       if (this.cable) {
         return ;
       }
@@ -28,18 +28,20 @@ $(function () {
         connected() {
           // Called when the subscription is ready for use on the server
           console.log('connected function from matchmaking_channel.js')
-          this.perform(action)
-          if (action === 'search_game')
+          if (action === 'quick_game' || action === 'ranked_game')
+		  {
+			console.log("ejectuto la acction " + action)
             this.perform(action)
+		  }
           else if (action === 'wait_peer')
             this.perform(action, {"peer": peer})
         },
-    
+
         disconnected() {
           // Called when the subscription has been terminated by the server
           self.disconnect()
         },
-    
+
         received(data) {
           // Called when there's incoming data on the websocket for this channel
           console.log('received function from matchmaking_channel.js')

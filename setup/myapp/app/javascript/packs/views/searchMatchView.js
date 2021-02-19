@@ -18,17 +18,18 @@ if (Helper.logged()) {
         template: _.template($('#search_match_template').html()),
 
         match_found_template: _.template($('#match_found_template').html()),
-    
-        initialize() {
+
+        initialize(type) {
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
-            this.render()
-            Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
+            this.render(type)
+            Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, type + "_game")
         },
-        
-        render() {
-            console.log('Search Match View render')
-            this.$el.html(this.template());
+
+        render(type) {
+            console.log('Search Match View render type ' + type)
+			let output = this.template({'type': type})
+            this.$el.html(output);
             $('#search_match_modal').modal('show')
             return this;
         },
@@ -41,6 +42,7 @@ if (Helper.logged()) {
                     break;
                 case 'game_found':
                     console.log('Game found')
+					console.log(data)
                     this.render_match_found(data.player1, data.player2, data.match)
                     break;
                 case 'current_game':
@@ -52,7 +54,7 @@ if (Helper.logged()) {
                     break;
             }
         },
-            
+
         render_match_found(player1, player2, match_id) {
             console.log('match_found render')
             $('#search_match_modal').modal('hide')
@@ -65,7 +67,7 @@ if (Helper.logged()) {
                     MyApp.core.navigate('match/' + match_id)
                 }, 300)
             }, 3000)
-        },    
+        },
 
         removeChannel() {
             Matchmaking.channel.disconnect()

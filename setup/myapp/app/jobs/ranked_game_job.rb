@@ -1,13 +1,12 @@
-class SearchGameJob < ApplicationJob
-    queue_as :default
-
+class RankedGameJob < ApplicationJob
+  queue_as :default
     def perform(player)
 
         search = true
         if Matchmaking.where(user_id: player.id).exists?
             search = false
         else
-            Matchmaking.create!(user: player, match_type: 'quick game')
+            Matchmaking.create!(user: player, match_type: 'ranked game')
         end
 
         loop do

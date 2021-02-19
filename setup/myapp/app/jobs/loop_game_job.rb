@@ -6,19 +6,17 @@ class LoopGameJob < ApplicationJob
         loop do
             match = game.get_match
             if match.finished
-				puts match.as_json
 				puts rank_points(match)
                 break
             end
             game.move_ball
             game.send_moves
-            sleep 0.5 # 25fps
+            sleep 0.4 # 25fps
         end
     end
 
 	def rank_points(match)
 		if match.match_type != "ranked game"
-			puts "No soy ranked, gilipollas"
 			return
 		end
 		match.winner_id

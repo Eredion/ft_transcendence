@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
 
   create_table "matchmakings", force: :cascade do |t|
     t.bigint "user_id"
+    t.integer "challenge", default: [], array: true
     t.string "match_type", default: "quick game", null: false
     t.index ["user_id"], name: "index_matchmakings_on_user_id"
   end

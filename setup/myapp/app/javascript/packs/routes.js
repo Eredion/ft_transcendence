@@ -87,21 +87,22 @@ class Workspace extends Backbone.Router {
             "channels/:name": "channels",
             "popup1": "popup_profile",
             "popup1/:name": "popup_profile",
-            "search_match/:type": "search_match",
+            "search_match/:id": "search_match",
             "match/:id": "match",
             "guilds": "guilds",
             "guilds/:id": "guild",
             "ranking": "ranking",
             "admin": "admin",
-            "challenge/:id": "wait",
+            "challenge/:id": "search_match",
+            "challenge/:id/accept/:from": "search_match",
             "*actions": "notFound"
         }
     }
-
+/* 
     wait(id){
         this.waitview = new waitView(id);
         this.waitview.render();
-    }
+    } */
 
     admin(){
         if (!this.adminview)
@@ -170,9 +171,14 @@ class Workspace extends Backbone.Router {
         this.playview.render();
     }
 
-    search_match(type) {
-		console.log("Tipo de partida: "+ type);
-        this.searchmatchView = new SearchMatch.view(type)
+    search_match(id, from) { // Id is also used for type of match
+        console.log('search_match route')
+        if (id && id.length > 0 && from && from.length > 0)
+            this.searchmatchView = new SearchMatch.view(id, from)
+        else if (id && id.length > 0)
+            this.searchmatchView = new SearchMatch.view(id)
+        else
+            this.searchmatchView = new SearchMatch.view()
     }
 
     match(id) {

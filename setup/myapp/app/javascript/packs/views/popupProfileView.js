@@ -44,7 +44,6 @@ let PopupProfileView = Backbone.View.extend({
         }
         $('#popup-user-avatar').html(`<img src="${this.model.toJSON().avatar.thumb.url}"></img>`)
 
-        Helper.notification("tu puta madre")
     }
 });
 

@@ -11,7 +11,7 @@ class LoopGameJob < ApplicationJob
             end
             game.move_ball
             game.send_moves
-            sleep 0.4 # 25fps
+            sleep 0.04 # 25fps
         end
     end
 

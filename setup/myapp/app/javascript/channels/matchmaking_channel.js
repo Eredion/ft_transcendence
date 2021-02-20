@@ -29,13 +29,15 @@ $(function () {
           // Called when the subscription is ready for use on the server
           console.log('connected function from matchmaking_channel.js')
           if (action === 'quick_game' || action === 'ranked_game')
-		  {
-			console.log("ejectuto la acction " + action)
+		      {
+			      console.log("ejectuto la acction " + action)
             this.perform(action)
-		  }
+		      }
           else if (action === 'wait_peer')
-            this.perform(action, {"peer": peer})
-        },
+            this.perform(action, {"peer": peer, "from": this.id})
+          else if (action === 'accept_peer')
+            this.perform(action, {"peer": peer, "from": this.id})
+          },
 
         disconnected() {
           // Called when the subscription has been terminated by the server

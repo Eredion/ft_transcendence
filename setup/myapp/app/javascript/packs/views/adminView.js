@@ -12,10 +12,7 @@ let adminView = Backbone.View.extend({
         self = this;
         Helper.fetch(this.col).then(function(){
             if (self.col.findWhere({'nickname':Helper.current_user()}).get("admin") === true)
-            {
                 self.admin = true;
-                console.log("Initialize admin view")
-            }
         });
     },
 
@@ -31,7 +28,6 @@ let adminView = Backbone.View.extend({
         if (this.admin === false)
             return;
         await Helper.fetch(this.col);
-        console.log("RENDERING ADMIN VIEW")
         let template = _.template($("#admin-template").html());
         let usersSorted = self.sortByKey(userscollection.toJSON(), "id");
         let output = template({'users':usersSorted});

@@ -4,7 +4,7 @@ class QuickGameJob < ApplicationJob
     def perform(player)
 
         search = true
-        if Matchmaking.where(user_id: player.id).exists?
+        if Matchmaking.where(user_id: player.id, match_type: 'quick game').exists?
             search = false
         else
             Matchmaking.create!(user: player, match_type: 'quick game')

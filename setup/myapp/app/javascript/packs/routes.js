@@ -87,7 +87,7 @@ class Workspace extends Backbone.Router {
             "channels/:name": "channels",
             "popup1": "popup_profile",
             "popup1/:name": "popup_profile",
-            "search_match": "search_match",
+            "search_match/:id": "search_match",
             "match/:id": "match",
             "guilds": "guilds",
             "guilds/:id": "guild",
@@ -137,22 +137,12 @@ class Workspace extends Backbone.Router {
         this.rankView.render();
     }
 
-
-  /*   channel(){
-        console.log("channel route");
-        if (!this.channelView)
-            this.channelView = new channelsView();
-        this.channelView.render();
-    }
-     */
     channels(name){
-        console.log("channel route")
         console.log(name);
         if (!this.channelView)
             this.channelView = new channelsView();
         if (name != "default")
             this.channelView.check_password(name);
-            //this.channelView.render_channel(name);
         else
             this.channelView.render();
     }
@@ -177,12 +167,11 @@ class Workspace extends Backbone.Router {
     }
 
     play(){
-        console.log("playview route")
         this.playview = playview;
         this.playview.render();
     }
 
-    search_match(id, from) {
+    search_match(id, from) { // Id is also used for type of match
         console.log('search_match route')
         if (id && id.length > 0 && from && from.length > 0)
             this.searchmatchView = new SearchMatch.view(id, from)

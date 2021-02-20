@@ -18,10 +18,18 @@ if (Helper.logged()) {
         template: _.template($('#search_match_template').html()),
 
         match_found_template: _.template($('#match_found_template').html()),
-    
+
         initialize(id, from) {
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
+            if (id === 'quick' || id === 'ranked')
+            {
+                this.type = id;
+                this.render();
+                Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, id + "_game")
+                return;
+            }
+            this.type = 'challenge';
             this.render()
             if (id && id.length > 0 && from &&  from.length > 0)
             {
@@ -36,10 +44,11 @@ if (Helper.logged()) {
             else
                 Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
         },
-        
+
         render() {
-            console.log('Search Match View render')
-            this.$el.html(this.template());
+            console.log('Search Match View render type ' + this.type)
+			let output = this.template({'type': this.type})
+            this.$el.html(output);
             $('#search_match_modal').modal('show')
             return this;
         },
@@ -52,6 +61,7 @@ if (Helper.logged()) {
                     break;
                 case 'game_found':
                     console.log('Game found')
+					console.log(data)
                     this.render_match_found(data.player1, data.player2, data.match)
                     break;
                 case 'current_game':
@@ -63,11 +73,20 @@ if (Helper.logged()) {
                     break;
             }
         },
-            
+
+		capitalize(word) {
+			return word[0].toUpperCase() + word.slice(1).toLowerCase();
+	  	},
+
+
         render_match_found(player1, player2, match_id) {
             console.log('match_found render')
             $('#search_match_modal').modal('hide')
-            this.$el.html(this.match_found_template({'player1': player1, 'player2': player2}));
+            this.$el.html(this.match_found_template({
+				'player1': player1,
+				'player2': player2,
+				'type': this.capitalize(this.type)
+				}));
             $('#match_found_modal').modal('show')
             setTimeout(function () {
                 $('#match_found_modal').modal('hide')
@@ -76,7 +95,7 @@ if (Helper.logged()) {
                     MyApp.core.navigate('match/' + match_id)
                 }, 300)
             }, 3000)
-        },    
+        },
 
         removeChannel() {
             Matchmaking.channel.disconnect()

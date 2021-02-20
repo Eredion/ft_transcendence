@@ -5,7 +5,7 @@
                 <div class="modal-header bg-dark">
                 </div>
                 <div class="modal-body text-center">
-                    <p class="h5">Searching for a match...
+                    <p class="h5">Searching for a <%%= type %> match...
                     <i class="fa fa-spin fa-cog fa-2"></i>
                     </p>
                     <a type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" href="/#">Cancel</a>
@@ -19,14 +19,16 @@
     <div class="modal fade" id="match_found_modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-dark">
+                <div class="modal-header bg-dark text-center text-light"> <%%= type + " game" %>
                 </div>
                 <div class="modal-body text-center">
                     <div class="row">
                         <div class="col">
                             <img class="img-fluid" src="<%%= player1.avatar.thumb.url %>"/>
                             <p><%%= player1.nickname %></p>
-                            <p>Score <%%= player1.score %></p>
+							<%% if (type === 'Ranked') { %>
+                            	<p>Score <%%= player1.score %></p>
+							<%% }; %>
                         </div>
                         <div class="col">
                             <p class="h1">vs</p>
@@ -34,7 +36,9 @@
                         <div class="col">
                             <img class="img-fluid" src="<%%= player2.avatar.thumb.url %>"/>
                             <p><%%= player2.nickname %></p>
-                            <p>Score <%%= player2.score %></p>
+							<%% if (type === 'Ranked') { %>
+                            	<p>Score <%%= player2.score %></p>
+							<%% }; %>
                         </div>
                     </div>
                 </div>

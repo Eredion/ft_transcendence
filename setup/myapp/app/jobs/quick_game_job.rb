@@ -1,4 +1,4 @@
-class SearchGameJob < ApplicationJob
+class QuickGameJob < ApplicationJob
     queue_as :default
 
     def perform(player)

@@ -34,7 +34,7 @@ class ChallengeJob < ApplicationJob
             player1 = player.as_json(only: [:id, :nickname, :avatar, :score])
             player2 = opponent.user.as_json(only: [:id, :nickname, :avatar, :score])
             l_player, r_player = [player, opponent.user].shuffle
-            match = Match.create!(match_type: "ranked game", left_player_id: l_player.id, right_player_id: r_player.id)
+            match = Match.create!(match_type: "challenge game", left_player_id: l_player.id, right_player_id: r_player.id)
             ActionCable.server.broadcast( "Matchmaking_#{player.id}", { action: 'game_found' , player1: player1, player2: player2, match: match.id } )
             ActionCable.server.broadcast( "Matchmaking_#{opponent.user_id}", { action: 'game_found' , player1: player2, player2: player1, match: match.id } )
             Matchmaking.destroy_by(user_id: opponent.id)

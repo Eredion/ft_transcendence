@@ -5,9 +5,12 @@
                 <div class="modal-header bg-dark">
                 </div>
                 <div class="modal-body text-center">
-                    <p class="h5">Searching for a <%%= type %> match...
+                    <%% if (type === 'challenge'){ %>
+                    <p class="h5">Waiting for your opponent to accept the challenge...</p>
+                    <%% } else { %>
+                    <p class="h5">Searching for a <%%= type %> match...</p>
+                    <%% }; %>
                     <i class="fa fa-spin fa-cog fa-2"></i>
-                    </p>
                     <a type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" href="/#">Cancel</a>
                 </div>
             </div>
@@ -79,3 +82,19 @@
 
 </script>
 
+
+<script type="text/template" id="finish_match_template">
+    <div class="modal" id="search_match_modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                </div>
+                <div class="modal-body text-center">
+                    <p>SE ACABÓ LA PARTIDA</p>
+                    <i class="fa fa-spin fa-cog fa-2"></i>
+                    <a type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" href="/#">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

@@ -61,11 +61,20 @@ if (Helper.logged()) {
             return this;
         },
 
+
+        renderResult() {
+            let template = _.template($('#finish_match_template').html());
+            console.log(template);
+            this.$el.html(template);
+        },
+
         update_match(data) {
             if (data['actors']) {
                 this.pong.update_match(data['actors'])
             } else {
+                console.log("Se acabó la peli??");
                 console.log(data)
+                this.renderResult();
             }
         },
 

@@ -46,7 +46,7 @@ $(function () {
 
         received(data) {
           // Called when there's incoming data on the websocket for this channel
-          console.log('received function from matchmaking_channel.js')
+          console.log('received function from matchmaking_channel.js');
           callback.bind(view)(data)
         }
       });

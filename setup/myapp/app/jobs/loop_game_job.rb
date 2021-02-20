@@ -6,6 +6,7 @@ class LoopGameJob < ApplicationJob
         loop do
             match = game.get_match
             if match.finished
+                ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match } )
 				puts rank_points(match)
                 break
             end

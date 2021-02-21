@@ -16,12 +16,12 @@ if (Helper.logged()) {
         parse (response) {
             return JSON.parse(response.success)
         },
-    
+
         initialize(options) {
             this.mid = options.match_id
             this.urlRoot = 'api/matches/'+this.mid
         }
-    
+
     });
 
     Match.view = Backbone.View.extend({
@@ -33,7 +33,7 @@ if (Helper.logged()) {
         events: {
             "click #f-match": "finish_match"
         },
-    
+
         async initialize(id) {
             console.log('Match View initialize')
             this.match_id = id
@@ -54,18 +54,27 @@ if (Helper.logged()) {
             }
             Matches.channel.connect(this.match_id, this.update_match, this)
         },
-        
+
         render() {
             console.log('Match View render')
             this.$el.html(this.template( { 'match' : this.model.toJSON() } ));
             return this;
         },
 
+
+        renderResult(data) {
+            let template = _.template($('#finish_match_template').html());
+            this.$el.html(template({
+				'match': data.match,
+				'id': Helper.userId(),
+			}));
+        },
+
         update_match(data) {
             if (data['actors']) {
                 this.pong.update_match(data['actors'])
             } else {
-                console.log(data)
+                this.renderResult(data);
             }
         },
 

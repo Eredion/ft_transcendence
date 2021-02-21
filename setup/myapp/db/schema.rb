@@ -60,6 +60,8 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.bigint "right_player_id", null: false
     t.integer "left_score", default: 0
     t.integer "right_score", default: 0
+    t.integer "winner_points"
+    t.integer "loser_points"
     t.bigint "winner_id"
     t.bigint "loser_id"
     t.boolean "finished", default: false

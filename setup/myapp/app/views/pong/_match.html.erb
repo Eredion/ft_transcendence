@@ -84,17 +84,42 @@
 
 
 <script type="text/template" id="finish_match_template">
-    <div class="modal" id="search_match_modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-dark">
                 </div>
                 <div class="modal-body text-center">
-                    <p>SE ACABÓ LA PARTIDA</p>
-                    <i class="fa fa-spin fa-cog fa-2"></i>
-                    <a type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" href="/#">Cancel</a>
+					<%% if (match.winner_id === id) { %>
+                    	<p class="h1 text-success">Victory!</p>
+					<%% } else { %>
+                    	<p class="h1 text-danger">Defeat . . .</p>
+					<%% }; %>
+					<%% if (match.match_type === 'ranked game') { %>
+						<%% if (match.winner_id === id) { %>
+                    		<p id='value' class="h5">You win <%%= match.winner_points %> points.</p>
+						<%% } else { %>
+							<p id='value' class="h5">You lose <%%= match.loser_points %> points.</p>
+						<%% }; %>
+					<%% }; %>
+                    <a type="button" class="btn btn-secondary btn-sm  btn-dark" data-dismiss="modal" href="/#">Continue</a>
                 </div>
             </div>
         </div>
-    </div>
+		<script>
+		// Animación de puntos ganados en proceso
+		function animateValue(obj, start, end, duration) {
+			let startTimestamp = null;
+			const step = (timestamp) => {
+				if (!startTimestamp) startTimestamp = timestamp;
+				const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+				obj.innerHTML = Math.floor(progress * (end - start) + start);
+				if (progress < 1) {
+				window.requestAnimationFrame(step);
+				}
+			};
+			window.requestAnimationFrame(step);
+			}
+			const obj = document.getElementById("value");
+			animateValue(obj, 0, <%%= match.winner_points %>, 3000);
+		</script>
 </script>

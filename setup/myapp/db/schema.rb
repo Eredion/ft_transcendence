@@ -35,12 +35,6 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "messages", default: [], array: true
   end
 
-  create_table "friend_requests", force: :cascade do |t|
-    t.integer "requestor_id", null: false
-    t.integer "receiver_id", null: false
-    t.string "status", default: "pending", null: false
-  end
-
   create_table "guilds", force: :cascade do |t|
     t.string "title", null: false
     t.string "anagram", null: false
@@ -95,6 +89,16 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.index ["channel_id"], name: "index_messages_on_channel_id"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.string "requestor_type"
+    t.bigint "requestor_id"
+    t.string "receiver_type"
+    t.bigint "receiver_id"
+    t.string "status", default: "pending", null: false
+    t.index ["receiver_type", "receiver_id"], name: "index_requests_on_receiver_type_and_receiver_id"
+    t.index ["requestor_type", "requestor_id"], name: "index_requests_on_requestor_type_and_requestor_id"
   end
 
   create_table "users", force: :cascade do |t|

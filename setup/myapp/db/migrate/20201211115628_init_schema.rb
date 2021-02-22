@@ -52,9 +52,9 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.index ["uid"], name: "index_users_on_uid"
     end
 
-    create_table "friend_requests" do |t|
-      t.integer "requestor_id", null: false
-      t.integer "receiver_id", null: false
+    create_table "requests" do |t|
+      t.references :requestor, polymorphic: true
+      t.references :receiver, polymorphic: true
       t.string "status", default: "pending", null: false
     end
 

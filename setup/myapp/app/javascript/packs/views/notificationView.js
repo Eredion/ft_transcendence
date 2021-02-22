@@ -50,7 +50,7 @@ $(function () {
                 receiver_id:  Helper.userId(),
                 status: $(e.currentTarget).data().action
             }
-            var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
+            var response = await Helper.ajax('PATCH', 'api/requests/' + formData.id, formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
             } else {

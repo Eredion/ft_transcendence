@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     resources :chats
     resources :messages
     resources :channels
-    resources :friend_requests, only: [:show, :create, :update]
+    resources :requests, only: [:show, :create, :update]
     resources :matches, only: [:index, :show]
     resources :guilds, only: [:index, :show, :create, :update, :destroy] do
       member do

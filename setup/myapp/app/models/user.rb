@@ -7,8 +7,8 @@ class User < ApplicationRecord
   has_secure_password :validations => false #this affects devise authentication because no password is provided
   validates :email, :nickname, presence: true, uniqueness: true
   mount_uploader :avatar, AvatarUploader
-  has_many :friend_requests_as_requestor, foreign_key: :requestor_id, class_name: :FriendRequest
-  has_many :friend_requests_as_receiver, foreign_key: :receiver_id, class_name: :FriendRequest
+  has_many :requests_as_requestor, :as => :requestor, :class_name => 'Request'
+  has_many :requests_as_receiver, :as => :receiver, :class_name => 'Request'
   has_one :matchmaking, dependent: :destroy
   has_many :matches_as_left_player, :class_name => 'Match', :foreign_key => 'left_player_id'
   has_many :matches_as_right_player, :class_name => 'Match', :foreign_key => 'right_player_id'

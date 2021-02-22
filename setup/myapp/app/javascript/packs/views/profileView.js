@@ -116,12 +116,13 @@ if (Helper.logged()) {
         async addFriend(e) {
             e.preventDefault()
             var formData = {
-                friend_request: {
+                request: {
                     requestor_id: Helper.userId(),
-                    receiver_id: $(e.currentTarget).data().userfriendId
+                    receiver_id: $(e.currentTarget).data().userfriendId,
+                    type: 'Friend Request'
                 }
             }
-            var response = await Helper.ajax('POST', 'api/friend_requests', formData)
+            var response = await Helper.ajax('POST', 'api/requests', formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
             } else {

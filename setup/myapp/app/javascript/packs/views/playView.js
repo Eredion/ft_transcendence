@@ -39,6 +39,9 @@ let playView = Backbone.View.extend({
                     $('#join-tournament-wrapper').html(output)
                     $('#join-tournament-button').click(function(){
                         self.cable.perform("join_user", {'id':$(this).data("id"), 'userid': Helper.userId() })
+                        $(this).hide();
+                        if (tour.get('users').length + 1 === tour.get('size'))
+                            $('#join-tournament-wrapper').hide();
                     })
                 }
                 let template2 = _.template($('#tournament-graph-template').html())
@@ -54,9 +57,15 @@ let playView = Backbone.View.extend({
         });
     },
 
-    receive_data()
+    receive_data(data)
     {
-        console.log("recibiendo")
+        console.log(data);
+        if (data.action === 'join_user')
+        {
+            console.log("Se une menganito")
+            this.render();
+        }
+        
     },
 
     disconnect(){

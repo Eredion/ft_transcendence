@@ -103,9 +103,14 @@ class Workspace extends Backbone.Router {
     }
 
     admin(){
-        if (!this.adminview)
-            this.adminview = new adminView();
-        this.adminview.render();
+        if (Helper.current_user() === 'theadmin')
+        {
+            if (!this.adminview)
+                this.adminview = new adminView();
+            this.adminview.render();
+        }
+        else
+            this.notFound();
     }
 
     popup_profile(){

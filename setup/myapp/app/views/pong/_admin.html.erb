@@ -1,3 +1,4 @@
+<% if current_user.admin == true %>
 <script type="text/template" name="admin" id="admin-template">
     <div>
         <h1 class="title">Admin control panel</h1>
@@ -32,3 +33,5 @@
         <%% }%>
     </div>
 </script>
+
+<%  end %>

@@ -1,6 +1,6 @@
 class TournamentChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "tournament"
+    stream_from "tournament_channel"
   end
 
   def unsubscribed
@@ -18,6 +18,10 @@ class TournamentChannel < ApplicationCable::Channel
       tour.status = "closed"
     end
     tour.save
-    p tour.users
+    data = {
+      'action':'join_user',
+      'user': user.as_json,
+    }
+    ActionCable.server.broadcast "tournament_channel", data
   end
 end

@@ -20,6 +20,7 @@ let tournamentChannel = {
         },
       
         received(data) {
+          console.log(data);
           callback.bind(view)(data)
           // Called when there's incoming data on the websocket for this channel
         }

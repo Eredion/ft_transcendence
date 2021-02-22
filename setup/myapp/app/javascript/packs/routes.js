@@ -72,6 +72,9 @@ class Workspace extends Backbone.Router {
             this.guildView.removeChannel()
             this.guildView.undelegateEvents()
         }
+        if (this.playview){
+            this.playview.disconnect()
+        }
     }
 
     get routes() {

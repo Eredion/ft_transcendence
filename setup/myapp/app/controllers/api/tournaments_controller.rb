@@ -23,6 +23,7 @@ class Api::TournamentsController < ApplicationController
                 tour.rounds.push(Round.create(number: 1))
                 tour.rounds.push(Round.create(number: 2))
             end
+            p tour.users
             tour.save
         else
             puts(Rails.logger.info(tour.errors.inspect))

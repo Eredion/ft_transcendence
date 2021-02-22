@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   create_table "rounds", force: :cascade do |t|
     t.bigint "matches", default: [], array: true
     t.integer "number", null: false
+    t.string "status", default: "not started"
     t.bigint "tournament_id"
     t.index ["tournament_id"], name: "index_rounds_on_tournament_id"
   end

@@ -102,6 +102,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
     create_table "rounds" do |t|
       t.bigint "matches", references: :matches, default: [], array: true
       t.integer "number", null: false
+      t.string "status", default: "not started"
       t.references :tournament
     end
 
@@ -109,7 +110,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "name", default: "tournament", null: false, unique: true
       t.bigint "rounds", references: :rounds
       t.bigint "users", references: :users
-      t.string "status", default: "open" #open, active, finished
+      t.string "status", default: "open" #open, closed, active, finished
       t.integer "size", default: 4, null: true #2, 4, 8, 16
     end
 

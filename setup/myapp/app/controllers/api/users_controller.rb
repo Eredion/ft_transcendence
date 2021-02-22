@@ -19,6 +19,17 @@ class Api::UsersController < ApplicationController
         json_response(@user, :created)
     end
 
+    def session
+        user = User.find_by(id: current_user.id)
+        ret = user.as_json(only: [:id, :nickname, :avatar, :name, :status, :friends, :blocked, :admin])
+        if guild = Guild.find_by(id: user.guild_id)
+            ret[:guild] = guild.as_json(only: [:id, :title, :anagram, :owner_id, :officers, :members])
+        else
+            ret[:guild] = nil
+        end
+        render json: ret
+    end
+
     def update
         if (params[:banned] && current_user.admin)
             user = User.find(params[:id])

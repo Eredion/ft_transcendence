@@ -7,6 +7,7 @@ import MyApp from '../application'
 import Guild from '../../channels/guild_channel'
 import AvailableGuilds from '../../channels/available_guilds_channel'
 import userscol from '../models/user'
+import MySession from '../models/session'
 
 const Guilds = {}
 
@@ -60,6 +61,7 @@ $(function () {
                 document.getElementById("new-guild-form").reset()
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds/' + response['data']['id'])
+                MySession.data.update()
             }
         },
 
@@ -150,8 +152,10 @@ $(function () {
                 this.update_info()
             } else if (data['action'] == 'update_users') {
                 this.update_users()
+                MySession.data.update()
             } else if (data['action'] == 'guild_removed') {
                 MyApp.core.navigate('guilds')
+                MySession.data.update()
             } else if (this.grade > 0 && data['action'] == 'new_message') {
                 $('#chat_view').append(`<div class="chat_message bg-light p-2 rounded-pill mt-1">
                     <div class="message_author d-inline text-primary">
@@ -254,6 +258,7 @@ $(function () {
             } else {
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds')
+                MySession.data.update()
             }
         },
 
@@ -295,6 +300,7 @@ $(function () {
             } else {
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds')
+                MySession.data.update()
             }
         },
 

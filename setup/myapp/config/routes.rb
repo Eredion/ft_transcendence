@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :chats, only: [:create]
   
   namespace :api do
+    get "users/session", to: 'users#session'
     resources :users, only: [:index, :show, :update, :create] do
       member do
         get :show_friends

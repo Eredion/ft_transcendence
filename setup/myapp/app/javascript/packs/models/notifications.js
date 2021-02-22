@@ -1,7 +1,6 @@
 import Backbone from 'backbone'
 import Helper from '../Helper.js'
 
-// To do different types of notifications?
 let NotificationBaseModel = Backbone.Model.extend();
 
 let Request = NotificationBaseModel.extend({

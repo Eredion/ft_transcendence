@@ -2,6 +2,17 @@
     <div>
         <h1 class="title">Admin control panel</h1>
     </div>
+    <div id="tournament-creator-interface">
+        <div class="form-group">
+        <%= form_with url: "api/tournaments", method: :create do |f| %>
+            <%= text_field(:tournament, :name ,minlenght: 1, maxlenght: 20,
+                placeholder: "Choose a name...", autocomplete: :off, id: "input-trnmnt-form") %>
+            <%= f.select(:size, options_for_select([["2", 2], ["4", 4], ["8", 8]]), {:include_blank => false}) %>
+            <%= f.submit "Create tournament", id: "create-tournament-button", class: "btn btn-dark" %>
+
+        <% end %>
+        </div>
+    </div>
     <div id="admin-user-grid">
         <%% for (let user of users){ %>
             

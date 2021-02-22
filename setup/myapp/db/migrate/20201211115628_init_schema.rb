@@ -34,6 +34,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "avatar"
       t.integer "status", default: 0, null: false # 0 -> offline 1 -> online
       t.references :guild
+      t.references :tournament
+      t.references :round
       t.string "name", default: ""
       t.integer "score", default: 0
       t.integer "matches_won", default: 0
@@ -88,17 +90,35 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :right_player, null: false
       t.integer :left_score, default: 0
       t.integer :right_score, default: 0
-	  t.integer :winner_points, optional: true
-	  t.integer :loser_points, optional: true
+      t.integer :winner_points, optional: true
+      t.integer :loser_points, optional: true
       t.references :winner
       t.references :loser
       t.boolean :finished, default: false
       t.datetime "created_at", precision: 6, null: false
+      t.references :round, optional: true
+    end
+
+    create_table "rounds" do |t|
+      t.bigint "matches", references: :matches, default: [], array: true
+      t.integer "number", null: false
+      t.references :tournament
+    end
+
+    create_table "tournaments" do |t|
+      t.string "name", default: "tournament", null: false, unique: true
+      t.bigint "rounds", references: :rounds
+      t.bigint "users", references: :users
+      t.string "status", default: "open" #open, active, finished
+      t.integer "size", default: 4, null: true #2, 4, 8, 16
     end
 
     add_foreign_key :messages, :chats, column: :chat_id
     add_foreign_key :messages, :channels, column: :channel_id
     add_foreign_key :channels, :users, column: :user_id
+
+
+
   end
 
   def down

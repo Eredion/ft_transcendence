@@ -15,7 +15,7 @@ import rankingView from './views/rankingView'
 import adminview from './views/adminView'
 import playview from './views/playView'
 import adminView from './views/adminView'
-import waitView from './views/challengeWaitingView'
+
 
 class Workspace extends Backbone.Router {
 
@@ -98,11 +98,6 @@ class Workspace extends Backbone.Router {
             "*actions": "notFound"
         }
     }
-/* 
-    wait(id){
-        this.waitview = new waitView(id);
-        this.waitview.render();
-    } */
 
     admin(){
         if (!this.adminview)

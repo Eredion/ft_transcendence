@@ -79,6 +79,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
 
     create_table "matchmakings" do |t|
       t.belongs_to :user, foreign_key: true, unique: true
+      t.integer "challenge", array: true, default: []
       t.string "match_type", default: "quick game", null: false
     end
 
@@ -88,6 +89,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :right_player, null: false
       t.integer :left_score, default: 0
       t.integer :right_score, default: 0
+	  t.integer :winner_points, optional: true
+	  t.integer :loser_points, optional: true
       t.references :winner
       t.references :loser
       t.boolean :finished, default: false

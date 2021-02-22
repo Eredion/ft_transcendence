@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import Helper from '../Helper';
 import notificationcollection from '../models/notifications'
 import Friends from './friendsView'
+import Matchmaking from '../../channels/matchmaking_channel'
 
 const Notification = {}
 
@@ -20,7 +21,9 @@ $(function () {
         template: _.template($('script[name="notification_template"]').html()),
 
         events: {
-            "click .friend-request": "manageFriendRequest"
+            "click .friend-request": "manageFriendRequest",
+            "click .accept-challenge" : "acceptChallenge",
+            "click .decline-challenge" : "declineChallenge",
         },
         
         async initialize() {
@@ -55,6 +58,24 @@ $(function () {
                 Helper.custom_alert('success', response['success'])
                 Friends.view.update()
             }
+        },
+
+        acceptChallenge(e){
+            console.log(e)
+            console.log(e.currentTarget)
+            console.log($(e.currentTarget).data().nickname)
+            let id = $(e.currentTarget).data().id
+            $('#' + id + ".challenge-dropdown").remove();
+            $('#notification-count').text(parseInt($('#notification-count').text()) - 1)
+            
+        },
+
+        declineChallenge(e){
+            let id = $(e.currentTarget).data().id
+            $('#' + id + ".challenge-dropdown").remove();
+            $('#notification-count').text(parseInt($('#notification-count').text()) - 1)
+
+            //$('.challenge-dropdown#'+id).remove()
         },
 
         addNotification(e) {

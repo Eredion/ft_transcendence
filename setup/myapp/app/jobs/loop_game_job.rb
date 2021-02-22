@@ -6,6 +6,7 @@ class LoopGameJob < ApplicationJob
         loop do
             match = game.get_match
             if match.finished
+				puts rank_points(match)
                 break
             end
             game.move_ball
@@ -13,4 +14,34 @@ class LoopGameJob < ApplicationJob
             sleep 0.04 # 25fps
         end
     end
+
+	def rank_points(match)
+		if match.match_type == "ranked game"
+			match.winner_id
+			loser = User.find_by(id: match[:loser_id])
+			winner = User.find_by(id: match[:winner_id])
+			dif_points = (loser.score - winner.score) / 10
+			match.winner_points = 100 + dif_points
+			match.loser_points = match.winner_points
+			if match.winner_points < 50
+				match.winner_points = 0
+			end
+			if match.loser_points > 150
+				match.loser_points = 10
+			end
+			winner.score += match.winner_points
+			loser.score -= match.loser_points
+			if loser.score <= 0
+				loser.score = 0
+			end
+			winner.save
+			loser.save
+			if winner.guild_id
+				winner_guild = Guild.find_by(id: winner.guild_id)
+				winner_guild.score += (match.winner_points / 10)
+				winner_guild.save
+			end
+		end
+		ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match } )
+	end
 end

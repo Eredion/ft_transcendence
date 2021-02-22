@@ -13,6 +13,10 @@ import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
 import rankingView from './views/rankingView'
 import adminview from './views/adminView'
+import playview from './views/playView'
+import adminView from './views/adminView'
+import waitView from './views/challengeWaitingView'
+
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
@@ -77,22 +81,32 @@ class Workspace extends Backbone.Router {
             "chat/:name": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
+            "play": 'play',
             "users/:id": "userProfile",
             "channels/": "channels",
             "channels/:name": "channels",
             "popup1": "popup_profile",
             "popup1/:name": "popup_profile",
-            "search_match": "search_match",
+            "search_match/:id": "search_match",
             "match/:id": "match",
             "guilds": "guilds",
             "guilds/:id": "guild",
             "ranking": "ranking",
             "admin": "admin",
+            "challenge/:id": "search_match",
+            "challenge/:id/accept/:from": "search_match",
             "*actions": "notFound"
         }
     }
+/* 
+    wait(id){
+        this.waitview = new waitView(id);
+        this.waitview.render();
+    } */
+
     admin(){
-        this.adminview = adminview;
+        if (!this.adminview)
+            this.adminview = new adminView();
         this.adminview.render();
     }
 
@@ -123,22 +137,12 @@ class Workspace extends Backbone.Router {
         this.rankView.render();
     }
 
-
-  /*   channel(){
-        console.log("channel route");
-        if (!this.channelView)
-            this.channelView = new channelsView();
-        this.channelView.render();
-    }
-     */
     channels(name){
-        console.log("channel route")
         console.log(name);
         if (!this.channelView)
             this.channelView = new channelsView();
         if (name != "default")
             this.channelView.check_password(name);
-            //this.channelView.render_channel(name);
         else
             this.channelView.render();
     }
@@ -162,9 +166,19 @@ class Workspace extends Backbone.Router {
         this.profileview = new Profile.view(id)
     }
 
-    search_match() {
+    play(){
+        this.playview = playview;
+        this.playview.render();
+    }
+
+    search_match(id, from) { // Id is also used for type of match
         console.log('search_match route')
-        this.searchmatchView = new SearchMatch.view()
+        if (id && id.length > 0 && from && from.length > 0)
+            this.searchmatchView = new SearchMatch.view(id, from)
+        else if (id && id.length > 0)
+            this.searchmatchView = new SearchMatch.view(id)
+        else
+            this.searchmatchView = new SearchMatch.view()
     }
 
     match(id) {

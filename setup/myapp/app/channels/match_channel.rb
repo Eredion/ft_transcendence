@@ -23,6 +23,7 @@ class MatchChannel < ApplicationCable::Channel
   def finish_match(data)
 	if c_pong = Pong.get_game(data['match'])
 		c_pong.finish_match
+
 	end
 	Pong.delete_match(data['match'])
     ActionCable.server.broadcast("Match_#{data['match']}", {action: 'Match Finished'})

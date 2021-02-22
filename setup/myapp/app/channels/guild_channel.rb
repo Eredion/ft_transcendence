@@ -16,7 +16,7 @@ class GuildChannel < ApplicationCable::Channel
 				guild.save
 				member.save
 				ActionCable.server.broadcast( "Guild_#{data['guild']}", {
-					action: 'update'
+					action: 'update_users'
 				})
 			end
 		end
@@ -29,7 +29,7 @@ class GuildChannel < ApplicationCable::Channel
 				guild.officers.push(data['member'])
 				guild.save
 				ActionCable.server.broadcast( "Guild_#{data['guild']}", {
-					action: 'update'
+					action: 'update_users'
 				})
 			end
 		end
@@ -42,7 +42,7 @@ class GuildChannel < ApplicationCable::Channel
 				guild.members.push(data['member'])
 				guild.save
 				ActionCable.server.broadcast( "Guild_#{data['guild']}", {
-					action: 'update'
+					action: 'update_users'
 				})
 			end
 		end

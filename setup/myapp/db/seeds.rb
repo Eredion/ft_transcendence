@@ -59,5 +59,12 @@ Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 3, le
 Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 4, left_score: 3, right_score: 10, winner_id: 4, loser_id: 1, finished: true)
 
 
-Guild.create(title: "Pong Masters", anagram: "PM", score: 120, owner_id: 1, officers: [2, 3], members: [4, 5])
-Guild.create(title: "PimPam Tomalacasitos", anagram: "PPT", score: 60, owner_id: 6, officers: [7, 8], members: [9, 10, 11])
+guild = Guild.create(title: "Pong Masters", anagram: "PM", score: 120, owner_id: 1, officers: [2, 3], members: [4, 5])
+chat = Chat.create(:name => "guild#{guild.id}")
+guild.chat_id = chat.id
+guild.save
+
+guild = Guild.create(title: "PimPam Tomalacasitos", anagram: "PPT", score: 60, owner_id: 6, officers: [7, 8], members: [9, 10, 11])
+chat = Chat.create(:name => "guild#{guild.id}")
+guild.chat_id = chat.id
+guild.save

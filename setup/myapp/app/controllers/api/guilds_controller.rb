@@ -40,7 +40,6 @@ class Api::GuildsController < ApplicationController
         guild = Guild.create(:title => params[:title], :anagram => params[:anagram].upcase, :owner => user)
         chat = Chat.create(:name => "guild#{guild.id}")
         guild.chat_id = chat.id
-        Message.create(:content => 'probando', :user_id => user.id, :author => user.nickname, :chat_id => chat.id)
         user.guild_id = guild.id
         if guild.save! && user.save!
             render json: { "success": "Guild created successfully.", "data": guild }
@@ -67,6 +66,7 @@ class Api::GuildsController < ApplicationController
                 guild.anagram = params[:anagram]
                 if guild.save!
                     ActionCable.server.broadcast('available_guilds', { action: 'update' })
+                    ActionCable.server.broadcast( "Guild_#{guild.id}", { action: 'update_info' })
                     return render json: { "success": "Guild updated successfully." }
                 end
             end
@@ -83,12 +83,11 @@ class Api::GuildsController < ApplicationController
                 owner.save
                 User.where(id: guild.officers).or(User.where(id: guild.members)).update_all(guild_id: nil)
                 tmp_id = guild.id
+                Chat.destroy(guild.chat_id)
                 guild.destroy
                 render json: { "success": "Guild successfully eliminated." }
                 ActionCable.server.broadcast('available_guilds', { action: 'update' })
-                ActionCable.server.broadcast( "Guild_#{tmp_id}", {
-                    action: 'guild_removed'
-                })
+                ActionCable.server.broadcast( "Guild_#{tmp_id}", { action: 'guild_removed' })
                 return
             end
             return render json: { "error": "You don't have permissions." }
@@ -118,7 +117,7 @@ class Api::GuildsController < ApplicationController
                 member.guild_id = guild.id
                 if member.save! && guild.save!
                     ActionCable.server.broadcast( "Guild_#{guild.id}", {
-                        action: 'update'
+                        action: 'update_users'
                     })
                     return render json: { "success": "You have joined " + guild.title + " guild" }
                 end
@@ -143,9 +142,7 @@ class Api::GuildsController < ApplicationController
                         guild.destroy
                         render json: { "success": "You left the guild." }
                         ActionCable.server.broadcast('available_guilds', { action: 'update' })
-                        ActionCable.server.broadcast( "Guild_#{tmp_id}", {
-                            action: 'guild_removed'
-                        })
+                        ActionCable.server.broadcast( "Guild_#{tmp_id}", { action: 'guild_removed' })
                         return
                     else
                         guild.owner_id = guild.officers.shift #the first officer become owner of the guild
@@ -160,7 +157,7 @@ class Api::GuildsController < ApplicationController
                 member.guild_id = nil
                 if guild.save! && member.save!
                     ActionCable.server.broadcast( "Guild_#{guild.id}", {
-                        action: 'update'
+                        action: 'update_users'
                     })
                     return render json: { "success": "You left the guild." }
                 end

@@ -4,13 +4,13 @@ class Api::UsersController < ApplicationController
 
     def index
         users = User.all
-        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost,:banned, :blocked, :admin])
+        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost,:banned, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories])
         render json: fusers
     end
 
     def show
         user = User.find(params[:id])
-        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin])
+        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories])
         render json: fuser
     end
 

@@ -8,12 +8,15 @@ class MatchmakingChannel < ApplicationCable::Channel
   end
 
   def quick_game
-	  puts "quick_game"
       QuickGameJob.perform_later(current_user)
   end
 
   def ranked_game
       RankedGameJob.perform_later(current_user)
+  end
+
+  def tournament_game
+        TournamentGameJob.perform_later(current_user)
   end
 
   def wait_peer(data)

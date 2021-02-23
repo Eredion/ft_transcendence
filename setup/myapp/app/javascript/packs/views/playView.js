@@ -57,8 +57,8 @@ let playView = Backbone.View.extend({
                 {
                     console.log("case 3")
                     let template = _.template($('#no-tournament-template').html())
-                    $('#tournament-empty-banner').text("The current tournament has finished")
                     $('#tournament-view').html(template())
+                    $('.tournament-empty-banner').text("The current tournament has finished")
                     $('#tournament-play-button').hide();
                 }
                 else

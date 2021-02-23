@@ -106,7 +106,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
     create_table "tournaments" do |t|
       t.string "name", default: "tournament", null: false, unique: true
       t.bigint "users", references: :users
-      t.string "status", default: "open" #open, active, finished
+      t.string "status", default: "closed" #open, active, finished
       t.datetime "startdate", null: false
       t.datetime "finishdate", null: false
     end

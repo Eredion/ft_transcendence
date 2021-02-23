@@ -1,7 +1,15 @@
 class Api::ChannelsController < ApplicationController
     def index
         channels = Channel.all
-        render json: channels
+
+        ret = channels.as_json
+        ret.each { |channel|
+            channel["messages"].each { |message|
+                user = User.find_by(id: message["user_id"])
+                message[:guild] = Guild.find_by(id: user.guild_id).as_json(only: [:anagram])
+            }
+        }
+        render json: ret
     end
 
     def show

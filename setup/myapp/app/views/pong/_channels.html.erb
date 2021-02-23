@@ -93,8 +93,10 @@
     <%% for (msg of messages) {%>
         <%% if (blockedUsers.includes(msg.user_id) === true) { continue; } %>
         <div class="channel_message bg-light p-2">
-            <div  class="message_author d-inline text-primary"><a href="#popup1" onclick="render_popup(this)" ><%%= msg.author %>:</a></div>
-            
+            <div  class="message_author d-inline text-primary">
+                <span class="text-dark"><%%= msg.guild ? '(' + msg.guild.anagram + ')' : '' %></span>
+                <a href="#popup1" onclick="render_popup(this)" > <%%= msg.author %> :</a>
+            </div>
             <div class="message_content d-inline text-dark"><%%= msg.content %></div>
         </div>
     <%% };%>

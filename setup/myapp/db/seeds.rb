@@ -6,8 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create(nickname: 'marvin', email: 'marvin@marvin.com', score: 42, matches_won: 6, matches_lost: 1, friends: [2, 3, 4, 5], guild_id: 1)
-User.create(nickname: 'pabgonza', email: 'pabgonza@marvin.com', score: 27, matches_won: 3, matches_lost: 4, friends: [1, 3, 4, 5], guild_id: 1)
+user1 = User.create(nickname: 'marvin', email: 'marvin@marvin.com', score: 42, matches_won: 6, matches_lost: 1, friends: [2, 3, 4, 5], guild_id: 1)
+user2 = User.create(nickname: 'pabgonza', email: 'pabgonza@marvin.com', score: 27, matches_won: 3, matches_lost: 4, friends: [1, 3, 4, 5], guild_id: 1)
 User.create(nickname: 'apita-da', email: 'apita@marvin.com', score: 32, matches_won: 4, matches_lost: 2, friends: [1, 2, 4, 5], guild_id: 1)
 User.create(nickname: 'theadmin', email: 'admin@marvin.com', admin: true, score: 5, matches_won: 1, password_digest: "$2a$12$cy3.o43J2yid6vbkXojSAe0x2enBfAn4NcgVOQfXjdtPOV7tKF/1e", matches_lost: 0, friends: [1, 2, 3, 5], guild_id: 1,)
 User.create(nickname: 'marvina', email: 'marvina@marvin.com', score: 24, matches_won: 3, matches_lost: 1, friends: [1, 2, 3, 4], guild_id: 1)
@@ -21,10 +21,6 @@ User.create(nickname: 'ledesma', email: 'xxxxgmail@marvin.com', score: 46, match
 User.create(nickname: 'santana', email: 'blacked@marvin.com', score: 27, matches_won: 4, matches_lost: 3, friends: [12, 14, 15])
 User.create(nickname: 'castela', email: 'castela@marvin.com', score: 40, matches_won: 5, matches_lost: 2, friends: [12, 13, 15])
 User.create(nickname: 'dorodrig', email: 'luismicrack@marvin.com', score: 69, matches_won: 7, matches_lost: 2, friends: [12, 13, 14])
-
-FriendRequest.create(requestor_id: 1, receiver_id: 2, status: 'pending')
-FriendRequest.create(requestor_id: 2, receiver_id: 3, status: 'accepted')
-FriendRequest.create(requestor_id: 3, receiver_id: 4, status: 'denied')
 
 Chat.create("name": 'default')
 Message.create(content: "Haz click en un usuario para enviarle un mensaje", chat_id: 1, user_id: 1)
@@ -59,5 +55,12 @@ Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 3, le
 Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 4, left_score: 3, right_score: 10, winner_id: 4, loser_id: 1, finished: true)
 
 
-Guild.create(title: "Pong Masters", anagram: "PM", score: 120, owner_id: 1, officers: [2, 3], members: [4, 5])
-Guild.create(title: "PimPam Tomalacasitos", anagram: "PPT", score: 60, owner_id: 6, officers: [7, 8], members: [9, 10, 11])
+guild = Guild.create(title: "Pong Masters", anagram: "PM", score: 120, owner_id: 1, officers: [2, 3], members: [4, 5])
+chat = Chat.create(:name => "guild#{guild.id}")
+guild.chat_id = chat.id
+guild.save
+
+guild = Guild.create(title: "PimPam Tomalacasitos", anagram: "PPT", score: 60, owner_id: 6, officers: [7, 8], members: [9, 10, 11])
+chat = Chat.create(:name => "guild#{guild.id}")
+guild.chat_id = chat.id
+guild.save

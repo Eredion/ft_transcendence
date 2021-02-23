@@ -66,7 +66,7 @@ if (Helper.logged()) {
             let template = _.template($('#finish_match_template').html());
             this.$el.html(template({
 				'match': data.match,
-				'id': Helper.userId(),
+				'id': Helper.userId()
 			}));
         },
 

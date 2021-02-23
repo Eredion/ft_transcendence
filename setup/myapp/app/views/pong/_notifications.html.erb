@@ -14,17 +14,32 @@
             <%% if (_.size( notifications ) > 0) { %>
 
                 <%% _.each( notifications, function(notification) { %>
-                    <li class="dropdown-item">
-                        <div class="col-md-9 col-sm-9 col-xs-9 pd-l0 d-flex">
-                            <div class="col text-center">
-                                <p class="h6 text-secondary">Friend request from <a href="/#users/<%%= notification.requestor_id %>"><%%= notification.nickname %></a>.</p>
-                                <div class="ml-3">
-                                    <button class="btn btn-primary btn-sm friend-request" data-request-id="<%%= notification.id %>" data-action="accepted" data-userfriend-id="<%%= notification.requestor_id %>">Accept</button>
-                                    <button class="btn btn-danger btn-sm friend-request" data-request-id="<%%= notification.id %>" data-action="denied" data-userfriend-id="<%%= notification.requestor_id %>">Decline</button>
+                    <%% if (notification.category == "Friend Request" && notification.requestor) { %>
+                        <li class="dropdown-item">
+                            <div class="col-md-9 col-sm-9 col-xs-9 pd-l0 d-flex">
+                                <div class="col text-center">
+                                    <p class="h6 text-secondary">Friend request from <a href="/#users/<%%= notification.requestor.id %>"><%%= notification.requestor.nickname %></a>.</p>
+                                    <div class="ml-3">
+                                        <button class="btn btn-primary btn-sm friend-request" data-request-id="<%%= notification.id %>" data-action="accepted" data-userfriend-id="<%%= notification.requestor.id %>">Accept</button>
+                                        <button class="btn btn-danger btn-sm friend-request" data-request-id="<%%= notification.id %>" data-action="denied" data-userfriend-id="<%%= notification.requestor.id %>">Decline</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    <%% } %>
+                    <%% if (notification.category == "Guild Request" && notification.requestor) { %>
+                        <li class="dropdown-item">
+                            <div class="col-md-9 col-sm-9 col-xs-9 pd-l0 d-flex">
+                                <div class="col text-center">
+                                    <p class="h6 text-secondary">Invitation to join the guild <a href="/#guilds/<%%= notification.requestor.id %>"><%%= notification.requestor.title %></a>.</p>
+                                    <div class="ml-3">
+                                        <button class="btn btn-primary btn-sm guild-request" data-request-id="<%%= notification.id %>" data-action="accepted" data-guild-id="<%%= notification.requestor.id %>">Accept</button>
+                                        <button class="btn btn-danger btn-sm guild-request" data-request-id="<%%= notification.id %>" data-action="denied" data-guild-id="<%%= notification.requestor.id %>">Decline</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    <%% } %>
                 <%% }) %>
 
             <%% } else { %>

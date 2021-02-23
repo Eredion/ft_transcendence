@@ -1,32 +1,18 @@
 import Backbone from 'backbone'
 import Helper from '../Helper.js'
 
-// To do different types of notifications?
 let NotificationBaseModel = Backbone.Model.extend();
 
-let FriendRequest = NotificationBaseModel.extend({
+let Request = NotificationBaseModel.extend({
 
-    urlRoot: 'api/friend_requests/'
+    urlRoot: 'api/requests/'
 });
 
 let NotificationCollection = Backbone.Collection.extend({
 
-    url: 'api/friend_requests/' + Helper.userId(),
+    url: 'api/requests/' + Helper.userId(),
 
-    model: FriendRequest,
-
-    /*
-    model(model, options) {
-        if (model.type == 'FriendRequest') {
-          return new FriendRequest(model, options);
-        } else {
-          return new NotificationBaseModel(model, options);
-        }
-    },
-
-    modelId(attrs) {
-        return attrs.type + '_' + attrs.id;
-    },*/
+    model: Request,
 
     parse(response) {
         return JSON.parse(response.success)

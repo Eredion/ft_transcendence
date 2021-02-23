@@ -10,6 +10,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :owner, null: false
       t.integer "officers", default: [], array: true
       t.integer "members", default: [], array: true
+      t.references :chat, index: true, optional: true
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
@@ -51,9 +52,10 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.index ["uid"], name: "index_users_on_uid"
     end
 
-    create_table "friend_requests" do |t|
-      t.integer "requestor_id", null: false
-      t.integer "receiver_id", null: false
+    create_table "requests" do |t|
+      t.references :requestor, polymorphic: true
+      t.references :receiver, polymorphic: true
+      t.string "category", null: false
       t.string "status", default: "pending", null: false
     end
 

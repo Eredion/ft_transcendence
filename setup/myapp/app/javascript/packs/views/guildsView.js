@@ -6,6 +6,8 @@ import GuildCollection from '../models/guilds'
 import MyApp from '../application'
 import Guild from '../../channels/guild_channel'
 import AvailableGuilds from '../../channels/available_guilds_channel'
+import userscol from '../models/user'
+import MySession from '../models/session'
 
 const Guilds = {}
 
@@ -59,6 +61,7 @@ $(function () {
                 document.getElementById("new-guild-form").reset()
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds/' + response['data']['id'])
+                MySession.data.update()
             }
         },
 
@@ -83,11 +86,25 @@ $(function () {
         }
     });
 
+    Guilds.ChatModel = Backbone.Model.extend({
+    
+        initialize(options) {
+            this.gid = options.chat_id
+            this.urlRoot = 'api/chats/'+this.gid
+        }
+    });
+
     Guilds.GuildView = Backbone.View.extend({
 
         el: "#content",
     
         template: _.template($('#guild-show-template').html()),
+
+        guild_info_tmpl: _.template($('#guild-info-template').html()),
+
+        chat_tmpl: _.template($("#chat_guild_view_template").html()),
+
+        guild_users_tmpl: _.template($("#users-guild-template").html()),
 
         events: {
             "click #join_guild": "joinGuild",
@@ -98,34 +115,122 @@ $(function () {
             "click #destroy-guild-btn": "destroyGuild",
             "submit #edit-guild-form": "editGuild",
             "submit #guild_avatar-form" : "updateGuildAvatar",
+            "submit #chat_message_form": "newMessage"
         },
         
         async initialize(id) {
-            console.log('Guild '+ id +' View initialize')
             this.guild_id = id
             this.model = new Guilds.Model( { guild_id: this.guild_id } )
             await Helper.fetch(this.model)
+            await Helper.fetch(userscol)
+            this.calculate_grade()
             this.render()
+            this.render_info()
+            this.render_users()
             Guild.channel.connect(this.guild_id, this.manage_guild, this)
-        },
-
-        manage_guild(data) {
-            if (data['action'] == 'update') {
-                this.update()
-            } if (data['action'] == 'guild_removed') {
-                MyApp.core.navigate('guilds')
+            if (this.grade > 0) {
+                this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
+                await Helper.fetch(this.chat_model)
+                this.render_chat()
+                // conectarse al channel del chat
             }
         },
 
-        async update() {
+        calculate_grade() {
+            this.grade = 0; // user dont belongs to the guild
+            if ( ( _.findIndex( this.model.get('members'), { id: Helper.userId() } ) !== -1 ) ) {
+                this.grade = 1
+            } else if ( ( _.findIndex( this.model.get('officers'), { id: Helper.userId() } ) !== -1 ) ) {
+                this.grade = 2
+            } else if ( (this.model.get('owner').owner_id == Helper.userId()) ) {
+                this.grade = 3
+            }
+        },
+        
+        manage_guild(data) {
+            if (data['action'] == 'update_info') {
+                this.update_info()
+            } else if (data['action'] == 'update_users') {
+                this.update_users()
+                MySession.data.update()
+            } else if (data['action'] == 'guild_removed') {
+                MyApp.core.navigate('guilds')
+                MySession.data.update()
+            } else if (this.grade > 0 && data['action'] == 'new_message') {
+                $('#chat_view').append(`<div class="chat_message bg-light p-2 rounded-pill mt-1">
+                    <div class="message_author d-inline text-primary">
+                    <a href="#popup1" onclick="render_popup(this)">${data['data'].author} :</a></div>
+                    <div class="message_content d-inline text-dark">${data['data'].content}</div>
+                    </div>`);
+                    var chatDiv = document.getElementById('chat_view')
+                    chatDiv.scrollTop = chatDiv.scrollHeight;
+            }
+        },
+
+        async update_all() {
             await Helper.fetch(this.model)
+            this.calculate_grade()
             this.render()
+            this.render_info()
+            this.render_users()
+            this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
+            await Helper.fetch(this.chat_model)
+            this.render_chat()
+            // conectarse al channel del chat
+        },
+
+        async update_info() {
+            await Helper.fetch(this.model)
+            this.render_info()
+        },
+
+        async update_users() {
+            await Helper.fetch(this.model)
+            this.render_users()
         },
 
         render() {
             console.log('render call')
-            this.$el.html(this.template( { 'guild': this.model.toJSON() } ));
+            this.$el.html(this.template({
+                'guild': this.model.toJSON(),
+                'grade': this.grade
+            }));
             return this
+        },
+
+        render_info() {
+            this.$el.find('#guild-info-data').html(this.guild_info_tmpl({ 
+                'guild': this.model.toJSON(),
+                'grade': this.grade
+            }));
+        },
+
+        render_chat() {
+            this.$el.find('#guild-chat-template').html(this.chat_tmpl( { 'messages': this.chat_model.get('messages') } ));
+            var chatDiv = document.getElementById('chat_view')
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        },
+
+        render_users() {
+            console.log('render_users call')
+            this.$el.find('#users-guild-data').html(this.guild_users_tmpl({
+                'guild': this.model.toJSON(),
+                'admin': userscol.findWhere( { id: Helper.userId() } ).get('admin'),
+                'grade': this.grade
+            }));
+            return this
+        },
+
+        newMessage(e) {
+            e.preventDefault()
+            Guild.channel.perform('add_message', {
+                chat: this.model.get('chat_id'),
+                guild: this.guild_id,
+                from: Helper.userId(),
+                message: document.getElementById("message_chat_guild").value
+            })
+            document.getElementById('chat_message_form').reset()
+            document.getElementById("message_chat_guild").focus()
         },
 
         async joinGuild(e) {
@@ -138,7 +243,7 @@ $(function () {
                 Helper.custom_alert('danger', response['error'])
             } else {
                 Helper.custom_alert('success', response['success'])
-                this.update()
+                this.update_all()
             }
         },
 
@@ -153,6 +258,7 @@ $(function () {
             } else {
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds')
+                MySession.data.update()
             }
         },
 
@@ -194,6 +300,7 @@ $(function () {
             } else {
                 Helper.custom_alert('success', response['success'])
                 MyApp.core.navigate('guilds')
+                MySession.data.update()
             }
         },
 
@@ -211,7 +318,7 @@ $(function () {
                     document.getElementById('edit-guild-form').reset()
                     Helper.custom_alert('danger', response['error'])
                 } else {
-                    self.update()
+                    //self.update_info()
                     Helper.custom_alert('success', response['success'])
                 }
             })
@@ -219,10 +326,10 @@ $(function () {
 
         updateGuildAvatar(e) {
             var input = document.getElementById('guildFileInput')
-            if (input.files && input.files[0]) { //Checks if a file is uploaded
+            if (input.files && input.files[0]) {
                 const self = this
                 setTimeout(function() {
-                    self.update();
+                    self.update_info();
                 }, 1000)
             } else {
                 e.preventDefault()

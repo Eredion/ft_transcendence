@@ -17,52 +17,46 @@ $(function () {
 
     connect() {
       
-      if (this.cable) {
-        return ;
-      }
-      const self = this;
-      this.cable = consumer.subscriptions.create({
-        channel: "NotificationChannel"
-      },
-      {
+		if (this.cable) {
+			return ;
+		}
+		const self = this;
+		this.cable = consumer.subscriptions.create({
+			channel: "NotificationChannel"
+		},
+		{
         connected() {
-          // Called when the subscription is ready for use on the server
-          console.log('connected function from notification_channel.js')
+        	// Called when the subscription is ready for use on the server
+        	console.log('connected function from notification_channel.js')
         },
-    
         disconnected() {
-          // Called when the subscription has been terminated by the server
-          self.disconnect()
+			// Called when the subscription has been terminated by the server
+			self.disconnect()
         },
-    
         received(data) {
-          // Called when there's incoming data on the websocket for this channel
-          console.log(data);
-          console.log('received function from notification_channel.js')
-          if (data['action'] === 'notification') {
-            Helper.notification('New notification received.');
-            let format = data['data']
-            if (data['type'] == 'Friend Request') {
-              format["nickname"] = data['from']
-            } else if (data['type'] === 'challenge')
-            {
-              format["nickname"] = data['from']
-              let notif_count = parseInt($('#notification-count').text())
-              $('#notification-count').text(parseInt($('#notification-count').text()) + 1)
-              let template = _.template($("#challenge_notif_template").html())
-              let output = template({'from':data['from'], 'id': data.data.from, currentuser: Helper.userId()})
-              if (notif_count === 0)
-                $('#notification-list').html(output) 
-              else
-                $('#notification-list').append(output)
-              return;
-            }
-              
-            Notification.view.addNotification(format)
-          } else if (data['action'] === 'update_friends') {
-            Friends.view.update()
-          }
-          }
+        	// Called when there's incoming data on the websocket for this channel
+			console.log(data);
+			console.log('received function from notification_channel.js')
+			if (data['action'] === 'notification') {
+				Helper.notification('New notification received.');
+				let format = data['data']
+				if (data['type'] === 'challenge') {
+					format["nickname"] = data['from']
+					let notif_count = parseInt($('#notification-count').text())
+					$('#notification-count').text(parseInt($('#notification-count').text()) + 1)
+					let template = _.template($("#challenge_notif_template").html())
+					let output = template({'from':data['from'], 'id': data.data.from, currentuser: Helper.userId()})
+					if (notif_count === 0)
+						$('#notification-list').html(output) 
+					else
+						$('#notification-list').append(output)
+					return;
+				}
+				Notification.view.addNotification(format)
+			} else if (data['action'] === 'update_friends') {
+				Friends.view.update()
+			}
+		}
         });
     }
 

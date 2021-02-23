@@ -15,7 +15,7 @@
         <%% if(tournament.status != 'no') { %>
         <div id="tournament-ranking-div" class="col-sm">
             <div>
-                <h1 class="title"><%%tournament.name %></h1>
+                <h1 class="title"><%%= tournament.name %> tournament </h1>
             </div>
             <div id='tournament-ranking'></div>
         </div>
@@ -61,9 +61,9 @@
 
 <script id="tournament-ranking-template" type='text/template'>
     <%% if (tournament.status == 'finished'){ %>
-        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">Finished</div>
+        <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white">Finished</div></span></div>
     <%% } else { %>
-        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">Currently <%% tournament.status %></div>
+        <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white"><%%= tournament.status %></span></div></div>
     <%% };%> 
     <div class="bg-info d-flex flex-row mb-1">
         <div class="font-weight-bold flex-fill align-self-end text-dark p-2">Nickname</div>
@@ -88,5 +88,6 @@
             <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_victories%></div>
             <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_defeats%></div>
         </div>
-    <%% };%> 
+    <%% };%>
+    
 </script>

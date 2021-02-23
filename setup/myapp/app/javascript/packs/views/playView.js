@@ -64,6 +64,10 @@ let playView = Backbone.View.extend({
                 else
                 {
                     console.log("case 4")
+                    if (tour.get("status") === "active" && myself.intournament === false)
+                    let template2 = _.template($('#no-tournament-template').html())
+                    $('#tournament-view').html(template2())
+                    $('.tournament-empty-banner').text("There is a tournament ongoing, please wait for the next one.")
                     $('#tournament-play-button').hide();
                 }
                 //tournament bracket

@@ -4,6 +4,7 @@ import Backbone from 'backbone'
 import Helper from '../Helper'
 import Pong from '../pong-game'
 import Matches from '../../channels/match_channel'
+import userCol from '../models/user'
 
 const Match = {}
 
@@ -61,13 +62,17 @@ if (Helper.logged()) {
             return this;
         },
 
-
-        renderResult(data) {
+        async renderResult(data) {
+            self = this;
             let template = _.template($('#finish_match_template').html());
-            this.$el.html(template({
+            await Helper.fetch(userCol).then(function(){
+                let myself = userCol.findWhere({id : self.current_user});
+                console.log(myself.toJSON());
+                self.$el.html(template({
 				'match': data.match,
-				'id': Helper.userId(),
+				'user': myself.toJSON(),
 			}));
+            });
         },
 
         update_match(data) {

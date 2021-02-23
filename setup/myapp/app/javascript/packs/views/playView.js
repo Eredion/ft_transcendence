@@ -33,12 +33,12 @@ let playView = Backbone.View.extend({
             let myself = (usercollection.findWhere({id : self.current_user})).toJSON();
             console.log(trnmntcol.length)
             let tour = trnmntcol.at(trnmntcol.length - 1)
-            if (tour != undefined || tour.get("status") == "closed" || tour.get("status") == "finished")
+            if (tour != undefined)
             {
 
                 if (tour.get("status") === 'open' && myself.intournament === false)
                 {
-                    
+                    console.log("case 1")
                     let template = _.template($('#join-tour-template').html())
                     let output = template({'tournament':tour.toJSON()});
                     $('#join-tournament-wrapper').html(output)
@@ -48,15 +48,24 @@ let playView = Backbone.View.extend({
                         
                     })
                 }
-                console.log(myself.intournament) 
-                
-                if (tour.get("status") === "active" && myself.intournament === true)
+                else if (tour.get("status") === "active" && myself.intournament === true)
                 {
+                    console.log("case 2")
                     $('#tournament-play-button').show();
-                    console.log("entra en el if")
+                }
+                else if (tour.get("status") === "finished")
+                {
+                    console.log("case 3")
+                    let template = _.template($('#no-tournament-template').html())
+                    $('#tournament-empty-banner').text("The current tournament has finished")
+                    $('#tournament-view').html(template())
+                    $('#tournament-play-button').hide();
                 }
                 else
+                {
+                    console.log("case 4")
                     $('#tournament-play-button').hide();
+                }
                 //tournament bracket
                 let users = tour.get("users")
                 let uindex = -1;

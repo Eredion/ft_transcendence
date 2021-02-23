@@ -6,6 +6,7 @@ import userscollection from '../models/user.js'
 import Blockeds from './profile/blockedsView'
 import Friends from './profile/friendsView'
 import MatchHistory from './profile/match_history'
+import MySession from '../models/session'
 
 const Profile = {}
 
@@ -27,14 +28,20 @@ if (Helper.logged()) {
             "submit #avatar-form" : "updateAvatar",
             "submit #edit-user-form": "editUserForm",
             "click #addFriend": "addFriend",
-            "click #blockUser": "blockUser"
+            "click #blockUser": "blockUser",
+            "click #addToGuild": "inviteToGuild"
         },
     
         async initialize(id) {
+            MySession.data.update()
             this.user_id = id
             await Helper.fetch(this.collection)
             this.user = this.collection.get(this.user_id);
-            this.guild = await Helper.ajax('GET', 'api/guilds/' + this.user.get('guild_id'))
+            if (this.user.get('guild_id')) {
+                this.guild = await Helper.ajax('GET', 'api/guilds/' + this.user.get('guild_id'))
+            } else {
+                this.guild = null
+            }
             this.render()
             this.render_userInfo()
             this.friendView = new Friends.view(this.user_id)
@@ -48,13 +55,13 @@ if (Helper.logged()) {
         },
         
         render() {
-            this.$el.html(this.template( { 'user': this.user.toJSON() } ));
+            this.$el.html(this.template( { 'user': this.user.toJSON(), 'me': MySession.data.officer_or_owner() } ));
             return this;
         },
 
         render_userInfo() {
             var guild = null
-            if (this.guild['success']) {
+            if (this.guild && this.guild['success']) {
                 guild = JSON.parse(this.guild['success'])
             }
             this.$el.find('#user_info').html(this.uinfo_template({'user': this.user.toJSON(), 'guild': guild }));
@@ -116,12 +123,13 @@ if (Helper.logged()) {
         async addFriend(e) {
             e.preventDefault()
             var formData = {
-                friend_request: {
+                request: {
                     requestor_id: Helper.userId(),
-                    receiver_id: $(e.currentTarget).data().userfriendId
+                    receiver_id: $(e.currentTarget).data().userfriendId,
+                    type: 'Friend Request'
                 }
             }
-            var response = await Helper.ajax('POST', 'api/friend_requests', formData)
+            var response = await Helper.ajax('POST', 'api/requests', formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
             } else {
@@ -133,6 +141,25 @@ if (Helper.logged()) {
             e.preventDefault()
             var formData = { user_id: $(e.currentTarget).data().userblockId }
             var response = await Helper.ajax('POST', 'users/' + Helper.userId() + '/block_user', formData)
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+            }
+        },
+
+        async inviteToGuild(e) {
+            e.preventDefault()
+            var formData = {
+                request: {
+                    requestor_id: MySession.data.guild().id,
+                    receiver_id: $(e.currentTarget).data().userguildId,
+                    officer: MySession.data.id(),
+                    type: 'Guild Request'
+                }
+            }
+            console.log(formData)
+            var response = await Helper.ajax('POST', 'api/requests', formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
             } else {

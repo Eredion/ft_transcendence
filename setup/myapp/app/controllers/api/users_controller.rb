@@ -24,8 +24,7 @@ class Api::UsersController < ApplicationController
             user = User.find(params[:id])
             user.banned = params[:banned]
             user.save
-            puts "banning user"
-            return
+            return render json: {"success": "User banned"}
         end
         user = User.find(current_user.id)
         if params[:nickname] != user.nickname
@@ -34,14 +33,11 @@ class Api::UsersController < ApplicationController
             end
             user.nickname = params[:nickname]
         end
-        puts params
-        
         if params[:name] != user.name
             user.name = params[:name]
         end
-        if user.save!
-            render json: user, status: :ok
-        end
+        user.save!
+        render json: user, status: :ok
     end
 
     def show_blockeds
@@ -126,6 +122,20 @@ class Api::UsersController < ApplicationController
                 guild = nil
             end
             return render json: guild
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    def mysession
+        if params[:id].to_i == current_user.id
+            user = User.find_by(id: current_user.id)
+            ret = user.as_json(only: [:id, :nickname, :avatar, :name, :status, :friends, :blocked, :admin])
+            if guild = Guild.find_by(id: user.guild_id)
+                ret[:guild] = guild.as_json(only: [:id, :title, :anagram, :owner_id, :officers, :members])
+            else
+                ret[:guild] = nil
+            end
+            return render json: ret
         end
         render json: {"error": 'Forbidden.'}
     end

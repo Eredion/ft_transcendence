@@ -26,12 +26,13 @@ Rails.application.routes.draw do
         delete :delete_friend
         get :match_history
         get :guild
+        get :mysession
       end
     end
     resources :chats
     resources :messages
     resources :channels
-    resources :friend_requests, only: [:show, :create, :update]
+    resources :requests, only: [:show, :create, :update]
     resources :matches, only: [:index, :show]
     resources :guilds, only: [:index, :show, :create, :update, :destroy] do
       member do

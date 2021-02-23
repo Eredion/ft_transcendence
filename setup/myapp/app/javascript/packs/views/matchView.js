@@ -71,6 +71,7 @@ if (Helper.logged()) {
                 self.$el.html(template({
 				'match': data.match,
 				'user': myself.toJSON(),
+				'id': Helper.userId()
 			}));
             });
         },

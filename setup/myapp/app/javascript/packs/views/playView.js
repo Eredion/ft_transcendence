@@ -13,7 +13,7 @@ let playView = Backbone.View.extend({
     },
     initialize(){
         self = this;
-        console.log("initializing playview")
+        //console.log("initializing playview")
     },
 
     render(){
@@ -31,14 +31,15 @@ let playView = Backbone.View.extend({
         Promise.all([Helper.fetch(trnmntcol), Helper.fetch(usercollection)]).then(function(){
         //await Helper.fetch(trnmntcol).then(function(){
             let myself = (usercollection.findWhere({id : self.current_user})).toJSON();
-            console.log(trnmntcol.length)
+            //console.log(trnmntcol.length)
             let tour = trnmntcol.at(trnmntcol.length - 1)
             if (tour != undefined)
             {
 
                 if (tour.get("status") === 'open' && myself.intournament === false)
                 {
-                    console.log("case 1")
+                    //console.log("case 1")
+                    $('#tournament-play-button').hide()
                     let template = _.template($('#join-tour-template').html())
                     let output = template({'tournament':tour.toJSON()});
                     $('#join-tournament-wrapper').html(output)
@@ -50,12 +51,12 @@ let playView = Backbone.View.extend({
                 }
                 else if (tour.get("status") === "active" && myself.intournament === true)
                 {
-                    console.log("case 2")
+                    //console.log("case 2")
                     $('#tournament-play-button').show();
                 }
                 else if (tour.get("status") === "finished")
                 {
-                    console.log("case 3")
+                    //console.log("case 3")
                     let template = _.template($('#no-tournament-template').html())
                     $('#tournament-view').html(template())
                     $('.tournament-empty-banner').text("The current tournament has finished")
@@ -63,11 +64,13 @@ let playView = Backbone.View.extend({
                 }
                 else
                 {
-                    console.log("case 4")
+                    //console.log("case 4")
                     if (tour.get("status") === "active" && myself.intournament === false)
-                    let template2 = _.template($('#no-tournament-template').html())
-                    $('#tournament-view').html(template2())
-                    $('.tournament-empty-banner').text("There is a tournament ongoing, please wait for the next one.")
+                    {
+                        let template2 = _.template($('#no-tournament-template').html())
+                        $('#tournament-view').html(template2())
+                        $('.tournament-empty-banner').text("There is a tournament ongoing, please wait for the next one.")
+                    }
                     $('#tournament-play-button').hide();
                 }
                 //tournament bracket
@@ -78,7 +81,7 @@ let playView = Backbone.View.extend({
                     if (users[i].id === Helper.userId())
                         uindex = i;
                 }
-                console.log(uindex)
+                //console.log(uindex)
 
                 //let template2 = _.template($('#tournament-graph-template').html()) 
                 //let output2 = template2({'tournament':tour.toJSON(),'userid': Helper.userId()});
@@ -86,8 +89,10 @@ let playView = Backbone.View.extend({
             }
             else
             {
+                $('#tournament-play-button').hide()
                 let template = _.template($('#no-tournament-template').html())
                 $('#tournament-view').html(template())
+
             }
             
         });
@@ -96,7 +101,7 @@ let playView = Backbone.View.extend({
     receive_data(data)
     {
         self = this;
-        console.log(data);
+        //console.log(data);
         if (data.action === 'join_user')
         {
             setTimeout(function(){ self.render() }, 500);

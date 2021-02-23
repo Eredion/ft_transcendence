@@ -5,11 +5,12 @@ import Helper from '../Helper';
 import notificationcollection from '../models/notifications'
 import Friends from './friendsView'
 import Matchmaking from '../../channels/matchmaking_channel'
+import MySession from '../models/session'
 
 const Notification = {}
 
 if (Helper.logged()) {
-//Se asegura que la pagina esté cargada completamente ya que da fallo
+
 $(function () {
 
     Notification.notificationView = Backbone.View.extend({
@@ -22,8 +23,9 @@ $(function () {
 
         events: {
             "click .friend-request": "manageFriendRequest",
+            "click .guild-request": "manageGuildRequest",
             "click .accept-challenge" : "acceptChallenge",
-            "click .decline-challenge" : "declineChallenge",
+            "click .decline-challenge" : "declineChallenge"
         },
         
         async initialize() {
@@ -50,13 +52,33 @@ $(function () {
                 receiver_id:  Helper.userId(),
                 status: $(e.currentTarget).data().action
             }
-            var response = await Helper.ajax('PATCH', 'api/friend_requests/' + formData.id, formData)
+            var response = await Helper.ajax('PATCH', 'api/requests/' + formData.id, formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
             } else {
                 this.collection.remove(this.collection.where({ id: formData.id }))
                 Helper.custom_alert('success', response['success'])
                 Friends.view.update()
+                MySession.data.update()
+            }
+        },
+
+        async manageGuildRequest(e) {
+            console.log('manageGuildRequest event call!')
+            e.preventDefault()
+            var formData = {
+                id: $(e.currentTarget).data().requestId,
+                requestor_id: $(e.currentTarget).data().guildId,
+                receiver_id:  Helper.userId(),
+                status: $(e.currentTarget).data().action
+            }
+            var response = await Helper.ajax('PATCH', 'api/requests/' + formData.id, formData)
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                this.collection.remove(this.collection.where({ id: formData.id }))
+                Helper.custom_alert('success', response['success'])
+                MySession.data.update()
             }
         },
 

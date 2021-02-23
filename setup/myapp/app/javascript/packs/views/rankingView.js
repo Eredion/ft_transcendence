@@ -4,11 +4,13 @@ import Backbone from 'backbone'
 import Helper from '../Helper';
 import usercollection from '../models/user'
 import guildCollection from '../models/guilds'
+import tourncol from '../models/tournament'
 
 let chatView = Backbone.View.extend({
 
     el: '#content',
     userCol: usercollection,
+    tournCol: tourncol,
 
     initialize() {
         this.guildCol = new guildCollection();
@@ -20,14 +22,25 @@ let chatView = Backbone.View.extend({
             return ((x > y) ? -1 : ((x < y) ? 1 : 0));
         });
     },
+    
+    getTournament() {
+        let tournament = this.tournCol.at(0);
+        if (tournament === undefined)
+        {
+            tournament = {status: "no"};
+            return tournament
+        }
+        return tournament.toJSON();
+    },
 
     render() {
         self = this
-        let template = _.template($("#ranking-template").html());
-        this.$el.html(template);
-        Promise.all([Helper.fetch(this.userCol), Helper.fetch(this.guildCol)])
-            .then(function(){
-            console.log("allé voy");
+        Promise.all([Helper.fetch(this.userCol), Helper.fetch(this.guildCol)], Helper.fetch(this.tournCol))
+        .then(function(){
+            let template0 = _.template($("#ranking-template").html());
+            let tournament = self.getTournament();
+            console.log(tournament);
+            self.$el.html(template0({'tournament': tournament}));
             let template = _.template($("#user-ranking-template").html());
             let usersOrdered = self.sortByKey(self.userCol.toJSON(), "score");
             let output = template({'users':usersOrdered}); 
@@ -36,6 +49,10 @@ let chatView = Backbone.View.extend({
             let guildsOrdered = self.sortByKey(self.guildCol.toJSON(), "score");
             let output2 = template2({'guilds':guildsOrdered});
             $('#guild-ranking').html(output2);
+            let template3 = _.template($("#tournament-ranking-template").html());
+            usersOrdered.sort((a, b) => (b.tournament_victories - b.tournament_defeats) - (a.tournament_victories - a.tournament_defeats));
+            let output3 = template3({'users': usersOrdered, 'tournament': tournament});
+            $('#tournament-ranking').html(output3);
         });
     },
 });

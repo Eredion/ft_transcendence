@@ -3,8 +3,8 @@
     <div class="gamemodes">
         <a class="btn btn-lg btn-block btn-dark" href="#search_match/quick">Quick play</a>
         <a class="btn btn-lg btn-block btn-dark" href="#search_match/ranked">Ranked play</a>
-        <a id="tournament-play-button" class="btn btn-lg btn-block btn-dark" href="#search_match/tournament">Tournament</a> 
-       
+        <!-- <a class="btn btn-lg btn-block btn-dark" id="show-tournament-button" >Tournament</a> 
+        -->
     </div>
     <div class="mt-4" id="tournament-view">
         <div id="join-tournament-wrapper">
@@ -19,7 +19,7 @@
 </script>
 
 <script type="text/template" name="jointourbutton" id="join-tour-template">
-
+    <div>
         <a class="btn btn-block btn-light mt-5" id="join-tournament-button" data-id="<%%= tournament.id %>">Join <%%= tournament.name %> tournament</a>
         <div class="waiting-for-users-tour">
             <div>Waiting for users to join...</div>
@@ -34,7 +34,7 @@
 <script type="text/template" name="tournamentview" id="tournament-graph-template">
     <%# <h4 class="title">TOURNAMENT</h4> %>
     <div id="graph" class="d-flex">
-       <%#  <%% let myid = "accept/:" + uid + "/" %> 
+        <%% let uid = Helper.getId() %>
         <%%  for (let round of tournament.rounds.reverse()){ %>
                 <div class="flex-fill list-group round-column">
                     <%% for (let i = 0; i < Math.pow(2, round.number); i++) {%>
@@ -43,9 +43,6 @@
                             <%% let j2 = ((tournament.users[2 * i + 1]) != undefined && round.number === tournament.rounds.length - 1) ? tournament.users[2 * i + 1].nickname : "" %>
                             <div class="list-group-item mt-0 match-j1"><%%= j1 %></div>
                             <div class="list-group-item mt-0 match-j2"><%%= j2 %></div>
-                            <%% if (round.number === tournament.rounds.length - 1) {%>
-                               <a href="#<%%= link %>"><div class="match-play-button btn btn-block btn-danger" >Play</div> </a>
-                            <%% }%>
                         </div>
                         <%% if (round.number === 1 && i === 0){%>
                                 <div class="list-group-item space-between-matches"></div>

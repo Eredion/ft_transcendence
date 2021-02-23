@@ -97,20 +97,12 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
-  create_table "rounds", force: :cascade do |t|
-    t.bigint "matches", default: [], array: true
-    t.integer "number", null: false
-    t.string "status", default: "not started"
-    t.bigint "tournament_id"
-    t.index ["tournament_id"], name: "index_rounds_on_tournament_id"
-  end
-
   create_table "tournaments", force: :cascade do |t|
     t.string "name", default: "tournament", null: false
-    t.bigint "rounds"
     t.bigint "users"
     t.string "status", default: "open"
-    t.integer "size", default: 4
+    t.datetime "startdate", null: false
+    t.datetime "finishdate", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -121,7 +113,6 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "status", default: 0, null: false
     t.bigint "guild_id"
     t.bigint "tournament_id"
-    t.bigint "round_id"
     t.string "name", default: ""
     t.integer "score", default: 0
     t.integer "matches_won", default: 0
@@ -134,10 +125,12 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "provider"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "intournament", default: false
+    t.integer "tournament_victories", default: 0
+    t.integer "tournament_defeats", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guild_id"], name: "index_users_on_guild_id"
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
-    t.index ["round_id"], name: "index_users_on_round_id"
     t.index ["tournament_id"], name: "index_users_on_tournament_id"
     t.index ["uid"], name: "index_users_on_uid"
   end

@@ -35,7 +35,6 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "status", default: 0, null: false # 0 -> offline 1 -> online
       t.references :guild
       t.references :tournament
-      t.references :round
       t.string "name", default: ""
       t.integer "score", default: 0
       t.integer "matches_won", default: 0
@@ -51,6 +50,11 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.index ["email"], name: "index_users_on_email", unique: true
       t.index ["nickname"], name: "index_users_on_nickname", unique: true
       t.index ["uid"], name: "index_users_on_uid"
+
+      t.boolean "intournament", default: false
+      t.integer "tournament_victories", default: 0
+      t.integer "tournament_defeats", default: 0
+ 
     end
 
     create_table "friend_requests" do |t|
@@ -99,19 +103,12 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :round, optional: true
     end
 
-    create_table "rounds" do |t|
-      t.bigint "matches", references: :matches, default: [], array: true
-      t.integer "number", null: false
-      t.string "status", default: "not started"
-      t.references :tournament
-    end
-
     create_table "tournaments" do |t|
       t.string "name", default: "tournament", null: false, unique: true
-      t.bigint "rounds", references: :rounds
       t.bigint "users", references: :users
-      t.string "status", default: "open" #open, closed, active, finished
-      t.integer "size", default: 4, null: true #2, 4, 8, 16
+      t.string "status", default: "open" #open, active, finished
+      t.datetime "startdate", null: false
+      t.datetime "finishdate", null: false
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

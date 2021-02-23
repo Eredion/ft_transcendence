@@ -44,8 +44,20 @@ let playView = Backbone.View.extend({
                             $('#join-tournament-wrapper').hide();
                     })
                 }
-                let template2 = _.template($('#tournament-graph-template').html())
-                let output2 = template2({'tournament':tour.toJSON()});
+                //tournament bracket
+                let users = tour.get("users")
+                let uindex = -1;
+                for (let i = 0; i < users.length; i++)
+                {
+                    if (users[i].id === Helper.userId())
+                        uindex = i;
+                }
+                console.log(uindex)
+                let rounds = tour.get('rounds')
+                console.log(rounds[rounds.length - 1].links)
+                console.log(rounds);
+                let template2 = _.template($('#tournament-graph-template').html()) 
+                let output2 = template2({'tournament':tour.toJSON(),'link': rounds[rounds.length - 1].links[uindex],'userid': Helper.userId()});
                 $('#tournament-graph').html(output2)
             }
             else

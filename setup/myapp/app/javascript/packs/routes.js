@@ -74,6 +74,7 @@ class Workspace extends Backbone.Router {
         }
         if (this.playview){
             this.playview.disconnect()
+            this.playview.undelegateEvents()
         }
     }
 

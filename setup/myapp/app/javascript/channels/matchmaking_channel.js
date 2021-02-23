@@ -28,7 +28,7 @@ $(function () {
         connected() {
           // Called when the subscription is ready for use on the server
           console.log('connected function from matchmaking_channel.js')
-          if (action === 'quick_game' || action === 'ranked_game')
+          if (action === 'quick_game' || action === 'ranked_game' || action === 'tournament_game')
 		      {
 			      console.log("ejectuto la acction " + action)
             this.perform(action)

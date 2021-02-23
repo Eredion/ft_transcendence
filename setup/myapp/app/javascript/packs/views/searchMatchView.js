@@ -22,7 +22,7 @@ if (Helper.logged()) {
         initialize(id, from) {
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
-            if (id === 'quick' || id === 'ranked')
+            if (id === 'quick' || id === 'ranked' || id === 'tournament')
             {
                 this.type = id;
                 this.render();

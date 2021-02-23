@@ -16,10 +16,10 @@ class LoopGameJob < ApplicationJob
     end
 
 	def rank_points(match)
+		loser = User.find_by(id: match[:loser_id])
+		winner = User.find_by(id: match[:winner_id])
 		if match.match_type == "ranked game"
 			match.winner_id
-			loser = User.find_by(id: match[:loser_id])
-			winner = User.find_by(id: match[:winner_id])
 			dif_points = (loser.score - winner.score) / 10
 			match.winner_points = 100 + dif_points
 			match.loser_points = match.winner_points
@@ -41,6 +41,11 @@ class LoopGameJob < ApplicationJob
 				winner_guild.score += (match.winner_points / 10)
 				winner_guild.save
 			end
+		elsif match.match_type == "tournament game"
+			loser.tournament_defeats += 1
+			winner.tournament_victories += 1
+			winner.save
+			loser.save
 		end
 		ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match } )
 	end

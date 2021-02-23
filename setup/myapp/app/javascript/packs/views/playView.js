@@ -53,12 +53,10 @@ let playView = Backbone.View.extend({
                         uindex = i;
                 }
                 console.log(uindex)
-                let rounds = tour.get('rounds')
-                console.log(rounds[rounds.length - 1].links)
-                console.log(rounds);
-                let template2 = _.template($('#tournament-graph-template').html()) 
-                let output2 = template2({'tournament':tour.toJSON(),'link': rounds[rounds.length - 1].links[uindex],'userid': Helper.userId()});
-                $('#tournament-graph').html(output2)
+
+                //let template2 = _.template($('#tournament-graph-template').html()) 
+                //let output2 = template2({'tournament':tour.toJSON(),'userid': Helper.userId()});
+                //$('#tournament-graph').html(output2)
             }
             else
             {

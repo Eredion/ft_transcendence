@@ -8,7 +8,10 @@
         <%= form_with url: "api/tournaments", method: :create do |f| %>
             <%= text_field(:tournament, :name ,minlenght: 1, maxlenght: 20,
                 placeholder: "Choose a name...", autocomplete: :off, id: "input-trnmnt-form") %>
-            <%= f.select(:size, options_for_select([["2", 2], ["4", 4], ["8", 8]]), {:include_blank => false}) %>
+                <label class="text-white" >Start time</label>
+            <%= datetime_field(:tournament, :startdate, min: Date.today) %>
+            <label class="text-white" >Duration</label>
+            <%= select(:tournament, :finishdate, options_for_select([["short", "short"], ["long", "long"]])) %>
             <%= f.submit "Create tournament", id: "create-tournament-button", class: "btn btn-dark" %>
 
         <% end %>

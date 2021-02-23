@@ -5,6 +5,6 @@ class OpenTournamentJob < ApplicationJob
     puts "Tournament is now ready to join users!"
     tournament.status = "open"
     tournament.save
-    RunTournamentJob.set(wait_until: tournament.finishdate).perform_later(tournament)
+    RunTournamentJob.set(wait_until: tournament.startdate).perform_later(tournament)
   end
 end

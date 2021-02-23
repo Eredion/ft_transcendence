@@ -5,6 +5,10 @@ class RunTournamentJob < ApplicationJob
     puts "Tournament is now active"
     tournament.status = "active"
     tournament.save
+    data = {
+      'action':'tournament_is_active'
+    }
+    ActionCable.server.broadcast "tournament_channel", data
     EndTournamentJob.set(wait_until: tournament.finishdate).perform_later(tournament)
     # Do something later
   end

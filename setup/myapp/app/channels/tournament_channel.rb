@@ -15,13 +15,7 @@ class TournamentChannel < ApplicationCable::Channel
       return
     end
     tour.users.push(user)
-    
     tour.save
-    data = {
-      'action':'join_user',
-      'user': user.as_json,
-    }
-    ActionCable.server.broadcast "tournament_channel", data
   end
 
 end

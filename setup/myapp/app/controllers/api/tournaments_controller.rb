@@ -16,7 +16,7 @@ class Api::TournamentsController < ApplicationController
             timelen = (params_tournament[:finishdate] == "short") ? 1.minutes : 5.minutes
             tour.finishdate = tour.startdate + timelen
             if tour.save
-                OpenTournamentJob.set(wait_until: tour.startdate).perform_later(tour)
+                OpenTournamentJob.perform_later(tour)
                 User.all.each do |u|
                     u.intournament = false
                     u.tournament_victories = 0

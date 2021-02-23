@@ -25,25 +25,38 @@ let playView = Backbone.View.extend({
         this.render_tournament();
     },
 
-    async render_tournament(){
+    /* async */ render_tournament(){
         self = this;
-        await Helper.fetch(trnmntcol).then(function(){
+        this.current_user = Helper.userId()
+        Promise.all([Helper.fetch(trnmntcol), Helper.fetch(usercollection)]).then(function(){
+        //await Helper.fetch(trnmntcol).then(function(){
+            let myself = (usercollection.findWhere({id : self.current_user})).toJSON();
             console.log(trnmntcol.length)
             let tour = trnmntcol.at(trnmntcol.length - 1)
-            if (tour != undefined)
+            if (tour != undefined || tour.get("status") == "closed" || tour.get("status") == "finished")
             {
-                if (tour.get("status") === 'open' && tour.get("users").includes(Helper.userId()) === false)
+
+                if (tour.get("status") === 'open' && myself.intournament === false)
                 {
+                    
                     let template = _.template($('#join-tour-template').html())
                     let output = template({'tournament':tour.toJSON()});
                     $('#join-tournament-wrapper').html(output)
                     $('#join-tournament-button').click(function(){
                         self.cable.perform("join_user", {'id':$(this).data("id"), 'userid': Helper.userId() })
                         $(this).hide();
-                        if (tour.get('users').length + 1 === tour.get('size'))
-                            $('#join-tournament-wrapper').hide();
+                        
                     })
                 }
+                console.log(myself.intournament) 
+                
+                if (tour.get("status") === "active" && myself.intournament === true)
+                {
+                    $('#tournament-play-button').show();
+                    console.log("entra en el if")
+                }
+                else
+                    $('#tournament-play-button').hide();
                 //tournament bracket
                 let users = tour.get("users")
                 let uindex = -1;
@@ -69,11 +82,16 @@ let playView = Backbone.View.extend({
 
     receive_data(data)
     {
+        self = this;
         console.log(data);
         if (data.action === 'join_user')
         {
-            console.log("Se une menganito")
-            this.render();
+            setTimeout(function(){ self.render() }, 500);
+        }
+        else if (data.action === "tournament_is_active" || data.action === 'tournament_is_finished')
+        {
+            self.render();
+            
         }
         
     },

@@ -89,17 +89,22 @@
                 <div class="modal-header bg-dark">
                 </div>
                 <div class="modal-body text-center">
-					<%% if (match.winner_id === id) { %>
+					<%% if (match.winner_id === user.id) { %>
                     	<p class="h1 text-success">Victory!</p>
 					<%% } else { %>
                     	<p class="h1 text-danger">Defeat . . .</p>
 					<%% }; %>
 					<%% if (match.match_type === 'ranked game') { %>
-						<%% if (match.winner_id === id) { %>
-                    		<p id='value' class="h5">You win <%%= match.winner_points %> points.</p>
+						<%% if (match.winner_id === user.id) { %>
+                    		<p class="h5">You win <%%= match.winner_points %> points.</p>
 						<%% } else { %>
-							<p id='value' class="h5">You lose <%%= match.loser_points %> points.</p>
+							<p class="h5">You lose <%%= match.loser_points %> points.</p>
 						<%% }; %>
+					<%% }; %>
+                    <%% if (match.match_type === 'tournament game') { %>
+                        <p class="h5">Tournament score:</p>
+                    	<p class="h5">Victories: <%%= user.tournament_victories %>.</p>
+						<p class="h5">Defeats: <%%= user.tournament_defeats %>.</p>
 					<%% }; %>
                     <a type="button" class="btn btn-secondary btn-sm  btn-dark" data-dismiss="modal" href="/#">Continue</a>
                 </div>

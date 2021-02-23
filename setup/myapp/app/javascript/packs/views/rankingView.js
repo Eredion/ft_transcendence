@@ -39,6 +39,7 @@ let chatView = Backbone.View.extend({
             $('#guild-ranking').html(output2);
             let template3 = _.template($("#tournament-ranking-template").html());
             usersOrdered.sort((a, b) => (b.tournament_victories - b.tournament_defeats) - (a.tournament_victories - a.tournament_defeats));
+            console.log(self.tournCol.toJSON());
             let output3 = template3({'users': usersOrdered});
             $('#tournament-ranking').html(output3);
         });

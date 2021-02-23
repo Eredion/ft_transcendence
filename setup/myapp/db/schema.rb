@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.bigint "requestor_id"
     t.string "receiver_type"
     t.bigint "receiver_id"
+    t.string "category", null: false
     t.string "status", default: "pending", null: false
     t.index ["receiver_type", "receiver_id"], name: "index_requests_on_receiver_type_and_receiver_id"
     t.index ["requestor_type", "requestor_id"], name: "index_requests_on_requestor_type_and_requestor_id"

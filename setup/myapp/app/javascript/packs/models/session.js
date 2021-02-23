@@ -10,10 +10,14 @@ if (Helper.logged()) {
 
         idAttribute: null,
 
-        urlRoot: 'api/users/session',
+        urlRoot: "api/users/" + Helper.userId() + "/mysession",
 
         initialize() {
             this.update()
+        },
+        
+        async update() {
+            await Helper.fetch(this);
         },
 
         officer_or_owner() {
@@ -27,8 +31,12 @@ if (Helper.logged()) {
             return false
         },
 
-        async update() {
-            await Helper.fetch(this);
+        guild() {
+            return this.get('guild')
+        },
+
+        id() {
+            return this.get('id')
         }
     });
 

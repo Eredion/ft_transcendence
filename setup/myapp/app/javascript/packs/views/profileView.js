@@ -152,11 +152,13 @@ if (Helper.logged()) {
             e.preventDefault()
             var formData = {
                 request: {
-                    requestor_id: Helper.userId(),
+                    requestor_id: MySession.data.guild().id,
                     receiver_id: $(e.currentTarget).data().userguildId,
+                    officer: MySession.data.id(),
                     type: 'Guild Request'
                 }
             }
+            console.log(formData)
             var response = await Helper.ajax('POST', 'api/requests', formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])

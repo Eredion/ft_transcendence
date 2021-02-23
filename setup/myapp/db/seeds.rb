@@ -64,7 +64,3 @@ guild = Guild.create(title: "PimPam Tomalacasitos", anagram: "PPT", score: 60, o
 chat = Chat.create(:name => "guild#{guild.id}")
 guild.chat_id = chat.id
 guild.save
-
-
-Request.create(:requestor => user1, :receiver => user2, status: 'pending')
-Request.create(:requestor => guild, :receiver => user2, status: 'pending')

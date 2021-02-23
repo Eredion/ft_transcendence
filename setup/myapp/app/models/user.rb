@@ -23,6 +23,20 @@ class User < ApplicationRecord
     end
   end
 
+  def send_request(action, type = nil, requestor = nil, content = nil)
+    ActionCable.server.broadcast( "notification_#{self.id}", {
+      action: action,
+      type: type,
+      data: {
+          :id => content.id,
+          :requestor => content.requestor,
+          :receiver => content.receiver,
+          :category => content.category
+      },
+      from: requestor
+    })
+  end
+
   def send_notification(action, type = nil, requestor = nil, content = nil)
     ActionCable.server.broadcast( "notification_#{self.id}", {
       action: action,

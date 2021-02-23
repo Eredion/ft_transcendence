@@ -55,6 +55,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
     create_table "requests" do |t|
       t.references :requestor, polymorphic: true
       t.references :receiver, polymorphic: true
+      t.string "category", null: false
       t.string "status", default: "pending", null: false
     end
 

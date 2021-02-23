@@ -7,7 +7,7 @@ class Request < ApplicationRecord
     def check_request
         # users are added to each other's friends list
         if self.status == 'accepted'
-            if self.requestor_type == "User"
+            if self.category == "Friend Request"
                 user = User.find_by(id: self.requestor_id)
                 if !user.friends.include?(self.receiver_id)
                     user.friends.push(self.receiver_id)
@@ -19,6 +19,16 @@ class Request < ApplicationRecord
                 if !user.friends.include?(self.requestor_id)
                     user.friends.push(self.requestor_id)
                     user.save
+                end
+            elsif self.category == "Guild Request"
+                guild = self.requestor
+                member = self.receiver
+                guild.members.push(member.id)
+                member.guild_id = guild.id
+                if member.save! && guild.save!
+                    ActionCable.server.broadcast( "Guild_#{guild.id}", {
+                        action: 'update_users'
+                    })
                 end
             end
         # delete the current record ?

@@ -5,5 +5,4 @@ class Guild < ApplicationRecord
     has_one :chat
     has_many :requests, :as => :requestor
     has_many :requests, :as => :receiver
-    belongs_to :war
 end

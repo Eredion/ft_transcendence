@@ -122,6 +122,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       #t.foreign_key "guild_id", array: true, default: []
       t.datetime "startdate", null: false
       t.datetime "finishdate", null: false
+      t.bigint "guilds", references: :guilds, array: true
       t.string "matchtype", default: "ranked game"
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5

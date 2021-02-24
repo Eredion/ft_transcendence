@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   create_table "wars", force: :cascade do |t|
     t.datetime "startdate", null: false
     t.datetime "finishdate", null: false
+    t.bigint "guilds", array: true
     t.string "matchtype", default: "ranked game"
     t.integer "bet", default: 0
     t.integer "missed_matches", default: 5

@@ -18,10 +18,10 @@ class LoopGameJob < ApplicationJob
 	def endgame(match)
 		loser = User.find_by(id: match[:loser_id])
 		winner = User.find_by(id: match[:winner_id])
-		if winner.guild_id
+		if winner.guild_id != nil
 			winner_guild = Guild.find_by(id: winner.guild_id)
 		end
-		if loser.guild_id
+		if loser.guild_id != nil
 			loser_guild = Guild.find_by(id: loser.guild_id)			
 		end
 		if match.match_type == "ranked game"
@@ -52,10 +52,13 @@ class LoopGameJob < ApplicationJob
 			if winner_guild.inwar == true
 				war = War.find_by(id: winner_guild.war_id)
 				if loser_guild.in?(war.guilds) && match.match_type.in?(war.matchtype)
-					puts "Aquí hay pelea"
 					winner_guild.warvictories += 1
 					loser_guild.wardefeats += 1
 					match.war = true
+					if match.match_type == "war game"
+						winner_guild.war_playing = false
+						loser_guild.war_playing = false
+					end
 					winner_guild.save
 					loser_guild.save
 				end

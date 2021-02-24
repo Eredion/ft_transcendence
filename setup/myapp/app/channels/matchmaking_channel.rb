@@ -19,10 +19,15 @@ class MatchmakingChannel < ApplicationCable::Channel
     TournamentGameJob.perform_later(current_user)
   end
 
-  def war_game
-    WarGameJob.perform_later(current_user)
-    # Aqui puedo comprobar si la guild del usuario está en guerra y si hay alguna partida de guerra ahora mismo.
+  def war_game 
     guild = Guild.find_by(id: current_user.guild_id)
+    if (guild.inwar == true && guild.war_playing == false)
+      guild.war_playing == true
+      war = War.find_by(id: guild.war_id)
+      WarGameJob.perform_later(current_user, war)   
+    else
+      
+    end
   end
 
   def wait_peer(data)

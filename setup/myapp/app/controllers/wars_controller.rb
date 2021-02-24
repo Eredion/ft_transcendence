@@ -1,0 +1,2 @@
+class WarsController < ApplicationController
+end

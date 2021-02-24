@@ -1,11 +1,35 @@
 <script type="text/template" id="new-war-template">
     <h1 class="title">Declare war</h1>
-    <%= form_with url: "api/wars", method: :create do |f| %>
-            <label class="text-white" >Start time</label>
-            <%= date_field(:war, :startdate, min: Date.today, id: "startdate" ) %>
-            <label class="text-white" >Duration (in minutes) </label>
-            <%= number_field(:war, :duration, min: 1, max: 60*24*7 ) %>
-            <%= f.submit "Create war", id: "create-war-button", class: "btn btn-dark" %>
+    <% 
+        guilds = Guild.all.collect(&:title)
+        ids = Guild.all.collect(&:id)
+        select_ops = Hash[guilds.zip ids].select {|k,v| v != current_user.guild_id }
+        
+    %>
+    <div class="bg-dark p-5">
+    <%= form_with url: "api/wars", method: :create, id: "declare-war-form" do |f| %>
+        <label class="text-white" >Start time</label>
+        <%= date_field(:war, :startdate, min: Date.today, id: "startdate", val: Date.today ) %>
+        <label class="text-white" >Duration (in minutes) </label>
+        <%= number_field(:war, :duration, min: 1, max: 60*24*7 ) %>
+        <select class="form-select form-select-lg mb-3" name="war[against]" id="war_against">
+            <%% for (let guild of guilds){ %>
+                <%% if (guild.owner_id != myid) {%>
+                <option val="<%%= guild.id %>"><%%= guild.title %></option>
+                <%% } %>
+            <%% } %>
+        </select>
+        <%= f.submit "Create war", id: "create-war-button", class: "btn btn-dark" %>
+    <% end %>
+    
+    </div>
+    <%% 
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
+    });
+    $('#startdate').val(new Date().toDateInputValue()); 
+    %>
 
-        <% end %>
 </script>

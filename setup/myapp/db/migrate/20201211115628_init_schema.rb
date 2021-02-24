@@ -127,7 +127,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
-      t.time "answer_time"
+      t.integer "answer_time", default: 5
+      t.string :status, default: "request_sent", null: false
       t.boolean "inmatch", default: false
     end
 

@@ -8,20 +8,25 @@ import GuildCollection from '../models/guilds'
 
 let WarformView = Backbone.View.extend({
     el: "#content",
-    collection: GuildCollection,
     owner: false,
     //template: _.template($('#new-war-template').html()),
 
-    async initialize(){
-        
+    initialize(){
+        this.collection = new GuildCollection();
     },
     async render(){
-        this.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
-        console.log(this.userGuild)
-        if (this.userGuild.owner_id != Helper.userId())
-            return;
-        let template = _.template($('#new-war-template').html());
-        this.$el.html(template())
+        self = this;
+        Promise.all([Helper.fetch(userscollection, Helper.fetch(this.collection))])
+            .then(async function(){
+                self.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
+                console.log(self.userGuild)
+                if (self.userGuild.owner_id != Helper.userId())
+                    return;
+                let template = _.template($('#new-war-template').html());
+                console.log(self.collection)
+                self.$el.html(template({'guilds': self.collection.toJSON(), 'myid': Helper.userId()}))
+            })
+        
     },
 
 });

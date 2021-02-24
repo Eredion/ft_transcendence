@@ -119,11 +119,10 @@ class InitSchema < ActiveRecord::Migration[6.0]
     end
 
     create_table "wars" do |t|
-      #t.foreign_key "guild_id", array: true, default: []
       t.datetime "startdate", null: false
       t.datetime "finishdate", null: false
       t.bigint "guilds", references: :guilds, array: true
-      t.string "matchtype", default: "ranked game"
+      t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.time "answer_time"

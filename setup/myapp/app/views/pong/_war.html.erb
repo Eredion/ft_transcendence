@@ -1,0 +1,11 @@
+<script type="text/template" id="new-war-template">
+    <h1 class="title">Declare war</h1>
+    <%= form_with url: "api/wars", method: :create do |f| %>
+            <label class="text-white" >Start time</label>
+            <%= date_field(:war, :startdate, min: Date.today, id: "startdate" ) %>
+            <label class="text-white" >Duration (in minutes) </label>
+            <%= number_field(:war, :duration, min: 1, max: 60*24*7 ) %>
+            <%= f.submit "Create war", id: "create-war-button", class: "btn btn-dark" %>
+
+        <% end %>
+</script>

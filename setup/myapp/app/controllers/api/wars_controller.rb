@@ -40,9 +40,6 @@ class Api::WarsController < ApplicationController
         params.require(:war).permit(:startdate, :duration)
     end
 
-    private
-    def challenge_officer(guild)
-        ActionCable.
-    end
+    
 end
     

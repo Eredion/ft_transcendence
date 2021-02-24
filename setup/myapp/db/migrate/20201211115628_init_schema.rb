@@ -11,6 +11,11 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "officers", default: [], array: true
       t.integer "members", default: [], array: true
       t.references :chat, index: true, optional: true
+      t.references :war, optional: true
+      t.boolean :inwar, default: false
+      t.integer :warvictories, default: 0
+      t.integer :wardefeats, default: 0
+      t.integer :missed_matches, default: 0
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
@@ -111,6 +116,17 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "status", default: "closed" #open, active, finished
       t.datetime "startdate", null: false
       t.datetime "finishdate", null: false
+    end
+
+    create_table "wars" do |t|
+      #t.foreign_key "guild_id", array: true, default: []
+      t.datetime "startdate", null: false
+      t.datetime "finishdate", null: false
+      t.string "matchtype", default: "ranked game"
+      t.integer "bet", default: 0
+      t.integer "missed_matches", default: 5
+      t.time "answer_time"
+      t.boolean "inmatch", default: false
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

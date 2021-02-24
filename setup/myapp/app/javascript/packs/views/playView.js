@@ -49,6 +49,15 @@ let playView = Backbone.View.extend({
                         
                     })
                 }
+                else if (tour.get("status") === 'open' && myself.intournament === true)
+                {
+                    //console.log("case 1.5")
+                    $('#tournament-play-button').hide()
+                    let template = _.template($('#join-tour-template').html())
+                    let output = template({'tournament':tour.toJSON()});
+                    $('#join-tournament-wrapper').html(output)
+                    $('#join-tournament-button').hide();
+                }
                 else if (tour.get("status") === "active" && myself.intournament === true)
                 {
                     //console.log("case 2")

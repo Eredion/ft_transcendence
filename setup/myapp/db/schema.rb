@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "loser_points"
     t.bigint "winner_id"
     t.bigint "loser_id"
+    t.boolean "war", default: false
     t.boolean "finished", default: false
     t.datetime "created_at", precision: 6, null: false
     t.bigint "round_id"
@@ -152,7 +153,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.datetime "startdate", null: false
     t.datetime "finishdate", null: false
     t.bigint "guilds", array: true
-    t.string "matchtype", default: "ranked game"
+    t.string "matchtype", default: [], array: true
     t.integer "bet", default: 0
     t.integer "missed_matches", default: 5
     t.time "answer_time"

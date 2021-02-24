@@ -106,6 +106,13 @@
                     	<p class="h5">Victories: <%%= user.tournament_victories %>.</p>
 						<p class="h5">Defeats: <%%= user.tournament_defeats %>.</p>
 					<%% }; %>
+                    <%% if (match.war === true) { %>
+						<%% if (match.winner_id === user.id) { %>
+                    		<p class="h5"> Your guild wins 10 war points.</p>
+						<%% } else { %>
+							<p class="h5">Your guild loses 10 war points..</p>
+						<%% }; %>
+					<%% }; %>
                     <a type="button" class="btn btn-secondary btn-sm  btn-dark" data-dismiss="modal" href="/#">Continue</a>
                 </div>
             </div>

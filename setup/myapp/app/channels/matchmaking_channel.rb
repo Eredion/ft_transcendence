@@ -8,15 +8,21 @@ class MatchmakingChannel < ApplicationCable::Channel
   end
 
   def quick_game
-      QuickGameJob.perform_later(current_user)
+    QuickGameJob.perform_later(current_user)
   end
 
   def ranked_game
-      RankedGameJob.perform_later(current_user)
+    RankedGameJob.perform_later(current_user)
   end
 
   def tournament_game
-        TournamentGameJob.perform_later(current_user)
+    TournamentGameJob.perform_later(current_user)
+  end
+
+  def war_game
+    WarGameJob.perform_later(current_user)
+    # Aqui puedo comprobar si la guild del usuario está en guerra y si hay alguna partida de guerra ahora mismo.
+    guild = Guild.find_by(id: current_user.guild_id)
   end
 
   def wait_peer(data)

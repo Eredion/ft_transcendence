@@ -12,6 +12,14 @@
             </div>
             <div id='guild-ranking'></div>
         </div>
+        <%% if(tournament.status != 'no') { %>
+        <div id="tournament-ranking-div" class="col-sm">
+            <div>
+                <h1 class="title"><%%= tournament.name %> tournament </h1>
+            </div>
+            <div id='tournament-ranking'></div>
+        </div>
+        <%% } %>
     </div>
     </div>
 </script>
@@ -48,4 +56,38 @@
         </div>
     <%% };%> 
     </div>
+</script>
+
+
+<script id="tournament-ranking-template" type='text/template'>
+    <%% if (tournament.status == 'finished'){ %>
+        <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white">Finished</div></span></div>
+    <%% } else { %>
+        <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white"><%%= tournament.status %></span></div></div>
+    <%% };%> 
+    <div class="bg-info d-flex flex-row mb-1">
+        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">Nickname</div>
+        <div class="font-weight-bold flex-fill align-self-end p-2 text-info">__</div>
+        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">W</div>
+        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">L</div>
+    </div>
+    <%% let i = 0; %>
+    <%% for (user of users) {%>
+        <%% if (user.intournament === false) { continue;} %>
+        <%% i+= 1; %>
+        <div class="bg-light d-flex flex-row">
+            <%% if (i === 1){ %>
+            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</div>
+            <%% } else if (i === 2){ %>
+            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</div>
+            <%% }  else if (i === 3){ %>
+            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</div>
+            <%% }  else { %>
+            <div  class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</div>
+            <%% } %>
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_victories%></div>
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_defeats%></div>
+        </div>
+    <%% };%>
+    
 </script>

@@ -6,6 +6,27 @@
     max-width: 30%;
 }
 
+#tournament-ranking-div {
+    max-width: 30%;
+}
+
 .bg-bronce{
     background-color: #d4793d;
+}
+
+#tournament-status-ranking
+{
+    background-color: black;
+    font-family: 'Raleway';
+}
+
+#mybadge-white
+{
+    padding: 0.5em;
+    border-radius: 1em;
+    background-color: white;
+    width: fit-content;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 70%;
 }

@@ -1,6 +1,22 @@
+<% if current_user.admin == true %>
 <script type="text/template" name="admin" id="admin-template">
     <div>
         <h1 class="title">Admin control panel</h1>
+    </div>
+    <div id="tournament-creator-interface">
+        <div class="form-group">
+        <%= form_with url: "api/tournaments", method: :create do |f| %>
+            <%= text_field(:tournament, :name, minlenght: 1, maxlenght: 20,
+                placeholder: "Choose a name...", autocomplete: :off, id: "input-trnmnt-form") %>
+                <label class="text-white" >Start time</label>
+            <%= datetime_field(:tournament, :startdate, min: Date.today, id: "startdate" ) %>
+            <label class="text-white" >Duration</label>
+            <%= select(:tournament, :finishdate, options_for_select([["short", "short"], ["long", "long"]])) %>
+            <%= f.submit "Create tournament", id: "create-tournament-button", class: "btn btn-dark" %>
+
+        <% end %>
+        </div>
+        <%% $('#startdate').val($(this).attr("min")) %>
     </div>
     <div id="admin-user-grid">
         <%% for (let user of users){ %>
@@ -17,7 +33,8 @@
                         <%% } %>
                     </span>
                 </div>
-
         <%% }%>
     </div>
 </script>
+
+<%  end %>

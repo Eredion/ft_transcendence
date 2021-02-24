@@ -20,8 +20,12 @@ class Api::ChannelsController < ApplicationController
     def create
         puts("channel controller create")
         channel = Channel.new(channel_params)
-        channel.user_id = params[:user]
-        channel.category = params[:category]
+        channel.user_id = User.find_by(id: params[:user]).id
+        cat = "public"
+        if (params[:category] == "protected")
+            cat = "protected"
+        end
+        channel.category = cat
         channel.admins.push(channel.user_id)
         if params[:password]
             channel.password_digest = BCrypt::Password.create(params[:password])

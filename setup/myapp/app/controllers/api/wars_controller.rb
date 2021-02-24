@@ -12,6 +12,10 @@ class Api::WarsController < ApplicationController
 
     def create
         war = War.new(params_war)
+        challenged_guild = Guild.find_by(title: params[:war][:against])
+        myguild = Guild.find_by(id: current_user.guild_id)
+        war.to = challenged_guild.title
+        war.from = myguild.title
         if war.save
             puts params[:war][:against]
             puts params[:war][:against]
@@ -25,9 +29,9 @@ class Api::WarsController < ApplicationController
             challenged_guild = Guild.find_by(title: params[:war][:against])
             challenged_guild.war_id = war.id
             challenged_guild.save
-            challenged_guild = Guild.find_by(id: current_user.guild_id)
-            challenged_guild.war_id = war.id
-            challenged_guild.save
+            
+            myguild.war_id = war.id
+            myguild.save
             return
         else
             puts(Rails.logger.info(war.errors.inspect))
@@ -40,6 +44,5 @@ class Api::WarsController < ApplicationController
         params.require(:war).permit(:startdate, :duration)
     end
 
-    
 end
     

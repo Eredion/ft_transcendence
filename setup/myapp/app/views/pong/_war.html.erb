@@ -33,3 +33,15 @@
     %>
 
 </script>
+
+<script type="text/template" id="war-requests-template">
+    <div class="row">
+        <%%  for (let w of wars) { %>
+            <%% if (w.id){ %>
+            <div class="btn btn-block btn-warning war-declaration-request mt-1">
+                Accept war declaration!
+            <%% } %>
+        </div>
+        <%%  } %>
+    </div>
+</script>

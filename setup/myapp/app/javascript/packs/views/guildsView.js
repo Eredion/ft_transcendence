@@ -7,6 +7,7 @@ import MyApp from '../application'
 import Guild from '../../channels/guild_channel'
 import AvailableGuilds from '../../channels/available_guilds_channel'
 import userscol from '../models/user'
+import warcol from '../models/war'
 import MySession from '../models/session'
 
 const Guilds = {}
@@ -127,6 +128,7 @@ $(function () {
             this.render()
             this.render_info()
             this.render_users()
+            this.render_war_declarations()
             Guild.channel.connect(this.guild_id, this.manage_guild, this)
             if (this.grade > 0) {
                 this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
@@ -173,6 +175,7 @@ $(function () {
             this.render()
             this.render_info()
             this.render_users()
+            this.render_war_declarations()
             this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
             await Helper.fetch(this.chat_model)
             this.render_chat()
@@ -219,6 +222,33 @@ $(function () {
                 'grade': this.grade
             }));
             return this
+        },
+
+        async render_war_declarations() {
+            console.log('render war declarations')
+            self = this
+            Promise.all([Helper.fetch(warcol)])
+                .then(async function(){
+                    self.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
+                    console.log(warcol.toJSON())
+                    let war_declarations = []
+                    for (let w of warcol)
+                    {
+                        console.log(self.userGuild)
+                        console.log(self.userGuild.title)
+                        if (w.get("to") === self.userGuild.title && w.get("status") === "request_sent")
+                        {
+                            war_declarations.push(w.toJSON())
+                            console.log("ding")
+                        }
+                    }
+                    let template = _.template($('#war-requests-template').html())
+                    let filtered = warcol.where({'to': self.userGuild.title})
+                    console.log(filtered)
+                    let output = template({'wars': filtered})
+                    $('#war-declarations-wrapper').html(output)
+                });
+            
         },
 
         newMessage(e) {

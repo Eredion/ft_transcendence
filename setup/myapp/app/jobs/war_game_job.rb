@@ -38,11 +38,13 @@ class WarGameJob < ApplicationJob
               #p2_guild = Guild.find_by(id: p2.guild_id)
               #p1_guild = Guild.find_by(id: player.guild_id)
               if war.guilds[0].id != p2_gid && war.guilds[1].id != p2_gid #Check if the oponent is in my war
+                puts "Ese pavo no está en nuestra guerra"
                 ActionCable.server.broadcast( "Matchmaking_#{player.id}", { action: 'searching' } )
                 sleep 7
-                next # Equals to continue in a C loo`
+                next # Equals to continue in a C loop
               end
-              
+              puts "Adelante, estais en la misma guerra"
+
               player1 = player.as_json(only: [:id, :nickname, :avatar, :score,])
               player2 = opponent.user.as_json(only: [:id, :nickname, :avatar, :score])
               l_player, r_player = [player, opponent.user].shuffle

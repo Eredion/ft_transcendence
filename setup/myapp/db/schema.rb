@@ -157,7 +157,8 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "matchtype", default: [], array: true
     t.integer "bet", default: 0
     t.integer "missed_matches", default: 5
-    t.time "answer_time"
+    t.integer "answer_time", default: 5
+    t.string "status", default: "request_sent", null: false
     t.boolean "inmatch", default: false
   end
 

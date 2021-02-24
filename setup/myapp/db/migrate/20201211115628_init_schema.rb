@@ -105,6 +105,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer :loser_points, optional: true
       t.references :winner
       t.references :loser
+      t.boolean "war", optional: true, default: false #true if match counts for a war
       t.boolean :finished, default: false
       t.datetime "created_at", precision: 6, null: false
       t.references :round, optional: true

@@ -1,7 +1,9 @@
 <script type="text/template" id="guilds-list-template">
     <div class="row mt-4 flex">
+        
         <%% if (user_guild) { %>
         <div id="guild-info" class="col-4 text-center">
+            
             <img class="rounded-circle img-fluid" id="guild-avatar-img" src="<%%= user_guild.guild_avatar.medium.url %>"/>
             <p class="h4 text-white"> <%%= user_guild.title %> (<%%= user_guild.anagram %>)</p>
             <p class="text-primary">Score: <span class="text-white"><%%= user_guild.score %></span></p>
@@ -15,7 +17,10 @@
                 <%% } %>
             </p>
 
-            <a class="btn btn-primary" href="/#guilds/<%%= user_guild.id %>"> Go to Guild </a>
+            <a class="btn btn-large btn-primary btn-block" href="/#guilds/<%%= user_guild.id %>"> Go to Guild </a>
+            <%% if (user_guild.owner_id == $('html').data().userId) { %>
+                <a id="new-war-button" href="#war/new" class="btn btn-large btn-block btn-danger mt-2">NEW WAR</a>
+            <%% } %>
         </div>
         <%% } else { %>
         <div id="guild-form" class="col-4">
@@ -123,8 +128,12 @@
             </div>
         </div>
         <div class="col-4">
+            <%%  console.log(guild) %>
+            <%% if (guild.owner.owner_id == $('html').data().userId) { %>
+                    <a id="new-war-button" href="#war/new" class="btn btn-large btn-block btn-danger mt-2">NEW WAR</a>
+                <%% } %>
             <%% if ( grade > 0 ) { %>
-                <button class="btn btn-danger" id="leave_guild" data-guild-id="<%% guild.id %>"> Leave Guild </button>
+                <button class="btn btn-large btn-block mt-2 btn-warning" id="leave_guild" data-guild-id="<%% guild.id %>"> Leave Guild </button>
             <%% } %>
             <div id="users-guild-data">
                 <!-- template guild users -->
@@ -296,3 +305,4 @@
         </div>
     </div>
 </script>
+

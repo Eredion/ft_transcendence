@@ -15,6 +15,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.boolean :inwar, default: false
       t.integer :warvictories, default: 0
       t.integer :wardefeats, default: 0
+      t.boolean :war_playing, default: false
       t.integer :missed_matches, default: 0
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
@@ -121,7 +122,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
 
     create_table "wars" do |t|
       t.datetime "startdate", null: false
-      t.datetime "finishdate", null: false
+      t.integer "duration", null: false
       t.bigint "guilds", references: :guilds, array: true
       t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game
       t.integer "bet", default: 0

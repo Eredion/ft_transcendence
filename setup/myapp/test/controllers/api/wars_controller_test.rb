@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WarsControllerTest < ActionDispatch::IntegrationTest
+class Api::WarsControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

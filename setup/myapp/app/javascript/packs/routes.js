@@ -15,7 +15,7 @@ import rankingView from './views/rankingView'
 import adminview from './views/adminView'
 import playview from './views/playView'
 import adminView from './views/adminView'
-
+import WarformView from './views/warformview'
 
 class Workspace extends Backbone.Router {
 
@@ -99,6 +99,7 @@ class Workspace extends Backbone.Router {
             "admin": "admin",
             "challenge/:id": "search_match",
             "challenge/:id/accept/:from": "search_match",
+            "war/new": "warform",
             "*actions": "notFound"
         }
     }
@@ -122,6 +123,12 @@ class Workspace extends Backbone.Router {
         console.log("pong route");
         this.pongview = new pongView();
         //pongview.render();
+    }
+
+    warform()
+    {
+        this.warformview = new WarformView();
+        this.warformview.render();
     }
 
     chat(name) {

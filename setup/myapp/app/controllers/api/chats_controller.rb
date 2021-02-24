@@ -1,14 +1,16 @@
 class Api::ChatsController < ApplicationController
-  skip_before_action:verify_authenticity_token
+    skip_before_action :verify_authenticity_token
+    protect_from_forgery
+    before_action :authenticate_user!
   
     def index
-        @chats = Chat.all
-        render json: @chats
+        chats = Chat.all
+        render json: chats
     end
 
     def show
-        @chat = Chat.find(params[:id])
-        render json: @chat
+        chat = Chat.find(params[:id])
+        render json: chat
     end
 
     def create

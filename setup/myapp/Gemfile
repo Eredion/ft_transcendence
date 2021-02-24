@@ -60,6 +60,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'omniauth-marvin', '~> 1.0.2'
 
 gem 'devise'
+gem 'devise-two-factor'
 
 #for images
 gem 'carrierwave'

@@ -1,10 +1,10 @@
 class User < ApplicationRecord
-
+  devise :two_factor_authenticatable,
+         :otp_secret_encryption_key => ENV['2FA_KEY']
   has_many :messages
   has_many :channels
   has_many :chats
   devise :omniauthable, omniauth_providers: [:marvin]
-  has_secure_password :validations => false #this affects devise authentication because no password is provided
   validates :email, :nickname, presence: true, uniqueness: true
   mount_uploader :avatar, AvatarUploader
   has_many :requests_as_requestor, :as => :requestor, :class_name => 'Request'

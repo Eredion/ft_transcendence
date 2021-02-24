@@ -1,13 +1,14 @@
 # frozen_string_literal: true
+require 'bcrypt'
 
 class Users::SessionsController < Devise::SessionsController
   before_action :configure_sign_in_params, only: [:create]
 
   # POST /resource/sign_in
   def create
-    @user = User.new configure_sign_in_params
-    ufind = User.find_by(nickname: @user.nickname)
-    if ufind && ufind.authenticate(@user.password)
+    user = User.new configure_sign_in_params
+    ufind = User.find_by(nickname: user.nickname)
+    if ufind && ufind.valid_password?(user.password)
       sign_in(ufind)
       respond_to do |format|
         format.json { render json: { location: root_path, status: 'ok' } }

@@ -245,7 +245,7 @@ $(function () {
                     let template = _.template($('#war-requests-template').html())
                     let filtered = warcol.where({'to': self.userGuild.title})
                     console.log(filtered)
-                    let output = template({'wars': filtered})
+                    let output = template({'wars': warcol.toJSON(), 'myguild': self.userGuild.title})
                     $('#war-declarations-wrapper').html(output)
                 });
             

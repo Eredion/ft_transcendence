@@ -37,9 +37,9 @@
 <script type="text/template" id="war-requests-template">
     <div class="row">
         <%%  for (let w of wars) { %>
-            <%% if (w.id){ %>
+            <%% if (w.id && w.to === myguild && w.status === "request_sent"){ %>
             <div class="btn btn-block btn-warning war-declaration-request mt-1">
-                Accept war declaration!
+                Accept war declaration from "<%%= w.from %>" guild!
             <%% } %>
         </div>
         <%%  } %>

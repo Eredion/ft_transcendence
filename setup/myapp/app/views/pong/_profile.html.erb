@@ -99,6 +99,13 @@
                 <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
             <% end %>
 
+            <div class="mt-5">
+                <%% if (user.otp_required_for_login) { %>
+                    <button type="button" class="btn btn-danger" id="disable-2fa">Disable 2FA</button>
+                <%% } else { %>
+                    <button type="button" class="btn btn-primary" id="enable-2fa">Enable 2FA</button>
+                <%% } %>
+            </div>
         <%% } %>
     </div>
     <div class="col-8">

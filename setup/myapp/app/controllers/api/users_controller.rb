@@ -4,13 +4,13 @@ class Api::UsersController < ApplicationController
 
     def index
         users = User.all
-        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost,:banned, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories])
+        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost,:banned, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories, :otp_required_for_login])
         render json: fusers
     end
 
     def show
         user = User.find(params[:id])
-        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories])
+        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories, :otp_required_for_login])
         render json: fuser
     end
 
@@ -139,6 +139,33 @@ class Api::UsersController < ApplicationController
                 ret[:guild] = nil
             end
             return render json: ret
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    def enable_two_fa
+        if params[:id].to_i == current_user.id
+            current_user.otp_secret = User.generate_otp_secret
+            current_user.otp_required_for_login = true
+            current_user.save!
+            p current_user.current_otp
+            return render json: {"success": "Two-Factor Authentication enabled."}, status: :ok
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    def disable_two_fa
+        if params[:id].to_i == current_user.id
+            current_user.otp_required_for_login = false
+            current_user.save!
+            return render json: {"success": "Two-Factor Authentication disabled."}, status: :ok
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    def validate_two_fa
+        if params[:id].to_i == current_user.id
+            #validate_and_consume_otp!(params[:code])
         end
         render json: {"error": 'Forbidden.'}
     end

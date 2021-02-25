@@ -27,6 +27,8 @@ Rails.application.routes.draw do
         get :match_history
         get :guild
         get :mysession
+        post :enable_two_fa
+        post :disable_two_fa
       end
     end
     resources :chats, only: [:index, :create, :update, :show]

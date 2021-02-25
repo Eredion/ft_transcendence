@@ -29,7 +29,9 @@ if (Helper.logged()) {
             "submit #edit-user-form": "editUserForm",
             "click #addFriend": "addFriend",
             "click #blockUser": "blockUser",
-            "click #addToGuild": "inviteToGuild"
+            "click #addToGuild": "inviteToGuild",
+            "click #enable-2fa": "enable2FA",
+            "click #disable-2fa": "disable2FA"
         },
     
         async initialize(id) {
@@ -164,6 +166,32 @@ if (Helper.logged()) {
                 Helper.custom_alert('danger', response['error'])
             } else {
                 Helper.custom_alert('success', response['success'])
+            }
+        },
+
+        async enable2FA(e) {
+            e.preventDefault()
+            console.log('enable2fa function call')
+            var response = await Helper.ajax('POST', 'api/users/'+ MySession.data.id() + '/enable_two_fa', '')
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+                await Helper.fetch(this.user)
+                this.render_userInfo()
+            }
+        },
+
+        async disable2FA(e) {
+            e.preventDefault()
+            console.log('disable2FA function call')
+            var response = await Helper.ajax('POST', 'api/users/'+ MySession.data.id() + '/disable_two_fa', '')
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+                await Helper.fetch(this.user)
+                this.render_userInfo()
             }
         },
 

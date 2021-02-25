@@ -64,7 +64,7 @@ class Api::WarsController < ApplicationController
             #    guild.save
             #end
             if (war.save)
-                WarStartJob.set(wait_until: war.startdate).perform_later()
+                WarAwaitJob.perform_later(war) # await -> start -> (wartime) -> end
                 War.all.each do |w|
                     if w.status == 'request sent' && 
                         w.destroy

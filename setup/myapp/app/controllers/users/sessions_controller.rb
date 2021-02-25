@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'bcrypt'
 
 class Users::SessionsController < Devise::SessionsController
   before_action :configure_sign_in_params, only: [:create]
@@ -9,22 +8,26 @@ class Users::SessionsController < Devise::SessionsController
     user = User.new configure_sign_in_params
     ufind = User.find_by(nickname: user.nickname)
     if ufind && ufind.valid_password?(user.password)
-      sign_in(ufind)
+      if ufind.banned == true
+        flash[:alert] = "You have been banned."
+      else
+        sign_in(ufind)
+      end
       respond_to do |format|
         format.json { render json: { location: root_path, status: 'ok' } }
       end
     else
-      flash.now[:alert] = "Nickname or password are incorrect"
+      flash[:alert] = "Nickname or password are incorrect"
       respond_to do |format|
-        format.json { render json: { location: root_path, status: 'ko' } }
+        format.json { render json: { location: root_path, status: 'ok' } }
       end
     end
   end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    super
+  end
 
   protected
 

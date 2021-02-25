@@ -24,7 +24,10 @@ class Api::UsersController < ApplicationController
             user = User.find(params[:id])
             user.banned = params[:banned]
             user.save
-            return render json: {"success": "User banned"}
+            if user.banned == true
+                user.send_notification('banned')
+            end
+            return
         end
         user = User.find(current_user.id)
         if params[:nickname] != user.nickname

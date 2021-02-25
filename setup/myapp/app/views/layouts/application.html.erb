@@ -30,6 +30,12 @@
     <div class="footer mt-auto bg-dark text-center text-white" id="footer">
       <footer>Developed by @asegovia @darodrig @pcuadrad <strike>@aserrano</strike> at 42 Madrid</footer>
     </div>
+
+    <script>
+      <% if flash[:alert] %>
+        Helper.custom_alert("danger", "<%=flash[:alert]%>");
+      <% end %>
+    </script>
   </body>
   
 </html>

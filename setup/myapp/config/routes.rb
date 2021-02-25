@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     #get 'sign_up', :to => 'users/registrations#new', :as => :new_user_registration
     post 'sign_up', :to => 'users/registrations#create', :as => :create_user_registration
 
-    delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session_path
+    delete 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session_path
   end
   #devise_scope :user do
   #  get 'sign_in', :to => 'devise/sessions#new', :as => :new_user_session

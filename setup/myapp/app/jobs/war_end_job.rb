@@ -2,15 +2,15 @@ class WarEndJob < ApplicationJob
   queue_as :default
 
   def perform(war)
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
-    puts "WAR HAS ENDED"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
+    puts "FRANCO HA MUERTO"
     #
 
     war.guilds.each do |guild|

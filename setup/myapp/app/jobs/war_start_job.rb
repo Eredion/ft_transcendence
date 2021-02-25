@@ -7,7 +7,7 @@ class WarStartJob < ApplicationJob
     war.guilds.each do |guild|
       guild.inwar = true
       guild.save
-      end
+    
     end
     puts "WAR IS NOW ON"
     # Do something later

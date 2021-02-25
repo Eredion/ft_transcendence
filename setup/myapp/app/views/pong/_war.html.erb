@@ -9,7 +9,7 @@
     <div class="bg-dark p-5">
     <%= form_with url: "api/wars", method: :create, id: "declare-war-form" do |f| %>
         <label class="text-white p-3" >Start time</label>
-        <%= date_field(:war, :startdate, min: Date.today, id: "startdate", val: "21/03/2021" ) %>
+        <%= date_field(:war, :startdate, min: Date.today, id: "startdate", value: Date.today ) %>
         <label class="text-white p-3" > Duration (in days) </label>
         <%= number_field(:war, :duration, min: 1, max: 30, value: 7) %>
         <label class="text-white p-3" > Wartime (hour a day) </label>

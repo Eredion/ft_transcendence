@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "wardefeats", default: 0
     t.boolean "war_playing", default: false
     t.integer "missed_matches", default: 0
+    t.string "war_history", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["chat_id"], name: "index_guilds_on_chat_id"

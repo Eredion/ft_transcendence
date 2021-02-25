@@ -19,7 +19,7 @@ class Api::WarsController < ApplicationController
                     action: 'alert',
                     message: 'Check that you have filled all parameters'
                 }
-            puts "MEEC"
+            return
         elsif (challenged_guild.war_id != nil)
             ActionCable.server.broadcast "notification_#{current_user.id}",
                 {
@@ -84,7 +84,7 @@ class Api::WarsController < ApplicationController
     private
     def params_war
         #params[:war][:duration] = (params[:war][:startdate].to_datetime + params[:war][:duration].to_i.minutes).to_s
-        params.require(:war).permit(:startdate, :duration, :wartimehour)
+        params.require(:war).permit(:startdate, :duration, :wartimehour, :type_ranked, :type_quick, :type_challenge, :type_tournament)
     end
 
 end

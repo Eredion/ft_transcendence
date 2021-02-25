@@ -10,6 +10,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:alert] = "You have been banned."
         return redirect_to root_path
       end
+      if user.status != 0
+        user.send_notification('close_session')
+      end
       sign_in_and_redirect user, event: :authentication #this will throw if user is not activated
       #set_flash_message(:notice, :success, :kind => "42") if is_navigational_format?
     else

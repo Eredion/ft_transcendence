@@ -11,6 +11,9 @@ class Users::SessionsController < Devise::SessionsController
       if ufind.banned == true
         flash[:alert] = "You have been banned."
       else
+        if ufind.status != 0
+          ufind.send_notification('close_session')
+        end
         sign_in(ufind)
       end
       respond_to do |format|

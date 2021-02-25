@@ -127,12 +127,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "duration", null: false
       t.integer "wartimehour", null: false, min: 0, max: 23, default: 0
       t.bigint "guilds", references: :guilds, array: true
-      t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game, war game
-      t.boolean "type_ranked", default: false
-      t.boolean "type_quick", default: false
-      t.boolean "type_challenge", default: false
-      t.boolean "type_tournament", default: false
-      #t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game
+      t.boolean "type_ranked", default: false #Ranked counts for the war
+      t.boolean "type_tournament", default: false #Tournament counts for the war
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.integer "answer_time", default: 5

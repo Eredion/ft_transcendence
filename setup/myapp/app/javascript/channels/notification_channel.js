@@ -55,6 +55,8 @@ $(function () {
 				Notification.view.addNotification(format)
 			} else if (data['action'] === 'update_friends') {
 				Friends.view.update()
+			} else if (data['action'] === 'alert') {
+				Helper.custom_alert("danger", data['message'])
 			}
 		}
         });

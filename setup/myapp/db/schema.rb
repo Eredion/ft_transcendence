@@ -152,7 +152,9 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
 
   create_table "wars", force: :cascade do |t|
     t.datetime "startdate", null: false
+    t.datetime "enddate", null: false
     t.integer "duration", null: false
+    t.integer "wartimehour", default: 0, null: false
     t.bigint "guilds", array: true
     t.string "matchtype", default: [], array: true
     t.integer "bet", default: 0
@@ -160,6 +162,8 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "answer_time", default: 5
     t.string "status", default: "request_sent", null: false
     t.boolean "inmatch", default: false
+    t.string "from", null: false
+    t.string "to", null: false
   end
 
   add_foreign_key "channels", "users"

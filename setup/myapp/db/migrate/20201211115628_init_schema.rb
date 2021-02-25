@@ -122,14 +122,18 @@ class InitSchema < ActiveRecord::Migration[6.0]
 
     create_table "wars" do |t|
       t.datetime "startdate", null: false
+      t.datetime "enddate", null: false
       t.integer "duration", null: false
+      t.integer "wartimehour", null: false, min: 0, max: 23, default: 0
       t.bigint "guilds", references: :guilds, array: true
       t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game, war game
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.integer "answer_time", default: 5
-      t.string :status, default: "request_sent", null: false
+      t.string :status, default: "request_sent", null: false # request_sent, accepted, ongoing, finished
       t.boolean "inmatch", default: false
+      t.string "from", null: false
+      t.string "to", null: false
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

@@ -8,28 +8,41 @@
     %>
     <div class="bg-dark p-5">
     <%= form_with url: "api/wars", method: :create, id: "declare-war-form" do |f| %>
-        <label class="text-white" >Start time</label>
-        <%= date_field(:war, :startdate, min: Date.today, id: "startdate", val: Date.today ) %>
-        <label class="text-white" >Duration (in minutes) </label>
-        <%= number_field(:war, :duration, min: 1, max: 60*24*7 ) %>
-        <select class="form-select form-select-lg mb-3" name="war[against]" id="war_against">
-            <%% for (let guild of guilds){ %>
-                <%% if (guild.owner_id != myid) {%>
-                <option val="<%%= guild.id %>"><%%= guild.title %></option>
+        <label class="text-white p-3" >Start time</label>
+        <%= date_field(:war, :startdate, min: Date.today, id: "startdate", val: "21/03/2021" ) %>
+        <label class="text-white p-3" > Duration (in days) </label>
+        <%= number_field(:war, :duration, min: 1, max: 30, value: 7) %>
+        <label class="text-white p-3" > Wartime (hour a day) </label>
+        <%= number_field(:war, :wartimehour, min: 0, max: 23, value: 12) %> <p class="text-white">h</p>
+        <div>
+        <label class="text-white p-3">  <p>Against:</p></label>
+            <select class="form-select form-select-lg mb-3" name="war[against]" id="war_against">
+                <%% for (let guild of guilds){ %>
+                    <%% if (guild.owner_id != myid) {%>
+                    <option val="<%%= guild.id %>"><%%= guild.title %></option>
+                    <%% } %>
                 <%% } %>
-            <%% } %>
-        </select>
-        <%= f.submit "Create war", id: "create-war-button", class: "btn btn-dark" %>
+            </select>
+        </div>
+        <hr/>
+        <%= f.submit "Create war", id: "create-war-button", class: "btn btn-block btn-danger badge-pill fire-animation" %>
     <% end %>
     
     </div>
-    <%% 
-    Date.prototype.toDateInputValue = (function() {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0,10);
-    });
-    $('#startdate').val(new Date().toDateInputValue()); 
-    %>
+   
 
+</script>
+
+<script type="text/template" id="war-requests-template">
+    <div class="row">
+        <%%  for (let w of wars) { %>
+            <%% if (w.id && w.to === myguild && w.status === "request_sent"){ %>
+            <a class="btn btn-block btn-danger war-declaration-request mt-3 fire-animation"
+                data-war="<%%= w.id %>" data-from="<%%= w.from %>" data-to="<%%= w.to %>">
+                Accept war declaration from "<%%= w.from %>" guild!
+            </a>
+            <%% } %>
+        
+        <%%  } %>
+    </div>
 </script>

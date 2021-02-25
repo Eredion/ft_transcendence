@@ -53,6 +53,12 @@ if (Helper.logged()) {
             return this;
         },
 
+        stopQueue(message){
+            $('#search_match_modal').modal('hide')
+            window.location.href = '#play';
+            Helper.custom_alert('danger', message);
+        },
+
         // this function is called from matchmaking_channel when a match game is found
         receive_data(data) {
             switch (data.action) {
@@ -70,6 +76,15 @@ if (Helper.logged()) {
                     setTimeout(function () {
                         MyApp.core.navigate('match/' + data.match)
                     }, 300)
+                    break;
+                case 'try_later':
+                    this.stopQueue('There is already a match in your war, try again later.');
+                    break;
+                case 'not_war':
+                    this.stopQueue('You are not in a war now.');
+                    break;
+                case 'not_tournament':
+                    this.stopQueue('Your are not in a tournament.');
                     break;
             }
         },

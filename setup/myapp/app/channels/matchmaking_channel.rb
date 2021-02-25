@@ -16,21 +16,28 @@ class MatchmakingChannel < ApplicationCable::Channel
   end
 
   def tournament_game
-    TournamentGameJob.perform_later(current_user)
+    if current_user.intournament == true
+      TournamentGameJob.perform_later(current_user)
+    else
+      ActionCable.server.broadcast( "Matchmaking_#{current_user.id}", { action: 'not_tournament' })
+    end
   end
 
   def war_game
-    puts current_user.as_json
-    puts current_user.guild_id
     if current_user.guild_id
       guild = Guild.find_by(id: current_user.guild_id)
-      if (guild.inwar == true && guild.war_playing == false)
+      if guild.inwar == true && guild.war_playing == false
         guild.war_playing == true
         war = War.find_by(id: guild.war_id)
         WarGameJob.perform_later(current_user, war)
+      elsif guild.war_playing == true
+        ActionCable.server.broadcast( "Matchmaking_#{current_user.id}", { action: 'try_later' })
+      else
+        ActionCable.server.broadcast( "Matchmaking_#{current_user.id}", { action: 'not_war' })
       end
+    else
+      ActionCable.server.broadcast( "Matchmaking_#{current_user.id}", { action: 'not_war' })
     end
-      # Aqui le mando al action cable algo pa que le diga ESPEEEERA, AUN NO HAY GUERRA PA TI
   end
 
   def wait_peer(data)

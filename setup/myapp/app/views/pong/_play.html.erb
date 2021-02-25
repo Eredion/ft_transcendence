@@ -4,8 +4,9 @@
         <a class="btn btn-lg btn-block btn-dark" href="#search_match/quick">Quick play</a>
         <a class="btn btn-lg btn-block btn-dark" href="#search_match/ranked">Ranked play</a>
         <a id="tournament-play-button" class="btn btn-lg btn-block btn-dark" href="#search_match/tournament">Tournament</a>
-        <a id="tournament-play-button" class="btn btn-lg btn-block btn-dark" href="#search_match/war">War</a> 
-       
+        <%%  if (inwar === true){ %>
+            <a id="war-play-button" class="btn btn-lg btn-block btn-dark" href="#search_match/war">War Time</a> 
+        <%%  }; %>
     </div>
     <div class="mt-4" id="tournament-view">
         <div id="join-tournament-wrapper">
@@ -27,34 +28,6 @@
             <div class="fa fa-spin fa-cog fa-2"></div>
             
         </div>
-    </div>
-</script>
-
-
-
-<script type="text/template" name="tournamentview" id="tournament-graph-template">
-    <%# <h4 class="title">TOURNAMENT</h4> %>
-    <div id="graph" class="d-flex">
-       <%#  <%% let myid = "accept/:" + uid + "/" %> 
-        <%%  for (let round of tournament.rounds.reverse()){ %>
-                <div class="flex-fill list-group round-column">
-                    <%% for (let i = 0; i < Math.pow(2, round.number); i++) {%>
-                        <div class="tournament-match">
-                            <%% let j1 = ((tournament.users[2 * i]) != undefined && round.number === tournament.rounds.length - 1) ? tournament.users[2 * i].nickname : "" %>
-                            <%% let j2 = ((tournament.users[2 * i + 1]) != undefined && round.number === tournament.rounds.length - 1) ? tournament.users[2 * i + 1].nickname : "" %>
-                            <div class="list-group-item mt-0 match-j1"><%%= j1 %></div>
-                            <div class="list-group-item mt-0 match-j2"><%%= j2 %></div>
-                            <%% if (round.number === tournament.rounds.length - 1) {%>
-                               <a href="#<%%= link %>"><div class="match-play-button btn btn-block btn-danger" >Play</div> </a>
-                            <%% }%>
-                        </div>
-                        <%% if (round.number === 1 && i === 0){%>
-                                <div class="list-group-item space-between-matches"></div>
-                        <%% }%>
-                    <%% } %>
-                </div>
-
-        <%% } %>
     </div>
 </script>
 

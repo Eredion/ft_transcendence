@@ -14,7 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if user.save
       sign_in(user)
       respond_to do |format|
-        format.json { render json: { location: root_path, status: 'ok' } }
+        format.json { render json: { location: "/#users/#{user.id}", status: 'ok' } }
       end
     else
       flash[:alert] = "Some error ocurred. Try again"

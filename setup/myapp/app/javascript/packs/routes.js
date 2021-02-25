@@ -21,7 +21,13 @@ class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
         this.undelegateViews()
-            // If user is not logged in, redirect to login page (except sign in and signup views)
+        // Catch first login of the user and redirect to the user profile
+        if (Helper.login.get_first_login()) {
+            Helper.login.set_first_login(false)
+            window.location.reload()
+            return false
+        }
+        // If user is not logged in, redirect to login page (except sign in and signup views)
         if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) {
             this.navigate('sign_in', { trigger: true })
             return false

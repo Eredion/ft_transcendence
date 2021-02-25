@@ -106,6 +106,19 @@ Helper.notification = (message) => {
     }, 2000);
 };
 
+Helper.login = new class Login {
+    constructor() {
+        this.is_first_login = false
+    }
+
+    get_first_login() {
+        return this.is_first_login
+    }
+
+    set_first_login(value) {
+        this.is_first_login = value
+    }
+}
 
 
 export default Helper;

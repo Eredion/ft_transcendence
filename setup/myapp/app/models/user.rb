@@ -17,10 +17,13 @@ class User < ApplicationRecord
   has_one :guild, class_name: "Guild"
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    first_login = false
+    user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.nickname = auth.info.nickname
+      first_login = true
     end
+    return user, first_login
   end
 
   def send_request(action, type = nil, requestor = nil, content = nil)

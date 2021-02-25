@@ -1,6 +1,6 @@
 class Api::GuildsController < ApplicationController
     def index
-        guilds = Guild.all.as_json(only: [:id, :title, :anagram, :score, :guild_avatar, :owner_id, :war_id, :inwar])
+        guilds = Guild.all.as_json(only: [:id, :title, :anagram, :score, :guild_avatar, :owner_id, :war_id, :inwar, :war_history])
         render json: guilds
     end
 
@@ -20,7 +20,8 @@ class Api::GuildsController < ApplicationController
                 :officers => User.where(id: guild.officers).as_json(only: [:id, :nickname, :avatar]),
                 :members => User.where(id: guild.members).as_json(only: [:id, :nickname, :avatar]),
                 :chat_id => guild.chat_id,
-                :inwar => guild.inwar
+                :inwar => guild.inwar,
+                :war_history => guild.war_history
             }
             return render json: { "success": ret.to_json }
         end

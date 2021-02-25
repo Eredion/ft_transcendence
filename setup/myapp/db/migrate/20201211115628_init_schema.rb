@@ -12,11 +12,11 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "members", default: [], array: true
       t.references :chat, index: true, optional: true
       t.references :war, optional: true
-      t.boolean :inwar, default: false
+      t.boolean :inwar, default: false #In war time
       t.integer :warvictories, default: 0
       t.integer :wardefeats, default: 0
-      t.boolean :war_playing, default: false
-      t.integer :missed_matches, default: 0
+      t.boolean :war_playing, default: false #Currently someone playing a war game
+      t.integer :missed_matches, default: 0  #Maches missed while war time
       t.string :war_history, array: true, default: []
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
@@ -132,8 +132,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.integer "answer_time", default: 5
-      t.string :status, default: "request_sent", null: false # request_sent, accepted, ongoing, finished
-      t.boolean "inmatch", default: false
+      t.string :status, default: "request_sent", null: false # request_sent, accepted, active, wartime, finished
       t.string "from", null: false
       t.string "to", null: false
 

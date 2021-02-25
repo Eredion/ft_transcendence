@@ -25,9 +25,10 @@ let playView = Backbone.View.extend({
         this.cable = tournamentChannel.connect(Helper.userId(), this.receive_data, this);
         let template = _.template($("#playview-template").html());
         let guild = await Helper.ajax('GET', 'api/guilds/' + myself.guild_id);
+        console.log(guild);
         if (myself.guild_id && ((guild.success).includes(`"inwar":true`) === true))
-            this.wartime = true;   
-        let output = template({'user': this.myself, 'inwar': self.wartime});
+            this.wartime = true;
+        let output = template({'user': this.myself, 'inwar': this.wartime});
         $('#content').html(output);
         this.render_tournament();
     },

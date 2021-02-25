@@ -41,7 +41,7 @@ class Api::WarsController < ApplicationController
     def update
         war = War.find_by(id: params[:id])
         if (params[:request][:status] == 'accepted')
-            #war.status = 'accepted'
+            war.status = 'accepted'
             war.guilds.each do |guild|
                 puts guild.title
                 guild.inwar = true

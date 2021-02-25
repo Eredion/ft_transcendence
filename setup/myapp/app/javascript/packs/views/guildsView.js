@@ -129,7 +129,7 @@ $(function () {
             this.render()
             this.render_info()
             this.render_users()
-            this.render_war_declarations()
+            this.render_wars()
             Guild.channel.connect(this.guild_id, this.manage_guild, this)
             if (this.grade > 0) {
                 this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
@@ -176,7 +176,7 @@ $(function () {
             this.render()
             this.render_info()
             this.render_users()
-            this.render_war_declarations()
+            this.render_wars()
             this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
             await Helper.fetch(this.chat_model)
             this.render_chat()
@@ -225,7 +225,7 @@ $(function () {
             return this
         },
 
-        async render_war_declarations() {
+        async render_wars() {
             console.log('render war declarations')
             self = this
             Promise.all([Helper.fetch(warcol)])
@@ -267,6 +267,7 @@ $(function () {
                 }
             }
             let response = await Helper.ajax('PUT', 'api/wars/' + formData.request.id, formData)
+            this.render_wars()
 
         },
 

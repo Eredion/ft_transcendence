@@ -122,7 +122,9 @@ class InitSchema < ActiveRecord::Migration[6.0]
 
     create_table "wars" do |t|
       t.datetime "startdate", null: false
+      t.datetime "enddate", null: false
       t.integer "duration", null: false
+      t.integer "wartimehour", null: false, min: 0, max: 23, default: 0
       t.bigint "guilds", references: :guilds, array: true
       t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game
       t.integer "bet", default: 0

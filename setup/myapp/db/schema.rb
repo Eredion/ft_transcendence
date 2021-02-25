@@ -152,7 +152,9 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
 
   create_table "wars", force: :cascade do |t|
     t.datetime "startdate", null: false
+    t.datetime "enddate", null: false
     t.integer "duration", null: false
+    t.integer "wartimehour", default: 0, null: false
     t.bigint "guilds", array: true
     t.string "matchtype", default: [], array: true
     t.integer "bet", default: 0

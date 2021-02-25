@@ -128,7 +128,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.integer "answer_time", default: 5
-      t.string :status, default: "request_sent", null: false
+      t.string :status, default: "request_sent", null: false # request_sent, accepted, ongoing, finished
       t.boolean "inmatch", default: false
       t.string "from", null: false
       t.string "to", null: false

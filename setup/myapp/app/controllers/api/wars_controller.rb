@@ -38,6 +38,23 @@ class Api::WarsController < ApplicationController
         end
     end
 
+    def update
+        war = War.find_by(id: params[:id])
+        if (params[:request][:status] == 'accepted')
+            #war.status = 'accepted'
+            war.guilds.each do |guild|
+                puts guild.title
+                guild.inwar = true
+                guild.save
+            end
+            war.save
+        else
+            puts "Error in War update method"
+            puts "request: "
+            puts params[:request]
+        end 
+    end
+
     private
     def params_war
         #params[:war][:duration] = (params[:war][:startdate].to_datetime + params[:war][:duration].to_i.minutes).to_s

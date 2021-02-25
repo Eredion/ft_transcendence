@@ -38,10 +38,12 @@
     <div class="row">
         <%%  for (let w of wars) { %>
             <%% if (w.id && w.to === myguild && w.status === "request_sent"){ %>
-            <div class="btn btn-block btn-warning war-declaration-request mt-1">
+            <a class="btn btn-block btn-danger war-declaration-request mt-1 fire-animation"
+                data-war="<%%= w.id %>" data-from="<%%= w.from %>" data-to="<%%= w.to %>">
                 Accept war declaration from "<%%= w.from %>" guild!
+            </a>
             <%% } %>
-        </div>
+        
         <%%  } %>
     </div>
 </script>

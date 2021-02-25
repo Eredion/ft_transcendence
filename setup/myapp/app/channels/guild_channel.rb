@@ -59,4 +59,5 @@ class GuildChannel < ApplicationCable::Channel
 			})
 		end
 	end
+
 end

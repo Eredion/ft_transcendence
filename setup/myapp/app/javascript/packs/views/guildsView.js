@@ -27,7 +27,7 @@ $(function () {
         template: _.template($('#guilds-list-template').html()),
 
         events: {
-            "submit #new-guild-form": "newGuild"
+            "submit #new-guild-form": "newGuild",
         },
         
         initialize() {
@@ -114,9 +114,10 @@ $(function () {
             "click .remove-officer-btn": "removeOfficer",
             "click .kick-btn": "kickMember",
             "click #destroy-guild-btn": "destroyGuild",
+            "click .war-declaration-request": "acceptWar",
             "submit #edit-guild-form": "editGuild",
             "submit #guild_avatar-form" : "updateGuildAvatar",
-            "submit #chat_message_form": "newMessage"
+            "submit #chat_message_form": "newMessage",
         },
         
         async initialize(id) {
@@ -249,6 +250,24 @@ $(function () {
                     $('#war-declarations-wrapper').html(output)
                 });
             
+        },
+
+        async acceptWar(e) {
+            console.log(e)
+            console.log($(e).data())
+            console.log($(e.currentTarget).data().from)
+            console.log($(e.currentTarget).data().to)
+            console.log($(e.currentTarget).data().war)
+            const formData = {
+                request: {
+                    id: $(e.currentTarget).data().war,
+                    from: $(e.currentTarget).data().from,
+                    to: $(e.currentTarget).data().to,
+                    status: "accepted",
+                }
+            }
+            let response = await Helper.ajax('PUT', 'api/wars/' + formData.request.id, formData)
+
         },
 
         newMessage(e) {

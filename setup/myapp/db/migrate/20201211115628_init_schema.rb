@@ -12,11 +12,11 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "members", default: [], array: true
       t.references :chat, index: true, optional: true
       t.references :war, optional: true
-      t.boolean :inwar, default: false
+      t.boolean :inwar, default: false #In war time
       t.integer :warvictories, default: 0
       t.integer :wardefeats, default: 0
-      t.boolean :war_playing, default: false
-      t.integer :missed_matches, default: 0
+      t.boolean :war_playing, default: false #Currently someone playing a war game
+      t.integer :missed_matches, default: 0  #Maches missed while war time
       t.string :war_history, array: true, default: []
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
@@ -127,17 +127,17 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "duration", null: false
       t.integer "wartimehour", null: false, min: 0, max: 23, default: 0
       t.bigint "guilds", references: :guilds, array: true
-      t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game, war game
-      t.boolean "type_ranked", default: false
-      t.boolean "type_quick", default: false
-      t.boolean "type_challenge", default: false
-      t.boolean "type_tournament", default: false
-      #t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game
+      t.boolean "type_ranked", default: false #Ranked counts for the war
+      t.boolean "type_tournament", default: false #Tournament counts for the war
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.integer "answer_time", default: 5
+<<<<<<< HEAD
       t.string :status, default: "request_sent", null: false # request_sent, accepted, active, finished
       t.boolean "inmatch", default: false
+=======
+      t.string :status, default: "request_sent", null: false # request_sent, accepted, active, wartime, finished
+>>>>>>> c1521f76dd070ac629919b3d325f31e74f241a41
       t.string "from", null: false
       t.string "to", null: false
 

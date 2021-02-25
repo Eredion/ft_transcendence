@@ -136,7 +136,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.integer "answer_time", default: 5
-      t.string :status, default: "request_sent", null: false # request_sent, accepted, ongoing, finished
+      t.string :status, default: "request_sent", null: false # request_sent, accepted, active, finished
       t.boolean "inmatch", default: false
       t.string "from", null: false
       t.string "to", null: false
@@ -146,9 +146,6 @@ class InitSchema < ActiveRecord::Migration[6.0]
     add_foreign_key :messages, :chats, column: :chat_id
     add_foreign_key :messages, :channels, column: :channel_id
     add_foreign_key :channels, :users, column: :user_id
-
-
-
   end
 
   def down

@@ -25,9 +25,13 @@
             </select>
         </div>
         <hr/>
-        <div class="match-type-form">
-        <%= check_box(:war, :type_ranked)  %> Ranked games
-        <%= check_box(:war, :type_tournament)  %> Tournament
+        <div class="match-type-form"></div>
+        <div class="form-check form-switch">
+                <%= check_box(:war, :type_ranked, {class: "form-check-input"}) %> <div class="form-check-label text-white">Ranked matches count towards war result</div>
+        </div>
+        <div class="form-check form-switch mb-4">
+        <%= check_box(:war, :type_tournament, {class: "form-check-input"}) %> <div class="form-check-label text-white">Tournament matches count towards war result</div>
+        </div>
         <%= f.submit "Create war", id: "create-war-button", class: "btn btn-block btn-danger badge-pill fire-animation" %>
         </div>
     <% end %>

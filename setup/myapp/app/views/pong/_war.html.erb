@@ -13,7 +13,7 @@
         <label class="text-white p-3" > Duration (in days) </label>
         <%= number_field(:war, :duration, min: 1, max: 30, value: 7) %>
         <label class="text-white p-3" > Wartime (hour a day) </label>
-        <%= number_field(:war, :wartimehour, min: 0, max: 23, value: 12) %> <p class="text-white">h</p>
+        <%= number_field(:war, :wartimehour, min: 0, max: 23, value: 12) %>
         <div>
         <label class="text-white p-3">  <p>Against:</p></label>
             <select class="form-select form-select-lg mb-3" name="war[against]" id="war_against">

@@ -5,7 +5,11 @@ class WarAwaitJob < ApplicationJob
     (0..war.duration).each do |n|
       wartime = war.startdate + war.wartimehour.hours + n.days
       #wartime = Time.now + n.days
-      WarTimeOnJob.set(wait_until: wartime).perform_later(war)
+      if (wartime < Time.now)
+        WarTimeOnJob.perform_later(war)
+      else
+        WarTimeOnJob.set(wait_until: wartime).perform_later(war)
+      end
       WarTimeOffJob.set(wait_until: wartime + 1.hours).perform_later(war)
     end
     if (war.startdate == Date.today)

@@ -17,6 +17,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer :wardefeats, default: 0
       t.boolean :war_playing, default: false
       t.integer :missed_matches, default: 0
+      t.string :war_history, array: true, default: []
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
@@ -127,6 +128,11 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "wartimehour", null: false, min: 0, max: 23, default: 0
       t.bigint "guilds", references: :guilds, array: true
       t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game, war game
+      t.boolean "type_ranked", default: false
+      t.boolean "type_quick", default: false
+      t.boolean "type_challenge", default: false
+      t.boolean "type_tournament", default: false
+      #t.string "matchtype", default: [], array: true #ranked game, quick game, challenge game, tournament game
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
       t.integer "answer_time", default: 5
@@ -134,6 +140,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.boolean "inmatch", default: false
       t.string "from", null: false
       t.string "to", null: false
+
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

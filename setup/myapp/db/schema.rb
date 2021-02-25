@@ -156,7 +156,10 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "duration", null: false
     t.integer "wartimehour", default: 0, null: false
     t.bigint "guilds", array: true
-    t.string "matchtype", default: [], array: true
+    t.boolean "type_ranked", default: false
+    t.boolean "type_quick", default: false
+    t.boolean "type_challenge", default: false
+    t.boolean "type_tournament", default: false
     t.integer "bet", default: 0
     t.integer "missed_matches", default: 5
     t.integer "answer_time", default: 5

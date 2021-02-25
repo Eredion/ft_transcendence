@@ -19,7 +19,7 @@ class Api::WarsController < ApplicationController
                     action: 'alert',
                     message: 'Check that you have filled all parameters'
                 }
-            puts "MEEC"
+            return
         elsif (challenged_guild.war_id != nil)
             ActionCable.server.broadcast "notification_#{current_user.id}",
                 {
@@ -38,6 +38,18 @@ class Api::WarsController < ApplicationController
         war.to = challenged_guild.title
         war.from = myguild.title
         war.enddate = war.startdate + war.duration.days
+        if war.type_challenge
+            war.match_type.push("challenge game")
+        end
+        if war.type_quick
+            war.match_type.push("quick game")
+        end
+        if war.type_ranked
+            war.match_type.push("ranked game")
+        end
+        if war.type_challenge
+            war.match_type.push("tournament game")
+        end
         if war.save
             challenged_guild = Guild.find_by(title: params[:war][:against])
             challenged_guild.war_id = war.id
@@ -64,7 +76,7 @@ class Api::WarsController < ApplicationController
             #    guild.save
             #end
             if (war.save)
-                WarStartJob.set(wait_until: war.startdate).perform_later()
+                WarAwaitJob.perform_later(war) # await -> start -> (wartime) -> end
                 War.all.each do |w|
                     if w.status == 'request sent' && 
                         w.destroy
@@ -84,7 +96,7 @@ class Api::WarsController < ApplicationController
     private
     def params_war
         #params[:war][:duration] = (params[:war][:startdate].to_datetime + params[:war][:duration].to_i.minutes).to_s
-        params.require(:war).permit(:startdate, :duration, :wartimehour)
+        params.require(:war).permit(:startdate, :duration, :wartimehour, :type_ranked, :type_quick, :type_challenge, :type_tournament)
     end
 
 end

@@ -25,7 +25,13 @@
             </select>
         </div>
         <hr/>
+        <div class="match-type-form">
+        <%= check_box(:war, :type_ranked)  %> Ranked games
+        <%= check_box(:war, :type_quick)  %> Quick games
+        <%= check_box(:war, :type_challenge)  %> Challenge game
+        <%= check_box(:war, :type_tournament)  %> Tournament
         <%= f.submit "Create war", id: "create-war-button", class: "btn btn-block btn-danger badge-pill fire-animation" %>
+        </div>
     <% end %>
     
     </div>

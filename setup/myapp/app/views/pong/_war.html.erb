@@ -7,37 +7,71 @@
         
     %>
     <div class="bg-dark p-5">
-    <%= form_with url: "api/wars", method: :create, id: "declare-war-form" do |f| %>
-        <label class="text-white p-3" >Start time</label>
-        <%= date_field(:war, :startdate, min: Date.today, id: "startdate", value: Date.today ) %>
-        <label class="text-white p-3" > Duration (in days) </label>
-        <%= number_field(:war, :duration, min: 1, max: 30, value: 7) %>
-        <label class="text-white p-3" > Wartime (hour a day) </label>
-        <%= number_field(:war, :wartimehour, min: 0, max: 23, value: 12) %>
-        <div>
-        <label class="text-white p-3">  <p>Against:</p></label>
-            <select class="form-select form-select-lg mb-3" name="war[against]" id="war_against">
-                <%% for (let guild of guilds){ %>
-                    <%% if (guild.owner_id != myid) {%>
-                    <option val="<%%= guild.id %>"><%%= guild.title %></option>
+        <%= form_with url: "api/wars", method: :create, id: "declare-war-form" do |f| %>
+            <label class="text-white p-3" >Start time</label>
+            <%= date_field(:war, :startdate, min: Date.today, id: "startdate", value: Date.today ) %>
+            <label class="text-white p-3" > Duration (in days) </label>
+            <%= number_field(:war, :duration, min: 1, max: 30, value: 7) %>
+            <label class="text-white p-3" > Wartime (hour a day) </label>
+            <%= number_field(:war, :wartimehour, min: 0, max: 23, value: 12) %>
+            <div>
+            <label class="text-white p-3">  <p>Against:</p></label>
+                <select class="form-select form-select-lg mb-3" name="war[against]" id="war_against">
+                    <%% for (let guild of guilds){ %>
+                        <%% if (guild.owner_id != myid) { %>
+                        <option val="<%%= guild.id %>"><%%= guild.title %></option>
+                        <%% } else  { %>
+                            <%% $('#war-bet-range-slider').attr("max", 1000) %>
+                            <%% console.log($('#war-bet-range-slider').html()) %>
+                            <%% console.log($('#war-bet-range-slider')) %>
+                            <%% console.log($('#war-bet-range-slider')) %>
+                            <%% console.log($('#war-bet-range-slider')) %>
+                            <%% console.log($('#war-bet-range-slider')) %>
+                            <%% console.log($('#war-bet-range-slider')) %>
+                        <%% }  %>
                     <%% } %>
-                <%% } %>
-            </select>
-        </div>
-        <hr/>
-        <div class="match-type-form"></div>
-        <div class="form-check form-switch">
-                <%= check_box(:war, :type_ranked, {class: "form-check-input"}) %> <div class="form-check-label text-white">Ranked matches count towards war result</div>
-        </div>
-        <div class="form-check form-switch mb-4">
-        <%= check_box(:war, :type_tournament, {class: "form-check-input"}) %> <div class="form-check-label text-white">Tournament matches count towards war result</div>
-        </div>
-        <%= f.submit "Create war", id: "create-war-button", class: "btn btn-block btn-danger badge-pill fire-animation" %>
-        </div>
-    <% end %>
-    
+                </select>
+            </div>
+            <hr/>
+            <div class="match-type-form"></div>
+            <div class="form-check form-switch">
+                    <%= check_box(:war, :type_ranked, {class: "form-check-input"}) %> <div class="form-check-label text-white">Ranked matches count towards war result</div>
+            </div>
+            <div class="form-check form-switch mb-4">
+                <%= check_box(:war, :type_tournament, {class: "form-check-input"}) %> <div class="form-check-label text-white">Tournament matches count towards war result</div>
+            </div>
+            <div class="bet-slider-div mb-4 row">
+                <label class="label text-lg text-white col-2">Score bet </label>
+                <input class="col form-range" id="war-bet-range-slider" type="range" name="war[bet]" step="10" min="0" max="300" val="0" onchange="updatewarTextInput(this.value);"></input>
+                <input class="col-1 ml-5" type="text" id="wartextInput" value="0"/>
+            </div>
+                <%= f.submit "Create war", id: "create-war-button", class: "btn btn-block btn-danger badge-pill fire-animation" %>
+            </div>
+        <% end %>
+
+        <script>
+
+            ajaxreq = function(method, url, data) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                        url: url,
+                        type: method,
+                        data: data,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    })
+                    .done(resolve)
+                    .fail(reject);
+            })
+        };
+            async function updatewarTextInput(val) {
+                let guild =  await ajaxreq('GET', 'api/users/' + $('html').data().userId + '/guild')
+                document.getElementById('wartextInput').value=Math.min(val,guild.score); 
+            }
+        </script>
+
     </div>
-   
 
 </script>
 

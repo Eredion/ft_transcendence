@@ -12,7 +12,7 @@ class WarEndJob < ApplicationJob
     WarTimeOffJob.perform_later(war)
     winner = war.guilds[0].warvictories > war.guilds[1].warvictories ? war.guilds[0] : war.guilds[1]
     loser = war.guilds[0].warvictories > war.guilds[1].warvictories ? war.guilds[1] : war.guilds[0]
-
+    tie = (winner.warvictories == loser.warvictories ? true : false)
     war_history_hash = {
       :winner => winner.title,
       :winner_victories => winner.warvictories,
@@ -20,14 +20,12 @@ class WarEndJob < ApplicationJob
       :loser => loser.title,
       :loser_victories => loser.warvictories, 
       :loser_anagram => loser.anagram,
-      :tie => winner.warvictories == loser_.warvictories ? true : false
+      :tie => tie,
     }
     war_history_string = JSON.generate(war_history_hash)
-    if war_history_hash.tie == true
+    if tie == false
       winner.score += war.bet
-      loser.score += war.bet
-    else
-      winner.score += (2 * war.bet)
+      loser.score -= war.bet
     end
     
     [winner, loser].each do |guild|

@@ -26,6 +26,7 @@ class MatchmakingChannel < ApplicationCable::Channel
   def war_game
     if current_user.guild_id
       guild = Guild.find_by(id: current_user.guild_id)
+      puts guild.as_json
       if guild.inwar == true && guild.war_playing == false
         guild.war_playing == true
         war = War.find_by(id: guild.war_id)

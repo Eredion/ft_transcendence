@@ -9,7 +9,7 @@ import MySession from '../models/session'
 
 const Notification = {}
 
-if (Helper.logged()) {
+if (Helper.logged() && Helper.valid()) {
 
 $(function () {
 

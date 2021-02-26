@@ -5,6 +5,7 @@ import Helper from '../Helper'
 import channelcol from '../models/channel'
 import consumer from "./../../channels/consumer"
 import userscollection from '../models/user.js'
+
 let PopupProfileView = Backbone.View.extend({
     el: '#popup-content',
     userCol: userscollection,

@@ -139,7 +139,8 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "encrypted_otp_secret_iv"
     t.string "encrypted_otp_secret_salt"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login"
+    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_validated", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guild_id"], name: "index_users_on_guild_id"
     t.index ["nickname"], name: "index_users_on_nickname", unique: true

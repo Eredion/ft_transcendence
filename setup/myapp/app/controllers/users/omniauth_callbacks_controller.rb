@@ -13,6 +13,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       if user.status != 0
         user.send_notification('close_session')
       end
+      if user.otp_required_for_login == true
+        user.otp_validated = false
+        user.save
+      end
       sign_in(user)
       if first_login == true
         redirect_to "/#users/#{user.id}"

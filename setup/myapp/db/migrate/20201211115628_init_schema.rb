@@ -57,6 +57,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "encrypted_otp_secret_salt"
       t.integer "consumed_timestep"
       t.boolean "otp_required_for_login", default: false
+      t.boolean "otp_validated", default: false
 
       t.index ["email"], name: "index_users_on_email", unique: true
       t.index ["nickname"], name: "index_users_on_nickname", unique: true

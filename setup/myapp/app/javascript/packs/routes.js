@@ -2,7 +2,7 @@ import Backbone from 'backbone'
 import Login from './views/loginView'
 import Register from './views/registerView'
 import Profile from './views/profileView'
-import pongView from './views/pongView'
+import Home from './views/homeView'
 import chatView from './views/chatView'
 import SearchMatch from './views/searchMatchView'
 import channelsView from './views/channelsView'
@@ -15,25 +15,26 @@ import rankingView from './views/rankingView'
 import adminview from './views/adminView'
 import playview from './views/playView'
 import adminView from './views/adminView'
+import MySession from './models/session'
+import TwoFa from './views/validate2faView'
 
 
 class Workspace extends Backbone.Router {
 
     execute(callback, args, name) {
         this.undelegateViews()
-        // Catch first login of the user and redirect to the user profile
-        if (Helper.login.get_first_login()) {
+
+        if (Helper.logged() && !Helper.valid() && name != 'validateTwoFA') {
+            this.navigate('validate_two_fa', { trigger: true, replace: true })
+            return false
+        } else if (Helper.login.get_first_login()) { // Catch first login of the user and redirect to the user profile
             Helper.login.set_first_login(false)
             window.location.reload()
             return false
-        }
-        // If user is not logged in, redirect to login page (except sign in and signup views)
-        if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) {
+        } else if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) { // If user is not logged in, redirect to login page (except sign in and signup views)
             this.navigate('sign_in', { trigger: true })
             return false
-        }
-        // if user is logged in, redirect to main page (when the sign in and signup views is accessed)
-        if (Helper.logged() && (name == 'userSignin' || name == 'userSignup')) {
+        } else if (Helper.logged() && Helper.valid() && (name == 'userSignin' || name == 'userSignup' || name == 'validateTwoFA')) { // if user is logged in, redirect to main page (when the sign in and signup views is accessed)
             this.navigate('', { trigger: true })
             return false
         }
@@ -43,8 +44,8 @@ class Workspace extends Backbone.Router {
 
     // function than removes the last active view for fix zombie views error
     undelegateViews() {
-        if (this.pongview) {
-            this.pongview.undelegateEvents()
+        if (this.homeview) {
+            this.homeview.undelegateEvents()
         }
         if (this.chatview) {
             this.chatview.undelegateEvents()
@@ -86,11 +87,12 @@ class Workspace extends Backbone.Router {
 
     get routes() {
         return {
-            "": "pong",
+            "": "home",
             "chat": "chat",
             "chat/:name": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
+            "validate_two_fa": "validateTwoFA",
             "play": 'play',
             "users/:id": "userProfile",
             "channels/": "channels",
@@ -109,6 +111,12 @@ class Workspace extends Backbone.Router {
         }
     }
 
+    validateTwoFA() {
+        console.log("validate2fa route")
+        this.two_fa = new TwoFa.view()
+        this.two_fa.render()
+    }
+
     admin(){
         if (Helper.current_user() === 'theadmin')
         {
@@ -124,10 +132,10 @@ class Workspace extends Backbone.Router {
         this.popupprofile = new PopupProfileView(($('.popup-user-title').text()));
     }
 
-    pong() {
-        console.log("pong route");
-        this.pongview = new pongView();
-        //pongview.render();
+    home() {
+        console.log("home route");
+        this.homeview = new Home.view();
+        //homeview.render();
     }
 
     chat(name) {

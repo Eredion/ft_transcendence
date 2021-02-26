@@ -38,6 +38,18 @@ Helper.logged = () => {
     return $('html').data().userLogged
 };
 
+Helper.TwoFaRequired = () => {
+    return $('html').data().userRequiredtwofa
+}
+
+Helper.validateCode = () => {
+    return $('html').data().userValidatecode
+}
+
+Helper.valid = () => {
+    return (!Helper.TwoFaRequired() || (Helper.TwoFaRequired() && Helper.validateCode()))
+}
+
 Helper.userId = () => {
     return $('html').data().userId
 };

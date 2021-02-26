@@ -132,7 +132,7 @@ class Api::UsersController < ApplicationController
     def mysession
         if params[:id].to_i == current_user.id
             user = User.find_by(id: current_user.id)
-            ret = user.as_json(only: [:id, :nickname, :avatar, :name, :status, :friends, :blocked, :admin])
+            ret = user.as_json(only: [:id, :nickname, :avatar, :name, :status, :friends, :blocked, :admin, :otp_required_for_login, :otp_validated])
             if guild = Guild.find_by(id: user.guild_id)
                 ret[:guild] = guild.as_json(only: [:id, :title, :anagram, :owner_id, :officers, :members])
             else
@@ -146,9 +146,10 @@ class Api::UsersController < ApplicationController
     def enable_two_fa
         if params[:id].to_i == current_user.id
             current_user.otp_secret = User.generate_otp_secret
+            p 'code secret ' + current_user.otp_secret
             current_user.otp_required_for_login = true
+            current_user.otp_validated = true
             current_user.save!
-            p current_user.current_otp
             return render json: {"success": "Two-Factor Authentication enabled."}, status: :ok
         end
         render json: {"error": 'Forbidden.'}
@@ -163,11 +164,48 @@ class Api::UsersController < ApplicationController
         render json: {"error": 'Forbidden.'}
     end
 
+    def two_fa
+        if params[:id].to_i == current_user.id
+            user = User.find_by(id: current_user.id).as_json(only: [:id, :otp_required_for_login])
+            ret = {}
+            ret[:user_id] = user['id']
+            ret[:otp_required] = user['otp_required_for_login']
+            if ret[:otp_required] == true
+                ret[:qrcode] = generate_qr_code
+            end
+            return render json: {"success": ret}
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
     def validate_two_fa
         if params[:id].to_i == current_user.id
+            if current_user.validate_and_consume_otp!(params[:code])
+                current_user.update(otp_validated: true)
+                return render json: {"success": "Valid Code.", "location": root_path}
+            else
+                return render json: {"error": "Invalid Code."}
+            end
             #validate_and_consume_otp!(params[:code])
         end
         render json: {"error": 'Forbidden.'}
+    end
+
+    private
+
+    def generate_qr_code
+        issuer = 'ft_transcendence'
+        label = "#{issuer}:#{current_user.email}"
+        uri = current_user.otp_provisioning_uri(label, issuer: issuer)
+        p 'uri qrcode ' + uri
+        qrcode = RQRCode::QRCode.new(uri)
+        qrcode.as_svg(
+            offset: 0,
+            color: '000',
+            shape_rendering: 'crispEdges',
+            module_size: 3,
+            standalone: true
+        )
     end
 
 end

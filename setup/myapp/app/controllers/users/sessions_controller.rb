@@ -14,6 +14,10 @@ class Users::SessionsController < Devise::SessionsController
         if ufind.status != 0
           ufind.send_notification('close_session')
         end
+        if ufind.otp_required_for_login == true
+          ufind.otp_validated = false
+          ufind.save
+        end
         sign_in(ufind)
       end
       respond_to do |format|

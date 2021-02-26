@@ -61,6 +61,7 @@ gem 'omniauth-marvin', '~> 1.0.2'
 
 gem 'devise'
 gem 'devise-two-factor'
+gem 'rqrcode'  # for use google authenticator
 
 #for images
 gem 'carrierwave'

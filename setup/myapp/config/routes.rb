@@ -29,6 +29,8 @@ Rails.application.routes.draw do
         get :mysession
         post :enable_two_fa
         post :disable_two_fa
+        get :two_fa
+        post :validate_two_fa
       end
     end
     resources :chats, only: [:index, :create, :update, :show]

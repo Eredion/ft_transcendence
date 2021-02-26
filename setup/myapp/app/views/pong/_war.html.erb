@@ -12,6 +12,8 @@
             <%= date_field(:war, :startdate, min: Date.today, id: "startdate", value: Date.today ) %>
             <label class="text-white p-3" > Duration (in days) </label>
             <%= number_field(:war, :duration, min: 1, max: 30, value: 7) %>
+            <label class="text-white p-3" > Maximum unanswered matches </label>
+            <%= number_field(:war, :missed_matches, min: 1, max: 10, value: 5) %>
             <label class="text-white p-3" > Wartime (hour a day) </label>
             <%= number_field(:war, :wartimehour, min: 0, max: 23, value: 12) %>
             <div>

@@ -12,7 +12,7 @@ class WarAwaitJob < ApplicationJob
       else
         WarTimeOnJob.set(wait_until: wartime).perform_later(war)  ## normal wartime
       end
-      WarTimeOffJob.set(wait_until: wartime + 1.hours).perform_later(war)
+      WarTimeOffJob.set(wait_until: wartime + 1.minutes).perform_later(war)
     end
     if (war.startdate == Date.today)
       WarStartJob.perform_later(war)

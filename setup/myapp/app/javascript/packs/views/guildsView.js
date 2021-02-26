@@ -122,19 +122,20 @@ $(function () {
         
         async initialize(id) {
             this.guild_id = id
-            this.model = new Guilds.Model( { guild_id: this.guild_id } )
-            await Helper.fetch(this.model)
-            await Helper.fetch(userscol)
-            this.calculate_grade()
-            this.render()
-            this.render_info()
-            this.render_users()
-            this.render_wars()
-            Guild.channel.connect(this.guild_id, this.manage_guild, this)
+            this.model = new Guilds.Model( { guild_id: this.guild_id } );
+            await Helper.fetch(this.model);
+            await Helper.fetch(userscol);
+            this.calculate_grade();
+            this.render();
+            this.render_info();
+            this.render_war_history();
+            this.render_users();
+            this.render_wars();
+            Guild.channel.connect(this.guild_id, this.manage_guild, this);
             if (this.grade > 0) {
-                this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
-                await Helper.fetch(this.chat_model)
-                this.render_chat()
+                this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } );
+                await Helper.fetch(this.chat_model);
+                this.render_chat();
                 // conectarse al channel del chat
             }
         },
@@ -171,15 +172,16 @@ $(function () {
         },
 
         async update_all() {
-            await Helper.fetch(this.model)
-            this.calculate_grade()
-            this.render()
-            this.render_info()
-            this.render_users()
-            this.render_wars()
-            this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } )
-            await Helper.fetch(this.chat_model)
-            this.render_chat()
+            await Helper.fetch(this.model);
+            this.calculate_grade();
+            this.render();
+            this.render_info();
+            this.render_war_history();
+            this.render_users();
+            this.render_wars();
+            this.chat_model = new Guilds.ChatModel( { chat_id: this.model.get('chat_id') } );
+            await Helper.fetch(this.chat_model);
+            this.render_chat();
             // conectarse al channel del chat
         },
 
@@ -208,6 +210,23 @@ $(function () {
                 'guild': this.model.toJSON(),
                 'grade': this.grade
             }));
+        },
+
+        render_war_history() {
+            console.log("Lo del historial de guerra, señora");
+            let template = _.template($('#war_matches_template').html());
+            let guild = this.model.toJSON();
+            let war_history = [];
+            if (guild.war_history.length > 0) {
+                for (let i of guild.war_history) {
+                    war_history.push(JSON.parse(i));
+                }
+                console.log(war_history.length);
+            }
+            else
+                console.log("No hay historial");
+            let output = template({'guild': guild, 'wars': war_history});
+            $('#war-guilds-data').html(output);
         },
 
         render_chat() {

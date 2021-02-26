@@ -11,10 +11,8 @@ class WarStartJob < ApplicationJob
       war.guilds.each do |guild|
         ActionCable.server.broadcast( "Guild_#{guild.id}", {
           action: 'update_info'
-        }
+        })
       end
-    end
-    })
     end
     puts "WAR IS NOW ON"
     # Do something later

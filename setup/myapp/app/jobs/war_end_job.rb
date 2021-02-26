@@ -6,7 +6,7 @@ class WarEndJob < ApplicationJob
     war.guilds.each do |guild|
       ActionCable.server.broadcast( "Guild_#{guild.id}", {
         action: 'update_info'
-      }
+      })
     end
 
     WarTimeOffJob.perform_later(war)
@@ -20,9 +20,16 @@ class WarEndJob < ApplicationJob
       :loser => loser.title,
       :loser_victories => loser.warvictories, 
       :loser_anagram => loser.anagram,
+      :tie => winner.warvictories == loser_.warvictories ? true : false
     }
     war_history_string = JSON.generate(war_history_hash)
-
+    if war_history_hash.tie == true
+      winner.score += war.bet
+      loser.score += war.bet
+    else
+      winner.score += (2 * war.bet)
+    end
+    
     [winner, loser].each do |guild|
       guild.warvictories = 0
       guild.wardefeats = 0

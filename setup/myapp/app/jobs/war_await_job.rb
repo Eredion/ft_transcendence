@@ -3,14 +3,14 @@ class WarAwaitJob < ApplicationJob
 
   def perform(war)
     (0..war.duration).each do |n|
-      wartime = war.startdate + war.wartimehour.hours + n.days
+      wartime = war.startdate + war.wartimehour.minutes + n.days
       #wartime = Time.now + n.days
       if (wartime < Time.now)
         WarTimeOnJob.perform_later(war)
       else
         WarTimeOnJob.set(wait_until: wartime).perform_later(war)
       end
-      WarTimeOffJob.set(wait_until: wartime + 1.hours).perform_later(war)
+      WarTimeOffJob.set(wait_until: wartime + 1.minutes).perform_later(war)
     end
     if (war.startdate == Date.today)
       WarStartJob.perform_later(war)

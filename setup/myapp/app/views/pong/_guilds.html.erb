@@ -309,3 +309,44 @@
     </div>
 </script>
 
+<script type="text/template" id="war_matches_template">
+
+    <ul class="list-group list-group-flush">
+        <%% if (wars.length > 0) { %>
+            <%% for (let war of wars) { %>
+                <li class="list-group-item d-flex justify-content-between" >
+                    <div class="col  <%% war.tie == true? "bg-light" : "winner-history" %> ">
+                        <div class="row">
+                            <div class="col">
+                                <p class="h6">[<%%= war.winner_anagram %>] <%%= war.winner %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col  <%% war.tie == true? "bg-light" : "winner-history" %> ">
+                        <div class="col">
+                            <p class="h6"><%%= war.winner_victories %></p>
+                        </div>
+                    </div>
+                    <div class="col  bg-light ">
+                        <div class="row">
+                            <div class="col">
+                                <p class="h6"><%%= war.loser_victories %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col  bg-light ">
+                        <div class="col">
+                            <p class="h6">[<%%= war.loser_anagram %>] <%%= war.loser %></p>
+                        </div>
+                    </div>
+                </li>
+            <%% } %>
+        <%% } else { %>
+            <li class="list-group-item text-center">
+                <p class="h6 text-secondary">No matches.</p>
+            </li>
+        <%% } %>
+    </ul>
+
+</script>
+

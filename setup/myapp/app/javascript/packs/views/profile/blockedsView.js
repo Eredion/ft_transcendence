@@ -2,12 +2,13 @@ import _ from 'underscore'
 import $ from 'jquery'
 import Backbone from 'backbone'
 import Helper from '../../Helper'
+import MySession from '../../models/session'
 
 const Blockeds = {}
 
-$(function () {
+if (Helper.logged() && Helper.valid()) {
 
-if (Helper.logged()) {
+$(function () {
 
     Blockeds.UsersModel = Backbone.Model.extend({
 
@@ -59,7 +60,7 @@ if (Helper.logged()) {
         }
     
     });
-}
 })
+}
 
 export default Blockeds;

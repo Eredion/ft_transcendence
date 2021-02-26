@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "nickname", null: false
-    t.string "password_digest"
+    t.string "encrypted_password", default: "", null: false
     t.string "avatar"
     t.integer "status", default: 0, null: false
     t.bigint "guild_id"
@@ -135,6 +135,12 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.boolean "intournament", default: false
     t.integer "tournament_victories", default: 0
     t.integer "tournament_defeats", default: 0
+    t.string "encrypted_otp_secret"
+    t.string "encrypted_otp_secret_iv"
+    t.string "encrypted_otp_secret_salt"
+    t.integer "consumed_timestep"
+    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_validated", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guild_id"], name: "index_users_on_guild_id"
     t.index ["nickname"], name: "index_users_on_nickname", unique: true

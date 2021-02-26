@@ -1,7 +1,18 @@
 class Api::ChannelsController < ApplicationController
+    skip_before_action :verify_authenticity_token
+    protect_from_forgery
+    before_action :authenticate_user!
+
     def index
         channels = Channel.all
-        render json: channels
+        ret = channels.as_json
+        ret.each { |channel|
+            channel["messages"].each { |message|
+                user = User.find_by(id: message["user_id"])
+                message[:guild] = Guild.find_by(id: user.guild_id).as_json(only: [:anagram])
+            }
+        }
+        render json: ret
     end
 
     def show
@@ -49,13 +60,12 @@ class Api::ChannelsController < ApplicationController
         end
     end
 
-   private
-   def send_connected_channel(channel)
-    ActionCable.server.broadcast 'available_channels_channel',
-        channel.name
-   end
-
     private
+    def send_connected_channel(channel)
+        ActionCable.server.broadcast 'available_channels_channel',
+            channel.name
+    end
+
     def channel_params
         p params
         params.require(:channel).permit(:id, :name, :category, :user, :password, :admins, :channel)

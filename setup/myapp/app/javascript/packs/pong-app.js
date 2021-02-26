@@ -41,7 +41,7 @@ class App {
             Backbone.history.start();
         }
 
-        if (Helper.logged()) {
+        if (Helper.logged() && Helper.valid()) {
             // global channels activation when user is logged
             Friends.view.update();
             UserStatus.channel.connect();

@@ -11,7 +11,7 @@ import MySession from '../models/session'
 
 const Guilds = {}
 
-if (Helper.logged()) {
+if (Helper.logged() && Helper.valid()) {
 
 $(function () {
 

@@ -31,7 +31,8 @@ class InitSchema < ActiveRecord::Migration[6.0]
     create_table "users" do |t|
       t.string "email", default: "", null: false
       t.string "nickname", null: false
-      t.string "password_digest"
+      #t.string "password_digest", default: "", null: false
+      t.string "encrypted_password", default: "", null: false
       t.string "avatar"
       t.integer "status", default: 0, null: false # 0 -> offline 1 -> online
       t.references :guild
@@ -48,14 +49,19 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "provider"
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
-      t.index ["email"], name: "index_users_on_email", unique: true
-      t.index ["nickname"], name: "index_users_on_nickname", unique: true
-      t.index ["uid"], name: "index_users_on_uid"
-
       t.boolean "intournament", default: false
       t.integer "tournament_victories", default: 0
       t.integer "tournament_defeats", default: 0
- 
+      t.string "encrypted_otp_secret"
+      t.string "encrypted_otp_secret_iv"
+      t.string "encrypted_otp_secret_salt"
+      t.integer "consumed_timestep"
+      t.boolean "otp_required_for_login", default: false
+      t.boolean "otp_validated", default: false
+
+      t.index ["email"], name: "index_users_on_email", unique: true
+      t.index ["nickname"], name: "index_users_on_nickname", unique: true
+      t.index ["uid"], name: "index_users_on_uid"
     end
 
     create_table "requests" do |t|

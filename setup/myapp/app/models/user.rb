@@ -1,10 +1,10 @@
 class User < ApplicationRecord
-
+  devise :two_factor_authenticatable,
+         :otp_secret_encryption_key => ENV['2FA_KEY']
   has_many :messages
   has_many :channels
   has_many :chats
   devise :omniauthable, omniauth_providers: [:marvin]
-  has_secure_password :validations => false #this affects devise authentication because no password is provided
   validates :email, :nickname, presence: true, uniqueness: true
   mount_uploader :avatar, AvatarUploader
   has_many :requests_as_requestor, :as => :requestor, :class_name => 'Request'
@@ -17,10 +17,13 @@ class User < ApplicationRecord
   has_one :guild, class_name: "Guild"
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    first_login = false
+    user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.nickname = auth.info.nickname
+      first_login = true
     end
+    return user, first_login
   end
 
   def send_request(action, type = nil, requestor = nil, content = nil)

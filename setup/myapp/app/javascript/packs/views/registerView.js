@@ -60,6 +60,7 @@ $(function () {
             var formData = $('#register-form').serialize()
             var response = await Helper.ajax('POST', 'sign_up', formData)
             if (response.status == 'ok') {
+                Helper.login.set_first_login(true)
                 window.location = response.location
             } else {
                 Helper.custom_alert('danger', 'Some error ocurred. Try again')

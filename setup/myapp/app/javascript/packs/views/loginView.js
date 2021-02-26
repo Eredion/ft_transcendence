@@ -49,7 +49,6 @@ $(function () {
             if (response.status == 'ok') {
                 window.location = response.location
             } else {
-                Helper.custom_alert('danger', 'Nickname or password are incorrect. Try again')
                 document.getElementById("login-form").reset()
                 document.getElementById("login-form").classList.remove('was-validated')
             }

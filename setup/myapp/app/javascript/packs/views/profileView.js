@@ -12,7 +12,7 @@ const Profile = {}
 
 $(function () {
 
-if (Helper.logged()) {
+if (Helper.logged() && Helper.valid()) {
 
     Profile.view = Backbone.View.extend({
 
@@ -24,12 +24,16 @@ if (Helper.logged()) {
 
         uinfo_template: _.template($('#user_info_template').html()),
 
+        two_fa_template: _.template($('#two-fa-profile-template').html()),
+
         events: {
             "submit #avatar-form" : "updateAvatar",
             "submit #edit-user-form": "editUserForm",
             "click #addFriend": "addFriend",
             "click #blockUser": "blockUser",
-            "click #addToGuild": "inviteToGuild"
+            "click #addToGuild": "inviteToGuild",
+            "click #enable-2fa": "enable2FA",
+            "click #disable-2fa": "disable2FA"
         },
     
         async initialize(id) {
@@ -49,6 +53,7 @@ if (Helper.logged()) {
             this.matchhistoryView = new MatchHistory.view(this.user_id)
             this.matchhistoryView.update()
             if (Helper.userId() == this.user_id) { // Only show block user list if is the current_user
+                this.update_two_fa()
                 this.blockView = new Blockeds.view(this.user_id)
                 this.blockView.update()
             }
@@ -65,6 +70,17 @@ if (Helper.logged()) {
                 guild = JSON.parse(this.guild['success'])
             }
             this.$el.find('#user_info').html(this.uinfo_template({'user': this.user.toJSON(), 'guild': guild }));
+        },
+
+        async update_two_fa() {
+            var response = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/two_fa')
+            if (response['success']) {
+                this.render_two_fa(response['success'])
+            }
+        },
+
+        render_two_fa(data) {
+            this.$el.find('#two-fa-data').html(this.two_fa_template({'two_fa': data }));
         },
 
         render_friends() {
@@ -164,6 +180,34 @@ if (Helper.logged()) {
                 Helper.custom_alert('danger', response['error'])
             } else {
                 Helper.custom_alert('success', response['success'])
+            }
+        },
+
+        async enable2FA(e) {
+            e.preventDefault()
+            console.log('enable2fa function call')
+            var response = await Helper.ajax('POST', 'api/users/'+ MySession.data.id() + '/enable_two_fa', '')
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+                await Helper.fetch(this.user)
+                this.render_userInfo()
+                this.update_two_fa()
+            }
+        },
+
+        async disable2FA(e) {
+            e.preventDefault()
+            console.log('disable2FA function call')
+            var response = await Helper.ajax('POST', 'api/users/'+ MySession.data.id() + '/disable_two_fa', '')
+            if (response['error']) {
+                Helper.custom_alert('danger', response['error'])
+            } else {
+                Helper.custom_alert('success', response['success'])
+                await Helper.fetch(this.user)
+                this.render_userInfo()
+                this.update_two_fa()
             }
         },
 

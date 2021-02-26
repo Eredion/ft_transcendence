@@ -9,7 +9,7 @@
 user1 = User.create(nickname: 'marvin', email: 'marvin@marvin.com', score: 42, matches_won: 6, matches_lost: 1, friends: [2, 3, 4, 5], guild_id: 1)
 user2 = User.create(nickname: 'pabgonza', email: 'pabgonza@marvin.com', score: 27, matches_won: 3, matches_lost: 4, friends: [1, 3, 4, 5], guild_id: 1)
 User.create(nickname: 'apita-da', email: 'apita@marvin.com', score: 32, matches_won: 4, matches_lost: 2, friends: [1, 2, 4, 5], guild_id: 1)
-User.create(nickname: 'theadmin', email: 'admin@marvin.com', admin: true, score: 5, matches_won: 1, password_digest: "$2a$12$cy3.o43J2yid6vbkXojSAe0x2enBfAn4NcgVOQfXjdtPOV7tKF/1e", matches_lost: 0, friends: [1, 2, 3, 5], guild_id: 1,)
+User.create(nickname: 'theadmin', email: 'admin@marvin.com', admin: true, score: 5, matches_won: 1, encrypted_password: "$2a$12$cy3.o43J2yid6vbkXojSAe0x2enBfAn4NcgVOQfXjdtPOV7tKF/1e", matches_lost: 0, friends: [1, 2, 3, 5], guild_id: 1,)
 User.create(nickname: 'marvina', email: 'marvina@marvin.com', score: 24, matches_won: 3, matches_lost: 1, friends: [1, 2, 3, 4], guild_id: 1)
 User.create(nickname: 'marvino', email: 'marvino@marvin.com', score: 15, matches_won: 3, matches_lost: 4, friends: [7, 8], guild_id: 2)
 User.create(nickname: 'marvinu', email: 'marvinu@marvin.com', score: 1, matches_won: 5, matches_lost: 6, friends: [6, 8], guild_id: 2)

@@ -4,13 +4,13 @@ class Api::UsersController < ApplicationController
 
     def index
         users = User.all
-        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost,:banned, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories])
+        fusers = users.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost,:banned, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories, :otp_required_for_login])
         render json: fusers
     end
 
     def show
         user = User.find(params[:id])
-        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories])
+        fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories, :otp_required_for_login])
         render json: fuser
     end
 
@@ -24,7 +24,10 @@ class Api::UsersController < ApplicationController
             user = User.find(params[:id])
             user.banned = params[:banned]
             user.save
-            return render json: {"success": "User banned"}
+            if user.banned == true
+                user.send_notification('banned')
+            end
+            return
         end
         user = User.find(current_user.id)
         if params[:nickname] != user.nickname
@@ -129,7 +132,7 @@ class Api::UsersController < ApplicationController
     def mysession
         if params[:id].to_i == current_user.id
             user = User.find_by(id: current_user.id)
-            ret = user.as_json(only: [:id, :nickname, :avatar, :name, :status, :friends, :blocked, :admin])
+            ret = user.as_json(only: [:id, :nickname, :avatar, :name, :status, :friends, :blocked, :admin, :otp_required_for_login, :otp_validated])
             if guild = Guild.find_by(id: user.guild_id)
                 ret[:guild] = guild.as_json(only: [:id, :title, :anagram, :owner_id, :officers, :members])
             else
@@ -138,6 +141,71 @@ class Api::UsersController < ApplicationController
             return render json: ret
         end
         render json: {"error": 'Forbidden.'}
+    end
+
+    def enable_two_fa
+        if params[:id].to_i == current_user.id
+            current_user.otp_secret = User.generate_otp_secret
+            p 'code secret ' + current_user.otp_secret
+            current_user.otp_required_for_login = true
+            current_user.otp_validated = true
+            current_user.save!
+            return render json: {"success": "Two-Factor Authentication enabled."}, status: :ok
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    def disable_two_fa
+        if params[:id].to_i == current_user.id
+            current_user.otp_required_for_login = false
+            current_user.save!
+            return render json: {"success": "Two-Factor Authentication disabled."}, status: :ok
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    def two_fa
+        if params[:id].to_i == current_user.id
+            user = User.find_by(id: current_user.id).as_json(only: [:id, :otp_required_for_login])
+            ret = {}
+            ret[:user_id] = user['id']
+            ret[:otp_required] = user['otp_required_for_login']
+            if ret[:otp_required] == true
+                ret[:qrcode] = generate_qr_code
+            end
+            return render json: {"success": ret}
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    def validate_two_fa
+        if params[:id].to_i == current_user.id
+            if current_user.validate_and_consume_otp!(params[:code])
+                current_user.update(otp_validated: true)
+                return render json: {"success": "Valid Code.", "location": root_path}
+            else
+                return render json: {"error": "Invalid Code."}
+            end
+            #validate_and_consume_otp!(params[:code])
+        end
+        render json: {"error": 'Forbidden.'}
+    end
+
+    private
+
+    def generate_qr_code
+        issuer = 'ft_transcendence'
+        label = "#{issuer}:#{current_user.email}"
+        uri = current_user.otp_provisioning_uri(label, issuer: issuer)
+        p 'uri qrcode ' + uri
+        qrcode = RQRCode::QRCode.new(uri)
+        qrcode.as_svg(
+            offset: 0,
+            color: '000',
+            shape_rendering: 'crispEdges',
+            module_size: 3,
+            standalone: true
+        )
     end
 
 end

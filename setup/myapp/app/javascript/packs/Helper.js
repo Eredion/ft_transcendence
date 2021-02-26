@@ -38,6 +38,18 @@ Helper.logged = () => {
     return $('html').data().userLogged
 };
 
+Helper.TwoFaRequired = () => {
+    return $('html').data().userRequiredtwofa
+}
+
+Helper.validateCode = () => {
+    return $('html').data().userValidatecode
+}
+
+Helper.valid = () => {
+    return (!Helper.TwoFaRequired() || (Helper.TwoFaRequired() && Helper.validateCode()))
+}
+
 Helper.userId = () => {
     return $('html').data().userId
 };
@@ -106,6 +118,19 @@ Helper.notification = (message) => {
     }, 2000);
 };
 
+Helper.login = new class Login {
+    constructor() {
+        this.is_first_login = false
+    }
+
+    get_first_login() {
+        return this.is_first_login
+    }
+
+    set_first_login(value) {
+        this.is_first_login = value
+    }
+}
 
 
 export default Helper;

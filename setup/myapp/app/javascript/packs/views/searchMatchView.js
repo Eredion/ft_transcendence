@@ -4,12 +4,13 @@ import Backbone from 'backbone'
 import Helper from '../Helper'
 import Matchmaking from '../../channels/matchmaking_channel'
 import MyApp from '../application'
+import MySession from '../models/session'
 
 const SearchMatch = {}
 
-$(function () {
+if (Helper.logged() && Helper.valid()) {
 
-if (Helper.logged()) {
+$(function () {
 
     SearchMatch.view = Backbone.View.extend({
 
@@ -101,7 +102,7 @@ if (Helper.logged()) {
             Matchmaking.channel.disconnect()
         }
     });
-}
 })
+}
 
 export default SearchMatch;

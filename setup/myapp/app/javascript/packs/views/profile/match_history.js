@@ -2,12 +2,13 @@ import $ from 'jquery'
 import _ from 'underscore'
 import Backbone from 'backbone'
 import Helper from '../../Helper'
+import MySession from '../../models/session'
 
 const MatchHistory = {}
 
 $(function () {
 
-if (Helper.logged()) {
+if (Helper.logged() && Helper.valid()) {
 
     MatchHistory.model = Backbone.Model.extend({
 

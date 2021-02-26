@@ -6,7 +6,7 @@ import FriendCollection from '../models/friends'
 
 const Friends = {}
 
-if (Helper.logged()) {
+if (Helper.logged() && Helper.valid()) {
 
 $(function () {
 

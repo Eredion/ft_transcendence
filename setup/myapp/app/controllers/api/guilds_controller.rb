@@ -20,8 +20,9 @@ class Api::GuildsController < ApplicationController
                 :officers => User.where(id: guild.officers).as_json(only: [:id, :nickname, :avatar]),
                 :members => User.where(id: guild.members).as_json(only: [:id, :nickname, :avatar]),
                 :chat_id => guild.chat_id,
+                :war_id => guild.war_id,
                 :inwar => guild.inwar,
-                :war_history => guild.war_history
+                :war_history => guild.war_history,
             }
             return render json: { "success": ret.to_json }
         end

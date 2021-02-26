@@ -24,7 +24,9 @@ class MatchmakingChannel < ApplicationCable::Channel
   end
 
   def war_game
+
     user = User.find_by(id: current_user.id)
+    
     if user.guild_id
       guild = Guild.find_by(id: user.guild_id)
       puts guild.as_json
@@ -57,4 +59,29 @@ class MatchmakingChannel < ApplicationCable::Channel
     #user.send_notification('notification', 'challenge', current_user.nickname, {"from": current_user.id})
     ChallengeJob.perform_later(current_user, User.find_by(id: data["peer"].to_i))
   end
+
+  def miss_match(data)
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts "Hola"
+    puts data
+  end
+
 end

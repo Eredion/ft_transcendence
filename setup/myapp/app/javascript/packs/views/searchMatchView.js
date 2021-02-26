@@ -4,6 +4,7 @@ import Backbone from 'backbone'
 import Helper from '../Helper'
 import Matchmaking from '../../channels/matchmaking_channel'
 import MyApp from '../application'
+import consumer from '../../channels/consumer'
 
 const SearchMatch = {}
 
@@ -14,6 +15,8 @@ if (Helper.logged()) {
     SearchMatch.view = Backbone.View.extend({
 
         el: "#content",
+
+        game_found: false,
 
         template: _.template($('#search_match_template').html()),
 
@@ -45,11 +48,34 @@ if (Helper.logged()) {
                 Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
         },
 
+        async checkMissMatch() {
+            self = this;
+            let myself = await Helper.ajax('GET', 'api/users/' + Helper.userId());
+            let preGuild = await Helper.ajax('GET', 'api/guilds/' + myself.guild_id);
+            let guild = JSON.parse(preGuild.success);
+            let war = await Helper.ajax('GET', 'api/wars/' + guild.war_id);
+            this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"MatchmakingChannel\",\"id\":${Helper.userId()}`)));
+            console.log(this.ownCable);
+            setTimeout(function(){
+                if (self.game_found === false) {
+                    self.ownCable.perform('miss_match', {war : war});
+                    $('#search_match_modal').modal('hide')
+                    window.location.href = '#play';
+                    Helper.custom_alert('success', "Unanswered match, your guild wins 1 war point.");
+                }
+            //}, (war.answer_time * 1000));
+        }, (15 * 1000));
+        },
+
         render() {
             console.log('Search Match View render type ' + this.type)
 			let output = this.template({'type': this.type})
             this.$el.html(output);
-            $('#search_match_modal').modal('show')
+            this.game_found = false;
+            self = this;
+            $('#search_match_modal').modal('show');
+            if (this.type === 'war')
+                this.checkMissMatch();
             return this;
         },
 
@@ -67,6 +93,7 @@ if (Helper.logged()) {
                     break;
                 case 'game_found':
                     console.log('Game found')
+                    this.game_found = true;
 					console.log(data)
                     this.render_match_found(data.player1, data.player2, data.match)
                     break;

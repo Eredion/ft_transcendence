@@ -14,7 +14,6 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.references :war, optional: true
       t.boolean :inwar, default: false #In war time
       t.integer :warvictories, default: 0
-      t.integer :wardefeats, default: 0
       t.boolean :war_playing, default: false #Currently someone playing a war game
       t.integer :missed_matches, default: 0  #Maches missed while war time
       t.string :war_history, array: true, default: []

@@ -13,6 +13,10 @@ class Api::WarsController < ApplicationController
         war = War.new(params_war)
         challenged_guild = Guild.find_by(title: params[:war][:against])
         myguild = Guild.find_by(id: current_user.guild_id)
+        let maxbet = [challenged_guild.score, myguild.score].min
+        if (war.bet > maxbet)
+            war.bet = maxbet
+        end
         if (params[:war][:startdate] == "")
             ActionCable.server.broadcast "notification_#{current_user.id}",
                 {

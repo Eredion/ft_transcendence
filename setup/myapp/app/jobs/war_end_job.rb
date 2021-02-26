@@ -2,6 +2,14 @@ class WarEndJob < ApplicationJob
   queue_as :default
 
   def perform(war)
+
+    war.guilds.each do |guild|
+      ActionCable.server.broadcast( "Guild_#{guild.id}", {
+        action: 'update_info'
+      }
+    end
+
+    WarTimeOffJob.perform_later(war)
     winner = war.guilds[0].warvictories > war.guilds[1].warvictories ? war.guilds[0] : war.guilds[1]
     loser = war.guilds[0].warvictories > war.guilds[1].warvictories ? war.guilds[1] : war.guilds[0]
 

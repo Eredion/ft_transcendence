@@ -186,6 +186,7 @@ $(function () {
         async update_info() {
             await Helper.fetch(this.model)
             this.render_info()
+            this.render_wars()
         },
 
         async update_users() {
@@ -231,12 +232,10 @@ $(function () {
             Promise.all([Helper.fetch(warcol)])
                 .then(async function(){
                     self.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
-                    console.log(warcol.toJSON())
+
                     let war_declarations = []
                     for (let w of warcol)
                     {
-                        console.log(self.userGuild)
-                        console.log(self.userGuild.title)
                         if (w.get("to") === self.userGuild.title && w.get("status") === "request_sent")
                         {
                             war_declarations.push(w.toJSON())
@@ -245,7 +244,7 @@ $(function () {
                     }
                     let template = _.template($('#war-requests-template').html())
                     let filtered = warcol.where({'to': self.userGuild.title})
-                    console.log(filtered)
+
                     let output = template({'wars': warcol.toJSON(), 'myguild': self.userGuild.title})
                     $('#war-declarations-wrapper').html(output)
                 });
@@ -253,11 +252,6 @@ $(function () {
         },
 
         async acceptWar(e) {
-            console.log(e)
-            console.log($(e).data())
-            console.log($(e.currentTarget).data().from)
-            console.log($(e.currentTarget).data().to)
-            console.log($(e.currentTarget).data().war)
             const formData = {
                 request: {
                     id: $(e.currentTarget).data().war,

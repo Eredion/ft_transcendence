@@ -20,14 +20,7 @@
                     <%% for (let guild of guilds){ %>
                         <%% if (guild.owner_id != myid) { %>
                         <option val="<%%= guild.id %>"><%%= guild.title %></option>
-                        <%% } else  { %>
-                            <%% $('#war-bet-range-slider').attr("max", 1000) %>
-                            <%% console.log($('#war-bet-range-slider').html()) %>
-                            <%% console.log($('#war-bet-range-slider')) %>
-                            <%% console.log($('#war-bet-range-slider')) %>
-                            <%% console.log($('#war-bet-range-slider')) %>
-                            <%% console.log($('#war-bet-range-slider')) %>
-                            <%% console.log($('#war-bet-range-slider')) %>
+
                         <%% }  %>
                     <%% } %>
                 </select>
@@ -50,7 +43,6 @@
         <% end %>
 
         <script>
-
             ajaxreq = function(method, url, data) {
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -79,12 +71,28 @@
     <div class="row">
         <%%  for (let w of wars) { %>
             <%% if (w.id && w.to === myguild && w.status === "request_sent"){ %>
-            <a class="btn btn-block btn-danger war-declaration-request mt-3 fire-animation"
-                data-war="<%%= w.id %>" data-from="<%%= w.from %>" data-to="<%%= w.to %>">
-                Accept war declaration from "<%%= w.from %>" guild!
-            </a>
+                <a class="btn btn-block btn-danger war-declaration-request mt-3 fire-animation"
+                    data-war="<%%= w.id %>" data-from="<%%= w.from %>" data-to="<%%= w.to %>">
+                    <p>Accept war declaration from "<%%= w.from %>" guild!</p>
+                    <span>
+                        <div class="p-1 span9 text-light mb-1">
+                            <div class="badge bg-dark text-wrap p-2 m-1">GUILD SCORE BET: <%%= w.bet %>
+                            </div>
+                            <div class="badge bg-dark text-wrap p-2 m-1">War time: <%%= w.wartimehour %>:00 h every day
+                            </div>
+                            <div class="badge bg-dark text-wrap p-2 m-1">Duration: <%%= w.duration%> days
+                            </div>
+                        </div>
+                    </span>
+                </a>
             <%% } %>
-        
         <%%  } %>
     </div>
+
+        <%%  for (let w of wars) { %>
+             <%% if (w.id && (w.to === myguild || w.from === myguild ) && (w.status === "active" || w.status === "accepted" || w.status === "wartime" )){ %>
+                <div class="current-war-banner p-2 row bg-danger text-center fs-2 mt-2">War between <%%= w.from %> and  <%%= w.to %> is <%%= w.status %> from <%%= w.startdate.substring(0,10) %> for <%%= w.duration %> days.</div>
+             <%% } %>
+        <%%  } %>
+
 </script>

@@ -115,6 +115,7 @@ $(function () {
             "click .kick-btn": "kickMember",
             "click #destroy-guild-btn": "destroyGuild",
             "click .war-declaration-request": "acceptWar",
+            "click .war-declaration-reject-button":"rejectWar",
             "submit #edit-guild-form": "editGuild",
             "submit #guild_avatar-form" : "updateGuildAvatar",
             "submit #chat_message_form": "newMessage",
@@ -277,6 +278,20 @@ $(function () {
                     from: $(e.currentTarget).data().from,
                     to: $(e.currentTarget).data().to,
                     status: "accepted",
+                }
+            }
+            let response = await Helper.ajax('PUT', 'api/wars/' + formData.request.id, formData)
+            this.render_wars()
+
+        },
+
+        async rejectWar(e){
+            const formData = {
+                request: {
+                    id: $(e.currentTarget).data().war,
+                    from: $(e.currentTarget).data().from,
+                    to: $(e.currentTarget).data().to,
+                    status: "finished",
                 }
             }
             let response = await Helper.ajax('PUT', 'api/wars/' + formData.request.id, formData)

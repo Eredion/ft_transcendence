@@ -9,6 +9,8 @@ class WarStartJob < ApplicationJob
     war.status = "active"
     if (war.save)
       war.guilds.each do |guild|
+        guild.missed_matches = 0
+        guild.save
         ActionCable.server.broadcast( "Guild_#{guild.id}", {
           action: 'update_info'
         })

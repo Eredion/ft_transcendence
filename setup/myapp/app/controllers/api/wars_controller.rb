@@ -70,7 +70,18 @@ class Api::WarsController < ApplicationController
             if (war.save)
                 WarAwaitJob.perform_later(war) # await -> start -> (wartime) -> end
                 War.all.each do |w|
-                    if w.status == 'request sent' && 
+                    if w.status == 'request sent' 
+                        w.destroy
+                    end
+                end
+            end
+        elsif (params[:request][:status] == 'finished')
+            war.status = 'finished'
+            war.save
+            if (war.save)
+                WarEndJob.perform_later(war) # await -> start -> (wartime) -> end
+                War.all.each do |w|
+                    if w.status == 'request sent'
                         w.destroy
                     end
                 end
@@ -81,14 +92,13 @@ class Api::WarsController < ApplicationController
                     action: 'alert',
                     message: 'Please check all parameters before submitting'
                 }
-        
         end 
     end
 
     private
     def params_war
         #params[:war][:duration] = (params[:war][:startdate].to_datetime + params[:war][:duration].to_i.minutes).to_s
-        params.require(:war).permit(:startdate, :duration, :wartimehour, :type_ranked, :type_tournament, :bet)
+        params.require(:war).permit(:startdate, :duration, :wartimehour, :type_ranked, :type_tournament, :bet, :missed_matches)
     end
 
 end

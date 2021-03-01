@@ -21,7 +21,7 @@
     <%% const url = "#users/" + users[i].nickname; %>
         <%% if(current_user != users[i].nickname){ %>
            <%%=`<a class="btn btn-dark btn-sm online-user" id='online-user-button' data-author=${users[i].nickname}>` %>
-                <%%= users[i].nickname%>
+                <%%=  users[i].anagram ? `(${users[i].anagram}) ` : "" %> <%%= users[i].nickname%>
             </a>
         <%% };%>
     <%% }; %>

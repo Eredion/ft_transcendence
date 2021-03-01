@@ -57,7 +57,6 @@ class LoopGameJob < ApplicationJob
 					match.match_type == "war game" || match.match_type == "challenge game")
 					
 					winner_guild.warvictories += 1
-					loser_guild.wardefeats += 1
 					match.war = true
 					if match.match_type == "war game"
 						winner_guild.war_playing = false

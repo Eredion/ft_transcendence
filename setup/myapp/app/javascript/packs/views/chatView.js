@@ -6,33 +6,51 @@ import Helper from '../Helper';
 import usercollection from '../models/user'
 import AvailableChatCable from "../../channels/available_chat_channel"
 import consumer from '../../channels/consumer'
+import GuildCollection from '../models/guilds'
 
 let chatView = Backbone.View.extend({
 
     el: '#content',
     chatCol: chatcol,
     userCol: usercollection,
+    guildCol: new GuildCollection(),
 
     initialize() {
 		this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"DmChannel\",\"userID\":${Helper.userId()}`)));
         this.commonCable = AvailableChatCable;
+        self = this;
+        $(document).on("render_user_list", function(event){
+            self.renderUserList();
+        });
         return this;
     },
 
 	greenUsers() {
 		for (let i in Helper.data.newMsg)
-		{
             $(`[data-author=${Helper.data.newMsg[i]}]`).removeClass('btn btn-dark btn-sm').addClass('btn btn-success btn-sm');
-		}
 	},
-    async fetchUsers() {
+
+    getAnagram(users) {   
+        for (let user of users){
+            if (user.guild_id) {
+                user.anagram = self.guildCol.findWhere({id: user.guild_id}).get('anagram');
+            }
+        }
+        return users;
+    },
+    
+    fetchUsers() {
 		self = this;
-        await Helper.fetch(this.userCol).then(function() {
+        Promise.all([Helper.fetch(this.userCol), Helper.fetch(this.guildCol)]).then(function() {
             let current_user = Helper.current_user();
             let template = _.template($("#online-users-template").html());
-            let output = template({'users':usercollection.toJSON(), 'current_user':current_user});
+            let users = self.getAnagram(usercollection.toJSON());
+            let output = template({'users': users, 'current_user':current_user});
             $('#available-users').html(output);
 			self.greenUsers();
+            $('.online-user').on('click', function(){
+                self.renderConversation(this.dataset.author)
+            })
         });
         return this;
     },
@@ -76,7 +94,8 @@ let chatView = Backbone.View.extend({
         });
         $("#input-msg-chat-form").submit(function(event) {
             event.preventDefault();
-          });
+        });
+          
         return self;
     },
 
@@ -87,7 +106,8 @@ let chatView = Backbone.View.extend({
 
     async renderConversation(name){
         let self = this;
-        $('#chat-name-title').text(name);
+        
+        $('#chat-name-title').html(`<a href="#popup1" onclick="render_popup(this)" >${name}</a>`);
         let chatName = this.buildChatName(Helper.current_user(), name);
         await Helper.fetch(this.chatCol).then(function() {
             if (self.chatCol.where({ name: chatName}).length === 0) {

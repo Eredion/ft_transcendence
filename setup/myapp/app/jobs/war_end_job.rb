@@ -18,6 +18,7 @@ class WarEndJob < ApplicationJob
       :winner_victories => winner.warvictories,
       :winner_anagram => winner.anagram,
       :loser => loser.title,
+      :loser_victories => loser.warvictories,
       :loser_anagram => loser.anagram,
       :tie => tie,
     }

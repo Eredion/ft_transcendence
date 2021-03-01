@@ -39,7 +39,6 @@ let chatView = Backbone.View.extend({
         .then(function(){
             let template0 = _.template($("#ranking-template").html());
             let tournament = self.getTournament();
-            console.log(tournament);
             self.$el.html(template0({'tournament': tournament}));
             let template = _.template($("#user-ranking-template").html());
             let usersOrdered = self.sortByKey(self.userCol.toJSON(), "score");

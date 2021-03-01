@@ -88,9 +88,8 @@ class Workspace extends Backbone.Router {
 
     get routes() {
         return {
-            "": "home",
+            "": "myProfile",
             "chat": "chat",
-            "chat/:name": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
             "validate_two_fa": "validateTwoFA",
@@ -134,27 +133,16 @@ class Workspace extends Backbone.Router {
         this.popupprofile = new PopupProfileView(($('.popup-user-title').text()));
     }
 
-    home() {
-        console.log("home route");
-        this.homeview = new Home.view();
-        //homeview.render();
-    }
-
     warform()
     {
         this.warformview = new WarformView();
         this.warformview.render();
     }
 
-    chat(name) {
+    chat(){
         if (!this.chatview)
             this.chatview = new chatView();
-        if (name)
-        {
-            this.chatview.renderConversation(name);
-        }
-        else
-            this.chatview.render();
+        this.chatview.render();
     }
 
     ranking() {
@@ -187,9 +175,13 @@ class Workspace extends Backbone.Router {
         this.signupView.render()
     }
 
+    myProfile() {
+        this.profileview = new Profile.view(Helper.userId());
+    }
+
     userProfile(id) {
         console.log("userProfile route")
-        this.profileview = new Profile.view(id)
+        this.profileview = new Profile.view(id);
     }
 
     play(){

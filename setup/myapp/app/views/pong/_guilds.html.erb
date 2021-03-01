@@ -1,7 +1,9 @@
 <script type="text/template" id="guilds-list-template">
     <div class="row mt-4 flex">
+        
         <%% if (user_guild) { %>
         <div id="guild-info" class="col-4 text-center">
+            
             <img class="rounded-circle img-fluid" id="guild-avatar-img" src="<%%= user_guild.guild_avatar.medium.url %>"/>
             <p class="h4 text-white"> <%%= user_guild.title %> (<%%= user_guild.anagram %>)</p>
             <p class="text-primary">Score: <span class="text-white"><%%= user_guild.score %></span></p>
@@ -15,7 +17,10 @@
                 <%% } %>
             </p>
 
-            <a class="btn btn-primary" href="/#guilds/<%%= user_guild.id %>"> Go to Guild </a>
+            <a class="btn btn-large btn-primary btn-block" href="/#guilds/<%%= user_guild.id %>"> Go to Guild </a>
+            <%% if (user_guild.owner_id == $('html').data().userId) { %>
+                <a id="new-war-button" href="#war/new" class="btn btn-large btn-block btn-danger mt-2 fire-animation">GO TO WAR</a>
+            <%% } %>
         </div>
         <%% } else { %>
         <div id="guild-form" class="col-4">
@@ -101,6 +106,9 @@
 </script>
 
 <script type="text/template" id="guild-show-template">
+    <div id="war-declarations-wrapper">
+        <!-- template war declarations -->
+    </div>
     <div class="row mt-4 justify-content-between">
         <div class="col-3 text-center" id="guild-info-data">
             <!-- template guild info -->
@@ -123,8 +131,12 @@
             </div>
         </div>
         <div class="col-4">
+            <%%  console.log(guild) %>
+            <%% if (guild.owner.owner_id == $('html').data().userId) { %>
+                    <a id="new-war-button" href="#war/new" class="btn btn-large btn-block btn-danger mt-2 fire-animation">NEW WAR</a>
+                <%% } %>
             <%% if ( grade > 0 ) { %>
-                <button class="btn btn-danger" id="leave_guild" data-guild-id="<%% guild.id %>"> Leave Guild </button>
+                <button class="btn btn-large btn-block mt-2 btn-light" id="leave_guild" data-guild-id="<%% guild.id %>"> Leave Guild </button>
             <%% } %>
             <div id="users-guild-data">
                 <!-- template guild users -->
@@ -296,3 +308,45 @@
         </div>
     </div>
 </script>
+
+<script type="text/template" id="war_matches_template">
+
+    <ul class="list-group list-group-flush">
+        <%% if (wars.length > 0) { %>
+            <%% for (let war of wars) { %>
+                <li class="list-group-item d-flex justify-content-between" >
+                    <div class="col  <%% war.tie == true? "bg-light" : "winner-history" %> ">
+                        <div class="row">
+                            <div class="col">
+                                <p class="h6">[<%%= war.winner_anagram %>] <%%= war.winner %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col  <%% war.tie == true? "bg-light" : "winner-history" %> ">
+                        <div class="col">
+                            <p class="h6"><%%= war.winner_victories %></p>
+                        </div>
+                    </div>
+                    <div class="col  bg-light ">
+                        <div class="row">
+                            <div class="col">
+                                <p class="h6"><%%= war.loser_victories %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col  bg-light ">
+                        <div class="col">
+                            <p class="h6">[<%%= war.loser_anagram %>] <%%= war.loser %></p>
+                        </div>
+                    </div>
+                </li>
+            <%% } %>
+        <%% } else { %>
+            <li class="list-group-item text-center">
+                <p class="h6 text-secondary">No matches.</p>
+            </li>
+        <%% } %>
+    </ul>
+
+</script>
+

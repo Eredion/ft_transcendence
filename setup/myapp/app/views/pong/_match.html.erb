@@ -11,7 +11,7 @@
                     <p class="h5">Searching for a <%%= type %> match...</p>
                     <%% }; %>
                     <i class="fa fa-spin fa-cog fa-2"></i>
-                    <a type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" href="/#">Cancel</a>
+                    <a type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" href="/#play">Cancel</a>
                 </div>
             </div>
         </div>
@@ -106,7 +106,14 @@
                     	<p class="h5">Victories: <%%= user.tournament_victories %>.</p>
 						<p class="h5">Defeats: <%%= user.tournament_defeats %>.</p>
 					<%% }; %>
-                    <a type="button" class="btn btn-secondary btn-sm  btn-dark" data-dismiss="modal" href="/#">Continue</a>
+                    <%% if (match.war === true) { %>
+						<%% if (match.winner_id === user.id) { %>
+                    		<p class="h5"> Your guild wins 1 war point.</p>
+						<%% } else { %>
+							<p class="h5">This defeat counts for your guild war</p>
+						<%% }; %>
+					<%% }; %>
+                    <a type="button" class="btn btn-secondary btn-sm  btn-dark" data-dismiss="modal" href="/#play">Continue</a>
                 </div>
             </div>
         </div>

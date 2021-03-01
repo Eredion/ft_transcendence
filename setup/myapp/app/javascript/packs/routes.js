@@ -15,6 +15,7 @@ import rankingView from './views/rankingView'
 import adminview from './views/adminView'
 import playview from './views/playView'
 import adminView from './views/adminView'
+import WarformView from './views/warformview'
 import MySession from './models/session'
 import TwoFa from './views/validate2faView'
 
@@ -107,6 +108,7 @@ class Workspace extends Backbone.Router {
             "admin": "admin",
             "challenge/:id": "search_match",
             "challenge/:id/accept/:from": "search_match",
+            "war/new": "warform",
             "*actions": "notFound"
         }
     }
@@ -136,6 +138,12 @@ class Workspace extends Backbone.Router {
         console.log("home route");
         this.homeview = new Home.view();
         //homeview.render();
+    }
+
+    warform()
+    {
+        this.warformview = new WarformView();
+        this.warformview.render();
     }
 
     chat(name) {

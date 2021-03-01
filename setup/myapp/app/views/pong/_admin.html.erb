@@ -11,7 +11,7 @@
                 <label class="text-white" >Start time</label>
             <%= datetime_field(:tournament, :startdate, min: Date.today, id: "startdate" ) %>
             <label class="text-white" >Duration</label>
-            <%= select(:tournament, :finishdate, options_for_select([["short", "short"], ["long", "long"]])) %>
+            <%= select(:tournament, :finishdate, options_for_select([["short", "short"], ["long", "long"]]), placeholder: '2021-02-24T00:00:00') %>
             <%= f.submit "Create tournament", id: "create-tournament-button", class: "btn btn-dark" %>
 
         <% end %>

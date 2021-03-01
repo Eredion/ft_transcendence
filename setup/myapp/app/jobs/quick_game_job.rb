@@ -34,8 +34,8 @@ class QuickGameJob < ApplicationJob
                 # opponent found!
             if opponent = Matchmaking.where.not(:user_id => player.id).where(:match_type => 'quick game').first
 
-                player1 = player.as_json(only: [:id, :nickname, :avatar, :score])
-                player2 = opponent.user.as_json(only: [:id, :nickname, :avatar, :score])
+                player1 = player.as_json(only: [:id, :nickname, :avatar, :score, :guild])
+                player2 = opponent.user.as_json(only: [:id, :nickname, :avatar, :score, :guild])
                 l_player, r_player = [player, opponent.user].shuffle
                 match = Match.create!(match_type: "quick game", left_player_id: l_player.id, right_player_id: r_player.id)
                 ActionCable.server.broadcast( "Matchmaking_#{player.id}", { action: 'game_found' , player1: player1, player2: player2, match: match.id } )

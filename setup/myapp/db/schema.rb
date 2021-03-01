@@ -44,10 +44,17 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "officers", default: [], array: true
     t.integer "members", default: [], array: true
     t.bigint "chat_id"
+    t.bigint "war_id"
+    t.boolean "inwar", default: false
+    t.integer "warvictories", default: 0
+    t.boolean "war_playing", default: false
+    t.integer "missed_matches", default: 0
+    t.string "war_history", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["chat_id"], name: "index_guilds_on_chat_id"
     t.index ["owner_id"], name: "index_guilds_on_owner_id"
+    t.index ["war_id"], name: "index_guilds_on_war_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -60,6 +67,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.integer "loser_points"
     t.bigint "winner_id"
     t.bigint "loser_id"
+    t.boolean "war", default: false
     t.boolean "finished", default: false
     t.datetime "created_at", precision: 6, null: false
     t.bigint "round_id"
@@ -146,6 +154,22 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
     t.index ["tournament_id"], name: "index_users_on_tournament_id"
     t.index ["uid"], name: "index_users_on_uid"
+  end
+
+  create_table "wars", force: :cascade do |t|
+    t.datetime "startdate", null: false
+    t.datetime "enddate", null: false
+    t.integer "duration", null: false
+    t.integer "wartimehour", default: 0, null: false
+    t.bigint "guilds", array: true
+    t.boolean "type_ranked", default: false
+    t.boolean "type_tournament", default: false
+    t.integer "bet", default: 0
+    t.integer "missed_matches", default: 5
+    t.integer "answer_time", default: 120
+    t.string "status", default: "request_sent", null: false
+    t.string "from", null: false
+    t.string "to", null: false
   end
 
   add_foreign_key "channels", "users"

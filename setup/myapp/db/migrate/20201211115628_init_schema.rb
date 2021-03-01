@@ -11,6 +11,12 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer "officers", default: [], array: true
       t.integer "members", default: [], array: true
       t.references :chat, index: true, optional: true
+      t.references :war, optional: true
+      t.boolean :inwar, default: false #In war time
+      t.integer :warvictories, default: 0
+      t.boolean :war_playing, default: false #Currently someone playing a war game
+      t.integer :missed_matches, default: 0  #Maches missed while war time
+      t.string :war_history, array: true, default: []
       t.datetime "created_at", precision: 6, null: false
       t.datetime "updated_at", precision: 6, null: false
     end
@@ -106,6 +112,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.integer :loser_points, optional: true
       t.references :winner
       t.references :loser
+      t.boolean "war", optional: true, default: false #true if match counts for a war
       t.boolean :finished, default: false
       t.datetime "created_at", precision: 6, null: false
       t.references :round, optional: true
@@ -119,12 +126,26 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime "finishdate", null: false
     end
 
+    create_table "wars" do |t|
+      t.datetime "startdate", null: false
+      t.datetime "enddate", null: false
+      t.integer "duration", null: false
+      t.integer "wartimehour", null: false, min: 0, max: 23, default: 0
+      t.bigint "guilds", references: :guilds, array: true
+      t.boolean "type_ranked", default: false #Ranked counts for the war
+      t.boolean "type_tournament", default: false #Tournament counts for the war
+      t.integer "bet", default: 0
+      t.integer "missed_matches", default: 5
+      t.integer "answer_time", default: 120 #seconds
+      t.string :status, default: "request_sent", null: false # request_sent, accepted, active, wartime, finished
+      t.string "from", null: false
+      t.string "to", null: false
+
+    end
+
     add_foreign_key :messages, :chats, column: :chat_id
     add_foreign_key :messages, :channels, column: :channel_id
     add_foreign_key :channels, :users, column: :user_id
-
-
-
   end
 
   def down

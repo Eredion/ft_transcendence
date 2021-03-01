@@ -4,6 +4,7 @@ import Backbone from 'backbone'
 import Helper from '../Helper'
 import Matchmaking from '../../channels/matchmaking_channel'
 import MyApp from '../application'
+import consumer from '../../channels/consumer'
 import MySession from '../models/session'
 
 const SearchMatch = {}
@@ -16,6 +17,8 @@ $(function () {
 
         el: "#content",
 
+        game_found: false,
+
         template: _.template($('#search_match_template').html()),
 
         match_found_template: _.template($('#match_found_template').html()),
@@ -23,7 +26,7 @@ $(function () {
         initialize(id, from) {
             console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
-            if (id === 'quick' || id === 'ranked' || id === 'tournament')
+            if (id === 'quick' || id === 'ranked' || id === 'tournament' || id === 'war')
             {
                 this.type = id;
                 this.render();
@@ -46,12 +49,41 @@ $(function () {
                 Matchmaking.channel.connect(Helper.userId(), this.receive_data, this)
         },
 
+        async checkMissMatch() {
+            self = this;
+            let myself = await Helper.ajax('GET', 'api/users/' + Helper.userId());
+            let preGuild = await Helper.ajax('GET', 'api/guilds/' + myself.guild_id);
+            let guild = JSON.parse(preGuild.success);
+            let war = await Helper.ajax('GET', 'api/wars/' + guild.war_id);
+            this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"MatchmakingChannel\",\"id\":${Helper.userId()}`)));
+            console.log(this.ownCable);
+            setTimeout(function(){
+                if (self.game_found === false) {
+                    self.ownCable.perform('miss_match');
+                    $('#search_match_modal').modal('hide')
+                    window.location.href = '#play';
+                    Helper.custom_alert('success', "Unanswered match, your guild wins 1 war point.");
+                }
+            //}, (war.answer_time * 1000));
+        }, (15 * 1000));
+        },
+
         render() {
             console.log('Search Match View render type ' + this.type)
 			let output = this.template({'type': this.type})
             this.$el.html(output);
-            $('#search_match_modal').modal('show')
+            this.game_found = false;
+            self = this;
+            $('#search_match_modal').modal('show');
+            if (this.type === 'war')
+                this.checkMissMatch();
             return this;
+        },
+
+        stopQueue(message){
+            $('#search_match_modal').modal('hide')
+            window.location.href = '#play';
+            Helper.custom_alert('danger', message);
         },
 
         // this function is called from matchmaking_channel when a match game is found
@@ -62,6 +94,7 @@ $(function () {
                     break;
                 case 'game_found':
                     console.log('Game found')
+                    this.game_found = true;
 					console.log(data)
                     this.render_match_found(data.player1, data.player2, data.match)
                     break;
@@ -71,6 +104,15 @@ $(function () {
                     setTimeout(function () {
                         MyApp.core.navigate('match/' + data.match)
                     }, 300)
+                    break;
+                case 'try_later':
+                    this.stopQueue('There is already a match in your war, try again later.');
+                    break;
+                case 'not_war':
+                    this.stopQueue('You are not in a war now.');
+                    break;
+                case 'not_tournament':
+                    this.stopQueue('Your are not in a tournament.');
                     break;
             }
         },

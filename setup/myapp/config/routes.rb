@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   
   namespace :api do
     resources :tournaments
-    resources :rounds
+    resources :wars
     resources :users, only: [:index, :show, :update, :create] do
       member do
         get :show_friends

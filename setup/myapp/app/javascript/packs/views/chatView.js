@@ -12,11 +12,14 @@ let chatView = Backbone.View.extend({
     el: '#content',
     chatCol: chatcol,
     userCol: usercollection,
-    status : 0,
 
     initialize() {
 		this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"DmChannel\",\"userID\":${Helper.userId()}`)));
         this.commonCable = AvailableChatCable;
+        self = this;
+        $(document).on("render_user_list", function(event){
+            self.renderUserList();
+        });
         return this;
     },
 
@@ -35,7 +38,6 @@ let chatView = Backbone.View.extend({
             $('#available-users').html(output);
 			self.greenUsers();
             $('.online-user').on('click', function(){
-                console.log("ole!")
                 self.renderConversation(this.dataset.author)
             })
         });

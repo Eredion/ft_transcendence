@@ -29,7 +29,7 @@
         </div>
         
         <div class="col-6">
-            <h1 class="title" id="channel-name-title"></h1>
+            <h1 class="title" id="channel-name-title">Conversation</h1>
             <div id="channel_view" class="bg-dark overflow-auto">
 
             </div>
@@ -95,7 +95,7 @@
         <div class="channel_message bg-light p-2">
             <div  class="message_author d-inline text-primary">
                 <span class="text-dark"><%%= msg.guild ? '(' + msg.guild.anagram + ')' : '' %></span>
-                <a href="#popup1" onclick="render_popup(this)" > <%%= msg.author %> :</a>
+                <a <%# href="#popup1" onclick="render_popup(this)" %> > <%%= msg.author %> :</a>
             </div>
             <div class="message_content d-inline text-dark"><%%= msg.content %></div>
         </div>
@@ -107,7 +107,7 @@
                         <%= text_field(:message, :content, minlength: 1, maxlength: 280,
                             placeholder: "Type here...", autocomplete: :off,  class:"create-channel-input", id:"input-msg-channel-form") %>
                         <%= form.hidden_field :user_id, value: current_user.id %>
-                        <%%= `<input id="hiddenfield" value="${channel.id}"type="hidden" name="channel_id">` %>
+                        <%%= `<input id="hiddenfield" value="${channel.id}" type="hidden" name="channel_id">` %>
                         <%= form.submit "Send", id: "send-message-button", class: "btn btn-primary" %>
                         
     <% end %>

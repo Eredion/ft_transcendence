@@ -1,18 +1,22 @@
-#admin-user-grid
-{
+#admin-user-grid {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    position:relative;
+    position: relative;
     max-width: 100%;
     align-items: center;
-
+    background: rgb(74, 94, 104);
+    padding: 1em;
 }
 
-.admin-user-el
-{
+.admin-user-el {
     width: 10em;
     padding: 1em;
     margin: 0.2em;
+    border-radius: 0.5em;
 }
 
+.tournament-form-creator {
+    padding: 1em;
+    background-color: rgb(125, 142, 160);
+}

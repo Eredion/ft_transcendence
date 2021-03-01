@@ -27,11 +27,15 @@ Rails.application.routes.draw do
         get :match_history
         get :guild
         get :mysession
+        post :enable_two_fa
+        post :disable_two_fa
+        get :two_fa
+        post :validate_two_fa
       end
     end
-    resources :chats
+    resources :chats, only: [:index, :create, :update, :show]
     resources :messages
-    resources :channels
+    resources :channels, only: [:index, :create, :update, :show, :delete]
     resources :requests, only: [:show, :create, :update]
     resources :matches, only: [:index, :show]
     resources :guilds, only: [:index, :show, :create, :update, :destroy] do
@@ -45,14 +49,14 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    get 'sign_in', :to => 'users#sign_in', :as => :user_session
+    #get 'sign_in', :to => 'users#sign_in', :as => :user_session
     #get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
     post 'sign_in', :to => 'users/sessions#create', :as => :create_user_session
 
     #get 'sign_up', :to => 'users/registrations#new', :as => :new_user_registration
     post 'sign_up', :to => 'users/registrations#create', :as => :create_user_registration
 
-    delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+    delete 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session_path
   end
   #devise_scope :user do
   #  get 'sign_in', :to => 'devise/sessions#new', :as => :new_user_session

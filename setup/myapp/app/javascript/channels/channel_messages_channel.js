@@ -60,6 +60,7 @@ let channelSubscription = {
           {
             $('#channel_view').append(`<div class="channel_message bg-light p-2">
                 <div class="message_author d-inline text-primary">
+                <span class="text-dark">${data.guild ? '(' + data.guild.anagram + ')' : '' }</span>
                 <a href="#popup1" onclick="render_popup(this)">${data.author} :</a></div>
                 <div class="message_content d-inline text-dark"> ${data.content}</div>
                 </div>`);

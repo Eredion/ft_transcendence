@@ -1,21 +1,25 @@
 
-<!-- User is login -->
+<%# User is login%>
 
 <% if user_signed_in? %>
-  <%= render "nav" %>
-  <%= render "profile" %>
-  <%= render "game" %>
-  <%= render "chat" %>
-  <%= render "channels"%>
-  <%= render "friends"%>
-  <%= render "match"%>
-  <%= render "guilds"%>
-  <%= render "ranking"%>
-  <%= render "admin"%>
-  <%= render "play" %>
-  <%= render "popup" %>
-  <%= render "waitchallenge" %>
-  <%= render "war" %>
+  <% if current_user.otp_required_for_login == true && !current_user.otp_validated %>
+    <%= render "2fa" %>
+  <% else %>
+    <%= render "nav" %>
+    <%= render "profile" %>
+    <%= render "game" %>
+    <%= render "chat" %>
+    <%= render "channels"%>
+    <%= render "friends"%>
+    <%= render "match"%>
+    <%= render "guilds"%>
+    <%= render "ranking"%>
+    <%= render "admin"%>
+    <%= render "play" %>
+    <%= render "popup" %>
+    <%= render "waitchallenge" %>
+    <%= render "war" %>
+  <% end %>
 <% else %>
   <%= render "users/sign_in" %>
 <% end %>
@@ -28,7 +32,7 @@
   <div class="notification-container">
   </div>
   <div id="friends_container">
-  <!-- user_friends_button_template -->
+  <%# user_friends_button_template %>
   </div>
 
 <% end %>

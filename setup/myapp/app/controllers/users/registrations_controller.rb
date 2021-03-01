@@ -13,19 +13,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user = User.new user_params
     if user.save
       sign_in(user)
-      #render json: {data: 'OK'}, status: :ok
       respond_to do |format|
-        format.json { render json: { location: root_path, status: 'ok' } }
+        format.json { render json: { location: "/#users/#{user.id}", status: 'ok' } }
       end
-      #redirect_to root_path
     else
-      flash.now[:alert] = "Some error ocurred. Try again"
+      flash[:alert] = "Some error ocurred. Try again"
       respond_to do |format|
         format.json { render json: { location: :signup, status: 'ko' } }
       end
-      #render json: {data: 'KO'}, status: internal_server_error
-      #flash[:alert] = "Nickname or password is invalid"
-      #format.html { redirect_to create_user_registration}
     end
 
   end

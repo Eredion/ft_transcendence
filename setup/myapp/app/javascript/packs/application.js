@@ -9,6 +9,9 @@ require("backbone");
 global.$ = global.jQuery = jQuery;
 window.$ = window.jQuery = jQuery;
 global._ = global.underscore = underscore;
+// Global Helper for use in templates
+import Helper from './Helper'
+global.Helper = Helper
 
 //App Entrypoint
 import App from './pong-app.js'

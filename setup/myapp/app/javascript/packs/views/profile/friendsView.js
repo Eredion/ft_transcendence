@@ -2,12 +2,13 @@ import _ from 'underscore'
 import $ from 'jquery'
 import Backbone from 'backbone'
 import Helper from '../../Helper'
+import MySession from '../../models/session'
 
 const Friends = {}
 
 $(function () {
 
-if (Helper.logged()) {
+if (Helper.logged() && Helper.valid()) {
 
     Friends.UsersModel = Backbone.Model.extend({
 

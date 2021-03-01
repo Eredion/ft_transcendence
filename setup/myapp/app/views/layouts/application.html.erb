@@ -2,7 +2,11 @@
 <html data-user-logged="<%= user_signed_in? %>"
     <% if user_signed_in? %>
       data-user-id="<%= current_user.id %>"
-    <% end %> >
+      data-user-requiredtwofa="<%= current_user.otp_required_for_login %>"
+      <% if current_user.otp_required_for_login %>
+        data-user-validatecode="<%= current_user.otp_validated %>"
+      <% end %> >
+    <% end %>
   <head>
     <title>Ft_transcendence</title>
     <%= csrf_meta_tags %>
@@ -29,6 +33,12 @@
     <div class="footer mt-auto bg-dark text-center text-white" id="footer">
       <footer>Developed by @asegovia @darodrig @pcuadrad <strike>@aserrano</strike> at 42 Madrid</footer>
     </div>
+
+    <script>
+      <% if flash[:alert] %>
+        Helper.custom_alert("danger", "<%=flash[:alert]%>");
+      <% end %>
+    </script>
   </body>
   
 </html>

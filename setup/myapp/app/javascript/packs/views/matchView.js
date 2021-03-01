@@ -10,7 +10,7 @@ const Match = {}
 
 $(function () {
 
-if (Helper.logged()) {
+if (Helper.logged() && Helper.valid()) {
 
     Match.Model = Backbone.Model.extend({
 

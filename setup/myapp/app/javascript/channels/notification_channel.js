@@ -57,8 +57,17 @@ $(function () {
 				Friends.view.update()
 			} else if (data['action'] === 'alert') {
 				Helper.custom_alert("danger", data['message'])
+			} else if (data['action'] === 'banned') {
+				Helper.custom_alert('danger', 'You have been banned.')
+				setTimeout(async function(){
+					self.log_off()
+				}, 500);
+			} else if (data['action'] === 'close_session') {
+				self.log_off()
 			}
-		}
+		},
+
+
         });
     }
 
@@ -67,8 +76,12 @@ $(function () {
           consumer.subscriptions.remove(this.cable);
           this.cable = null;
       }
-    }
+	}
 
+	async log_off() {
+		await Helper.ajax('DELETE', 'sign_out', '')
+		window.location.href = ''
+	}
   }
 
   Notifications.channel = new NotificationChannel();

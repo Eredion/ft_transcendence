@@ -87,6 +87,22 @@
     </div>
 </script>
 
+<script type="text/template" id="two-fa-profile-template">
+
+    <p class="h4 text-primary">Use Google Authenticator</p>
+    <%% if (two_fa.otp_required) { %>
+        <div class="bg-white mb-2">
+            <div class="p-1">
+                <%%= two_fa.qrcode %>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger" id="disable-2fa">Disable 2FA</button>
+    <%% } else { %>
+        <button type="button" class="btn btn-primary" id="enable-2fa">Enable 2FA</button>
+    <%% } %>
+
+</script>
+
 <script type="text/template" id="user_info_template">
 <div class="row flex">
     <div class="col-4 text-center">
@@ -99,6 +115,9 @@
                 <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
             <% end %>
 
+            <div class="mt-5" id="two-fa-data">
+                <!-- two-fa-profile-template -->
+            </div>
         <%% } %>
     </div>
     <div class="col-8">

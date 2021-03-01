@@ -37,7 +37,10 @@ class Api::MessagesController < ApplicationController
         end
         if (msg.channel_id && msg.save() )
             puts("channel_messages_#{msg.channelname}")
-            ActionCable.server.broadcast "channel_messages_" + msg.channelname, msg
+            ret = msg.as_json
+            user = User.find_by(id: msg.user_id)
+            ret[:guild] = Guild.find_by(id: user.guild_id).as_json(only: [:anagram])
+            ActionCable.server.broadcast "channel_messages_" + msg.channelname, ret
         elsif (msg.chat_id && msg.save() )
       #      dest_id = User.find_by(nickname: msg.dest).id
             if (msg.invisible)

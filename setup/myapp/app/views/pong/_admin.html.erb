@@ -4,17 +4,19 @@
         <h1 class="title">Admin control panel</h1>
     </div>
     <div id="tournament-creator-interface">
-        <div class="form-group">
-        <%= form_with url: "api/tournaments", method: :create do |f| %>
-            <%= text_field(:tournament, :name, minlenght: 1, maxlenght: 20,
-                placeholder: "Choose a name...", autocomplete: :off, id: "input-trnmnt-form") %>
-                <label class="text-white" >Start time</label>
-            <%= datetime_field(:tournament, :startdate, min: Date.today, id: "startdate" ) %>
-            <label class="text-white" >Duration</label>
-            <%= select(:tournament, :finishdate, options_for_select([["short", "short"], ["long", "long"]]), placeholder: '2021-02-24T00:00:00') %>
-            <%= f.submit "Create tournament", id: "create-tournament-button", class: "btn btn-dark" %>
+        
+        <div class="form-group tournament-form-creator">
+            <h4>New tournament</h4>
+            <%= form_with url: "api/tournaments", method: :create do |f| %>
+                <%= text_field(:tournament, :name, maxlength: 20, required: true,
+                    placeholder: "Choose a name...", autocomplete: :off, id: "input-trnmnt-form") %>
+                    <label class="text-white" >Start time</label>
+                <%= datetime_field(:tournament, :startdate, min: Date.today, required: true, id: "startdate" ) %>
+                <label class="text-white" >Duration</label>
+                <%= select(:tournament, :finishdate, options_for_select([["short", "short"], ["long", "long"]]), placeholder: '2021-02-24T00:00:00') %>
+                <%= f.submit "Create tournament", id: "create-tournament-button", class: "btn btn-dark ml-2" %>
 
-        <% end %>
+            <% end %>
         </div>
         <%% $('#startdate').val($(this).attr("min")) %>
     </div>
@@ -25,10 +27,10 @@
                     <p><%%= user.nickname %></p>
                     <span>
                         <%% if (user.banned === false) { %>
-                        <div class="ban-user-button btn btn-danger" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">BAN</div>
+                        <div class="ban-user-button btn btn-block btn-danger" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">BAN</div>
 
                         <%% } else { %>
-                        <div class="unban-user-button btn btn-success" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">UNBAN</div>
+                        <div class="unban-user-button btn btn-block btn-success" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">UNBAN</div>
 
                         <%% } %>
                     </span>

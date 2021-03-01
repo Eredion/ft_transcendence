@@ -80,7 +80,7 @@ class Workspace extends Backbone.Router {
             this.guildView.removeChannel()
             this.guildView.undelegateEvents()
         }
-        if (this.playview){
+        if (this.playview) {
             this.playview.disconnect()
             this.playview.undelegateEvents()
         }
@@ -118,28 +118,25 @@ class Workspace extends Backbone.Router {
         this.two_fa.render()
     }
 
-    admin(){
-        if (Helper.current_user() === 'theadmin')
-        {
+    admin() {
+        if (Helper.current_user() === 'theadmin') {
             if (!this.adminview)
                 this.adminview = new adminView();
             this.adminview.render();
-        }
-        else
+        } else
             this.notFound();
     }
 
-    popup_profile(){
+    popup_profile() {
         this.popupprofile = new PopupProfileView(($('.popup-user-title').text()));
     }
 
-    warform()
-    {
+    warform() {
         this.warformview = new WarformView();
         this.warformview.render();
     }
 
-    chat(){
+    chat() {
         if (!this.chatview)
             this.chatview = new chatView();
         this.chatview.render();
@@ -151,14 +148,15 @@ class Workspace extends Backbone.Router {
         this.rankView.render();
     }
 
-    channels(name){
+    channels(name) {
         console.log(name);
         if (!this.channelView)
             this.channelView = new channelsView();
+        this.channelView.render();
         if (name != "default")
             this.channelView.check_password(name);
-        else
-            this.channelView.render();
+
+
     }
 
     userSignin() {
@@ -184,7 +182,7 @@ class Workspace extends Backbone.Router {
         this.profileview = new Profile.view(id);
     }
 
-    play(){
+    play() {
         this.playview = playview;
         this.playview.render();
     }

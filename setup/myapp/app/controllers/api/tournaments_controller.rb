@@ -13,7 +13,14 @@ class Api::TournamentsController < ApplicationController
         Tournament.delete_all
         if (tour = Tournament.new(params_tournament))
             puts tour.startdate
-            timelen = (params_tournament[:finishdate] == "short") ? 1.minutes : 5.minutes
+            if (tour.startdate == nil)
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Check that you have filled all parameters'
+                }
+            end
+            timelen = (params_tournament[:finishdate] == "short") ? 2.minutes : 60.minutes
             tour.finishdate = tour.startdate + timelen
             if tour.save
                 OpenTournamentJob.perform_later(tour)
@@ -23,9 +30,20 @@ class Api::TournamentsController < ApplicationController
                     u.tournament_defeats = 0
                     u.save
                 end
+            else
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Check that you have filled all parameters'
+                }
             end
         else
             puts(Rails.logger.info(tour.errors.inspect))
+            ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Check that you have filled all parameters'
+                }
         end
     end
 

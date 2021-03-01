@@ -58,7 +58,7 @@ if (Helper.logged()) {
             console.log(this.ownCable);
             setTimeout(function(){
                 if (self.game_found === false) {
-                    self.ownCable.perform('miss_match', {war : war});
+                    self.ownCable.perform('miss_match');
                     $('#search_match_modal').modal('hide')
                     window.location.href = '#play';
                     Helper.custom_alert('success', "Unanswered match, your guild wins 1 war point.");

@@ -60,28 +60,16 @@ class MatchmakingChannel < ApplicationCable::Channel
     ChallengeJob.perform_later(current_user, User.find_by(id: data["peer"].to_i))
   end
 
-  def miss_match(data)
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts "Hola"
-    puts data
+  def miss_match
+    user = User.find_by(id: current_user.id)
+    guild = Guild.find_by(id: user.guild_id)
+    war = War.find_by(id: guild.war_id)
+    guild.warvictories += 1
+    guild.missed_matches += 1
+    guild.save
+    if (guild.missed_matches >= war.missed_matches)
+      WarTimeOffJob.perform_now(war)
+    end
   end
 
 end

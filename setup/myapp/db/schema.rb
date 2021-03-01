@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.bigint "war_id"
     t.boolean "inwar", default: false
     t.integer "warvictories", default: 0
-    t.integer "wardefeats", default: 0
     t.boolean "war_playing", default: false
     t.integer "missed_matches", default: 0
     t.string "war_history", default: [], array: true
@@ -161,7 +160,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.boolean "type_tournament", default: false
     t.integer "bet", default: 0
     t.integer "missed_matches", default: 5
-    t.integer "answer_time", default: 5
+    t.integer "answer_time", default: 120
     t.string "status", default: "request_sent", null: false
     t.string "from", null: false
     t.string "to", null: false

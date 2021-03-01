@@ -38,8 +38,10 @@ let channelsView = Backbone.View.extend({
             console.log($('#channel-name-title').text())
             if ($('#channel-name-title').text() === channel)
             {
-                if ((userscol.findWhere({id: Helper.userId()})).get("admin") === false)
-                    alert(`The channel "${channel}" was removed`);
+                if ((userscol.findWhere({id: Helper.userId()})).get("admin") === false) {
+                    window.location.href = '#channels/default';
+                    Helper.custom_alert('danger', `The channel "${channel}" was removed`);
+                }
                 self.render();
             }
             else

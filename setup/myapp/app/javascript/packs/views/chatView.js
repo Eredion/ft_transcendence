@@ -12,6 +12,7 @@ let chatView = Backbone.View.extend({
     el: '#content',
     chatCol: chatcol,
     userCol: usercollection,
+    status : 0,
 
     initialize() {
 		this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"DmChannel\",\"userID\":${Helper.userId()}`)));
@@ -33,6 +34,10 @@ let chatView = Backbone.View.extend({
             let output = template({'users':usercollection.toJSON(), 'current_user':current_user});
             $('#available-users').html(output);
 			self.greenUsers();
+            $('.online-user').on('click', function(){
+                console.log("ole!")
+                self.renderConversation(this.dataset.author)
+            })
         });
         return this;
     },
@@ -76,7 +81,8 @@ let chatView = Backbone.View.extend({
         });
         $("#input-msg-chat-form").submit(function(event) {
             event.preventDefault();
-          });
+        });
+          
         return self;
     },
 
@@ -87,6 +93,7 @@ let chatView = Backbone.View.extend({
 
     async renderConversation(name){
         let self = this;
+        
         $('#chat-name-title').text(name);
         let chatName = this.buildChatName(Helper.current_user(), name);
         await Helper.fetch(this.chatCol).then(function() {

@@ -90,7 +90,6 @@ class Workspace extends Backbone.Router {
         return {
             "": "myProfile",
             "chat": "chat",
-            "chat/:name": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
             "validate_two_fa": "validateTwoFA",
@@ -140,16 +139,10 @@ class Workspace extends Backbone.Router {
         this.warformview.render();
     }
 
-    chat(name) {
+    chat(){
         if (!this.chatview)
             this.chatview = new chatView();
-        if (name)
-        {
-            this.chatview.render();
-            this.chatview.renderConversation(name);
-        }
-        else
-            this.chatview.render();
+        this.chatview.render();
     }
 
     ranking() {

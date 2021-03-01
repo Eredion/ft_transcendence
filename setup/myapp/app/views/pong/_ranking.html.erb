@@ -30,13 +30,13 @@
         <%% i+= 1; %>
         <div class="bg-light d-flex flex-row">
             <%% if (i === 1){ %>
-            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</a>
             <%% } else if (i === 2){ %>
-            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</a>
             <%% }  else if (i === 3){ %>
-            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</a>
             <%% }  else { %>
-            <div  class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</a>
             <%% } %>
             <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.score %></div>
         </div>
@@ -49,7 +49,7 @@
     <%% for (guild of guilds) {%>
         <div class="bg-light p-2 flex-row mb-2">
             
-             <div  class="d-inline text-dark w-10"><%%= "[" + guild.anagram + "] " + guild.title%>:</div>
+             <a href="#guilds/<%%= guild.id %>" class="d-inline text-dark w-10"><%%= "[" + guild.anagram + "] " + guild.title%>:</a>
 
              <div class="d-inline text-primary align-self-end w-10"><%%= guild.score %></div>
            
@@ -77,13 +77,13 @@
         <%% i+= 1; %>
         <div class="bg-light d-flex flex-row">
             <%% if (i === 1){ %>
-            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</a>
             <%% } else if (i === 2){ %>
-            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</a>
             <%% }  else if (i === 3){ %>
-            <div  class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</a>
             <%% }  else { %>
-            <div  class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</div>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</a>
             <%% } %>
             <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_victories%></div>
             <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_defeats%></div>

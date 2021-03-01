@@ -25,10 +25,9 @@ let chatView = Backbone.View.extend({
 
 	greenUsers() {
 		for (let i in Helper.data.newMsg)
-		{
             $(`[data-author=${Helper.data.newMsg[i]}]`).removeClass('btn btn-dark btn-sm').addClass('btn btn-success btn-sm');
-		}
 	},
+    
     async fetchUsers() {
 		self = this;
         await Helper.fetch(this.userCol).then(function() {
@@ -96,7 +95,7 @@ let chatView = Backbone.View.extend({
     async renderConversation(name){
         let self = this;
         
-        $('#chat-name-title').text(name);
+        $('#chat-name-title').html(`<a href="#popup1" onclick="render_popup(this)" >${name}</a>`);
         let chatName = this.buildChatName(Helper.current_user(), name);
         await Helper.fetch(this.chatCol).then(function() {
             if (self.chatCol.where({ name: chatName}).length === 0) {

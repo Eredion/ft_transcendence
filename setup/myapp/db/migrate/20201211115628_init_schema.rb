@@ -141,7 +141,6 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string :status, default: "request_sent", null: false # request_sent, accepted, active, wartime, finished
       t.string "from", null: false
       t.string "to", null: false
-
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

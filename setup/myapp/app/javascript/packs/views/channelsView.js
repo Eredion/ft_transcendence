@@ -119,7 +119,7 @@ let channelsView = Backbone.View.extend({
         return this;
     },
 
-    render() {
+    render(name) {
         let self = this;
         this.updateBlockedUsers();
         let template = _.template($("#channels-template").html())
@@ -131,7 +131,11 @@ let channelsView = Backbone.View.extend({
             }, 300);
 
         });
-
+        if (name && name.length > 0)
+        {
+            console.log("entra aquí")
+            self.check_password(name); 
+        }
         return this;
     },
 

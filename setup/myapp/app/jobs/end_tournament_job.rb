@@ -3,8 +3,8 @@ class EndTournamentJob < ApplicationJob
 
   def perform(tournament)
     tournament.status = "finished"
-    history = []
-    history_user = []
+    history = {}
+    history_user = {}
     tournament.users.each do |user|
       history_user.nickname = user.nickname
       history_user.victories = user.tournament_victories
@@ -15,6 +15,7 @@ class EndTournamentJob < ApplicationJob
       user.intournament = false 
       user.save
     tournament.history = JSON.generate(history)
+    tournament.users = nil
     puts history
     tournament.save
     end

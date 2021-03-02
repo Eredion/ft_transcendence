@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.string "name", default: "tournament", null: false
     t.bigint "users"
     t.string "status", default: "closed"
+    t.string "history"
     t.datetime "startdate", null: false
     t.datetime "finishdate", null: false
   end

@@ -104,19 +104,19 @@ class Workspace extends Backbone.Router {
             "guilds": "guilds",
             "guilds/:id": "guild",
             "ranking": "ranking",
+            "tournament/:id": "tournament",
             "admin": "admin",
             "challenge/:id": "search_match",
             "challenge/:id/accept/:from": "search_match",
             "war/new": "warform",
             "*actions": "notFound",
-            "tournament/:id": "tournament",
         }
     }
 
     tournament(id)
     {
         this.tournamentview = new tournamentView(id);
-        this.tournamentview.render(id);
+        //this.tournamentview.render();
     }
 
     validateTwoFA() {

@@ -9,6 +9,7 @@ class EndTournamentJob < ApplicationJob
         :nickname => user.nickname,
         :victories => user.tournament_victories,
         :defeats => user.tournament_defeats,
+        :id => user.id,
       }
       history.push(history_user)
       user.tournament_defeats = 0
@@ -16,6 +17,7 @@ class EndTournamentJob < ApplicationJob
       user.intournament = false 
       user.save
     end
+    history.sort_by {|h| [ h[:victories].to_i, h[:defeats].to_i ]}
     tournament.history = JSON.generate(history)
     tournament.users = []
     puts history

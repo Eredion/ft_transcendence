@@ -8,14 +8,25 @@ import tourncol from '../models/tournament'
 
 let tournamentView = Backbone.View.extend({
     el: '#content',
-    initialize(id){
-        this.tournament = Helper.ajax("GET", "api/tournaments/" + id)
+    async initialize(id){
+        self = this;
+        this.tournament = await Helper.ajax("GET", "api/tournaments/" + id)
+        console.log(self.tournament);
+        //if (this.tournament.history && this.tournament.history.length > 0)
+            this.history = JSON.parse(this.tournament.history);
         console.log("initialize tournament view")
+        this.render();
     },
 
-    render(id)
+    render()
     {
-
+        console.log("torneo:")
+        console.log(this.tournament); 
+        let template = _.template($("#tournament-ranking-template").html());
+        console.log("historial:")
+        console.log(this.history);
+        let output = template({'history': this.history, 'tournament': this.tournament});
+        this.$el.html(output);
     },
 });
 

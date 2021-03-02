@@ -11,10 +11,7 @@ let TournamentModel = Backbone.Model.extend({
 let TournamentCol = Backbone.Collection.extend({
     url: 'api/tournaments',
     model: TournamentModel,
-    parse: function(data) {
-        return data;
 
-    },
     initialize: function() {
         Helper.fetch(this);
     },

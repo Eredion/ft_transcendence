@@ -2,6 +2,9 @@ class RunTournamentJob < ApplicationJob
   queue_as :default
 
   def perform(tournament)
+    if (tournament.status == "finished")
+        return
+    end
     puts "Tournament is now active"
     tournament.status = "active"
     tournament.save

@@ -12,6 +12,7 @@ import PopupProfileView from './views/popupProfileView'
 import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
 import rankingView from './views/rankingView'
+import tournamentView from './views/tournamentView'
 import adminview from './views/adminView'
 import playview from './views/playView'
 import adminView from './views/adminView'
@@ -96,7 +97,6 @@ class Workspace extends Backbone.Router {
             "play": 'play',
             "users/:id": "userProfile",
             "channels": "channels",
-            //"channels/:name": "channels",
             "popup1": "popup_profile",
             "popup1/:name": "popup_profile",
             "search_match/:id": "search_match",
@@ -108,8 +108,15 @@ class Workspace extends Backbone.Router {
             "challenge/:id": "search_match",
             "challenge/:id/accept/:from": "search_match",
             "war/new": "warform",
-            "*actions": "notFound"
+            "*actions": "notFound",
+            "tournament/:id": "tournament",
         }
+    }
+
+    tournament(id)
+    {
+        this.tournamentview = new tournamentView(id);
+        this.tournamentview.render(id);
     }
 
     validateTwoFA() {

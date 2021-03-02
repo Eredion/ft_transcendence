@@ -1,11 +1,12 @@
 class Api::TournamentsController < ApplicationController
     def index
         tournaments = Tournament.all
-        render json: tournaments
+        # render json: tournaments
+         render json: tournaments.as_json(only: [:id, :name, :status])
     end
 
-    def show
-        tournament = Tournaments.find(params[:id])
+    def show()
+        tournament = Tournament.find_by(id: params[:id])
         render json: tournament
     end
 

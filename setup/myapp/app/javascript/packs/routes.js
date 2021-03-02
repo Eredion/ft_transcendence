@@ -95,8 +95,8 @@ class Workspace extends Backbone.Router {
             "validate_two_fa": "validateTwoFA",
             "play": 'play',
             "users/:id": "userProfile",
-            "channels/": "channels",
-            "channels/:name": "channels",
+            "channels": "channels",
+            //"channels/:name": "channels",
             "popup1": "popup_profile",
             "popup1/:name": "popup_profile",
             "search_match/:id": "search_match",
@@ -148,11 +148,11 @@ class Workspace extends Backbone.Router {
         this.rankView.render();
     }
 
-    channels(name) {
-        console.log(name);
+    channels() {
+        console.log();
         if (!this.channelView)
             this.channelView = new channelsView();
-        this.channelView.render(name);
+        this.channelView.render();
        //if (name != "default")
         //    this.channelView.check_password(name);
         

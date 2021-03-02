@@ -122,6 +122,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "name", default: "tournament", null: false, unique: true
       t.bigint "users", references: :users
       t.string "status", default: "closed" #open, active, finished
+      t.string "history"
       t.datetime "startdate", null: false
       t.datetime "finishdate", null: false
     end

@@ -40,10 +40,6 @@ class LoopGameJob < ApplicationJob
 			if loser.score <= 0
 				loser.score = 0
 			end
-			if winner.guild_id
-				winner_guild.score += (match.winner_points / 10)
-				winner_guild.save
-			end
 		elsif match.match_type == "tournament game"
 			loser.tournament_defeats += 1
 			winner.tournament_victories += 1
@@ -66,6 +62,10 @@ class LoopGameJob < ApplicationJob
 					loser_guild.save
 				end
 			end
+		end
+		if winner.guild_id
+			winner_guild.score += 10
+			winner_guild.save
 		end
 		winner.save
 		loser.save

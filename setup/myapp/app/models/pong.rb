@@ -1,7 +1,7 @@
 class Pong
 
     @@matches = {}
-    @@winning_score = 1
+    @@winning_score = 3
 
     def initialize(match_id)
         p "New match creation id #{match_id}"
@@ -12,6 +12,7 @@ class Pong
         @paddles[0] = Paddle.new(@canvas_width, @canvas_height, 0) # left paddle
         @paddles[1] = Paddle.new(@canvas_width, @canvas_height, 1) # right paddle
         @ball = Ball.new(@canvas_width, @canvas_height)
+        ActionCable.server.broadcast('active_matches', { action: 'update_matches' })
         LoopGameJob.perform_later(match_id)
     end
 

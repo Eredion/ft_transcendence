@@ -70,6 +70,11 @@ class LoopGameJob < ApplicationJob
 		winner.save
 		loser.save
 		ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match } )
+		ActionCable.server.broadcast( 'active_matches', { action: 'update_matches' } )
+		winner.update(status: 1)
+		loser.update(status: 1)
+		ActionCable.server.broadcast( "user_status", { id: winner.id, status: 1} )
+		ActionCable.server.broadcast( "user_status", { id: loser.id, status: 1} )
 	end
 
 end

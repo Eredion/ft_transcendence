@@ -1,8 +1,9 @@
 class Api::TournamentsController < ApplicationController
+
     def index
-        tournaments = Tournament.all
+        tournaments = Tournament.all.as_json(only: [:id, :name, :status, :history])
         # render json: tournaments
-         render json: tournaments.as_json(only: [:id, :name, :status, :history])
+         render json: tournaments
     end
 
     def show()

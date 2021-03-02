@@ -10,7 +10,9 @@ class Api::TournamentsController < ApplicationController
     end
 
     def create
-        Tournament.delete_all
+        Tournament.all.each do |tour|
+            EndTournamentJob.perform_later(tour)
+        end
         if (tour = Tournament.new(params_tournament))
             puts tour.startdate
             if (tour.startdate == nil)
@@ -20,7 +22,7 @@ class Api::TournamentsController < ApplicationController
                     message: 'Check that you have filled all parameters'
                 }
             end
-            timelen = (params_tournament[:finishdate] == "short") ? 2.minutes : 60.minutes
+            timelen = (params_tournament[:finishdate] == "short") ? 2.minutes : 10.minutes
             tour.finishdate = tour.startdate + timelen
             if tour.save
                 OpenTournamentJob.perform_later(tour)
@@ -30,6 +32,11 @@ class Api::TournamentsController < ApplicationController
                     u.tournament_defeats = 0
                     u.save
                 end
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'primary',
+                    message: "Tournament '#{tour.name}' created"
+                }
             else
                 ActionCable.server.broadcast "notification_#{current_user.id}",
                 {

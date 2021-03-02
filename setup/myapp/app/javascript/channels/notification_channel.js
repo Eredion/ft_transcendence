@@ -57,6 +57,8 @@ $(function () {
 				Friends.view.update()
 			} else if (data['action'] === 'alert') {
 				Helper.custom_alert("danger", data['message'])
+			} else if (data['action'] === 'primary') {
+					Helper.custom_alert("primary", data['message'])
 			} else if (data['action'] === 'banned') {
 				Helper.custom_alert('danger', 'You have been banned.')
 				setTimeout(async function(){

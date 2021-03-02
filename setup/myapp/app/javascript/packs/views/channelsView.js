@@ -15,7 +15,9 @@ let channelsView = Backbone.View.extend({
     collection: channelcol,
     cablenames: [],
     cables: [],
-    events: {},
+    events: {
+        'click .render-channel-button':'check_password',
+    },
 
     initialize() {
         self = this;
@@ -119,8 +121,9 @@ let channelsView = Backbone.View.extend({
         return this;
     },
 
-    render(name) {
+    render() {
         let self = this;
+        console.log("RENDER")
         this.updateBlockedUsers();
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
@@ -131,11 +134,7 @@ let channelsView = Backbone.View.extend({
             }, 300);
 
         });
-        if (name && name.length > 0)
-        {
-            console.log("entra aquí")
-            self.check_password(name); 
-        }
+
         return this;
     },
 
@@ -183,7 +182,8 @@ let channelsView = Backbone.View.extend({
         $('#channel-password-popup').css("opacity", 0);
     },
 
-    async check_password(name) {
+    async check_password(e) {
+        name = $(e.currentTarget).data().channel
         self = this;
         await Helper.fetch(self.collection).then(function() {
             let chan = self.collection.where({ name: name })[0];

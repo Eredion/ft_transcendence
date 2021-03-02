@@ -36,7 +36,7 @@ let playView = Backbone.View.extend({
     render_tournament(){
         self = this;
         this.current_user = Helper.userId()
-        Promise.all([Helper.fetch(trnmntcol)]).then(function(){
+        await Helper.fetch(trnmntcol).then(function(){
             let tour = trnmntcol.at(trnmntcol.length - 1)
             if (tour != undefined)
             {

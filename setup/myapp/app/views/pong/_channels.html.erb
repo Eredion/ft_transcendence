@@ -53,8 +53,8 @@
     <div class="bg-secondary btn-group-vertical" id = "available-channel-buttons">
         <%% for (let i = 0; i < channels.length; i++){ %>
         
-        <%% const url = "#channels/" + channels[i].name; %>
-            <a  class="btn btn-dark btn-sm" id="online-user-button" href=<%%= url %>>
+
+            <a  class="btn btn-dark btn-sm render-channel-button" id="online-user-button" data-channel="<%%= channels[i].name %>" >
                 <%%= channels[i].name %>
 
             </a>

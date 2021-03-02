@@ -72,14 +72,47 @@
                 <div class="tournament-title-div text text-lg-center bg-light mb-1"><%%= tournament.name %></div>
                 <a href="#play" class="fire-animation btn btn-sm btn-danger btn-block badge-pill">Play now</a>
             </div>
+            <div id="current-tournament-ranking"></div>
         <%% } %>
     <%% }%>
     <%% for (let tournament of tournaments) {%>
         <%% if (tournament.status == "finished"){ %>
-            <div class="tournament-div bg-dark p-1 mb-1">
-                <div href="#tournament/<%%= tournament.id %>" class="text-center bg-secondary"><%%= tournament.name %></div>
-                <p class="text-light text-sm-center">Status: finished</p>
-            </div>
+            <a href="#tournament/<%%= tournament.id %>" class="tournament-div bg-dark">
+                <div  class="text-center bg-secondary center"><%%= tournament.name %></div>
+                <p class="badge badge-light text-sm-center">Status: finished</p>
+            </a>
         <%% } %>
     <%% }%>
+</script>
+
+<script id="tournament-ranking-template" type='text/template'>
+
+  
+    <%% let i = 0; %>
+    <%% for (user of users) {%>
+        <%% if (user.intournament === false) { continue;} %>
+        <%% if (i === 0) { %>
+        <div class="bg-info d-flex flex-row mb-1">
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2">Nickname</div>
+            <div class="font-weight-bold flex-fill align-self-end p-2 text-info">__</div>
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2">W</div>
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2">L</div>
+        </div>
+        <%% } %>
+        <%% i+= 1; %>
+        <div class="bg-light d-flex flex-row">
+            <%% if (i === 1){ %>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</a>
+            <%% } else if (i === 2){ %>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</a>
+            <%% }  else if (i === 3){ %>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</a>
+            <%% }  else { %>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</a>
+            <%% } %>
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_victories%></div>
+            <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_defeats%></div>
+        </div>
+    <%% };%>
+    
 </script>

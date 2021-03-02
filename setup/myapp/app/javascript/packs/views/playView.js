@@ -37,7 +37,9 @@ let playView = Backbone.View.extend({
         self = this;
         this.current_user = Helper.userId()
         await Helper.fetch(trnmntcol).then(function(){
-            let tour = trnmntcol.at(trnmntcol.length - 1)
+            let tour = trnmntcol.findWhere({'status':'open'})
+            if (tour === undefined)
+                tour = trnmntcol.findWhere({'status':'active'})
             console.log(tour)
             if (tour != undefined)
             {

@@ -38,7 +38,6 @@ let chatView = Backbone.View.extend({
         Promise.all([Helper.fetch(this.userCol), Helper.fetch(this.guildCol)], Helper.fetch(this.tournCol))
         .then(function(){
             let template0 = _.template($("#ranking-template").html());
-            let tournament = self.getTournament();
             self.$el.html(template0({'tournament': tournament}));
             let template = _.template($("#user-ranking-template").html());
             let usersOrdered = self.sortByKey(self.userCol.toJSON(), "score");
@@ -51,6 +50,11 @@ let chatView = Backbone.View.extend({
             let template3 = _.template($("#tournament-list-template").html());
             let output3 = template3({'tournaments': self.tournCol.toJSON()});
             $('#tournament-ranking').html(output3);
+            let tournament = self.tournCol.findWhere({'status':'active'})
+            let template4 = _.template($("#tournament-ranking-template").html());
+            usersOrdered.sort((a, b) => (b.tournament_victories - b.tournament_defeats) - (a.tournament_victories - a.tournament_defeats));
+            let output4 = template4({'users': usersOrdered, 'tournament': tournament.toJSON()});
+            $('#current-tournament-ranking').html(output4);
         });
     },
 });

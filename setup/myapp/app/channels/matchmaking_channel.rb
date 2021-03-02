@@ -16,10 +16,11 @@ class MatchmakingChannel < ApplicationCable::Channel
   end
 
   def tournament_game
-    if current_user.intournament == true
+    user = User.find_by(id: current_user.id)
+    if user.intournament == true
       TournamentGameJob.perform_later(current_user)
     else
-      ActionCable.server.broadcast( "Matchmaking_#{current_user.id}", { action: 'not_tournament' })
+      ActionCable.server.broadcast( "Matchmaking_#{user.id}", { action: 'not_tournament' })
     end
   end
 

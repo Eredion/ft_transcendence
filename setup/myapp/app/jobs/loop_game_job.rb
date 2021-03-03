@@ -4,14 +4,18 @@ class LoopGameJob < ApplicationJob
     def perform(match_id)
         game = Pong.get_game(match_id)
         loop do
-            match = game.get_match
-            if match.finished
+			match = game.get_match
+			if match.finished
 				endgame(match)
-                break
-            end
-            game.move_ball
-            game.send_moves
-            sleep 0.04 # 25fps
+				break
+			end
+			if match.status == "running"
+				game.move_ball
+				game.send_moves
+				sleep 0.04 # 25fps
+			elsif match.status == "waiting" || match.status == "pause"
+				sleep 0.5
+			end
         end
     end
 

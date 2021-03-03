@@ -50,9 +50,9 @@ ch.messages.create(content: "Hola, soy Marvin, el androide paranoide", channel_i
 ch.messages.create(content: "Me encanta ft_transcendence", channel_id: 1, user_id: 1, author: "marvin")
 
 
-Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 2, left_score: 10, right_score: 5, winner_id: 1, loser_id: 2, finished: true)
-Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 3, left_score: 10, right_score: 7, winner_id: 1, loser_id: 3, finished: true)
-Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 4, left_score: 3, right_score: 10, winner_id: 4, loser_id: 1, finished: true)
+Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 2, left_score: 10, right_score: 5, winner_id: 1, loser_id: 2, finished: true, status: "finished", l_player_ready: true, r_player_ready: true)
+Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 3, left_score: 10, right_score: 7, winner_id: 1, loser_id: 3, finished: true, status: "finished", l_player_ready: true, r_player_ready: true)
+Match.create(match_type: "quick game", left_player_id: 1, right_player_id: 4, left_score: 3, right_score: 10, winner_id: 4, loser_id: 1, finished: true, status: "finished", l_player_ready: true, r_player_ready: true)
 
 
 guild = Guild.create(title: "Pong Masters", anagram: "PM", score: 120, owner_id: 4, officers: [2, 3], members: [4, 5])

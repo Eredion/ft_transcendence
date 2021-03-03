@@ -15,7 +15,7 @@ if (Helper.logged() && Helper.valid()) {
     Match.Model = Backbone.Model.extend({
 
         parse (response) {
-            return JSON.parse(response.success)
+            return response.success
         },
 
         initialize(options) {
@@ -31,8 +31,12 @@ if (Helper.logged() && Helper.valid()) {
 
         template: _.template($('#match_template').html()),
 
+        l_player_tmpl: _.template($('#left_player_template').html()),
+        
+        r_player_tmpl: _.template($('#right_player_template').html()),
+
         events: {
-            "click #f-match": "finish_match"
+            "click .check-ready": "send_ready"
         },
 
         async initialize(id) {
@@ -41,25 +45,36 @@ if (Helper.logged() && Helper.valid()) {
             this.current_user = Helper.userId()
             this.model = new Match.Model( { match_id: this.match_id } )
             await Helper.fetch(this.model)
-            this.render()
+            let jmodel = this.model.toJSON()
+            this.render(jmodel)
+            this.render_players(jmodel)
+            Matches.channel.connect(this.match_id, this.update_match, this)
             this.pong = new Pong(this.match_id)
-            if (!this.model.get('finished')) {
+            this.active_moves()
+        },
 
-                if (this.current_user === this.model.get('left_player_id')) {
+        active_moves() {
+            if (!this.model.get('finished') && this.model.get('status') == "running") {
+
+                if (this.current_user === this.model.get('left_player').id) {
                     console.log('left_player ' + this.current_user + ' listening keymoves')
                     this.pong.listen(this.current_user, 'l');
-                } else if (this.current_user === this.model.get('right_player_id')) {
+                } else if (this.current_user === this.model.get('right_player').id) {
                     console.log('right_player ' + this.current_user + ' listening keymoves')
                     this.pong.listen(this.current_user, 'r');
                 }
             }
-            Matches.channel.connect(this.match_id, this.update_match, this)
         },
 
-        render() {
+        render(match_data) {
             console.log('Match View render')
-            this.$el.html(this.template( { 'match' : this.model.toJSON() } ));
+            this.$el.html(this.template( { 'match' : match_data, 'user': this.current_user } ));
             return this;
+        },
+
+        render_players(players_data) {
+            this.$el.find('#left_player_side').html(this.l_player_tmpl( { 'player' : players_data['left_player'], 'user': this.current_user } ));
+            this.$el.find('#right_player_side').html(this.r_player_tmpl( { 'player' : players_data['right_player'], 'user': this.current_user } ));
         },
 
         async renderResult(data) {
@@ -76,14 +91,30 @@ if (Helper.logged() && Helper.valid()) {
             });
         },
 
-        update_match(data) {
-            if (data['actors']) {
+        async update_match(data) {
+            if (data['action'] == "update_players") {
+                this.render_players(data['data'])
+            } else if (data['action'] == "start") {
+                await Helper.fetch(this.model)
+                this.active_moves()
+            } else if (data['actors']) {
                 this.pong.update_match(data['actors'])
-            } else {
+            } else if (data['action'] == "finish_game") {
                 this.renderResult(data);
             }
         },
 
+        send_ready(e) {
+            e.preventDefault()
+            console.log('send ready func')
+            Matches.channel.perform('set_ready', {
+                match: this.match_id,
+                from: Helper.userId(),
+                player: $(e.currentTarget).data().playerId
+            })
+        },
+
+        /*
         finish_match(e) {
             console.log('Sending action to finish the match')
             e.preventDefault()
@@ -91,7 +122,7 @@ if (Helper.logged() && Helper.valid()) {
                 match: this.match_id
             }
             Matches.channel.perform('finish_match', data)
-        },
+        },*/
 
         removeChannel() {
             Matches.channel.disconnect()

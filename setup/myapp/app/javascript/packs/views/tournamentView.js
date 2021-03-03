@@ -2,9 +2,6 @@ import _ from 'underscore'
 import $ from 'jquery';
 import Backbone from 'backbone'
 import Helper from '../Helper';
-import usercollection from '../models/user'
-import guildCollection from '../models/guilds'
-import tourncol from '../models/tournament'
 
 let tournamentView = Backbone.View.extend({
     el: '#content',
@@ -12,8 +9,9 @@ let tournamentView = Backbone.View.extend({
         self = this;
         this.tournament = await Helper.ajax("GET", "api/tournaments/" + id)
         console.log(self.tournament);
-        //if (this.tournament.history && this.tournament.history.length > 0)
-            this.history = JSON.parse(this.tournament.history);
+        if (this.tournament === null)
+            window.location.href = '#error';
+        this.history = JSON.parse(this.tournament.history);
         console.log("initialize tournament view")
         this.render();
     },

@@ -78,19 +78,8 @@ $(function () {
             if (this.type === 'war')
                 this.checkMissMatch();
             $('#cancel-button').on("click", function(){
-                console.log("Cancel");
-               /* if (self.type === 'war') {
-                    console.log("Amo a petichione")
-                    let data = {
-                        war_playing: false
-                    }
-                    let response = Helper.ajax('POST', 'api/guilds/' + self.myself.guild_id, data)
-                    if (response['error']) {
-                        Helper.custom_alert('danger', response['error'])
-                    } else {
-                        Helper.custom_alert('success', response['success'])
-                    }
-                }*/
+                if (self.type === 'war')
+                    self.ownCable.perform('cancel_war_game')
                 $('#search_match_modal').modal('hide')
                 window.location.href = '#play';
             })

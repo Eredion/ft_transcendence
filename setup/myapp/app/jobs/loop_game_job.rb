@@ -20,8 +20,11 @@ class LoopGameJob < ApplicationJob
     end
 
 	def endgame(match)
+		match.status = "finished"
 		loser = User.find_by(id: match[:loser_id])
 		winner = User.find_by(id: match[:winner_id])
+		winner.matches_won += 1
+		loser.matches_lost += 1
 		if winner.guild_id != nil
 			winner_guild = Guild.find_by(id: winner.guild_id)
 		end
@@ -71,9 +74,10 @@ class LoopGameJob < ApplicationJob
 				end
 			end
 		end
+		match.save
 		winner.save
 		loser.save
-		ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match } )
+		ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match.complete_data } )
 		ActionCable.server.broadcast( 'active_matches', { action: 'update_matches' } )
 		winner.update(status: 1)
 		loser.update(status: 1)

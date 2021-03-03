@@ -24,7 +24,10 @@ class Match < ApplicationRecord
                 ready: self.r_player_ready
             },
             winner: self.winner_id,
+            winner_points: self.winner_points,
             loser: self.loser_id,
+            loser_points: self.loser_points,
+            war: self.war,
             finished: self.finished,
             status: self.status
         }

@@ -72,9 +72,9 @@ if (Helper.logged() && Helper.valid()) {
             return this;
         },
 
-        render_players(players_data) {
-            this.$el.find('#left_player_side').html(this.l_player_tmpl( { 'player' : players_data['left_player'], 'user': this.current_user } ));
-            this.$el.find('#right_player_side').html(this.r_player_tmpl( { 'player' : players_data['right_player'], 'user': this.current_user } ));
+        render_players(data) {
+            this.$el.find('#left_player_side').html(this.l_player_tmpl( { 'player' : data['left_player'], 'match' : data, 'user': this.current_user } ));
+            this.$el.find('#right_player_side').html(this.r_player_tmpl( { 'player' : data['right_player'], 'match' : data, 'user': this.current_user } ));
         },
 
         async renderResult(data) {
@@ -100,7 +100,11 @@ if (Helper.logged() && Helper.valid()) {
             } else if (data['actors']) {
                 this.pong.update_match(data['actors'])
             } else if (data['action'] == "finish_game") {
-                this.renderResult(data);
+                if (this.current_user === this.model.get('left_player').id || this.current_user === this.model.get('right_player').id) {
+                    this.renderResult(data);
+                } else {
+                    this.render_players(data['match'])
+                }
             }
         },
 

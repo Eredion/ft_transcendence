@@ -32,7 +32,10 @@ class RankedGameJob < ApplicationJob
 
                 # opponent found!
             if opponent = Matchmaking.where.not(:user_id => player.id).where(:match_type => 'ranked game').first
-
+                player.update(status: 2) # in a match
+                opponent.user.update(status: 2)
+                ActionCable.server.broadcast( "user_status", { id: player.id, status: 2} )
+                ActionCable.server.broadcast( "user_status", { id: opponent.user.id, status: 2} )
                 player1 = player.as_json(only: [:id, :nickname, :avatar, :score])
                 player2 = opponent.user.as_json(only: [:id, :nickname, :avatar, :score])
                 l_player, r_player = [player, opponent.user].shuffle

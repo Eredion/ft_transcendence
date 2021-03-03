@@ -72,4 +72,11 @@ class MatchmakingChannel < ApplicationCable::Channel
     end
   end
 
+  def cancel_war_game
+    user = User.find_by(id: current_user.id)
+    guild = Guild.find_by(id: user.guild_id)
+    guild.war_playing = false
+    guild.save
+  end
+
 end

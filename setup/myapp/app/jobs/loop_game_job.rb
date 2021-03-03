@@ -51,10 +51,10 @@ class LoopGameJob < ApplicationJob
 			loser.tournament_defeats += 1
 			winner.tournament_victories += 1
 		end
-		if winner.guild_id && loser.guild_id
+		if winner.guild_id && loser.guild_id && loser.guild_id != winner.guild_id
 			if winner_guild.war_id
 				war = War.find_by(id: winner_guild.war_id)
-				if loser_guild.in?(war.guilds) &&
+				if loser_guild.in?(war.guilds) && 
 					((match.match_type == "tournament game" && war.type_tournament == true) ||
 					(match.match_type == "ranked game" && war.type_ranked == true) ||
 					match.match_type == "war game" || match.match_type == "challenge game")

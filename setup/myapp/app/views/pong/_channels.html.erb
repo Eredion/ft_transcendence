@@ -88,7 +88,7 @@
         <%% if (admin === true){ %> 
             <a id="delete-channel-button" class="btn btn-danger">Delete</a>
         <%% }; %>
-        <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels/default" >Exit channel</a>
+        <a id="exit-channel-button" class="btn btn-secondary exitbutton" href="#channels" >Exit channel</a>
     </div>
     <%% for (msg of messages) {%>
         <%% if (blockedUsers.includes(msg.user_id) === true) { continue; } %>
@@ -157,7 +157,7 @@
             </script>
         
 		
-		<a class="close" href="#channels/default">&times;</a>
+		<a class="close" href="#channels">&times;</a>
 		<%# <div id="popup-content" class="popup-content">
 			
 		</div> %>

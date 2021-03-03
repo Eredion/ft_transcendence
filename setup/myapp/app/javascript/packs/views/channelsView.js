@@ -24,7 +24,7 @@ let channelsView = Backbone.View.extend({
         $(document).on("update_channels_event", function(event) {
             self.render_list();
             let chname = $('#channel-name-title').text();
-            if (chname.length > 0)
+            if (chname.length > 0 && chname != 'Conversation')
                 self.render_sidepanel(chname);
         });
         $(document).on("kick", function(event, user, channel) {
@@ -38,7 +38,7 @@ let channelsView = Backbone.View.extend({
             console.log($('#channel-name-title').text())
             if ($('#channel-name-title').text() === channel) {
                 if ((userscol.findWhere({ id: Helper.userId() })).get("admin") === false) {
-                    window.location.href = '#channels/default';
+                    window.location.href = '#channels';
                     Helper.custom_alert('danger', `The channel "${channel}" was removed`);
                 }
                 self.render();
@@ -170,7 +170,7 @@ let channelsView = Backbone.View.extend({
         consumer.subscriptions.remove(cable)
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);
-        this.render();
+        window.location.href = '#channels';
     },
     show_popup() {
         $('#channel-password-popup').css("visibility", "visible");

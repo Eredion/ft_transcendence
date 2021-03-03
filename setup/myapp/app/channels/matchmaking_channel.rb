@@ -25,14 +25,12 @@ class MatchmakingChannel < ApplicationCable::Channel
   end
 
   def war_game
-
     user = User.find_by(id: current_user.id)
-    
     if user.guild_id
       guild = Guild.find_by(id: user.guild_id)
-      puts guild.as_json
       if guild.inwar == true && guild.war_playing == false
-        guild.war_playing == true
+        guild.war_playing = true
+        guild.save
         war = War.find_by(id: guild.war_id)
         WarGameJob.perform_later(user, war)
       elsif guild.war_playing == true
@@ -67,6 +65,7 @@ class MatchmakingChannel < ApplicationCable::Channel
     war = War.find_by(id: guild.war_id)
     guild.warvictories += 1
     guild.missed_matches += 1
+    guild.war_playing = false
     guild.save
     if (guild.missed_matches >= war.missed_matches)
       WarTimeOffJob.perform_now(war)

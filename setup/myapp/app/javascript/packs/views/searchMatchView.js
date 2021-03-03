@@ -52,6 +52,7 @@ $(function () {
         async checkMissMatch() {
             self = this;
             let myself = await Helper.ajax('GET', 'api/users/' + Helper.userId());
+            this.myself = myself;
             let preGuild = await Helper.ajax('GET', 'api/guilds/' + myself.guild_id);
             let guild = JSON.parse(preGuild.success);
             let war = await Helper.ajax('GET', 'api/wars/' + guild.war_id);
@@ -60,12 +61,11 @@ $(function () {
             setTimeout(function(){
                 if (self.game_found === false) {
                     self.ownCable.perform('miss_match');
-                    $('#search_match_modal').modal('hide')
+                    $('#search_match_modal').modal('hide');
                     window.location.href = '#play';
                     Helper.custom_alert('success', "Unanswered match, your guild wins 1 war point.");
                 }
-            //}, (war.answer_time * 1000));
-        }, (15 * 1000));
+            }, (war.answer_time * 60 * 1000));
         },
 
         render() {
@@ -77,6 +77,23 @@ $(function () {
             $('#search_match_modal').modal('show');
             if (this.type === 'war')
                 this.checkMissMatch();
+            $('#cancel-button').on("click", function(){
+                console.log("Cancel");
+               /* if (self.type === 'war') {
+                    console.log("Amo a petichione")
+                    let data = {
+                        war_playing: false
+                    }
+                    let response = Helper.ajax('POST', 'api/guilds/' + self.myself.guild_id, data)
+                    if (response['error']) {
+                        Helper.custom_alert('danger', response['error'])
+                    } else {
+                        Helper.custom_alert('success', response['success'])
+                    }
+                }*/
+                $('#search_match_modal').modal('hide')
+                window.location.href = '#play';
+            })
             return this;
         },
 

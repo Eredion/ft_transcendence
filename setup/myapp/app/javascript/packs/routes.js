@@ -153,8 +153,8 @@ class Workspace extends Backbone.Router {
     }
 
     channels() {
-        if (!this.channelView)
-            this.channelView = new channelsView();
+        console.log();
+        this.channelView = new channelsView();
         this.channelView.render();
     }
 

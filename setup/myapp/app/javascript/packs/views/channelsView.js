@@ -24,7 +24,7 @@ let channelsView = Backbone.View.extend({
         $(document).on("update_channels_event", function(event) {
             self.render_list();
             let chname = $('#channel-name-title').text();
-            if (chname.length > 0)
+            if (chname.length > 0 && chname != 'Conversation')
                 self.render_sidepanel(chname);
         });
         $(document).on("kick", function(event, user, channel) {
@@ -36,7 +36,7 @@ let channelsView = Backbone.View.extend({
         $(document).on("render_full_view", function(event, channel) {
             if ($('#channel-name-title').text() === channel) {
                 if ((userscol.findWhere({ id: Helper.userId() })).get("admin") === false) {
-                    window.location.href = '#channels/default';
+                    window.location.href = '#channels';
                     Helper.custom_alert('danger', `The channel "${channel}" was removed`);
                 }
                 self.render();
@@ -84,10 +84,8 @@ let channelsView = Backbone.View.extend({
             let input_template = _.template($('#channel-msg-input-template').html());
             let output2 = input_template({ 'channel': channel, });
             $('#msg-input-form-wrapper').html(output2);
-
             //render side panel
             self.render_sidepanel(name);
-
             // input-msg-channel-form
             $('#send-message-button').click(function() {
                 setTimeout(function() {
@@ -106,7 +104,6 @@ let channelsView = Backbone.View.extend({
                 if (myself.get('admin') === true)
                     newchannelscable.perform("destroy_channel", { channel: $('#channel-name-title').text() })
             });
-
         });
         return this;
     },
@@ -164,7 +161,9 @@ let channelsView = Backbone.View.extend({
         consumer.subscriptions.remove(cable)
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);
-        this.render();
+        $('#channel_view').html();
+        window.location.href = '#channels';
+        Backbone.history.loadUrl();
     },
     show_popup() {
         $('#channel-password-popup').css("visibility", "visible");

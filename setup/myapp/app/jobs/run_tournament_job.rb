@@ -2,6 +2,10 @@ class RunTournamentJob < ApplicationJob
   queue_as :default
 
   def perform(tournament)
+    if tournament.users.length == 0
+      tournament.destroy
+      return
+    end
     if (tournament.status == "finished")
         return
     end

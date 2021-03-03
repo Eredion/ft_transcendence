@@ -51,8 +51,10 @@ let chatView = Backbone.View.extend({
             let output3 = template3({'tournaments': self.tournCol.toJSON()});
             $('#tournament-ranking').html(output3);
             let tournament = self.tournCol.findWhere({'status':'active'})
+            console.log(tournament)
             let template4 = _.template($("#tournament-ranking-template").html());
             usersOrdered.sort((a, b) => (b.tournament_victories - b.tournament_defeats) - (a.tournament_victories - a.tournament_defeats));
+            console.log(tournament)
             let output4 = template4({'users': usersOrdered, 'tournament': tournament.toJSON()});
             $('#current-tournament-ranking').html(output4);
         });

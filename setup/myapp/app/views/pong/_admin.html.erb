@@ -33,6 +33,13 @@
                         <div class="unban-user-button btn btn-block btn-success" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">UNBAN</div>
 
                         <%% } %>
+                        <%% if (user.admin === false) { %>
+                        <div class="admin-user-button btn btn-block btn-info" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">ADMIN</div>
+
+                        <%% } else { %>
+                        <div class="unadmin-user-button btn btn-block btn-dark" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">🚫 ADMIN</div>
+
+                        <%% } %>
                     </span>
                 </div>
         <%% }%>

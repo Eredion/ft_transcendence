@@ -13,7 +13,6 @@ import Guilds from './views/guildsView'
 import Errors from './views/notFoundView'
 import rankingView from './views/rankingView'
 import tournamentView from './views/tournamentView'
-import adminview from './views/adminView'
 import playview from './views/playView'
 import adminView from './views/adminView'
 import WarformView from './views/warformview'
@@ -125,8 +124,11 @@ class Workspace extends Backbone.Router {
         this.two_fa.render()
     }
 
-    admin() {
-        if (Helper.current_user() === 'theadmin') {
+    async admin() {
+        let formData = { id: Helper.userId() }
+        let user = await Helper.ajax("GET", "api/users/"+ Helper.userId(), formData);
+        console.log(user.admin)
+        if (user.admin === true) {
             if (!this.adminview)
                 this.adminview = new adminView();
             this.adminview.render();

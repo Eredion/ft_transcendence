@@ -18,6 +18,12 @@ class EndTournamentJob < ApplicationJob
       user.save
     end
     history.sort_by {|h| [ h[:victories].to_i, h[:defeats].to_i ]}
+    first = history[0]
+    history.each do |user|
+      if (user.victories - user.defeats == first.victories - first.defeats)
+        user.guild.score += 50
+      end
+    end
     tournament.history = JSON.generate(history)
     tournament.users = []
     puts history

@@ -1,5 +1,5 @@
 
-<script id="tournament-ranking-template" type='text/template'>
+<script id="individual-tournament-ranking-template" type='text/template'>
     <div id="tournament-raking" class="col-7">
         <div class="col-sm">
             <div>
@@ -8,7 +8,7 @@
         </div>
         <div>
             <%% if (tournament.status == 'finished'){ %>
-                <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white">Finished</div></span></div>
+                <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white">Finished: <%%= tournament.finishdate.substring(0,10) %></div></span></div>
             <%% } else { %>
                 <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white"><%%= tournament.status %></span></div></div>
             <%% };%> 
@@ -23,11 +23,11 @@
                 <%% i+= 1; %>
                 <div class="bg-light d-flex flex-row">
                     <%% if (i === 1){ %>
-                    <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</a>
+                    <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning">🥇 <%%= user.nickname%>:</a>
                     <%% } else if (i === 2){ %>
-                    <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</a>
+                    <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary">🥈<%%= user.nickname%>:</a>
                     <%% }  else if (i === 3){ %>
-                    <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</a>
+                    <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce">🥉<%%= user.nickname%>:</a>
                     <%% }  else { %>
                     <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</a>
                     <%% } %>

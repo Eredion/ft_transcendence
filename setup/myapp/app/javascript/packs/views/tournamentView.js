@@ -20,12 +20,13 @@ let tournamentView = Backbone.View.extend({
 
     render()
     {
+        self = this;
         console.log("torneo:")
         console.log(this.tournament); 
-        let template = _.template($("#tournament-ranking-template").html());
+        let template = _.template($("#individual-tournament-ranking-template").html());
         console.log("historial:")
         console.log(this.history);
-        let output = template({'history': this.history, 'tournament': this.tournament});
+        let output = template({'history': self.history, 'tournament': self.tournament});
         this.$el.html(output);
     },
 });

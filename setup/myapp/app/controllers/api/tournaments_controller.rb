@@ -12,6 +12,15 @@ class Api::TournamentsController < ApplicationController
     end
 
     def create
+
+        if (Tournament.where(status: 'open').length > 0 || Tournament.where(status: 'active').length > 0 )
+            ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: "There is a tournament going on"
+                }
+            return
+        end
         Tournament.all.each do |tour|
             EndTournamentJob.perform_later(tour)
         end

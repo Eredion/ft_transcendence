@@ -32,8 +32,11 @@ let newchannelscable = consumer.subscriptions.create("AvailableChannelsChannel",
     }
     if ($("#available-channel-buttons").find(data).length > 0)
       return;
-    $('#available-channel-buttons').append(`<a href="#channels/${data}" class="btn btn-dark btn-sm" id="online-user-button">
-    ${data}</a>`);
+    let channel = `<a  class="btn btn-dark btn-sm render-channel-button" id="online-user-button" data-channel="${data}" >
+    ${data}
+
+</a>`
+        $('#available-channel-buttons').append(channel);
     // Called when there's incoming data on the websocket for this channel
   }
 });

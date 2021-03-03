@@ -218,6 +218,13 @@ body {
     overflow-y: scroll;
 }
 
+.home_match_list {
+    padding: 2px;
+    min-height: 50px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
 .notification-container {
     position: absolute;
     right: 0;

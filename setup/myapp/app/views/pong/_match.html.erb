@@ -52,34 +52,89 @@
 
 
 <script type="text/template" id="match_template">
-
-    <div class="row">
-        <button class="btn btn-danger" id="f-match">Finish Match Manually</button>
-        <div class="col-sm-12 my-auto">
-            <div id="cnv">
-                <div class="row">
-                    <div class="col">
-                        <p class="h3 text-white"> LEFT PLAYER </p>
-                        <p class="h4 text-white">Score</p>
-                        <p class="h4 text-white"><%%= match.left_player_score %></p>
-                        <img class="img-avatar rounded-circle img-fluid" src="<%%= match.left_player_avatar.thumb.url %>"/>
-                        <p class="text-white"><%%= match.left_player %></p>
-                    </div>
-                    <div class="col-7">
-                        <canvas id="canvas" width="600" height="300"></canvas>
-                    </div>
-                    <div class="col">
-                        <p class="h3 text-white"> RIGHT PLAYER </p>
-                        <p class="h4 text-white">Score</p>
-                        <p class="h4 text-white"><%%= match.right_player_score %></p>
-                        <img class="img-avatar rounded-circle img-fluid" src="<%%= match.right_player_avatar.thumb.url %>"/>
-                        <p class="text-white"><%%= match.right_player %></p>
-                    </div>
+    <%% if (user === match.left_player.id) { %>
+        <p class="text-white text-right">Left Player</p>
+    <%% } %>
+    <%% if (user === match.right_player.id) { %>
+        <p class="text-white text-right">Right Player</p>
+    <%% } %>
+    <%% if (user !== match.left_player.id && user !== match.right_player.id) { %>
+        <p class="text-white text-right">Spectator</p>
+    <%% } %>
+    <div class="row mt-3">
+        <div id="cnv">
+            <div class="row">
+                <div class="col bg-primary m-3 p-4 rounded" id="left_player_side">
+                    <!-- left_player_template -->
+                </div>
+                <div class="col-7 m-2 p-4">
+                    <canvas id="canvas" width="600" height="300"></canvas>
+                </div>
+                <div class="col bg-danger m-3 p-4 rounded" id="right_player_side">
+                    <!-- right_player_template -->
                 </div>
             </div>
         </div>
     </div>
 
+</script>
+
+<script type="text/template" id="right_player_template">
+    <p class="h3 text-white"> RIGHT PLAYER </p>
+    <p class="h4 text-white">Score</p>
+    <p id="rp_score" class="h4 text-white"><%%= player.score %></p>
+    <img class="img-avatar rounded-circle img-fluid" src="<%%= player.avatar.thumb.url %>"/>
+    <a href="/#users/<%%= player.id %>"><p class="text-white"><%%= player.nickname %></p></a>
+    <%% if (user === player.id && !player.ready) { %>
+        <button class="btn btn-block btn-success mt-2 fire-animation check-ready" id="btn-right-player-ready" data-player-id="<%%= player.id %>">
+            READY!
+        </button>
+    <%% } else { %>
+            <p class="h4 text-dark" id="status-right-player-ready">
+            <%% if (match.status == "finished") { %>
+                <%% if ( player.id == match.winner ) { %>
+                    Winner
+                <%% } else { %>
+                    Loser
+                <%% } %>
+            <%% } else {%>
+                <%% if ( !player.ready ) { %>
+                    Player not Ready
+                <%% } else { %>
+                    Player Ready
+                <%% } %>
+            <%% } %>
+            </p>
+    <%% } %>
+</script>
+
+<script type="text/template" id="left_player_template">
+    <p class="h3 text-white"> LEFT PLAYER </p>
+    <p class="h4 text-white">Score</p>
+    <p id="lp_score" class="h4 text-white"><%%= player.score %></p>
+    <img class="img-avatar rounded-circle img-fluid" src="<%%= player.avatar.thumb.url %>"/>
+    <a href="/#users/<%%= player.id %>"><p class="text-white"><%%= player.nickname %></p></a>
+    <%% if (user === player.id && !player.ready) { %>
+        <button class="btn btn-block btn-success mt-2 fire-animation check-ready" id="btn-left-player-ready" data-player-id="<%%= player.id %>">
+            READY!
+        </button>
+    <%% } else { %>
+            <p class="h4 text-dark" id="status-right-player-ready">
+            <%% if (match.status == "finished") { %>
+                <%% if ( player.id == match.winner ) { %>
+                    Winner
+                <%% } else { %>
+                    Loser
+                <%% } %>
+            <%% } else {%>
+                <%% if ( !player.ready ) { %>
+                    Player not Ready
+                <%% } else { %>
+                    Player Ready
+                <%% } %>
+            <%% } %>
+            </p>
+    <%% } %>
 </script>
 
 
@@ -89,13 +144,13 @@
                 <div class="modal-header bg-dark">
                 </div>
                 <div class="modal-body text-center">
-					<%% if (match.winner_id === user.id) { %>
+					<%% if (match.winner === user.id) { %>
                     	<p class="h1 text-success">Victory!</p>
 					<%% } else { %>
                     	<p class="h1 text-danger">Defeat . . .</p>
 					<%% }; %>
 					<%% if (match.match_type === 'ranked game') { %>
-						<%% if (match.winner_id === user.id) { %>
+						<%% if (match.winner === user.id) { %>
                     		<p class="h5">You win <%%= match.winner_points %> points.</p>
 						<%% } else { %>
 							<p class="h5">You lose <%%= match.loser_points %> points.</p>
@@ -107,7 +162,7 @@
 						<p class="h5">Defeats: <%%= user.tournament_defeats %>.</p>
 					<%% }; %>
                     <%% if (match.war === true) { %>
-						<%% if (match.winner_id === user.id) { %>
+						<%% if (match.winner === user.id) { %>
                     		<p class="h5"> Your guild wins 1 war point.</p>
 						<%% } else { %>
 							<p class="h5">This defeat counts for your guild war</p>

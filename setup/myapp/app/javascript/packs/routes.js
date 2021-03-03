@@ -17,6 +17,7 @@ import adminView from './views/adminView'
 import WarformView from './views/warformview'
 import TwoFa from './views/validate2faView'
 import ruleset from './views/ruleset'
+import Home from './views/homeView'
 
 class Workspace extends Backbone.Router {
 
@@ -44,6 +45,7 @@ class Workspace extends Backbone.Router {
     // function than removes the last active view for fix zombie views error
     undelegateViews() {
         if (this.homeview) {
+            this.homeview.removeChannel()
             this.homeview.undelegateEvents()
         }
         if (this.chatview) {
@@ -86,7 +88,7 @@ class Workspace extends Backbone.Router {
 
     get routes() {
         return {
-            "": "myProfile",
+            "": "home",
             "chat": "chat",
             "sign_in": "userSignin",
             "sign_up": "userSignup",
@@ -170,8 +172,8 @@ class Workspace extends Backbone.Router {
         this.signupView.render()
     }
 
-    myProfile() {
-        this.profileview = new Profile.view(Helper.userId());
+    home() {
+        this.homeview = new Home.view()
     }
 
     userProfile(id) {

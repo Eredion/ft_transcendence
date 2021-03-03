@@ -116,6 +116,9 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.boolean :finished, default: false
       t.datetime "created_at", precision: 6, null: false
       t.references :round, optional: true
+      t.string :status, default: "waiting", null: false # waiting, running, pause, finished
+      t.boolean :l_player_ready, default: false
+      t.boolean :r_player_ready, default: false
     end
 
     create_table "tournaments" do |t|

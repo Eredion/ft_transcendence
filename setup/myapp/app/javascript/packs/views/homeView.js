@@ -1,7 +1,8 @@
 import $ from 'jquery'
 import _ from 'underscore'
 import Backbone from 'backbone'
-import Helper from '../Helper';
+import Helper from '../Helper'
+import ActiveMatches from '../../channels/active_matches_channel'
 
 const Home = {}
 
@@ -9,19 +10,54 @@ $(function () {
 
 if (Helper.logged() && Helper.valid()) {
 
+    Home.MatchModel = Backbone.Model.extend({
+        urlRoot: 'api/matches/in_progress'
+    });
+
+    Home.MatchCollection = Backbone.Collection.extend({
+        url: 'api/matches/in_progress',
+        model: Home.MatchModel
+    });
+
     Home.view = Backbone.View.extend({
         el: "#content",
 
-        template: _.template($('script[name="game"]').html()),
+        Matches: new Home.MatchCollection(),
+
+        template: _.template($('#home_template').html()),
+
+        matches_template: _.template($('#active_matches_template').html()),
 
         initialize() {
             console.log("Home View initialize");
             this.render()
+            this.update_matches()
+            ActiveMatches.channel.connect(this.manage_data, this)
+        },
+
+        manage_data(data) {
+            console.log(data)
+            if (data['action'] == 'update_matches') {
+                this.update_matches()
+            }
         },
 
         render() {
             this.$el.html(this.template());
 		    return this;
+        },
+
+        async update_matches() {
+            await Helper.fetch(this.Matches);
+            this.render_matches()
+        },
+
+        render_matches() {
+            this.$el.find("#active-matches-data").html(this.matches_template({ 'matches': this.Matches.toJSON() }));
+        },
+
+        removeChannel() {
+            ActiveMatches.channel.disconnect()
         }
     })
 }

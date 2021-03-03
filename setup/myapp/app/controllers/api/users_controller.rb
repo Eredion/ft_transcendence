@@ -67,13 +67,18 @@ class Api::UsersController < ApplicationController
     def show_friends
         friend_list = User.find_by(id: params[:id])[:friends]
         ret = []
-        if friend_list
-            friend_list.each do |user_id|
-                ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar, :status]))
+        friend_list.each do |user_id|
+            f = User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar, :status])
+            match = nil
+            if f['status'] == 2
+                match = Match.user_matches(f['id']).where(finished: false).first.as_json(only: [:id])
             end
-            return render json: {"success": ret.to_json}, status: :ok
+            ret.push({
+                :friend => f,
+                :current_match => match
+            })
         end
-        render json: {"error": 'Forbidden.'}, status: :ok
+        render json: {"success": ret.to_json}, status: :ok
     end
 
     def delete_friend

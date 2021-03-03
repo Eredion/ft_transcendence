@@ -71,6 +71,9 @@ ActiveRecord::Schema.define(version: 2020_12_20_110141) do
     t.boolean "finished", default: false
     t.datetime "created_at", precision: 6, null: false
     t.bigint "round_id"
+    t.string "status", default: "waiting", null: false
+    t.boolean "l_player_ready", default: false
+    t.boolean "r_player_ready", default: false
     t.index ["left_player_id"], name: "index_matches_on_left_player_id"
     t.index ["loser_id"], name: "index_matches_on_loser_id"
     t.index ["right_player_id"], name: "index_matches_on_right_player_id"

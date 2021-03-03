@@ -5,9 +5,9 @@
   <% if current_user.otp_required_for_login == true && !current_user.otp_validated %>
     <%= render "2fa" %>
   <% else %>
+    <%= render "home" %>
     <%= render "nav" %>
     <%= render "profile" %>
-    <%= render "game" %>
     <%= render "chat" %>
     <%= render "channels"%>
     <%= render "friends"%>

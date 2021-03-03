@@ -109,7 +109,7 @@
                         <%= form.hidden_field :user_id, value: current_user.id %>
                         <%%= `<input id="hiddenfield" value="${channel.id}" type="hidden" name="channel_id">` %>
                         <%= form.submit "Send", id: "send-message-button", class: "btn btn-primary" %>
-                        
+
     <% end %>
     <%% $('#hiddenfield').val(channel.id); %>
     

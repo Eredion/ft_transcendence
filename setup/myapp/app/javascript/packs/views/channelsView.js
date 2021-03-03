@@ -87,10 +87,8 @@ let channelsView = Backbone.View.extend({
             let input_template = _.template($('#channel-msg-input-template').html());
             let output2 = input_template({ 'channel': channel, });
             $('#msg-input-form-wrapper').html(output2);
-
             //render side panel
             self.render_sidepanel(name);
-
             // input-msg-channel-form
             $('#send-message-button').click(function() {
                 setTimeout(function() {
@@ -109,7 +107,6 @@ let channelsView = Backbone.View.extend({
                 if (myself.get('admin') === true)
                     newchannelscable.perform("destroy_channel", { channel: $('#channel-name-title').text() })
             });
-
         });
         return this;
     },
@@ -170,7 +167,9 @@ let channelsView = Backbone.View.extend({
         consumer.subscriptions.remove(cable)
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);
+        $('#channel_view').html();
         window.location.href = '#channels';
+        Backbone.history.loadUrl();
     },
     show_popup() {
         $('#channel-password-popup').css("visibility", "visible");

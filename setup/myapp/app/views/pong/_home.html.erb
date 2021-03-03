@@ -1,0 +1,72 @@
+<script type="text/template" id="home_template">
+	<div class="row mt-5">
+		<div class="col">
+			<div class="card mx-auto">
+				<div class="card-body text-center">
+					<p class="h5 card-title text-info">Matches in progress</p>
+					<hr/>
+					<div class="mx-auto text-center">
+						<div id="active-matches-data" class="home_match_list">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="card mx-auto">
+				<div class="card-body text-center">
+					<p class="h5 card-title text-info">Active Tournaments</p>
+					<hr/>
+					<div class="mx-auto text-center">
+						<div id="active-tour-data" class="home_match_list">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/template" id="active_matches_template">
+	<ul class="list-group list-group-flush">
+        <%% if (_.size( matches) > 0) { %>
+            <%% _.each( matches, function(match) { %>
+                <li class="list-group-item d-flex justify-content-between">
+                    <div class="col bg-light">
+                        <div class="row">
+                            <div class="col">
+                                <img class="img-avatar rounded-circle img-fluid" src="<%%= match.left_player_avatar.thumb.url %>"/>
+                                <p><%%= match.left_player %></p>
+                            </div>
+                            <div class="col">
+                                <p class="h3"><%%= match.left_player_score %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <a href="/#match/<%%= match.match_id %>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="col bg-light">
+                        <div class="row">
+                            <div class="col">
+                                <p class="h3"><%%= match.right_player_score %></p>
+                            </div>
+                            <div class="col">
+                                <img class="img-avatar rounded-circle img-fluid" src="<%%= match.right_player_avatar.thumb.url %>"/>
+                                <p><%%= match.right_player %></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            <%% }) %>
+        <%% } else { %>
+            <li class="list-group-item text-center">
+                <p class="h6 text-secondary">No current matches.</p>
+            </li>
+        <%% } %>
+    </ul>
+</script>
+
+<script type="text/template" id="active_tour_template">
+
+</script>

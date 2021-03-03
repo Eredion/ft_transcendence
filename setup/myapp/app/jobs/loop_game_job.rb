@@ -4,20 +4,27 @@ class LoopGameJob < ApplicationJob
     def perform(match_id)
         game = Pong.get_game(match_id)
         loop do
-            match = game.get_match
-            if match.finished
+			match = game.get_match
+			if match.finished
 				endgame(match)
-                break
-            end
-            game.move_ball
-            game.send_moves
-            sleep 0.04 # 25fps
+				break
+			end
+			if match.status == "running"
+				game.move_ball
+				game.send_moves
+				sleep 0.04 # 25fps
+			elsif match.status == "waiting" || match.status == "pause"
+				sleep 0.5
+			end
         end
     end
 
 	def endgame(match)
+		match.status = "finished"
 		loser = User.find_by(id: match[:loser_id])
 		winner = User.find_by(id: match[:winner_id])
+		winner.matches_won += 1
+		loser.matches_lost += 1
 		if winner.guild_id != nil
 			winner_guild = Guild.find_by(id: winner.guild_id)
 		end
@@ -67,9 +74,15 @@ class LoopGameJob < ApplicationJob
 				end
 			end
 		end
+		match.save
 		winner.save
 		loser.save
-		ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match } )
+		ActionCable.server.broadcast( "Match_#{match.id}", { action: 'finish_game' , match: match.complete_data } )
+		ActionCable.server.broadcast( 'active_matches', { action: 'update_matches' } )
+		winner.update(status: 1)
+		loser.update(status: 1)
+		ActionCable.server.broadcast( "user_status", { id: winner.id, status: 1} )
+		ActionCable.server.broadcast( "user_status", { id: loser.id, status: 1} )
 	end
 
 end

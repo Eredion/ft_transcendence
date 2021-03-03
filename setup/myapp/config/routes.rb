@@ -37,7 +37,11 @@ Rails.application.routes.draw do
     resources :messages
     resources :channels, only: [:index, :create, :update, :show, :delete]
     resources :requests, only: [:show, :create, :update]
-    resources :matches, only: [:index, :show]
+    resources :matches, only: [:index, :show] do
+      collection do
+        get :in_progress
+      end
+    end
     resources :guilds, only: [:index, :show, :create, :update, :destroy] do
       member do
         post :new_member

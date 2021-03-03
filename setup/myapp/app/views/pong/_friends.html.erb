@@ -28,10 +28,10 @@
     <%% if (_.size( user_friends ) > 0) { %>
         <%% _.each( user_friends, function(user) { %>
             <li class="list-group-item d-flex justify-content-between align-items-center" >
-                <a href="/#users/<%%= user.id %>">
+                <a href="/#users/<%%= user.friend.id %>">
                     <span class="icon-container">
-                        <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
-                        <%% if (user.status === 0) { %>
+                        <img class="img-avatar rounded-circle img-fluid" src="<%%= user.friend.avatar.thumb.url %>"/>
+                        <%% if (user.friend.status === 0) { %>
                             <div class="status-circle offline">
                             </div>
                         <%% } else { %>
@@ -40,9 +40,17 @@
                         <%% } %>
                     </span>
                 </a>
-                <p class="text-dark"><%%= user.nickname %></p>
+                <p class="text-dark"><%%= user.friend.nickname %></p>
+                <%% if (user.friend.status === 2) { %>
+                    <span>
+                        <div class="col-md-auto">
+                            Playing Match
+                            <a data-dismiss="modal" href="/#match/<%%= user.current_match.id %>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        </div>
+                    </span>
+                <%% } %>
                 <span class="tooltips">
-                    <button class="btn btn-danger unfriend-btn" data-userfriend-id="<%%= user.id %>" >
+                    <button class="btn btn-danger unfriend-btn" data-userfriend-id="<%%= user.friend.id %>" >
                     &times
                     <span class="tooltiptext">delete</span>
                     </button>

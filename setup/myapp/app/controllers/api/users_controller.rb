@@ -20,6 +20,15 @@ class Api::UsersController < ApplicationController
     end
 
     def update
+        if (params[:admin] && current_user.admin)
+            user = User.find(params[:id])
+            user.admin = params[:admin]
+            user.save
+            if user.admin == true
+                user.send_notification('admin')
+            end
+            return
+        end
         if (params[:banned] && current_user.admin)
             user = User.find(params[:id])
             user.banned = params[:banned]

@@ -15,14 +15,16 @@ let channelsView = Backbone.View.extend({
     collection: channelcol,
     cablenames: [],
     cables: [],
-    events: {},
+    events: {
+        'click .render-channel-button':'check_password',
+    },
 
     initialize() {
         self = this;
         $(document).on("update_channels_event", function(event) {
             self.render_list();
             let chname = $('#channel-name-title').text();
-            if (chname.length > 0)
+            if (chname.length > 0 && chname != 'Conversation')
                 self.render_sidepanel(chname);
         });
         $(document).on("kick", function(event, user, channel) {
@@ -32,11 +34,9 @@ let channelsView = Backbone.View.extend({
             }
         });
         $(document).on("render_full_view", function(event, channel) {
-            console.log("Estoy viendo el canal....")
-            console.log($('#channel-name-title').text())
             if ($('#channel-name-title').text() === channel) {
                 if ((userscol.findWhere({ id: Helper.userId() })).get("admin") === false) {
-                    window.location.href = '#channels/default';
+                    window.location.href = '#channels';
                     Helper.custom_alert('danger', `The channel "${channel}" was removed`);
                 }
                 self.render();
@@ -70,7 +70,6 @@ let channelsView = Backbone.View.extend({
             $('#channel-name-title').text(name);
             let template = _.template($("#channel_view_template").html())
             let channel = channelcol.where({ name: name })[0];
-            console.log(Helper.data.blockedUsers);
             let myself = userscol.findWhere({ id: Helper.userId() });
             let channeladmin = channel.get("admins").includes(Helper.userId())
             let output = template({
@@ -85,10 +84,8 @@ let channelsView = Backbone.View.extend({
             let input_template = _.template($('#channel-msg-input-template').html());
             let output2 = input_template({ 'channel': channel, });
             $('#msg-input-form-wrapper').html(output2);
-
             //render side panel
             self.render_sidepanel(name);
-
             // input-msg-channel-form
             $('#send-message-button').click(function() {
                 setTimeout(function() {
@@ -107,7 +104,6 @@ let channelsView = Backbone.View.extend({
                 if (myself.get('admin') === true)
                     newchannelscable.perform("destroy_channel", { channel: $('#channel-name-title').text() })
             });
-
         });
         return this;
     },
@@ -156,18 +152,18 @@ let channelsView = Backbone.View.extend({
         await Helper.fetch(channelcol).then(function() {
             let chan = channelcol.where({ name: tofind })[0];
             let members = chan.get("members");
-            console.log("members in this channel: " + members);
         });
 
         self.cablenames = self.cablenames.filter(function(e) { return e !== tofind })
-        console.log(`Exiting ${tofind}`)
         let cable = self.cables.find(cable => cable.channelname === tofind)
         cable.perform("remove_user", { channel: tofind, user: Helper.current_user() });
         newchannelscable.perform("force_render_channel_list");
         consumer.subscriptions.remove(cable)
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);
-        this.render();
+        $('#channel_view').html();
+        window.location.href = '#channels';
+        Backbone.history.loadUrl();
     },
     show_popup() {
         $('#channel-password-popup').css("visibility", "visible");
@@ -179,7 +175,8 @@ let channelsView = Backbone.View.extend({
         $('#channel-password-popup').css("opacity", 0);
     },
 
-    async check_password(name) {
+    async check_password(e) {
+        name = $(e.currentTarget).data().channel
         self = this;
         await Helper.fetch(self.collection).then(function() {
             let chan = self.collection.where({ name: name })[0];
@@ -192,13 +189,10 @@ let channelsView = Backbone.View.extend({
             }
             let categ = chan.get("category");
             if (Helper.amIAdmin() === true || (categ === "public" && members.includes(Helper.userId()))) {
-                console.log("user already in");
                 self.render_channel(name);
             } else if (categ === "public") {
-                console.log("entering public chat");
                 self.render_channel(name);
             } else {
-                console.log("asking for password")
                 $('.popup-content').html("<div></div>");
                 self.show_popup();
                 $('.close').click(function() {
@@ -265,7 +259,6 @@ let channelsView = Backbone.View.extend({
     },
 
     kick(id, channel) {
-        console.log("KICKING")
         let cable = this.cables.find(cable => cable.channelname === channel);
         newchannelscable.perform("kick", { channel: channel, user: id });
     },

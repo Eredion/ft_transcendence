@@ -2,12 +2,32 @@ class EndTournamentJob < ApplicationJob
   queue_as :default
 
   def perform(tournament)
-    tournament.status = "finished"
-    tournament.save
+    tournament.status = "finished"    
+    history = []
     tournament.users.each do |user|
-      user.intournament = false
+      history_user = {
+        :nickname => user.nickname,
+        :victories => user.tournament_victories,
+        :defeats => user.tournament_defeats,
+        :id => user.id,
+      }
+      history.push(history_user)
+      user.tournament_defeats = 0
+      user.tournament_victories = 0
+      user.intournament = false 
       user.save
     end
+    history.sort_by {|h| [ h[:victories].to_i, h[:defeats].to_i ]}
+    first = history[0]
+    history.each do |user|
+      if (user.victories - user.defeats == first.victories - first.defeats)
+        user.guild.score += 50
+      end
+    end
+    tournament.history = JSON.generate(history)
+    tournament.users = []
+    puts history
+    tournament.save
     # Do something later
     data = {
       'action':'tournament_is_finished'

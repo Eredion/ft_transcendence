@@ -3,7 +3,6 @@ import $ from 'jquery';
 import consumer from '../../channels/consumer'
 import Backbone from 'backbone'
 import Helper from '../Helper';
-import usercollection from '../models/user'
 import trnmntcol from '../models/tournament'
 import tournamentChannel from '../../channels/tournament_channel'
 import GuildCollection from '../models/guilds';
@@ -25,7 +24,6 @@ let playView = Backbone.View.extend({
         this.cable = tournamentChannel.connect(Helper.userId(), this.receive_data, this);
         let template = _.template($("#playview-template").html());
         let guild = await Helper.ajax('GET', 'api/guilds/' + myself.guild_id);
-        console.log(guild);
         if (myself.guild_id && ((guild.success).includes(`"inwar":true`) === true))
             this.wartime = true;
         let output = template({'user': this.myself, 'inwar': this.wartime});
@@ -33,17 +31,18 @@ let playView = Backbone.View.extend({
         this.render_tournament();
     },
 
-    render_tournament(){
+    async render_tournament(){
         self = this;
         this.current_user = Helper.userId()
-        Promise.all([Helper.fetch(trnmntcol)]).then(function(){
-            let tour = trnmntcol.at(trnmntcol.length - 1)
+        await Helper.fetch(trnmntcol).then(function(){
+            let tour = trnmntcol.findWhere({'status':'open'})
+            if (tour === undefined)
+                tour = trnmntcol.findWhere({'status':'active'})
             if (tour != undefined)
             {
 
                 if (tour.get("status") === 'open' && self.myself.intournament === false)
                 {
-                    //console.log("case 1")
                     $('#tournament-play-button').hide()
                     let template = _.template($('#join-tour-template').html())
                     let output = template({'tournament':tour.toJSON()});
@@ -56,7 +55,6 @@ let playView = Backbone.View.extend({
                 }
                 else if (tour.get("status") === 'open' && self.myself.intournament === true)
                 {
-                    //console.log("case 1.5")
                     $('#tournament-play-button').hide()
                     let template = _.template($('#join-tour-template').html())
                     let output = template({'tournament':tour.toJSON()});
@@ -64,13 +62,9 @@ let playView = Backbone.View.extend({
                     $('#join-tournament-button').hide();
                 }
                 else if (tour.get("status") === "active" && self.myself.intournament === true)
-                {
-                    //console.log("case 2")
                     $('#tournament-play-button').show();
-                }
                 else if (tour.get("status") === "finished")
                 {
-                    //console.log("case 3")
                     let template = _.template($('#no-tournament-template').html())
                     $('#tournament-view').html(template())
                     $('.tournament-empty-banner').text("The current tournament has finished")
@@ -78,7 +72,6 @@ let playView = Backbone.View.extend({
                 }
                 else
                 {
-                    //console.log("case 4")
                     if (tour.get("status") === "active" && self.myself.intournament === false)
                     {
                         let template2 = _.template($('#no-tournament-template').html())
@@ -93,8 +86,11 @@ let playView = Backbone.View.extend({
                 $('#tournament-play-button').hide()
                 let template = _.template($('#no-tournament-template').html())
                 $('#tournament-view').html(template())
-
             }
+
+            let rules = _.template($('#ruleset-template').html())
+            let output = rules({});
+            $('#ruleset-wrapper').html(output)
             
         });
     },
@@ -102,16 +98,10 @@ let playView = Backbone.View.extend({
     receive_data(data)
     {
         self = this;
-        //console.log(data);
         if (data.action === 'join_user')
-        {
             setTimeout(function(){ self.render() }, 500);
-        }
         else if (data.action === "tournament_is_active" || data.action === 'tournament_is_finished')
-        {
             self.render();
-            
-        }
         
     },
 

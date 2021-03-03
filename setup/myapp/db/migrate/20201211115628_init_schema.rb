@@ -125,6 +125,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.string "name", default: "tournament", null: false, unique: true
       t.bigint "users", references: :users
       t.string "status", default: "closed" #open, active, finished
+      t.string "history"
       t.datetime "startdate", null: false
       t.datetime "finishdate", null: false
     end
@@ -139,11 +140,10 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.boolean "type_tournament", default: false #Tournament counts for the war
       t.integer "bet", default: 0
       t.integer "missed_matches", default: 5
-      t.integer "answer_time", default: 120 #seconds
+      t.integer "answer_time", min: 1, max: 120, default: 120 #seconds,
       t.string :status, default: "request_sent", null: false # request_sent, accepted, active, wartime, finished
       t.string "from", null: false
       t.string "to", null: false
-
     end
 
     add_foreign_key :messages, :chats, column: :chat_id

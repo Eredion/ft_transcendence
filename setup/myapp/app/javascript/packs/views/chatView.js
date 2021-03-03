@@ -16,9 +16,9 @@ let chatView = Backbone.View.extend({
     guildCol: new GuildCollection(),
 
     initialize() {
+        self = this;
 		this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"DmChannel\",\"userID\":${Helper.userId()}`)));
         this.commonCable = AvailableChatCable;
-        self = this;
         $(document).on("render_user_list", function(event){
             self.renderUserList();
         });

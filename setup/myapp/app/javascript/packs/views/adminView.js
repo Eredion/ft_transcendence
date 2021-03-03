@@ -43,7 +43,21 @@ let adminView = Backbone.View.extend({
                 let formData = { nickname: nick, banned: false }
                 let responses = await Helper.ajax("PUT", "api/users/"+ id, formData);
                 self.render();
-            });            
+            });        
+            $('.admin-user-button').click(async function(){
+                let id = $(this).data().user;
+                let nick = $(this).data().nickname;
+                let formData = { nickname: nick, admin: true }
+                let responses = await Helper.ajax("PUT", "api/users/"+ id, formData);
+                self.render();
+            }); 
+            $('.unadmin-user-button').click(async function(){
+                let id = $(this).data().user;
+                let nick = $(this).data().nickname;
+                let formData = { nickname: nick, admin: false }
+                let responses = await Helper.ajax("PUT", "api/users/"+ id, formData);
+                self.render();
+            });      
         })
         
 

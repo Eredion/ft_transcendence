@@ -222,10 +222,7 @@ $(function () {
                 for (let i of guild.war_history) {
                     war_history.push(JSON.parse(i));
                 }
-                console.log(war_history.length);
             }
-            else
-                console.log("No hay historial");
             let output = template({'guild': guild, 'wars': war_history});
             $('#war-guilds-data').html(output);
         },

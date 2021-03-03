@@ -35,8 +35,21 @@ if (Helper.logged() && Helper.valid()) {
             "click #enable-2fa": "enable2FA",
             "click #disable-2fa": "disable2FA"
         },
-    
-        async initialize(id) {
+
+        async checkUser(id) {
+            self = this;
+            $.ajax("api/users/" + id, {
+                "type": "GET"
+            })
+            .done(function () {
+                self.startView(id);
+            })
+            .fail(function () {
+                window.location.href = '#error';
+            })
+        },
+
+        async startView(id) {
             MySession.data.update()
             this.user_id = id
             await Helper.fetch(this.collection)
@@ -58,6 +71,10 @@ if (Helper.logged() && Helper.valid()) {
                 this.blockView.update()
             }
         },
+    
+        initialize(id) {
+            this.checkUser(id);
+          },
         
         render() {
             this.$el.html(this.template( { 'user': this.user.toJSON(), 'me': MySession.data.officer_or_owner() } ));

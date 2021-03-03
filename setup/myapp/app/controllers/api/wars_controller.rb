@@ -98,7 +98,7 @@ class Api::WarsController < ApplicationController
     private
     def params_war
         #params[:war][:duration] = (params[:war][:startdate].to_datetime + params[:war][:duration].to_i.minutes).to_s
-        params.require(:war).permit(:startdate, :duration, :wartimehour, :type_ranked, :type_tournament, :bet, :missed_matches)
+        params.require(:war).permit(:startdate, :duration,:answer_time, :wartimehour, :type_ranked, :type_tournament, :bet, :missed_matches)
     end
 
 end

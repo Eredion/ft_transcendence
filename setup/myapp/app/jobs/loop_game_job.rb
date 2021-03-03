@@ -25,10 +25,10 @@ class LoopGameJob < ApplicationJob
 		winner = User.find_by(id: match[:winner_id])
 		winner.matches_won += 1
 		loser.matches_lost += 1
-		if winner.guild_id != nil
+		if winner.guild_id
 			winner_guild = Guild.find_by(id: winner.guild_id)
 		end
-		if loser.guild_id != nil
+		if loser.guild_id
 			loser_guild = Guild.find_by(id: loser.guild_id)			
 		end
 		if match.match_type == "ranked game"
@@ -46,10 +46,6 @@ class LoopGameJob < ApplicationJob
 			loser.score -= match.loser_points
 			if loser.score <= 0
 				loser.score = 0
-			end
-			if winner.guild_id
-				winner_guild.score += (match.winner_points / 10)
-				winner_guild.save
 			end
 		elsif match.match_type == "tournament game"
 			loser.tournament_defeats += 1
@@ -73,6 +69,10 @@ class LoopGameJob < ApplicationJob
 					loser_guild.save
 				end
 			end
+		end
+		if winner.guild_id
+			winner_guild.score += 10
+			winner_guild.save
 		end
 		match.save
 		winner.save

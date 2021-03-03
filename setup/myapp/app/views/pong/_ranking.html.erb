@@ -12,14 +12,14 @@
             </div>
             <div id='guild-ranking'></div>
         </div>
-        <%% if(tournament.status != 'no') { %>
+
         <div id="tournament-ranking-div" class="col-sm">
             <div>
-                <h1 class="title"><%%= tournament.name %> tournament </h1>
+                <h5 class="title"> Tournaments </h1>
             </div>
             <div id='tournament-ranking'></div>
         </div>
-        <%% } %>
+        <div id="#current-tournament-ranking"></div>
     </div>
     </div>
 </script>
@@ -58,30 +58,59 @@
     </div>
 </script>
 
+<script id="tournament-list-template" type='text/template'>
+    <div class="list-group mb-6">
+    <%% for (let tournament of tournaments) {%>
+        <%% if (tournament.status == "open"){ %>
+            <div href="#tournament/<%%= tournament.id %>" class="list-group-item-action bg-success text-white p-2 text-center">"<%%= tournament.name %>" 
+                <span>
+                    <a href='#play' class="badge badge-sm badge-danger fire-animation">Open</a>
+                </span>
+            </div>
+        <%% } %>
+        <%% if (tournament.status == "active"){ %>
+            <div href="#tournament/<%%= tournament.id %>" class="list-group-item-action bg-primary text-white p-2 text-center">"<%%= tournament.name %>" 
+                <span>
+                    <a href='#play' class="badge badge-sm badge-danger fire-animation">Play now</a>
+                </span>
+            </div>
+            <div id='current-tournament-ranking'></div>
+        <%% } %>
+    <%% }%>
+    <%% for (let tournament of tournaments) {%>
+        <%% if (tournament.status == "finished"){ %>
+            <a href="#tournament/<%%= tournament.id %>" class="list-group-item-action bg-dark text-white p-2 text-center">"<%%= tournament.name %>" 
+                <span>
+                    <div class="badge badge-sm badge-light">Finished</div>
+                </span>
+            </a>
+        <%% } %>
+    <%% }%>
+    </div>
+</script>
 
 <script id="tournament-ranking-template" type='text/template'>
-    <%% if (tournament.status == 'finished'){ %>
-        <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white">Finished</div></span></div>
-    <%% } else { %>
-        <div id="tournament-status-ranking" class="font-weight-bold flex-fill align-self-end p-2 "><span><div id="mybadge-white"><%%= tournament.status %></span></div></div>
-    <%% };%> 
-    <div class="bg-info d-flex flex-row mb-1">
-        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">Nickname</div>
-        <div class="font-weight-bold flex-fill align-self-end p-2 text-info">__</div>
-        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">W</div>
-        <div class="font-weight-bold flex-fill align-self-end text-dark p-2">L</div>
-    </div>
+
+    <div class="bg-info p-2">
     <%% let i = 0; %>
     <%% for (user of users) {%>
         <%% if (user.intournament === false) { continue;} %>
+        <%% if (i === 0) { %>
+        <div class="bg-info d-flex flex-row m-1 border border-light rounded">
+            <div class="font-weight-bold flex-fill align-self-end text-light p-2">Nickname</div>
+            <div class="font-weight-bold flex-fill align-self-end p-2 text-info">__</div>
+            <div class="font-weight-bold flex-fill align-self-end text-light p-2">W</div>
+            <div class="font-weight-bold flex-fill align-self-end text-light p-2">L</div>
+        </div>
+        <%% } %>
         <%% i+= 1; %>
-        <div class="bg-light d-flex flex-row">
+        <div class="bg-light d-flex flex-row mt-2">
             <%% if (i === 1){ %>
-            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning"><%%= user.nickname%>:</a>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end  p-2 bg-warning">🥇 <%%= user.nickname%>:</a>
             <%% } else if (i === 2){ %>
-            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary"><%%= user.nickname%>:</a>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-secondary">🥈 <%%= user.nickname%>:</a>
             <%% }  else if (i === 3){ %>
-            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"><%%= user.nickname%>:</a>
+            <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-dark align-self-start w-50 align-content-end p-2 bg-bronce"> 🥉<%%= user.nickname%>:</a>
             <%% }  else { %>
             <a href="#users/<%%= user.id %>" class="font-weight-bold flex-fill text-primary align-self-start w-50 align-content-end p-2 "><%%= user.nickname%>:</a>
             <%% } %>
@@ -89,5 +118,6 @@
             <div class="font-weight-bold flex-fill align-self-end text-dark p-2"><%%= user.tournament_defeats%></div>
         </div>
     <%% };%>
+    </div>
     
 </script>

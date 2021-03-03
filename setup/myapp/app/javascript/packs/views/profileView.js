@@ -41,10 +41,10 @@ if (Helper.logged() && Helper.valid()) {
             $.ajax("api/users/" + id, {
                 "type": "GET"
             })
-            .done(function (data, textStatus, jqXHR) {
+            .done(function () {
                 self.startView(id);
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(function () {
                 window.location.href = '#error';
             })
         },
@@ -73,7 +73,6 @@ if (Helper.logged() && Helper.valid()) {
         },
     
         initialize(id) {
-            console.log("Hello world");
             this.checkUser(id);
           },
         

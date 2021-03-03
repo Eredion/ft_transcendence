@@ -34,8 +34,6 @@ let channelsView = Backbone.View.extend({
             }
         });
         $(document).on("render_full_view", function(event, channel) {
-            console.log("Estoy viendo el canal....")
-            console.log($('#channel-name-title').text())
             if ($('#channel-name-title').text() === channel) {
                 if ((userscol.findWhere({ id: Helper.userId() })).get("admin") === false) {
                     window.location.href = '#channels/default';
@@ -72,7 +70,6 @@ let channelsView = Backbone.View.extend({
             $('#channel-name-title').text(name);
             let template = _.template($("#channel_view_template").html())
             let channel = channelcol.where({ name: name })[0];
-            console.log(Helper.data.blockedUsers);
             let myself = userscol.findWhere({ id: Helper.userId() });
             let channeladmin = channel.get("admins").includes(Helper.userId())
             let output = template({
@@ -123,7 +120,6 @@ let channelsView = Backbone.View.extend({
 
     render() {
         let self = this;
-        console.log("RENDER")
         this.updateBlockedUsers();
         let template = _.template($("#channels-template").html())
         this.$el.html(template);
@@ -159,11 +155,9 @@ let channelsView = Backbone.View.extend({
         await Helper.fetch(channelcol).then(function() {
             let chan = channelcol.where({ name: tofind })[0];
             let members = chan.get("members");
-            console.log("members in this channel: " + members);
         });
 
         self.cablenames = self.cablenames.filter(function(e) { return e !== tofind })
-        console.log(`Exiting ${tofind}`)
         let cable = self.cables.find(cable => cable.channelname === tofind)
         cable.perform("remove_user", { channel: tofind, user: Helper.current_user() });
         newchannelscable.perform("force_render_channel_list");
@@ -196,13 +190,10 @@ let channelsView = Backbone.View.extend({
             }
             let categ = chan.get("category");
             if (Helper.amIAdmin() === true || (categ === "public" && members.includes(Helper.userId()))) {
-                console.log("user already in");
                 self.render_channel(name);
             } else if (categ === "public") {
-                console.log("entering public chat");
                 self.render_channel(name);
             } else {
-                console.log("asking for password")
                 $('.popup-content').html("<div></div>");
                 self.show_popup();
                 $('.close').click(function() {
@@ -269,7 +260,6 @@ let channelsView = Backbone.View.extend({
     },
 
     kick(id, channel) {
-        console.log("KICKING")
         let cable = this.cables.find(cable => cable.channelname === channel);
         newchannelscable.perform("kick", { channel: channel, user: id });
     },

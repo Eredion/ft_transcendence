@@ -113,11 +113,9 @@ class Workspace extends Backbone.Router {
     tournament(id)
     {
         this.tournamentview = new tournamentView(id);
-        //this.tournamentview.render();
     }
 
     validateTwoFA() {
-        console.log("validate2fa route")
         this.two_fa = new TwoFa.view()
         this.two_fa.render()
     }
@@ -125,7 +123,6 @@ class Workspace extends Backbone.Router {
     async admin() {
         let formData = { id: Helper.userId() }
         let user = await Helper.ajax("GET", "api/users/"+ Helper.userId(), formData);
-        console.log(user.admin)
         if (user.admin === true) {
             if (!this.adminview)
                 this.adminview = new adminView();
@@ -156,26 +153,18 @@ class Workspace extends Backbone.Router {
     }
 
     channels() {
-        console.log();
         if (!this.channelView)
             this.channelView = new channelsView();
         this.channelView.render();
-       //if (name != "default")
-        //    this.channelView.check_password(name);
-        
-
-
     }
 
     userSignin() {
-        console.log("userSignin route")
         this.signinView = Login.view
         this.signinView.delegateEvents()
         this.signinView.render()
     }
 
     userSignup() {
-        console.log("userSignup route.")
         this.signupView = Register.view
         this.signupView.delegateEvents()
         this.signupView.render()
@@ -186,7 +175,6 @@ class Workspace extends Backbone.Router {
     }
 
     userProfile(id) {
-        console.log("userProfile route")
         this.profileview = new Profile.view(id);
     }
 
@@ -196,7 +184,6 @@ class Workspace extends Backbone.Router {
     }
 
     search_match(id, from) { // Id is also used for type of match
-        console.log('search_match route')
         if (id && id.length > 0 && from && from.length > 0)
             this.searchmatchView = new SearchMatch.view(id, from)
         else if (id && id.length > 0)
@@ -206,24 +193,20 @@ class Workspace extends Backbone.Router {
     }
 
     match(id) {
-        console.log('match route')
         this.matchView = new Match.view(id)
     }
 
     guilds() {
-        console.log('guilds route')
         this.guildsView = Guilds.view
         this.guildsView.delegateEvents()
         this.guildsView.render()
     }
 
     guild(id) {
-        console.log('guild ' + id + ' route')
         this.guildView = new Guilds.GuildView(id)
     }
 
     notFound() {
-        console.log('error 404 Not Found')
         this.error404 = Errors.NotFound
         this.error404.render()
     }

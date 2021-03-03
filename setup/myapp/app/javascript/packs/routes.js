@@ -18,7 +18,7 @@ import adminView from './views/adminView'
 import WarformView from './views/warformview'
 import MySession from './models/session'
 import TwoFa from './views/validate2faView'
-
+import ruleset from './views/ruleset'
 
 class Workspace extends Backbone.Router {
 
@@ -195,6 +195,8 @@ class Workspace extends Backbone.Router {
     play() {
         this.playview = playview;
         this.playview.render();
+        this.ruleset = ruleset;
+        this.ruleset.render();
     }
 
     search_match(id, from) { // Id is also used for type of match

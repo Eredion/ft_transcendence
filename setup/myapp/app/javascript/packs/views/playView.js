@@ -98,6 +98,10 @@ let playView = Backbone.View.extend({
                 $('#tournament-view').html(template())
 
             }
+
+            let rules = _.template($('#ruleset-template').html())
+            let output = rules({});
+            $('#ruleset-wrapper').html(output)
             
         });
     },

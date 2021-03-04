@@ -21,9 +21,6 @@ class Api::TournamentsController < ApplicationController
                 }
             return
         end
-        Tournament.all.each do |tour|
-            EndTournamentJob.perform_later(tour)
-        end
         if (tour = Tournament.new(params_tournament))
             puts tour.startdate
             if (tour.startdate == nil)
@@ -35,6 +32,9 @@ class Api::TournamentsController < ApplicationController
             end
             timelen = (params_tournament[:finishdate] == "short") ? 2.minutes : 10.minutes
             tour.finishdate = tour.startdate + timelen
+            Tournament.all.each do |tour|
+                EndTournamentJob.perform_now(tour)
+            end
             if tour.save
                 OpenTournamentJob.perform_later(tour)
                 User.all.each do |u|

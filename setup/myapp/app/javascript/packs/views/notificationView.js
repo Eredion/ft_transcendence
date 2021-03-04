@@ -83,14 +83,13 @@ $(function () {
         },
 
         acceptChallenge(e){
-            console.log(e)
-            console.log(e.currentTarget)
-            console.log($(e.currentTarget).data().nickname)
             let id = $(e.currentTarget).data().id
             $('#' + id + ".challenge-dropdown").remove();
             $('#notification-count').text(parseInt($('#notification-count').text()) - 1)
-            //$('.dropdown-menu').toggle()
-            
+            $('#close-notifications-menu').attr("aria-expanded", "false")
+            $('#close-notifications-menu').parent(".dropdown").removeClass("show")
+            $('.notify-drop').removeClass("show")
+            this.render()
         },
 
         declineChallenge(e){

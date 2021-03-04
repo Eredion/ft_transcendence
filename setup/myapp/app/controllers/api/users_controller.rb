@@ -46,9 +46,25 @@ class Api::UsersController < ApplicationController
             if User.exists?(nickname: params[:nickname])
                 return render json: {"error": "Nickname " + params[:nickname] + " already exists, please change it."}, status: :ok
             end
+            if (params[:nickname].length > 10 || params[:nickname].length < 2)
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Nickname must be between 2 and 10 characters'
+                }
+                return
+            end
             user.nickname = params[:nickname]
         end
         if params[:name] != user.name
+            if (params[:name].length > 10 || params[:name].length < 2)
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Name must be between 2 and 10 characters'
+                }
+                return
+            end
             user.name = params[:name]
         end
         user.save!

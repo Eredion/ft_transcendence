@@ -86,6 +86,14 @@
                             </div>
                             <div class="badge bg-dark text-wrap p-2 m-1">Duration: <%%= w.duration%> days
                             </div>
+                            <%% if (w.type_ranked){ %>
+                                <div class="badge bg-dark text-wrap p-2 m-1">Ranked matches count!
+                                </div>
+                            <%%  } %>
+                            <%% if (w.type_tournament){ %>
+                                <div class="badge bg-dark text-wrap p-2 m-1">Tournaments matches count!
+                                </div>
+                            <%%  } %>
                         </div>
                     </span>
                 </a>

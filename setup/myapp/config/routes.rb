@@ -51,6 +51,8 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  get '*path', to: 'pong#index'
 
   devise_scope :user do
     #get 'sign_in', :to => 'users#sign_in', :as => :user_session

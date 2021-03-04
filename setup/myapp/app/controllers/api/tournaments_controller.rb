@@ -1,7 +1,7 @@
 class Api::TournamentsController < ApplicationController
 
     def index
-        tournaments = Tournament.all.as_json(only: [:id, :name, :status, :history])
+        tournaments = Tournament.all.as_json(only: [:id, :name, :status, :history, :startdate, :finishdate])
         # render json: tournaments
          render json: tournaments
     end
@@ -22,7 +22,14 @@ class Api::TournamentsController < ApplicationController
             return
         end
         if (tour = Tournament.new(params_tournament))
-            puts tour.startdate
+            if tour.startdate < Time.now
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Tournament must start in the future'
+                }
+                return
+            end    
             if (tour.startdate == nil)
                 ActionCable.server.broadcast "notification_#{current_user.id}",
                 {

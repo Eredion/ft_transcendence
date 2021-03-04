@@ -12,6 +12,11 @@ class Api::MessagesController < ApplicationController
             return
         end
         if (message_params[:content] !~ /\A[ !¡?_,.ñáéóíúa-zA-Z]+\z/)
+            ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Messages cannot contain weird characters'
+                }
             return
         end
         msg = Message.new(message_params)

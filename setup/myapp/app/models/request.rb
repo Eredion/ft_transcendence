@@ -29,6 +29,7 @@ class Request < ApplicationRecord
                     ActionCable.server.broadcast( "Guild_#{guild.id}", {
                         action: 'update_users'
                     })
+                    ActionCable.server.broadcast('available_guilds', { action: 'update' })
                 end
             end
         # delete the current record ?

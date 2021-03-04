@@ -31,6 +31,7 @@
 	<ul class="list-group list-group-flush">
         <%% if (_.size( matches) > 0) { %>
             <%% _.each( matches, function(match) { %>
+                <li class="list-group-item list-group-item-secondary"><%%= match.match_type %></li>
                 <li class="list-group-item d-flex justify-content-between">
                     <div class="col bg-light">
                         <div class="row">

@@ -23,7 +23,7 @@
                     <%% } %>
                 </div>
             <%% } %>
-            <div class="card text-center mx-auto">
+            <div class="card text-center mx-auto mb-3">
                 <div class="card-body">
                     <p class="h5 card-title text-info">Stats</p>
                     <hr/>
@@ -325,7 +325,7 @@
                         <div class="row">
                             <div class="col">
                                 <img class="img-avatar rounded-circle img-fluid" src="<%%= match.left_player_avatar.thumb.url %>"/>
-                                <p><%%= match.left_player %></p>
+                                <a class="text-dark" href="/#users/<%%= match.left_player_id %>"><p><%%= match.left_player %></p></a>
                             </div>
                             <div class="col">
                                 <p class="h3"><%%= match.left_player_score %></p>
@@ -339,7 +339,7 @@
                             </div>
                             <div class="col">
                                 <img class="img-avatar rounded-circle img-fluid" src="<%%= match.right_player_avatar.thumb.url %>"/>
-                                <p><%%= match.right_player %></p>
+                                <a class="text-dark" href="/#users/<%%= match.right_player_id %>"><p><%%= match.right_player %></p></a>
                             </div>
                         </div>
                     </div>

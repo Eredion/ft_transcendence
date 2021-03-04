@@ -23,7 +23,7 @@
                     <%% } %>
                 </div>
             <%% } %>
-            <div class="card text-center mx-auto">
+            <div class="card text-center mx-auto mb-3">
                 <div class="card-body">
                     <p class="h5 card-title text-info">Stats</p>
                     <hr/>
@@ -297,12 +297,12 @@
         <%% if (_.size( user_friends.data ) > 0) { %>
             <%% _.each( user_friends.data, function(user) { %>
                 <li class="list-group-item d-flex justify-content-between" >
-                    <a href="/#users/<%%= user.id %>">
+                    <a href="/#users/<%%= user.friend.id %>">
                         <span>
-                            <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                            <img class="img-avatar rounded-circle img-fluid" src="<%%= user.friend.avatar.thumb.url %>"/>
                         </span>
                     </a>
-                    <p class="text-dark"><%%= user.nickname %></p>
+                    <p class="text-dark"><%%= user.friend.nickname %></p>
                 </li>
             <%% }) %>
         <%% } else { %>
@@ -325,7 +325,7 @@
                         <div class="row">
                             <div class="col">
                                 <img class="img-avatar rounded-circle img-fluid" src="<%%= match.left_player_avatar.thumb.url %>"/>
-                                <p><%%= match.left_player %></p>
+                                <a class="text-dark" href="/#users/<%%= match.left_player_id %>"><p><%%= match.left_player %></p></a>
                             </div>
                             <div class="col">
                                 <p class="h3"><%%= match.left_player_score %></p>
@@ -339,7 +339,7 @@
                             </div>
                             <div class="col">
                                 <img class="img-avatar rounded-circle img-fluid" src="<%%= match.right_player_avatar.thumb.url %>"/>
-                                <p><%%= match.right_player %></p>
+                                <a class="text-dark" href="/#users/<%%= match.right_player_id %>"><p><%%= match.right_player %></p></a>
                             </div>
                         </div>
                     </div>

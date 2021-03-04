@@ -20,7 +20,7 @@ class Api::UsersController < ApplicationController
     end
 
     def update
-        if (params[:admin] && current_user.admin)
+        if (params[:admin] && current_user.admin == true && current_user.id != params[:id].to_i)
             user = User.find(params[:id])
             user.admin = params[:admin]
             user.save
@@ -29,7 +29,7 @@ class Api::UsersController < ApplicationController
             end
             return
         end
-        if (params[:banned] && current_user.admin)
+        if (params[:banned] && current_user.admin == true && current_user.id != params[:id].to_i)
             user = User.find(params[:id])
             user.banned = params[:banned]
             user.save

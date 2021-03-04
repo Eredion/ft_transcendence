@@ -80,6 +80,9 @@ class Api::GuildsController < ApplicationController
 
     def destroy
         if guild = Guild.find_by(id: params[:id])
+            if guild.inwar == true
+                return render json: { "error": "The guild is in a war, it cannot be eliminated." }
+            end
             if current_user.id == params[:user_id].to_i && params[:user_id].to_i == guild.owner_id
                 owner = User.find_by(id: params[:user_id])
                 owner.guild_id = nil
@@ -135,6 +138,9 @@ class Api::GuildsController < ApplicationController
             member = User.find_by(id: params[:user_id])
             if member.guild_id != nil
                 guild = Guild.find_by(id: params[:id])
+                if guild.inwar == true
+                    return render json: { "error": "The guild is in a war, you can't leave it now." }
+                end
                 if guild.owner_id == member.id
                     # owner leave the guild and no one can be owner -> destroy guild
                     if guild.officers.empty?

@@ -84,6 +84,9 @@
                 
             })
         %>
+        <%% if (channeltype != 'public'){ %>
+                <div type="button" id="remove-password-button" class="btn btn-secondary mr-1 ">Remove password</div>
+        <%% }; %>
     <%% }; %>
         <%% if (admin === true){ %> 
             <a id="delete-channel-button" class="btn btn-danger">Delete</a>

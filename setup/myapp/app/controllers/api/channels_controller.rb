@@ -44,7 +44,18 @@ class Api::ChannelsController < ApplicationController
     end
 
     def update
-        channel = Channel.find(params[:id])
+        channel = Channel.find_by(id: params[:id])
+        if (params[:category])
+            channel.category = "public"
+            if channel.save
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'primary',
+                    message: 'This channel is public now'
+                }
+            end
+            return
+        end
         channel.password_digest = BCrypt::Password.create(params[:password])
         channel.category="protected"
         channel.save

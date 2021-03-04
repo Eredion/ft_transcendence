@@ -79,6 +79,7 @@ let channelsView = Backbone.View.extend({
                 'channelname': channel.get("name"),
                 'admin': myself.get('admin'),
                 'channeladmin': channeladmin,
+                'channeltype' : channel.get('category'),
             });
             $('#channel_view').html(output);
             let input_template = _.template($('#channel-msg-input-template').html());
@@ -104,6 +105,12 @@ let channelsView = Backbone.View.extend({
                 if (myself.get('admin') === true)
                     self.newchannelscable.perform("destroy_channel", { channel: $('#channel-name-title').text() })
             });
+            $('#remove-password-button').on('click', function(){
+                let data = {'category' : 'public'}
+                Helper.ajax("PUT", "api/channels/" + channel.get("id"), data);
+                self.render_channel(name);
+                
+            })
         });
         return this;
     },

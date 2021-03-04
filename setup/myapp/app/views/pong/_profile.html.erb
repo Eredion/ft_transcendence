@@ -297,12 +297,12 @@
         <%% if (_.size( user_friends.data ) > 0) { %>
             <%% _.each( user_friends.data, function(user) { %>
                 <li class="list-group-item d-flex justify-content-between" >
-                    <a href="/#users/<%%= user.id %>">
+                    <a href="/#users/<%%= user.friend.id %>">
                         <span>
-                            <img class="img-avatar rounded-circle img-fluid" src="<%%= user.avatar.thumb.url %>"/>
+                            <img class="img-avatar rounded-circle img-fluid" src="<%%= user.friend.avatar.thumb.url %>"/>
                         </span>
                     </a>
-                    <p class="text-dark"><%%= user.nickname %></p>
+                    <p class="text-dark"><%%= user.friend.nickname %></p>
                 </li>
             <%% }) %>
         <%% } else { %>

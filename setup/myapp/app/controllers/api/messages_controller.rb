@@ -11,7 +11,7 @@ class Api::MessagesController < ApplicationController
         if (params[:content] == "")
             return
         end
-        if (params[:content] !~ /\A[ !¡?_,.ñáéóíúa-zA-Z]+\z/)
+        if (message_params[:content] !~ /\A[ !¡?_,.ñáéóíúa-zA-Z]+\z/)
             return
         end
         msg = Message.new(message_params)

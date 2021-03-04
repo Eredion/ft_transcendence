@@ -15,12 +15,15 @@ class Api::ChannelsController < ApplicationController
     end
 
     def show
-        @channel = Channel.find(params[:id])
+        @channel = Channel.find_by(id: params[:id])
         render json: @channel
     end
 
     def create
         puts("channel controller create")
+        if (channel_params[:name].length < 2 || channel_params[:name].length > 12)
+            return
+        end
         channel = Channel.new(channel_params)
         channel.user_id = User.find_by(id: params[:user]).id
         cat = "public"

@@ -11,6 +11,9 @@ class Api::MessagesController < ApplicationController
         if (params[:content] == "")
             return
         end
+        if (message_params[:content] !~ /\A[ !¡?_,.ñáéóíúa-zA-Z]+\z/)
+            return
+        end
         msg = Message.new(message_params)
         msg.user_id = User.find_by(id: params[:user_id]).id
         msg.author = User.find_by(id: params[:user_id]).nickname

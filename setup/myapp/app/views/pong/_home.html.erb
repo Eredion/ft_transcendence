@@ -15,10 +15,10 @@
 		<div class="col">
 			<div class="card mx-auto">
 				<div class="card-body text-center">
-					<p class="h5 card-title text-info">Active Tournaments</p>
+					<p class="h5 card-title text-info">Wars</p>
 					<hr/>
 					<div class="mx-auto text-center">
-						<div id="active-tour-data" class="home_match_list">
+						<div id="active-wars-wrapper">
 						</div>
 					</div>
 				</div>
@@ -68,6 +68,28 @@
     </ul>
 </script>
 
-<script type="text/template" id="active_tour_template">
-
+<script type="text/template" id="active_wars_template">
+ 
+    <%%  let i = 0 %>
+    <%%  for (let w of wars) { %>
+        <%% if (w.status === "active"){ %>
+            <%%  i++; %>
+            <div class="text-lg-center p-2 bg-danger fire-animation m-2"><%%= w.from %> vs <%%= w.to %></div>
+        <%% } %>
+    <%%  } %>
+    <%%  for (let w of wars) { %>
+        <%% if (w.status === "finished"){ %>
+            <%% i++; %>
+            <div class="text-lg-center p-2 bg-secondary fire-animation m-2"><%%= w.from %> vs <%%= w.to %>
+                <span>
+                    <div class="badge badge-dark badge-sm ml-3">Finished</div>
+                </span>
+            </div>
+        <%% } %>
+    <%%  } %>
+    <%% if (i === 0) {%>
+        <li class="list-group-item text-center">
+            <p class="h6 text-secondary">No wars.</p>
+        </li>
+    <%% } %>
 </script>

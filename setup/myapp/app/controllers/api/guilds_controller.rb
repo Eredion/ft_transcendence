@@ -40,6 +40,30 @@ class Api::GuildsController < ApplicationController
         if user.guild_id
             return render json: { "error": 'Already in a guild, leave first.' }
         end
+        puts (params[:anagram].match(/^[^a-z]*$/) == true)
+        puts (params[:anagram].match(/^[^a-z]*$/) == true)
+        puts (params[:anagram].match(/^[^a-z]*$/) == true)
+        puts (params[:anagram].match(/^[^a-z]*$/) == true)
+        puts (params[:anagram].match(/^[^a-z]*$/) == true)
+        puts (params[:anagram].match(/^[^a-z]*$/) == true)
+
+        
+        if (params[:anagram].length < 2 || params[:anagram].length > 5)
+            render json: { "error": "Anagram length error" }
+            return
+        end
+        if (params[:anagram] !~ (/^[a-zA-Z_]*$/) )
+            render json: { "error": "Anagram needs to be in format ABCDE. Try Again" }
+            return
+        end
+        if (params[:title] !~ (/^[a-zA-Z_]*$/) )
+            render json: { "error": "Title needs to be alphanumeric. Try Again" }
+            return
+        end
+        if (params[:title].length < 2 || params[:title].length > 12)
+            render json: { "error": "Title too long or too short. Try Again" }
+            return
+        end
         guild = Guild.create(:title => params[:title], :anagram => params[:anagram].upcase, :owner => user)
         chat = Chat.create(:name => "guild#{guild.id}")
         guild.chat_id = chat.id

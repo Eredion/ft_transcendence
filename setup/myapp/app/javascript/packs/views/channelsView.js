@@ -133,16 +133,16 @@ let channelsView = Backbone.View.extend({
     connectCable(name) {
         self = this;
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
-        if (self.cablenames.includes(name))
+        if (Helper.findCable("ChannelMessagesChannel", name) != null)
             console.log("Already subscribed to this channel.");
         else {
+            console.log("JUST JOINED " + name)
             self.cablenames.push(name);
             let c = channelSubscription.joinChannel(name)
             self.cables.push(c);
         }
-        let c = self.cables.find(cable => cable.channelname === name);
+        let c = Helper.findCable("ChannelMessagesChannel", name)
         c.perform("add_user_to_channel", { channel: name, user: Helper.current_user() });
-
     },
 
     async exit_channel() {
@@ -158,6 +158,7 @@ let channelsView = Backbone.View.extend({
         cable.perform("remove_user", { channel: tofind, user: Helper.current_user() });
         self.newchannelscable.perform("force_render_channel_list");
         consumer.subscriptions.remove(cable)
+        Helper.findCable("ChannelMessagesChannel", "canal7")
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);
         $('#channel_view').html();

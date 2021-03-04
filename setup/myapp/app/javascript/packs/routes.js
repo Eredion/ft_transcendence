@@ -53,6 +53,7 @@ class Workspace extends Backbone.Router {
         }
         if (this.channelView) {
             this.channelView.undelegateEvents()
+            this.channelView.disconnect()
         }
         if (this.signinView) {
             this.signinView.undelegateEvents()

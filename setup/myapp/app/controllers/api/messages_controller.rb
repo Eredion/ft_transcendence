@@ -17,6 +17,11 @@ class Api::MessagesController < ApplicationController
         if (params[:channel_id])
             ## check if user is silenced
             if (msg.user_id.in?(Channel.find(params[:channel_id]).silenced))
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'You have been muted!'
+                }
                 return
             end
             p Channel.find_by(id: params[:channel_id]).silenced

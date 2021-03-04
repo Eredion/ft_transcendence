@@ -16,7 +16,7 @@ let ChannelCollection = Backbone.Collection.extend({
 
     },
     initialize: function() {
-        Helper.fetch(this);
+        //Helper.fetch(this);
     },
 });
 

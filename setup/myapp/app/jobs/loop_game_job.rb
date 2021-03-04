@@ -13,7 +13,7 @@ class LoopGameJob < ApplicationJob
 				game.move_ball
 				game.send_moves
 				sleep 0.04 # 25fps
-			elsif match.status == "waiting" || match.status == "pause"
+			elsif match.status == "waiting"
 				sleep 0.5
 			end
         end

@@ -13,7 +13,7 @@ let TournamentCol = Backbone.Collection.extend({
     model: TournamentModel,
 
     initialize: function() {
-        Helper.fetch(this);
+        //Helper.fetch(this);
         console.log("Fetching all tournaments");
     },
 });

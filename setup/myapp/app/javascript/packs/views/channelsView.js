@@ -6,7 +6,7 @@ import channelcol from '../models/channel'
 import userscol from '../models/user'
 import consumer from "./../../channels/consumer"
 import channelSubscription from './../../channels/channel_messages_channel'
-import newchannelscable from "./../../channels/available_channels_channel"
+import availablechannelsChannel from "./../../channels/available_channels_channel"
 import Workspace from '../routes'
 import bcryptjs from 'bcryptjs'
 let channelsView = Backbone.View.extend({
@@ -20,7 +20,8 @@ let channelsView = Backbone.View.extend({
     },
 
     initialize() {
-        self = this;
+        let self = this;
+        self.newchannelscable = availablechannelsChannel.connect();
         $(document).on("update_channels_event", function(event) {
             self.render_list();
             let chname = $('#channel-name-title').text();
@@ -63,7 +64,6 @@ let channelsView = Backbone.View.extend({
     async render_channel(name) {
         let self = this;
         $('#input-msg-channel-form').focus();
-
         this.connectCable(name);
         /* $(`a[href="#channels/${name}"]`).removeClass('border border-success'); */
         await Helper.fetch(self.collection).then(function() {
@@ -102,7 +102,7 @@ let channelsView = Backbone.View.extend({
             });
             $('#delete-channel-button').click(function() {
                 if (myself.get('admin') === true)
-                    newchannelscable.perform("destroy_channel", { channel: $('#channel-name-title').text() })
+                    self.newchannelscable.perform("destroy_channel", { channel: $('#channel-name-title').text() })
             });
         });
         return this;
@@ -111,7 +111,6 @@ let channelsView = Backbone.View.extend({
 
     render_list() {
         this.fetchcol();
-
         return this;
     },
 
@@ -134,16 +133,16 @@ let channelsView = Backbone.View.extend({
     connectCable(name) {
         self = this;
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
-        if (self.cablenames.includes(name))
+        if (Helper.findCable("ChannelMessagesChannel", name) != null)
             console.log("Already subscribed to this channel.");
         else {
+            console.log("JUST JOINED " + name)
             self.cablenames.push(name);
             let c = channelSubscription.joinChannel(name)
             self.cables.push(c);
         }
-        let c = self.cables.find(cable => cable.channelname === name);
+        let c = Helper.findCable("ChannelMessagesChannel", name)
         c.perform("add_user_to_channel", { channel: name, user: Helper.current_user() });
-
     },
 
     async exit_channel() {
@@ -157,8 +156,9 @@ let channelsView = Backbone.View.extend({
         self.cablenames = self.cablenames.filter(function(e) { return e !== tofind })
         let cable = self.cables.find(cable => cable.channelname === tofind)
         cable.perform("remove_user", { channel: tofind, user: Helper.current_user() });
-        newchannelscable.perform("force_render_channel_list");
+        self.newchannelscable.perform("force_render_channel_list");
         consumer.subscriptions.remove(cable)
+        Helper.findCable("ChannelMessagesChannel", "canal7")
         let index = self.cables.indexOf(cable);
         self.cables.splice(index, 1);
         $('#channel_view').html();
@@ -249,7 +249,7 @@ let channelsView = Backbone.View.extend({
     },
 
     mute1min(id, channel) {
-        newchannelscable.perform(
+        this.newchannelscable.perform(
             "silence", {
                 id: id,
                 channel: channel,
@@ -260,17 +260,21 @@ let channelsView = Backbone.View.extend({
 
     kick(id, channel) {
         let cable = this.cables.find(cable => cable.channelname === channel);
-        newchannelscable.perform("kick", { channel: channel, user: id });
+        this.newchannelscable.perform("kick", { channel: channel, user: id });
     },
 
     setAdmin(id, channel) {
-        newchannelscable.perform(
+        this.newchannelscable.perform(
             "setAdmin", {
                 id: id,
                 channel: channel,
             });
     },
 
+    disconnect(){
+        if (this.newchannelscable)
+            consumer.subscriptions.remove(this.newchannelscable);
+    },
 
 });
 

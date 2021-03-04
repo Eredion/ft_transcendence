@@ -109,7 +109,7 @@
     <div id="war-declarations-wrapper">
         <!-- template war declarations -->
     </div>
-    <div class="row mt-4 justify-content-between">
+    <div class="row mt-4 mb-4 flex justify-content-between">
         <div class="col-3 text-center" id="guild-info-data">
             <!-- template guild info -->
         </div>
@@ -119,7 +119,7 @@
                     <!-- template guild chat -->
                 </div>
             <%% } %>
-            <div class="card mx-auto align-bottom mt-5">
+            <div class="card mx-auto align-bottom mt-3">
                 <div class="card-body text-center">
                     <p class="h5 card-title text-info">War History</p>
                     <hr/>
@@ -131,10 +131,9 @@
             </div>
         </div>
         <div class="col-4">
-            <%%  console.log(guild) %>
             <%% if (guild.owner.owner_id == $('html').data().userId) { %>
                     <a id="new-war-button" href="#war/new" class="btn btn-large btn-block btn-danger mt-2 fire-animation">NEW WAR</a>
-                <%% } %>
+            <%% } %>
             <%% if ( grade > 0 ) { %>
                 <button class="btn btn-large btn-block mt-2 btn-light" id="leave_guild" data-guild-id="<%% guild.id %>"> Leave Guild </button>
             <%% } %>

@@ -15,7 +15,7 @@ class Api::ChannelsController < ApplicationController
     end
 
     def show
-        @channel = Channel.find(params[:id])
+        @channel = Channel.find_by(id: params[:id])
         render json: @channel
     end
 
@@ -44,7 +44,7 @@ class Api::ChannelsController < ApplicationController
     end
 
     def update
-        channel = Channel.find(params[:id])
+        channel = Channel.find_by(id: params[:id])
         channel.password_digest = BCrypt::Password.create(params[:password])
         channel.category="protected"
         channel.save

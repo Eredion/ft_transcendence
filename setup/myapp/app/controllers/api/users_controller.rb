@@ -20,8 +20,11 @@ class Api::UsersController < ApplicationController
     end
 
     def update
-        if (params[:admin] && current_user.admin == true && current_user.id != params[:id].to_i)
-            user = User.find(params[:id])
+        if (params[:admin] && current_user.admin)
+            user = User.find_by(id: params[:id])
+            if (user.id == 1) ## don't allow any change on the webmaster
+                return
+            end
             user.admin = params[:admin]
             user.save
             if user.admin == true

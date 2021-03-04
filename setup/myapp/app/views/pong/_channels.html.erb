@@ -9,12 +9,12 @@
                 <%= form_with url: "api/channels", method: :create do |form| %>
                         <div class="form-element">
                         <%= text_field(:channel, :name, minlength: 2, maxlength: 12, pattern: "^[a-zA-Z0-9]*$",
-                            placeholder: "Channel Name", autocomplete: :off, class:"create-channel-input")%>
+                            autocomplete: "new-password",placeholder: "Channel Name", autocomplete: :off, class:"create-channel-input")%>
                         <%= form.hidden_field :user, value: current_user.id %>
                         </div>
                         <div class="form-element">
                             <%= form.check_box :category, {}, "protected", "public"%> Private chat
-                            <%= form.password_field :password, placeholder: "password", id: "password-input"%>
+                            <%= form.password_field :password, autocomplete: "new-password", placeholder: "password", id: "password-input"%>
                         </div>
                         <div id="center-button-wrapper">
                             <%= form.submit "Create", id: "create-channel-button", class: "btn btn-dark" %>
@@ -140,7 +140,7 @@
             <form id="channel-password-form" class="form1" onsubmit="validateForm(); return false;">
                 <div class="row uniform half collapse-at-2">
                     <div class="8u">
-                        <input type="password" name="pass" id="password" placeholder="Input password"/>
+                        <input type="password" autocomplete="new-password" name="pass" id="password" placeholder="Input password"/>
                     </div>
                 <div class="4u">
                     <input class="fit" type="submit" value="Go" />

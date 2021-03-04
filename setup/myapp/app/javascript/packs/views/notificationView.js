@@ -96,8 +96,6 @@ $(function () {
             let id = $(e.currentTarget).data().id
             $('#' + id + ".challenge-dropdown").remove();
             $('#notification-count').text(parseInt($('#notification-count').text()) - 1)
-
-            //$('.challenge-dropdown#'+id).remove()
         },
 
         addNotification(e) {

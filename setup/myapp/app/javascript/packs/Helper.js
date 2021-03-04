@@ -99,6 +99,18 @@ Helper.current_user = () => {
     return $('#nav-nickname-user').text();
 };
 
+Helper.findCable = (channel, name="") => 
+{
+    for (let cable of consumer.subscriptions.subscriptions)
+    {
+        if (JSON.parse(cable.identifier).channel == channel && JSON.parse(cable.identifier).name == name)
+        {
+            console.log("MATCH")
+            return cable
+        }
+    }
+    return null
+}
 
 Helper.notification = (message) => {
     var notification = document.createElement('div')

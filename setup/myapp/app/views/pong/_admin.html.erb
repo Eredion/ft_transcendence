@@ -11,7 +11,7 @@
                 <%= text_field(:tournament, :name, maxlength: 20, required: true,
                     placeholder: "Choose a name...", autocomplete: :off, id: "input-trnmnt-form") %>
                     <label class="text-white" >Start time</label>
-                <%= datetime_field(:tournament, :startdate, min: Date.today, required: true, id: "startdate" ) %>
+                <%= time_field(:tournament, :startdate, value: Date.today, min: Date.today, required: true, id: "startdate-time") %>
                 <label class="text-white" >Duration</label>
                 <%= select(:tournament, :finishdate, options_for_select([["short", "short"], ["long", "long"]]), placeholder: '2021-02-24T00:00:00') %>
                 <%= f.submit "Create tournament", id: "create-tournament-button", class: "btn btn-dark ml-2" %>
@@ -22,7 +22,7 @@
     </div>
     <div id="admin-user-grid">
         <%% for (let user of users){ %>
-            
+            <%% if (user.id != 1) { %>
                 <div class="admin-user-el bg-white">
                     <p><%%= user.nickname %></p>
                     <span>
@@ -38,10 +38,10 @@
 
                         <%% } else { %>
                         <div class="unadmin-user-button btn btn-block btn-dark" data-nickname="<%%=user.nickname%>" data-user="<%%=user.id %>">🚫 ADMIN</div>
-
                         <%% } %>
                     </span>
                 </div>
+            <%% } %>
         <%% }%>
     </div>
 </script>

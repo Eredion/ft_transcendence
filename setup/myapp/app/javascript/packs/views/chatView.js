@@ -18,7 +18,7 @@ let chatView = Backbone.View.extend({
     initialize() {
         self = this;
 		this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"DmChannel\",\"userID\":${Helper.userId()}`)));
-        this.commonCable = AvailableChatCable;
+        this.commonCable = AvailableChatCable.connect();
         $(document).on("render_user_list", function(event){
             self.renderUserList();
         });
@@ -131,6 +131,12 @@ let chatView = Backbone.View.extend({
         this.$el.html(template);
         this.renderUserList();
         return self;
+    },
+
+    disconnect()
+    {
+        if (this.availablechatscable)
+            consumer.subscriptions.remove(this.commonCable)
     },
 });
 

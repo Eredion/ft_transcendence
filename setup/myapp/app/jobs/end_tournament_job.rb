@@ -4,6 +4,18 @@ class EndTournamentJob < ApplicationJob
   def perform(tournament)
     tournament.status = "finished"    
     history = []
+    tournament.users.sort_by {|user| [user.tournament_victories, -(user.tournament_defeats)] }
+    tournament.users.each do |user|
+      if user.tournament_victories == tournament.users[0].tournament_victories && user.tournament_defeats == tournament.users[0].tournament_defeats 
+        if user.guild_id
+          guild = Guild.find_by(id: user.guild_id)
+          guild.score += 50
+          guild.save
+        end
+      else
+        break
+      end
+    end
     tournament.users.each do |user|
       history_user = {
         :nickname => user.nickname,
@@ -16,13 +28,6 @@ class EndTournamentJob < ApplicationJob
       user.tournament_victories = 0
       user.intournament = false 
       user.save
-    end
-    history.sort_by {|h| [ h[:victories].to_i, h[:defeats].to_i ]}
-    first = history[0]
-    history.each do |user|
-      if (user.victories - user.defeats == first.victories - first.defeats)
-        user.guild.score += 50
-      end
     end
     tournament.history = JSON.generate(history)
     tournament.users = []

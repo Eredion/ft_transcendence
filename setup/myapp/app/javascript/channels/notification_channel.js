@@ -59,6 +59,8 @@ $(function () {
 				Helper.custom_alert("danger", data['message'])
 			} else if (data['action'] === 'primary') {
 					Helper.custom_alert("primary", data['message'])
+			} else if (data['action'] === 'success') {
+					Helper.custom_alert("success", data['message'])
 			} else if (data['action'] === 'banned') {
 				Helper.custom_alert('danger', 'You have been banned.')
 				setTimeout(async function(){
@@ -66,6 +68,8 @@ $(function () {
 				}, 500);
 			} else if (data['action'] === 'close_session') {
 				self.log_off()
+			} else if (data['action'] === 'war_declared') {
+			$(document).trigger("guild_redirect");
 			}
 		},
 

@@ -48,12 +48,17 @@ class Api::WarsController < ApplicationController
             challenged_guild.save
             myguild.war_id = war.id
             myguild.save
-            return
+            ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'success',
+                    message: 'War request successfully sended.'
+                }
+            ActionCable.server.broadcast "notification_#{current_user.id}", {action: 'war_declared'}
         else
             ActionCable.server.broadcast "notification_#{current_user.id}",
                 {
                     action: 'alert',
-                    message: 'Check that you have filled all parameters'
+                    message: 'Check that you have filled all parameters.'
                 }
             puts(Rails.logger.info(war.errors.inspect))
         end

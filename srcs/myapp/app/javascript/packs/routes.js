@@ -42,41 +42,51 @@ class Workspace extends Backbone.Router {
         if (this.homeview) {
             this.homeview.removeChannel()
             this.homeview.undelegateEvents()
+            this.homeview = null
         }
         if (this.chatview) {
-            this.chatview.undelegateEvents()
             this.chatview.disconnect()
+            this.chatview.undelegateEvents()
+            this.chatview = null
         }
         if (this.channelView) {
-            this.channelView.undelegateEvents()
             this.channelView.disconnect()
+            this.channelView.undelegateEvents()
+            this.channelView = null
         }
         if (this.signinView) {
             this.signinView.undelegateEvents()
+            this.signinView = null
         }
         if (this.profileview) {
             this.profileview.undelegateChildViews()
             this.profileview.undelegateEvents()
+            this.profileview = null
         }
         if (this.searchmatchView) {
             this.searchmatchView.removeChannel()
             this.searchmatchView.undelegateEvents()
+            this.searchmatchView = null
         }
         if (this.matchView) {
             this.matchView.removeChannel()
             this.matchView.undelegateEvents()
+            this.matchView = null
         }
         if (this.guildsView) {
             this.guildsView.removeChannel()
             this.guildsView.undelegateEvents()
+            this.guildsView = null
         }
         if (this.guildView) {
             this.guildView.removeChannel()
             this.guildView.undelegateEvents()
+            this.guildView = null
         }
         if (this.playview) {
             this.playview.disconnect()
             this.playview.undelegateEvents()
+            this.playview = null
         }
     }
 

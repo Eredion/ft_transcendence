@@ -1,8 +1,7 @@
 import Backbone from 'backbone'
 import $ from 'jquery'
 import consumer from '../channels/consumer'
-import usercollection from "../packs/models/user"
-import userscollection from '../packs/models/user'
+import userscollection from './models/user'
 
 const Helper = {}
 

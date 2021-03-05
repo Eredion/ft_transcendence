@@ -6,23 +6,23 @@ version: "3.3"
 services:
     db:
         image: postgres:12.1-alpine
-        env_file: .env
+        env_file: ./srcs/.env
     dbadmin:
         image: dpage/pgadmin4
         volumes:
-            - ./pgadminserver.json:/pgadmin4/servers.json
+            - ./srcs/pgadminserver.json:/pgadmin4/servers.json
         ports:
             - "8081:8080"
         depends_on:
             - db
-        env_file: .env
+        env_file: ./srcs/.env
     rails:
         build: .
         image: rails_backend #Name of the image built by the build instruction
         volumes:
-            - ./myapp/:/transcendence
+            - ./srcs/myapp/:/transcendence
         depends_on:
             - db
         ports: 
             - "80:3000"
-        env_file: .env
+        env_file: ./srcs/.env

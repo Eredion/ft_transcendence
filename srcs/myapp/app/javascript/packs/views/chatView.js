@@ -135,8 +135,10 @@ let chatView = Backbone.View.extend({
 
     disconnect()
     {
-        if (this.availablechatscable)
+        if (this.commonCable) {
             consumer.subscriptions.remove(this.commonCable)
+            this.commonCable = null
+        }
     },
 });
 

@@ -278,8 +278,10 @@ let channelsView = Backbone.View.extend({
     },
 
     disconnect(){
-        if (this.newchannelscable)
+        if (this.newchannelscable) {
             consumer.subscriptions.remove(this.newchannelscable);
+            this.newchannelscable = null
+        }
     },
 
 });

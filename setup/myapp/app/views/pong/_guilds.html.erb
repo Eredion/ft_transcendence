@@ -166,7 +166,7 @@
     <img class="rounded-circle img-fluid" id="guild-avatar-img" src="<%%= guild.guild_avatar.medium.url %>"/>
     <%% if (grade == 3) { %>
         <%= form_with(url: "api/guilds/#{current_user.guild_id}/update_guild_avatar", id: "guild_avatar-form", method: "post", multipart: true, remote: true)  do %>
-            <%= file_field :guild, :guild_avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'guildFileInput' %>
+            <%= file_field :guild, :guild_avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'guildFileInput', class:"text-light" %>
             <%= submit_tag "Save Guild Avatar", class: 'btn btn-success' %>
         <% end %>
     <%% } %>
@@ -190,13 +190,13 @@
                             <div class="form-group row">
                                 <label for="title" class="col-sm-5 col-form-label">Title</label>
                                 <div class="col-sm-7">
-                                    <input class="form-control white" type="text" value="<%%= guild.guild_title %>" name="title" id="form-title" placeholder="Enter a title" required>
+                                    <input class="form-control white" type="text" minlength="2" maxlength="12" value="<%%= guild.guild_title %>" name="title" id="form-title" placeholder="Enter a title" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="anagram" class="col-sm-5 col-form-label">Anagram</label>
                                 <div class="col-sm-7">
-                                    <input class="form-control white" type="text" value="<%%= guild.guild_anagram %>" name="anagram" id="form-anagram">
+                                    <input class="form-control white" type="text" minlength="2" maxlength="5" onkeyup="this.value = this.value.toUpperCase();" value="<%%= guild.guild_anagram %>" name="anagram" id="form-anagram">
                                 </div>
                             </div>
                             <div class="form-group row">

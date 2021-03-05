@@ -111,7 +111,7 @@
         <%% if ($('html').data().userId === user.id) { %>
 
             <%= form_tag update_avatar_user_url(current_user), id: 'avatar-form', :method => :post, multipart: true, remote: true do %>
-                <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'avatarFileInput' %>
+                <%= file_field :user, :avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'avatarFileInput', class:"text-light" %>
                 <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
             <% end %>
 

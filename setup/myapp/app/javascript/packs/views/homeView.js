@@ -3,6 +3,8 @@ import _ from 'underscore'
 import Backbone from 'backbone'
 import Helper from '../Helper'
 import ActiveMatches from '../../channels/active_matches_channel'
+import warcol from '../models/war'
+import UserCol from '../models/user'
 
 const Home = {}
 
@@ -44,7 +46,26 @@ if (Helper.logged() && Helper.valid()) {
 
         render() {
             this.$el.html(this.template());
+            this.render_active_wars();
+            this.render_users(); 
 		    return this;
+        },
+
+        async render_users(){
+            await Helper.fetch(UserCol).then(function(){
+                let template = _.template($('#online_users_template').html())
+                let output = template({'users': UserCol.toJSON()})
+                $('#online-users-wrapper').html(output);
+            });
+        },
+
+        async render_active_wars()
+        {
+            await Helper.fetch(warcol).then(function(){
+                let template = _.template($('#active_wars_template').html())
+                let output = template({'wars': warcol.toJSON()})
+                $('#active-wars-wrapper').html(output);
+            });
         },
 
         async update_matches() {

@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :chats
   devise :omniauthable, omniauth_providers: [:marvin]
   validates :email, :nickname, presence: true, uniqueness: true
+  validates :nickname, length: {maximum: 12}
   mount_uploader :avatar, AvatarUploader
   has_many :requests_as_requestor, :as => :requestor, :class_name => 'Request'
   has_many :requests_as_receiver, :as => :receiver, :class_name => 'Request'

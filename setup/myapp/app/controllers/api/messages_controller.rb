@@ -4,11 +4,19 @@ class Api::MessagesController < ApplicationController
     end
 
     def show
-        render json: Message.find(params[:id])
+        render json: Message.find_by(id: params[:id])
     end
 
     def create
         if (params[:content] == "")
+            return
+        end
+        if (message_params[:content] !~ /\A[ !¡?_,.ñáéóíúa-zA-Z]+\z/)
+            ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Messages cannot contain weird characters'
+                }
             return
         end
         msg = Message.new(message_params)
@@ -16,7 +24,7 @@ class Api::MessagesController < ApplicationController
         msg.author = User.find_by(id: params[:user_id]).nickname
         if (params[:channel_id])
             ## check if user is silenced
-            if (msg.user_id.in?(Channel.find(params[:channel_id]).silenced))
+            if (msg.user_id.in?(Channel.find_by(id: params[:channel_id]).silenced))
                 ActionCable.server.broadcast "notification_#{current_user.id}",
                 {
                     action: 'alert',

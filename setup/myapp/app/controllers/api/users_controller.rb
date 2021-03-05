@@ -9,7 +9,7 @@ class Api::UsersController < ApplicationController
     end
 
     def show
-        user = User.find(params[:id])
+        user = User.find_by(id: params[:id])
         fuser = user.as_json(only: [:id, :nickname, :avatar, :name, :guild_id, :score, :status, :matches_won, :matches_lost, :blocked, :admin, :intournament, :tournament_defeats, :tournament_victories, :otp_required_for_login])
         render json: fuser
     end
@@ -33,7 +33,7 @@ class Api::UsersController < ApplicationController
             return
         end
         if (params[:banned] && current_user.admin == true && current_user.id != params[:id].to_i)
-            user = User.find(params[:id])
+            user = User.find_by(id: params[:id])
             user.banned = params[:banned]
             user.save
             if user.banned == true
@@ -41,14 +41,30 @@ class Api::UsersController < ApplicationController
             end
             return
         end
-        user = User.find(current_user.id)
+        user = User.find_by(id: current_user.id)
         if params[:nickname] != user.nickname
             if User.exists?(nickname: params[:nickname])
                 return render json: {"error": "Nickname " + params[:nickname] + " already exists, please change it."}, status: :ok
             end
+            if (params[:nickname].length > 10 || params[:nickname].length < 2)
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Nickname must be between 2 and 10 characters'
+                }
+                return
+            end
             user.nickname = params[:nickname]
         end
         if params[:name] != user.name
+            if (params[:name].length > 10 || params[:name].length < 2)
+                ActionCable.server.broadcast "notification_#{current_user.id}",
+                {
+                    action: 'alert',
+                    message: 'Name must be between 2 and 10 characters'
+                }
+                return
+            end
             user.name = params[:name]
         end
         user.save!
@@ -57,7 +73,7 @@ class Api::UsersController < ApplicationController
 
     def show_blockeds
         if params[:id].to_i == current_user[:id]
-            block_list = User.find(params[:id].to_i)[:blocked]
+            block_list = User.find_by(id: params[:id].to_i)[:blocked]
             ret = []
             block_list.each do |user_id|
                 ret.push(User.find_by(id: user_id).as_json(only: [:id, :nickname, :avatar]))

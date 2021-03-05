@@ -37,7 +37,7 @@ class Api::TournamentsController < ApplicationController
                     message: 'Check that you have filled all parameters'
                 }
             end
-            timelen = (params_tournament[:finishdate] == "short") ? 2.minutes : 10.minutes
+            timelen = (params_tournament[:finishdate] == "short") ? 5.minutes : 1.hours
             tour.finishdate = tour.startdate + timelen
             Tournament.all.each do |tour|
                 EndTournamentJob.perform_now(tour)

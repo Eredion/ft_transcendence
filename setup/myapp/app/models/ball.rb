@@ -20,7 +20,7 @@ class Ball
         if (paddle.x < @canvas_half && @x - @radius <= paddle.x + paddle.width && @x + @radius > paddle.x) ||
             (paddle.x > @canvas_half && @x + @radius >= paddle.x && @x - @radius < paddle.x + paddle.width)
             if @y + @radius >= paddle.y && @y <= paddle.y + paddle.height
-                @speed *= 1.02
+                #@speed *= 1.02
                 # calculate bounce angle
                 paddle_center = paddle.y + (paddle.height / 2)
                 offset = (paddle_center - @y) / paddle.height

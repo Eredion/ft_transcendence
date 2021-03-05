@@ -23,8 +23,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       else
         redirect_to root_path
       end
-      #sign_in_and_redirect user, event: :authentication #this will throw if user is not activated
-      #set_flash_message(:notice, :success, :kind => "42") if is_navigational_format?
     else
       session["devise.marvin_data"] = request.env["omniauth.auth"].except("extra") # Removing extra as it can overflow some session stores
       redirect_to root_path

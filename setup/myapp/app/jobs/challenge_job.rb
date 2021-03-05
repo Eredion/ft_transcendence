@@ -8,7 +8,6 @@ class ChallengeJob < ApplicationJob
         search = false
     else
         Matchmaking.create!(user: player, match_type: 'challenge', challenge: [player.id, other.id])
-        puts "Created match"
     end
 
     loop do

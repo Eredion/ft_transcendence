@@ -22,11 +22,9 @@ let WarformView = Backbone.View.extend({
         Promise.all([Helper.fetch(userscollection, Helper.fetch(this.collection))])
             .then(async function(){
                 self.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
-                console.log(self.userGuild)
                 if (self.userGuild.owner_id != Helper.userId())
                     return;
                 let template = _.template($('#new-war-template').html());
-                console.log(self.collection)
                 self.$el.html(template({'guilds': self.collection.toJSON(), 'myid': Helper.userId()}))
             })
         

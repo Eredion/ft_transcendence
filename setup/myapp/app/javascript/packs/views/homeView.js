@@ -31,14 +31,12 @@ if (Helper.logged() && Helper.valid()) {
         matches_template: _.template($('#active_matches_template').html()),
 
         initialize() {
-            console.log("Home View initialize");
             this.render()
             this.update_matches()
             ActiveMatches.channel.connect(this.manage_data, this)
         },
 
         manage_data(data) {
-            console.log(data)
             if (data['action'] == 'update_matches') {
                 this.update_matches()
             }

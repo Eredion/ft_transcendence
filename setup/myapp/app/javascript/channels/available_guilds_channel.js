@@ -23,7 +23,6 @@ $(function () {
       },
       {
         connected() {
-          console.log('AvailableGuildsChannel connected')
         },
         disconnected() {
           self.disconnect()

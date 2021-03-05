@@ -13,7 +13,6 @@ $(function () {
         template: _.template($('#error-404-template').html()),
 
         initialize() {
-            console.log("ErrorView error404 initialize");
         },
 
         render() {

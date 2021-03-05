@@ -6,7 +6,6 @@ let AvailableChatCable = {
 
   connect(){
     self = this;
-    console.log("connecting to tournament...")
     let cable = consumer.subscriptions.create("AvailableChatChannel", {
       connected() {
         // Called when connected

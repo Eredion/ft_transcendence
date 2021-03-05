@@ -1,6 +1,5 @@
 class ChannelMessagesChannel < ApplicationCable::Channel
   def subscribed
-    puts("SUSCRITO A " + "channel_messages_#{params[:name]}")
     stream_from "channel_messages_#{params[:name]}"
   end
 
@@ -22,9 +21,7 @@ class ChannelMessagesChannel < ApplicationCable::Channel
   def remove_user(data)
     cha = Channel.find_by(name: data["channel"])
     arr = cha.members
-    puts "removing user" + data["user"]
     user = User.find_by(nickname: data["user"])
-    puts "found user #{user.nickname}"
     cha.members.delete(user.id)
     if (user.id.in?(cha.admins))
       cha.admins.delete(user.id)

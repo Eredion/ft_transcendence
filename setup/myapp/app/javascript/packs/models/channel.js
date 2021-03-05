@@ -4,7 +4,6 @@ import Helper from '../Helper.js'
 let ChannelModel = Backbone.Model.extend({
     urlRoot: 'api/channels',
     initialize: function() {
-        console.log("Fetching channel [" + this.get("name") + "]");
     },
 });
 

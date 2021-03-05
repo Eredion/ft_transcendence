@@ -8,10 +8,8 @@ let rulesetView = Backbone.View.extend({
     el: '#content',
     col: userscollection,
     initialize(){
-        console.log("initializing ruleset")
     },
     render(){
-        console.log("rendering ruleset")
         let template = _.template($('#ruleset-template').html())
         let output = template({});
         //$('#ruleset-wrapper').html(output)

@@ -1,6 +1,5 @@
 import Backbone from 'backbone'
 import Login from './views/loginView'
-import Register from './views/registerView'
 import Profile from './views/profileView'
 import chatView from './views/chatView'
 import SearchMatch from './views/searchMatchView'
@@ -27,14 +26,10 @@ class Workspace extends Backbone.Router {
         if (Helper.logged() && !Helper.valid() && name != 'validateTwoFA') {
             this.navigate('validate_two_fa', { trigger: true, replace: true })
             return false
-        } else if (Helper.login.get_first_login()) { // Catch first login of the user and redirect to the user profile
-            Helper.login.set_first_login(false)
-            window.location.reload()
-            return false
-        } else if (!Helper.logged() && (name != 'userSignin' && name != 'userSignup')) { // If user is not logged in, redirect to login page (except sign in and signup views)
+        } else if (!Helper.logged() && name != 'userSignin') { // If user is not logged in, redirect to login page (except sign in view)
             this.navigate('sign_in', { trigger: true })
             return false
-        } else if (Helper.logged() && Helper.valid() && (name == 'userSignin' || name == 'userSignup' || name == 'validateTwoFA')) { // if user is logged in, redirect to main page (when the sign in and signup views is accessed)
+        } else if (Helper.logged() && Helper.valid() && (name == 'userSignin' || name == 'validateTwoFA')) { // if user is logged in, redirect to main page (when the sign in view is accessed)
             this.navigate('', { trigger: true })
             return false
         }
@@ -58,9 +53,6 @@ class Workspace extends Backbone.Router {
         }
         if (this.signinView) {
             this.signinView.undelegateEvents()
-        }
-        if (this.signupView) {
-            this.signupView.undelegateEvents()
         }
         if (this.profileview) {
             this.profileview.undelegateChildViews()
@@ -93,7 +85,6 @@ class Workspace extends Backbone.Router {
             "": "home",
             "chat": "chat",
             "sign_in": "userSignin",
-            "sign_up": "userSignup",
             "validate_two_fa": "validateTwoFA",
             "play": 'play',
             "users/:id": "userProfile",
@@ -157,7 +148,6 @@ class Workspace extends Backbone.Router {
     }
 
     channels() {
-        console.log();
         this.channelView = new channelsView();
         this.channelView.render();
     }
@@ -166,12 +156,6 @@ class Workspace extends Backbone.Router {
         this.signinView = Login.view
         this.signinView.delegateEvents()
         this.signinView.render()
-    }
-
-    userSignup() {
-        this.signupView = Register.view
-        this.signupView.delegateEvents()
-        this.signupView.render()
     }
 
     home() {

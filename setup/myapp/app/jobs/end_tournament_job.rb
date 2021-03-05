@@ -31,7 +31,6 @@ class EndTournamentJob < ApplicationJob
     end
     tournament.history = JSON.generate(history)
     tournament.users = []
-    puts history
     tournament.save
     # Do something later
     data = {

@@ -9,7 +9,6 @@ class RunTournamentJob < ApplicationJob
     if (tournament.status == "finished")
         return
     end
-    puts "Tournament is now active"
     tournament.status = "active"
     tournament.save
     data = {

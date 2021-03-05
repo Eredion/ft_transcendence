@@ -59,9 +59,6 @@ Helper.getIdbyNickname = (nickname) => {
 }
 
 Helper.getNicknamebyId = (id) => {
-	console.log(id);
-	let name = (usercollection.where({ id: id })[0].get('nickname'));
-	console.log(name);
     return (usercollection.where({ id: id })[0].get('nickname'));
 }
 
@@ -105,7 +102,6 @@ Helper.findCable = (channel, name="") =>
     {
         if (JSON.parse(cable.identifier).channel == channel && JSON.parse(cable.identifier).name == name)
         {
-            console.log("MATCH")
             return cable
         }
     }
@@ -129,20 +125,5 @@ Helper.notification = (message) => {
         });
     }, 2000);
 };
-
-Helper.login = new class Login {
-    constructor() {
-        this.is_first_login = false
-    }
-
-    get_first_login() {
-        return this.is_first_login
-    }
-
-    set_first_login(value) {
-        this.is_first_login = value
-    }
-}
-
 
 export default Helper;

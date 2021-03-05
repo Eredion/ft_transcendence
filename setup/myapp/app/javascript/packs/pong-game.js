@@ -48,7 +48,6 @@ class Ball {
 
 class Pong {
     constructor(match_id) {
-        console.log("Pong game constructor")
         this.canvas = document.getElementById('canvas')
         this.ctx = canvas.getContext('2d')
         this.user = 0

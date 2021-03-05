@@ -27,7 +27,6 @@ $(function () {
 		{
         connected() {
         	// Called when the subscription is ready for use on the server
-        	console.log('connected function from notification_channel.js')
         },
         disconnected() {
 			// Called when the subscription has been terminated by the server
@@ -35,8 +34,6 @@ $(function () {
         },
         received(data) {
         	// Called when there's incoming data on the websocket for this channel
-			console.log(data);
-			console.log('received function from notification_channel.js')
 			if (data['action'] === 'notification') {
 				Helper.notification('New notification received.');
 				let format = data['data']

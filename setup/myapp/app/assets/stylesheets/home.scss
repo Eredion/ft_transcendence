@@ -3,3 +3,10 @@
     position: relative;
     min-width: 24%;
 }
+
+#active-wars-wrapper
+{
+    position: relative;
+    max-height: 20em;
+    overflow: auto;
+}

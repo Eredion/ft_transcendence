@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     private
 
     def set_user
-        fuser = User.find(params[:id])
+        fuser = User.find_by(id: params[:id])
         @user = fuser.as_json(only: [:id, :nickname, :avatar])
     end
 end

@@ -5,7 +5,7 @@ class Api::WarsController < ApplicationController
     end
 
     def show
-        wars = War.find(params[:id])
+        wars = War.find_by(id: params[:id])
         render json: wars
     end
 

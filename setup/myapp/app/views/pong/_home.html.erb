@@ -108,12 +108,13 @@
  
     <%%  for (let user of users) { %>
         <%% if (user.status === 0) { continue;} %>
-        <%%=`<a class="btn btn-success btn-sm mb-1" href="#users/${user.id}">` %>
+        <%%=`<a class="home-user-button btn btn-success btn-sm mb-1" href="#users/${user.id}">` %>
         <%%= user.nickname%> </a>
     <%% } %>
+    <hr>
     <%%  for (let user of users) { %>
         <%% if (user.status != 0) { continue;} %>
-        <%%=`<a class="btn btn-secondary btn-sm mb-1" href="#users/${user.id}">` %>
+        <%%=`<a class="home-user-button btn btn-secondary btn-sm mb-1" href="#users/${user.id}">` %>
         <%%= user.nickname%> </a>
     <%% } %>
 </script>

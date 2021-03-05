@@ -4,7 +4,7 @@ class Api::MessagesController < ApplicationController
     end
 
     def show
-        render json: Message.find(params[:id])
+        render json: Message.find_by(id: params[:id])
     end
 
     def create

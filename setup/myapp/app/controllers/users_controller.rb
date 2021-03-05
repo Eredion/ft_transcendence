@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     end
 
     def update_avatar
-        user = User.find(params[:id])
+        user = User.find_by(id: params[:id])
         if params[:user][:avatar]
             File.open(params[:user][:avatar]) do |f|
                 user.avatar = f
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
         if params[:id].to_i == current_user.id
             if current_user.blocked.include?(params[:user_id].to_i)
                 return render json: {"error": "User already blocked."}, status: :ok
-            elsif params[:user_id].to_i != current_user.id && User.find(params[:user_id].to_i)
+            elsif params[:user_id].to_i != current_user.id && User.find_by(id: params[:user_id].to_i)
                 current_user.blocked.push(params[:user_id].to_i)
                 if current_user.save!
                     return render json: {"success": "User blocked successfully."}, status: :ok
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         if params[:id].to_i == current_user.id
             if !current_user.blocked.include?(params[:user_id].to_i)
                 return render json: {"error": "User not blocked."}, status: :ok
-            elsif params[:user_id].to_i != current_user.id && User.find(params[:user_id].to_i)
+            elsif params[:user_id].to_i != current_user.id && User.find_by(id: params[:user_id].to_i)
                 current_user.blocked.delete(params[:user_id].to_i)
                 if current_user.save!
                     return render json: {"success": "User unblocked successfully."}, status: :ok

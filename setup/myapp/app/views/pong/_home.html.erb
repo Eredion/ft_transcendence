@@ -23,6 +23,16 @@
 					</div>
 				</div>
 			</div>
+            <div class="card mx-auto mt-5">
+				<div class="card-body text-center">
+					<p class="h5 card-title text-info">Users</p>
+					<hr/>
+					<div class="mx-auto text-center">
+						<div id="online-users-wrapper">
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </script>
@@ -91,5 +101,19 @@
         <li class="list-group-item text-center">
             <p class="h6 text-secondary">No wars.</p>
         </li>
+    <%% } %>
+</script>
+
+<script type="text/template" id="online_users_template">
+ 
+    <%%  for (let user of users) { %>
+        <%% if (user.status === 0) { continue;} %>
+        <%%=`<a class="btn btn-success btn-sm mb-1" href="#users/${user.id}">` %>
+        <%%= user.nickname%> </a>
+    <%% } %>
+    <%%  for (let user of users) { %>
+        <%% if (user.status != 0) { continue;} %>
+        <%%=`<a class="btn btn-secondary btn-sm mb-1" href="#users/${user.id}">` %>
+        <%%= user.nickname%> </a>
     <%% } %>
 </script>

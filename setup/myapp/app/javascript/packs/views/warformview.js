@@ -13,6 +13,9 @@ let WarformView = Backbone.View.extend({
 
     initialize(){
         this.collection = new GuildCollection();
+        $(document).on("guild_redirect", function(){
+            window.location.href = '#guilds';
+        })
     },
     async render(){
         self = this;

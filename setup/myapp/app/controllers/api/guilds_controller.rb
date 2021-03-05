@@ -39,15 +39,7 @@ class Api::GuildsController < ApplicationController
         user = User.find_by(:id => current_user.id)
         if user.guild_id
             return render json: { "error": 'Already in a guild, leave first.' }
-        end
-        puts (params[:anagram].match(/^[^a-z]*$/) == true)
-        puts (params[:anagram].match(/^[^a-z]*$/) == true)
-        puts (params[:anagram].match(/^[^a-z]*$/) == true)
-        puts (params[:anagram].match(/^[^a-z]*$/) == true)
-        puts (params[:anagram].match(/^[^a-z]*$/) == true)
-        puts (params[:anagram].match(/^[^a-z]*$/) == true)
-
-        
+        end     
         if (params[:anagram].length < 2 || params[:anagram].length > 5)
             render json: { "error": "Anagram length error" }
             return
@@ -89,6 +81,22 @@ class Api::GuildsController < ApplicationController
                         return render json: { "error": params[:anagram] + ' already exists.' }
                     end
                 end
+                if (params[:title] !~ (/^[a-zA-Z_]*$/) )
+                    render json: { "error": "Title needs to be alphanumeric. Try Again" }
+                    return
+                end
+                if (params[:title].length < 2 || params[:title].length > 12)
+                    render json: { "error": "Title too long or too short. Try Again" }
+                    return
+                end
+                if (params[:anagram].length < 2 || params[:anagram].length > 5)
+                    render json: { "error": "Anagram length error" }
+                    return
+                end
+                if (params[:anagram] !~ (/^[a-zA-Z_]*$/) )
+                    render json: { "error": "Anagram needs to be in format ABCDE. Try Again" }
+                    return
+                end
                 guild.title = params[:title]
                 guild.anagram = params[:anagram]
                 if guild.save!
@@ -104,7 +112,7 @@ class Api::GuildsController < ApplicationController
 
     def destroy
         if guild = Guild.find_by(id: params[:id])
-            if guild.inwar == true
+            if guild.war_id
                 return render json: { "error": "The guild is in a war, it cannot be eliminated." }
             end
             if current_user.id == params[:user_id].to_i && params[:user_id].to_i == guild.owner_id

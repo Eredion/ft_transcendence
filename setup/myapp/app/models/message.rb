@@ -4,4 +4,5 @@ class Message < ApplicationRecord
   belongs_to :channel, optional: true
   validates :content, format: { with: /\A[ !¡?_,.ñáéóíúa-zA-Z]+\z/,
     message: "safe symbols" }
+  validates :content, length: {maximum: 180}
 end

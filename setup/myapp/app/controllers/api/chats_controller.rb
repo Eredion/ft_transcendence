@@ -8,12 +8,12 @@ class Api::ChatsController < ApplicationController
     end
 
     def show
-        chat = Chat.find(params[:id])
+        chat = Chat.find_by(id: params[:id])
         render json: chat
     end
 
     def create
-      @chat = Chat.find(params[:name])
+      @chat = Chat.find_by(name: params[:name])
       if @chat.exists?
         return
       else
@@ -23,7 +23,7 @@ class Api::ChatsController < ApplicationController
     end
 
     def update
-        @chat = Chat.find(params[:id])
+        @chat = Chat.find_by(id: params[:id])
         @chat.update(chat_params)
     end
 

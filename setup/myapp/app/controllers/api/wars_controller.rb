@@ -84,7 +84,7 @@ class Api::WarsController < ApplicationController
             war.status = 'finished'
             war.save
             if (war.save)
-                WarEndJob.perform_later(war) # await -> start -> (wartime) -> end
+                WarEndJob.perform_later(war, cancelled=true) # await -> start -> (wartime) -> end
                 War.all.each do |w|
                     if w.status == 'request sent'
                         w.destroy

@@ -108,13 +108,17 @@
  
     <%%  for (let user of users) { %>
         <%% if (user.status === 0) { continue;} %>
-        <%%=`<a class="home-user-button btn btn-success btn-sm mb-1" href="#users/${user.id}">` %>
-        <%%= user.nickname%> </a>
+        <a class="home-user-button btn btn-dark btn-sm mb-1" href="#users/<%%= user.id %>">
+        <%%= user.nickname%>
+            <span>
+                <div class="badge badge-success badge-pill text-success">""</div>
+            </span>
+        </a>
     <%% } %>
     <hr>
     <%%  for (let user of users) { %>
         <%% if (user.status != 0) { continue;} %>
-        <%%=`<a class="home-user-button btn btn-secondary btn-sm mb-1" href="#users/${user.id}">` %>
+        <a class="home-user-button btn btn-secondary text-white btn-sm mb-1" href="#users/<%%= user.id %>">
         <%%= user.nickname%> </a>
     <%% } %>
 </script>

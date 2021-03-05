@@ -19,7 +19,6 @@ let NotificationCollection = Backbone.Collection.extend({
     },
 
     initialize() {
-        console.log('NotificationCollection initialize')
     }
 });
 

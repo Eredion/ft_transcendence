@@ -4,7 +4,6 @@ import Helper from '../Helper.js'
 let ChatModel = Backbone.Model.extend({
     urlRoot: 'api/chats',
     initialize: function() {
-        //console.log("Fetching chat [" + this.get("name") + "]");
     },
 });
 

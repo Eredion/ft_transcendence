@@ -23,7 +23,6 @@ $(function () {
       },
       {
         connected() {
-          console.log('ActiveMatchesChannel connected')
         },
         disconnected() {
           self.disconnect()

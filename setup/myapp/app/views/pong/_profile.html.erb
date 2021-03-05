@@ -1,7 +1,12 @@
 <script type="text/template" id="user_profile_template">
     <div class="row mt-4 flex">
-        <div class="col-9" id="user_info">
-        <!-- user_info_template -->
+        <div class="col-9">
+            <div id="user_info" class="row">
+                <!-- user_info_template -->
+            </div>
+            <div id="extra_user_info" class="row">
+                <!-- extra_user_template -->
+            </div>
         </div>
         <div class="col-3">
             <%% if ($('html').data().userId !== user.id) { %>
@@ -104,7 +109,6 @@
 </script>
 
 <script type="text/template" id="user_info_template">
-<div class="row flex">
     <div class="col-4 text-center">
         <img class="rounded-circle img-fluid" id="user-avatar-img" src="<%%= user.avatar.medium.url %>"/>
 
@@ -115,9 +119,6 @@
                 <%= submit_tag "Save Avatar", class: 'btn btn-success' %>
             <% end %>
 
-            <div class="mt-5" id="two-fa-data">
-                <!-- two-fa-profile-template -->
-            </div>
         <%% } %>
     </div>
     <div class="col-8">
@@ -235,18 +236,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mx-auto align-bottom mt-5">
-            <div class="card-body text-center">
-                <p class="h5 card-title text-info">Last Matches</p>
-                <hr/>
-                <div class="mx-auto text-center">
-                    <div id="user-matches-data" class="match_list">
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -263,6 +253,31 @@
         readURL(this);
     });
 </script>
+</script>
+
+<script type="text/template" id="extra_user_template">
+
+    <div class="col-4 text-center">
+        <%% if ($('html').data().userId === user.id) { %>
+            <div class="mt-5" id="two-fa-data">
+                <!-- two-fa-profile-template -->
+            </div>
+        <%% } %>
+    </div>
+
+    <div class="col-8">
+        <div class="card mx-auto align-bottom mt-5">
+            <div class="card-body text-center">
+                <p class="h5 card-title text-info">Last Matches</p>
+                <hr/>
+                <div class="mx-auto text-center">
+                    <div id="user-matches-data" class="match_list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </script>
 
 <script type="text/template" id="blocked_users_template">
@@ -315,7 +330,6 @@
 </script>
 
 <script type="text/template" id="user_matches_template">
-
     <ul class="list-group list-group-flush">
         <%% if (_.size( matches.data ) > 0) { %>
             <%% _.each( matches.data, function(match) { %>
@@ -351,5 +365,4 @@
             </li>
         <%% } %>
     </ul>
-
 </script>

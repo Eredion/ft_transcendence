@@ -4,7 +4,6 @@ import Helper from '../Helper.js'
 let TournamentModel = Backbone.Model.extend({
     urlRoot: 'api/tournaments',
     initialize: function() {
-        console.log("Fetching tournament [" + this.get("name") + "]");
     },
 });
 
@@ -14,7 +13,6 @@ let TournamentCol = Backbone.Collection.extend({
 
     initialize: function() {
         //Helper.fetch(this);
-        console.log("Fetching all tournaments");
     },
 });
 

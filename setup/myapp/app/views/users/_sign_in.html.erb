@@ -1,4 +1,36 @@
+<script type="text/template" id="user_login_template">
 
-<%= render "users/session" %>
+	<p class="h2 text-primary text-center">Sign in</p>
 
-<%= render "users/registration" %>
+	<div class="container p-4">
+		<div class="row justify-content-center">
+			<form id="login-form" class="needs-validation" novalidate>
+
+				<div class="form-group row">
+					<label for="nickname" class="col-sm-3 col-form-label text-white">Nickname</label>
+					<div class="col-sm-7">
+						<input class="form-control white col-7 col-md-4 col-lg-9 ml-3" type="text" name="nickname" id="nickname" placeholder="Enter nickname" required>
+						<div class="invalid-feedback">Please fill out this field.</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="password" class="col-sm-3 col-form-label text-white">Password</label>
+					<div class="col-sm-7">
+						<input class="form-control white col-7 col-md-4 col-lg-9 ml-3" type="password" name="password" id="password" placeholder="Enter password" required>
+						<div class="invalid-feedback">Invalid password</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-sm-7 text-center">
+						<button type="submit" class="btn btn-primary mb-2">Log in</button>
+						<%= link_to "Sign in with 42", user_marvin_omniauth_authorize_path, method: "post", class: "btn btn-info" %>
+					</div>
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+</script>

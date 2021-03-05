@@ -26,6 +26,8 @@ if (Helper.logged() && Helper.valid()) {
 
         two_fa_template: _.template($('#two-fa-profile-template').html()),
 
+        extra_user_template: _.template($('#extra_user_template').html()),
+
         events: {
             "submit #avatar-form" : "updateAvatar",
             "submit #edit-user-form": "editUserForm",
@@ -61,6 +63,7 @@ if (Helper.logged() && Helper.valid()) {
             }
             this.render()
             this.render_userInfo()
+            this.render_extraUser()
             this.friendView = new Friends.view(this.user_id)
             this.friendView.update()
             this.matchhistoryView = new MatchHistory.view(this.user_id)
@@ -87,6 +90,10 @@ if (Helper.logged() && Helper.valid()) {
                 guild = JSON.parse(this.guild['success'])
             }
             this.$el.find('#user_info').html(this.uinfo_template({'user': this.user.toJSON(), 'guild': guild }));
+        },
+
+        render_extraUser() {
+            this.$el.find('#extra_user_info').html(this.extra_user_template({'user': this.user.toJSON()}));
         },
 
         async update_two_fa() {
@@ -122,6 +129,7 @@ if (Helper.logged() && Helper.valid()) {
                     var c_user = self.collection.get(self.user_id).toJSON();
                     nav_avatar.src = c_user.avatar.thumb.url
                     self.render_userInfo();
+                    self.matchhistoryView.update();
                 }, 1000)
             } else {
                 e.preventDefault()
@@ -148,6 +156,7 @@ if (Helper.logged() && Helper.valid()) {
                     var nav_avatar = document.getElementById('nav-nickname-user')
                     nav_avatar.innerHTML = $('#form-nickname').val()
                     self.render_userInfo()
+                    self.matchhistoryView.update()
                     Helper.custom_alert('success', 'Successfully updated.')
                 }
             })
@@ -191,7 +200,6 @@ if (Helper.logged() && Helper.valid()) {
                     type: 'Guild Request'
                 }
             }
-            console.log(formData)
             var response = await Helper.ajax('POST', 'api/requests', formData)
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
@@ -202,7 +210,6 @@ if (Helper.logged() && Helper.valid()) {
 
         async enable2FA(e) {
             e.preventDefault()
-            console.log('enable2fa function call')
             var response = await Helper.ajax('POST', 'api/users/'+ MySession.data.id() + '/enable_two_fa', '')
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])
@@ -216,7 +223,6 @@ if (Helper.logged() && Helper.valid()) {
 
         async disable2FA(e) {
             e.preventDefault()
-            console.log('disable2FA function call')
             var response = await Helper.ajax('POST', 'api/users/'+ MySession.data.id() + '/disable_two_fa', '')
             if (response['error']) {
                 Helper.custom_alert('danger', response['error'])

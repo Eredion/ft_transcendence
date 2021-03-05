@@ -12,9 +12,9 @@ import MySession from '../models/session'
 
 const Guilds = {}
 
-if (Helper.logged() && Helper.valid()) {
-
 $(function () {
+
+if (Helper.logged() && Helper.valid()) {
 
     Guilds.collection = new GuildCollection();
 
@@ -31,11 +31,9 @@ $(function () {
         },
         
         initialize() {
-            console.log('Guilds View initialize')
         },
         
         async render() {
-            console.log('render call')
             await Helper.fetch(this.collection)
             this.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
             this.$el.html(this.template( { 'guilds': this.collection.toJSON(), 'user_guild': this.userGuild } ));
@@ -51,7 +49,6 @@ $(function () {
 
         async newGuild(e) {
             e.preventDefault()
-            console.log('newGuild function called')
             if (!document.getElementById("form-guild-title").value.length || !document.getElementById("form-guild-anagram").value.length)
                 return
             var formData = $('#new-guild-form').serialize()
@@ -198,7 +195,6 @@ $(function () {
         },
 
         render() {
-            console.log('render call')
             this.$el.html(this.template({
                 'guild': this.model.toJSON(),
                 'grade': this.grade
@@ -214,7 +210,6 @@ $(function () {
         },
 
         render_war_history() {
-            console.log("Lo del historial de guerra, señora");
             let template = _.template($('#war_matches_template').html());
             let guild = this.model.toJSON();
             let war_history = [];
@@ -234,7 +229,6 @@ $(function () {
         },
 
         render_users() {
-            console.log('render_users call')
             this.$el.find('#users-guild-data').html(this.guild_users_tmpl({
                 'guild': this.model.toJSON(),
                 'admin': userscol.findWhere( { id: Helper.userId() } ).get('admin'),
@@ -244,23 +238,23 @@ $(function () {
         },
 
         async render_wars() {
-            console.log('render war declarations')
             self = this
             Promise.all([Helper.fetch(warcol)])
                 .then(async function(){
                     self.userGuild = await Helper.ajax('GET', 'api/users/' + Helper.userId() + '/guild')
-
+                    let guild_title = null;
+                    if (self.userGuild)
+                        guild_title = self.userGuild.title
                     let war_declarations = []
                     for (let w of warcol)
                     {
-                        if (w.get("to") === self.userGuild.title && w.get("status") === "request_sent")
+                        if (w.get("to") === guild_title && w.get("status") === "request_sent")
                         {
                             war_declarations.push(w.toJSON())
-                            console.log("ding")
                         }
                     }
                     let template = _.template($('#war-requests-template').html())
-                    let output = template({'wars': warcol.toJSON(), 'myguild': self.userGuild.title})
+                    let output = template( { 'wars': warcol.toJSON(), 'myguild': guild_title } )
                     $('#war-declarations-wrapper').html(output)
                 });
             
@@ -414,9 +408,7 @@ $(function () {
             Guild.channel.disconnect()
         }
     });
-
+}
 });
-
-};
 
 export default Guilds;

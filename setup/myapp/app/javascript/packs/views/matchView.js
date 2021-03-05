@@ -40,7 +40,6 @@ if (Helper.logged() && Helper.valid()) {
         },
 
         async initialize(id) {
-            console.log('Match View initialize')
             this.match_id = id
             this.current_user = Helper.userId()
             this.model = new Match.Model( { match_id: this.match_id } )
@@ -57,17 +56,14 @@ if (Helper.logged() && Helper.valid()) {
             if (!this.model.get('finished') && this.model.get('status') == "running") {
 
                 if (this.current_user === this.model.get('left_player').id) {
-                    console.log('left_player ' + this.current_user + ' listening keymoves')
                     this.pong.listen(this.current_user, 'l');
                 } else if (this.current_user === this.model.get('right_player').id) {
-                    console.log('right_player ' + this.current_user + ' listening keymoves')
                     this.pong.listen(this.current_user, 'r');
                 }
             }
         },
 
         render(match_data) {
-            console.log('Match View render')
             this.$el.html(this.template( { 'match' : match_data, 'user': this.current_user } ));
             return this;
         },
@@ -82,7 +78,6 @@ if (Helper.logged() && Helper.valid()) {
             let template = _.template($('#finish_match_template').html());
             await Helper.fetch(userCol).then(function(){
                 let myself = userCol.findWhere({id : self.current_user});
-                console.log(myself.toJSON());
                 self.$el.html(template({
 				'match': data.match,
 				'user': myself.toJSON(),
@@ -110,7 +105,6 @@ if (Helper.logged() && Helper.valid()) {
 
         send_ready(e) {
             e.preventDefault()
-            console.log('send ready func')
             Matches.channel.perform('set_ready', {
                 match: this.match_id,
                 from: Helper.userId(),
@@ -120,7 +114,6 @@ if (Helper.logged() && Helper.valid()) {
 
         /*
         finish_match(e) {
-            console.log('Sending action to finish the match')
             e.preventDefault()
             var data = {
                 match: this.match_id

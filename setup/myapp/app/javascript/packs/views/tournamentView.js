@@ -8,7 +8,6 @@ let tournamentView = Backbone.View.extend({
     async initialize(id){
         self = this;
         this.tournament = await Helper.ajax("GET", "api/tournaments/" + id)
-        console.log(self.tournament);
         if (this.tournament === null)
             window.location.href = '#error';
         this.history = JSON.parse(this.tournament.history);

@@ -11,7 +11,6 @@ let dm_channel_helper = {
       },
       {
         connected() {
-          //console.log(`subscription to dm ID: ${userID}`);
           // Called when the subscription is ready for use on the server
         },
 

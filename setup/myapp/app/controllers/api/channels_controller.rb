@@ -62,13 +62,11 @@ class Api::ChannelsController < ApplicationController
         channel.password_digest = BCrypt::Password.create(params[:password])
         channel.category="protected"
         channel.save
-        puts channel.name
     end
 
     def delete
         if (channel_params[:name])
             ch = Channel.find_by(name: channel_params[:name])
-            puts "Deleting #{ch.name} channel"
             ch.destroy
         end
     end

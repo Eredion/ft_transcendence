@@ -20,7 +20,6 @@ $(function () {
         },
 
         initialize() {
-            console.log("Login View initialize");
         },
 
         render() {
@@ -58,8 +57,6 @@ $(function () {
     Login.view = new Login.loginView();
 
 });
-
 }
-
 
 export default Login;

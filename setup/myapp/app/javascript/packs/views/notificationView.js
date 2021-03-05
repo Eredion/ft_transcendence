@@ -29,7 +29,6 @@ $(function () {
         },
         
         async initialize() {
-            console.log('notificationView initialize')
             this.listenTo(this.collection, "update", this.render);
             await Helper.fetch(this.collection)
             if (!_.size(this.collection)) {
@@ -38,13 +37,11 @@ $(function () {
         },
 
         render() {
-            console.log('notificationView render')
             this.$el.html(this.template({ 'notifications': this.collection.toJSON() }));
             return this
         },
 
         async manageFriendRequest(e) {
-            console.log('manageFriendRequest event call!')
             e.preventDefault()
             var formData = {
                 id: $(e.currentTarget).data().requestId,
@@ -64,7 +61,6 @@ $(function () {
         },
 
         async manageGuildRequest(e) {
-            console.log('manageGuildRequest event call!')
             e.preventDefault()
             var formData = {
                 id: $(e.currentTarget).data().requestId,
@@ -99,7 +95,6 @@ $(function () {
         },
 
         addNotification(e) {
-            console.log('addNotification event call!')
             this.collection.add([e])
         }
     });

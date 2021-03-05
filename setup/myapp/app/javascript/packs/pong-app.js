@@ -10,7 +10,7 @@ import dm_channel from '../channels/dm_channel'
 
 $.ajaxPrefilter( function( options ) {
     options.url = 'http://127.0.0.1/' + options.url;
-    console.log("request to " + options.url);
+    //console.log("request to " + options.url);
 });
 
 //Override Backbone sync method to send the authenticity_token to Rails in ajax call
@@ -33,7 +33,6 @@ Backbone.sync = function(method, model, options) {
 class App {
 
     constructor() {
-        console.log("App initialize");
 
         this.router = new Workspace();
 

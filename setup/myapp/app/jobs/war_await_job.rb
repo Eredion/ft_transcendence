@@ -8,7 +8,7 @@ class WarAwaitJob < ApplicationJob
       #wartime = Time.now + n.days
       if (n == 0 && wartime < Time.now && wartime > Time.now - 1.hours)
         WarTimeOnJob.perform_later(war)
-        WarTimeOffJob.set(wait_until: wartime + wartimeduration).perform_later(war)                           ## war was started inside wartime
+        WarTimeOffJob.set(wait_until: wartime + wartimeduration).perform_later(war) ## war was started inside wartime
       elsif (n == 0 && wartime < Time.now && wartime < Time.now - 1.hours)
         puts "no wartime today"                                   ## first day of war has no wartime
       else

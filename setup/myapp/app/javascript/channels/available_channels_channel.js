@@ -4,28 +4,21 @@ let availablechannelsChannel = {
 
   connect(){
     self = this;
-    console.log("connecting to tournament...")
     let cable = consumer.subscriptions.create(
       {channel: "AvailableChannelsChannel"}, 
       {
         connected() {
-          
-          console.log("connected to available_channels channel")
           // Called when the subscription is ready for use on the server
         },
 
         disconnected() {
-          console.log("disconnected from available_channels channel")
           // Called when the subscription has been terminated by the server
         },
       
         received(data) {
-          console.log("receiving)");
-          console.log("DATA RECEIVED" + data);
           if (data === 'force_render_channel_list')
           {
             $(document).trigger("update_channels_event")
-            console.log("someone has left a channel")
             return;
           }
           if (data.action != undefined && data.action.length > 0)

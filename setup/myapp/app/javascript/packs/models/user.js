@@ -6,9 +6,6 @@ let User = Backbone.Model.extend({
 
     urlRoot: 'api/users',
 
-    /* parse: function(data) {
-        return new User(data);
-    }, */
     initialize: function() {
         //console.log("Fetching user [" + this.get("nickname") + "]");
     },

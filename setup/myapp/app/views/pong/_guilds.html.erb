@@ -109,26 +109,27 @@
     <div id="war-declarations-wrapper">
         <!-- template war declarations -->
     </div>
-    <div class="row mt-4 mb-4 flex justify-content-between">
-        <div class="col-3 text-center" id="guild-info-data">
+    <div class="row mt-4 flex justify-content-between">
+        <div class="col-4 text-center" id="guild-info-data">
             <!-- template guild info -->
         </div>
-        <div class="col-5">
+        <div class="col-4">
             <%% if (grade > 0) { %>
                 <div class="col-sm" id="guild-chat-template">
                     <!-- template guild chat -->
                 </div>
-            <%% } %>
-            <div class="card mx-auto align-bottom mt-3">
-                <div class="card-body text-center">
-                    <p class="h5 card-title text-info">War History</p>
-                    <hr/>
-                    <div class="mx-auto text-center">
-                        <div id="war-guilds-data" class="war_list">
+            <%% } else { %>
+                <div class="card mx-auto align-bottom mt-3">
+                    <div class="card-body text-center">
+                        <p class="h5 card-title text-info">War History</p>
+                        <hr/>
+                        <div class="mx-auto text-center">
+                            <div id="war-guilds-data" class="war_list">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <%% } %>
         </div>
         <div class="col-4">
             <%% if (guild.owner.owner_id == $('html').data().userId) { %>
@@ -163,15 +164,19 @@
 </script>
 
 <script type="text/template" id="guild-info-template">
-    <img class="rounded-circle img-fluid" id="guild-avatar-img" src="<%%= guild.guild_avatar.medium.url %>"/>
-    <%% if (grade == 3) { %>
-        <%= form_with(url: "api/guilds/#{current_user.guild_id}/update_guild_avatar", id: "guild_avatar-form", method: "post", multipart: true, remote: true)  do %>
-            <%= file_field :guild, :guild_avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'guildFileInput', class:"text-light" %>
-            <%= submit_tag "Save Guild Avatar", class: 'btn btn-success' %>
-        <% end %>
-    <%% } %>
-    <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
-    <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
+    <div class="row">
+        <div class="col-9">
+            <img class="rounded-circle img-fluid" id="guild-avatar-img" src="<%%= guild.guild_avatar.medium.url %>"/>
+            <%% if (grade == 3) { %>
+                <%= form_with(url: "api/guilds/#{current_user.guild_id}/update_guild_avatar", id: "guild_avatar-form", method: "post", multipart: true, remote: true)  do %>
+                    <%= file_field :guild, :guild_avatar , accept: 'image/png,image/jpeg,image/jpg', id: 'guildFileInput', class:"text-light" %>
+                    <%= submit_tag "Save Guild Avatar", class: 'btn btn-success' %>
+                <% end %>
+            <%% } %>
+            <p class="h3 text-white">(<%%= guild.guild_anagram %>) <%%= guild.guild_title %></p>
+            <p class="text-primary">Score: <span class="text-white"><%%= guild.score %></span></p>
+        </div>
+    </div>
     <%% if (grade == 3) { %>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editGuildModal">
             Edit <i class="fa fa-wrench" aria-hidden="true"></i>
@@ -205,6 +210,18 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%% } %>
+    <%% if (grade > 0) { %>
+        <div class="card mx-auto align-bottom mt-3">
+            <div class="card-body text-center">
+                <p class="h5 card-title text-info">War History</p>
+                <hr/>
+                <div class="mx-auto text-center">
+                    <div id="war-guilds-data" class="war_list">
                     </div>
                 </div>
             </div>
@@ -314,29 +331,17 @@
         <%% if (wars.length > 0) { %>
             <%% for (let war of wars) { %>
                 <li class="list-group-item d-flex justify-content-between" >
-                    <div class="col  <%% war.tie == true? "bg-light" : "winner-history" %> ">
-                        <div class="row">
-                            <div class="col">
-                                <p class="h6">[<%%= war.winner_anagram %>] <%%= war.winner %></p>
-                            </div>
-                        </div>
+                    <div class="col <%% war.tie == true? "bg-light" : "winner-history" %> ">
+                        <p class="h6">[<%%= war.winner_anagram %>] <%%= war.winner %></p>
                     </div>
-                    <div class="col  <%% war.tie == true? "bg-light" : "winner-history" %> ">
-                        <div class="col">
-                            <p class="h6"><%%= war.winner_victories %></p>
-                        </div>
+                    <div class="col <%% war.tie == true? "bg-light" : "winner-history" %> ">
+                        <p class="h6"><%%= war.winner_victories %></p>
                     </div>
-                    <div class="col  bg-light ">
-                    <div class="row">
-                            <div class="col">
-                                <p class="h6"><%%= war.loser_victories %></p>
-                            </div>
-                        </div>
+                    <div class="col bg-light ">
+                        <p class="h6"><%%= war.loser_victories %></p>
                     </div>
-                    <div class="col  bg-light ">
-                        <div class="col">
-                            <p class="h6">[<%%= war.loser_anagram %>] <%%= war.loser %></p>
-                        </div>
+                    <div class="col bg-light ">
+                        <p class="h6">[<%%= war.loser_anagram %>] <%%= war.loser %></p>
                     </div>
                 </li>
             <%% } %>

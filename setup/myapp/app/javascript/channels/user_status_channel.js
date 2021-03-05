@@ -25,7 +25,6 @@ $(function () {
 		},
 		{
 		connected() {
-			console.log('UserStatusChannel connected')
 		},
 		disconnected() {
 			self.disconnect()

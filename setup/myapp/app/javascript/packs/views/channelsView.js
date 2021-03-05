@@ -140,10 +140,9 @@ let channelsView = Backbone.View.extend({
     connectCable(name) {
         self = this;
         $(`a[href="#channels/${name}"]`).removeClass('border border-success');
-        if (Helper.findCable("ChannelMessagesChannel", name) != null)
-            console.log("Already subscribed to this channel.");
-        else {
-            console.log("JUST JOINED " + name)
+        if (Helper.findCable("ChannelMessagesChannel", name) != null) {
+            ;
+        } else {
             self.cablenames.push(name);
             let c = channelSubscription.joinChannel(name)
             self.cables.push(c);

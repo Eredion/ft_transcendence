@@ -4,7 +4,6 @@ import Helper from '../Helper.js'
 let WarModel = Backbone.Model.extend({
     urlRoot: 'api/wars',
     initialize: function() {
-        console.log("Fetching war [" + this.get("name") + "]");
     },
 });
 
@@ -16,7 +15,7 @@ let WarCol = Backbone.Collection.extend({
 
     },
     initialize: function() {
-        Helper.fetch(this);
+        //Helper.fetch(this);
     },
 });
 

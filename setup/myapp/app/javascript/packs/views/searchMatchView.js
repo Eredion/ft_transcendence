@@ -24,7 +24,6 @@ $(function () {
         match_found_template: _.template($('#match_found_template').html()),
 
         initialize(id, from) {
-            console.log('Search Match View initialize')
             // connecting to the channel by sending the user id
             if (id === 'quick' || id === 'ranked' || id === 'tournament' || id === 'war')
             {
@@ -37,12 +36,10 @@ $(function () {
             this.render()
             if (id && id.length > 0 && from &&  from.length > 0)
             {
-                console.log("accepting challenge")
                 Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, "accept_peer", id)
             }
             else if (id && id.length > 0)
             {
-                console.log("challenging someone")
                 Matchmaking.channel.connect(Helper.userId(), this.receive_data, this, "wait_peer", id)
             }
             else
@@ -57,7 +54,6 @@ $(function () {
             let guild = JSON.parse(preGuild.success);
             let war = await Helper.ajax('GET', 'api/wars/' + guild.war_id);
             this.ownCable = consumer.subscriptions.subscriptions.find(el => (el.identifier.includes(`"MatchmakingChannel\",\"id\":${Helper.userId()}`)));
-            console.log(this.ownCable);
             setTimeout(function(){
                 if (self.game_found === false) {
                     self.ownCable.perform('miss_match');
@@ -69,7 +65,6 @@ $(function () {
         },
 
         render() {
-            console.log('Search Match View render type ' + this.type)
 			let output = this.template({'type': this.type})
             this.$el.html(output);
             this.game_found = false;
@@ -96,16 +91,12 @@ $(function () {
         receive_data(data) {
             switch (data.action) {
                 case 'searching':
-                    console.log('Waiting for opponent')
                     break;
                 case 'game_found':
-                    console.log('Game found')
                     this.game_found = true;
-					console.log(data)
                     this.render_match_found(data.player1, data.player2, data.match)
                     break;
                 case 'current_game':
-                    console.log('Redirection to current game')
                     $('#search_match_modal').modal('hide')
                     setTimeout(function () {
                         MyApp.core.navigate('match/' + data.match)
@@ -129,7 +120,6 @@ $(function () {
 
 
         render_match_found(player1, player2, match_id) {
-            console.log('match_found render')
             $('#search_match_modal').modal('hide')
             this.$el.html(this.match_found_template({
 				'player1': player1,

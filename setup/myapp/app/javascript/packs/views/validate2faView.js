@@ -21,11 +21,9 @@ $(function () {
         },
 
         initialize() {
-            console.log("TwoFaView initialize");
         },
 
         render() {
-            console.log("TwoFaView RENDER");
             this.$el.html(this.template());
             return this;
         },

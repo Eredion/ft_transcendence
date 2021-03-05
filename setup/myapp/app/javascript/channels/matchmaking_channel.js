@@ -27,12 +27,8 @@ $(function () {
       {
         connected() {
           // Called when the subscription is ready for use on the server
-          console.log('connected function from matchmaking_channel.js')
           if (action === 'quick_game' || action === 'ranked_game' || action === 'tournament_game' || action === 'war_game')
-		      {
-			      console.log("ejectuto la acction " + action)
             this.perform(action)
-		      }
           else if (action === 'wait_peer')
             this.perform(action, {"peer": peer, "from": this.id})
           else if (action === 'accept_peer')
@@ -46,7 +42,6 @@ $(function () {
 
         received(data) {
           // Called when there's incoming data on the websocket for this channel
-          console.log('received function from matchmaking_channel.js');
           callback.bind(view)(data)
         }
       });

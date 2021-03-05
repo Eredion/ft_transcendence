@@ -23,11 +23,7 @@ let PopupProfileView = Backbone.View.extend({
         this.fetchUsers();
     },
     render(){
-        console.log(`searching for ${this.username}`)
-        this.model = this.userCol.where({ nickname: this.username })[0];
-        console.log("ESTE USERNAME" + this.username)
-        console.log("ESTE USERNAME" + Helper.current_user())
-        
+        this.model = this.userCol.where({ nickname: this.username })[0];        
         if (this.username != Helper.current_user())
         {
             let output=

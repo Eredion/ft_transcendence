@@ -130,7 +130,6 @@ if (Helper.logged() && Helper.valid()) {
                     nav_avatar.src = c_user.avatar.thumb.url
                     self.render_userInfo();
                     self.matchhistoryView.update();
-                    self.update_two_fa();
                 }, 1000)
             } else {
                 e.preventDefault()
@@ -158,7 +157,6 @@ if (Helper.logged() && Helper.valid()) {
                     nav_avatar.innerHTML = $('#form-nickname').val()
                     self.render_userInfo()
                     self.matchhistoryView.update()
-                    self.update_two_fa()
                     Helper.custom_alert('success', 'Successfully updated.')
                 }
             })

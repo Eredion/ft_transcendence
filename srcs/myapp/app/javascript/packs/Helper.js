@@ -54,11 +54,11 @@ Helper.userId = () => {
 };
 
 Helper.getIdbyNickname = (nickname) => {
-    return (usercollection.where({ nickname: nickname })[0].get('id'));
+    return (userscollection.where({ nickname: nickname })[0].get('id'));
 }
 
 Helper.getNicknamebyId = (id) => {
-    return (usercollection.where({ id: id })[0].get('nickname'));
+    return (userscollection.where({ id: id })[0].get('nickname'));
 }
 
 Helper.amIAdmin = () => {

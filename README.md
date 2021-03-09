@@ -1,5 +1,16 @@
 # Transcendence
 
+## Table of Contents
+1. [General Info](#general-info)
+2. [Herramientas usadas](#herramientas_usadas)
+3. [Instalacion](#instalation)
+4. [Features](#features)
+5. [Overview](##Overview)
+6. [Autora](#Autora)
+7. [Linencia](#Licencia)
+8. [Agradeciemientos](#Agradecimietos)
+
+
 # Instalation 🚀
 ***
 ```
@@ -11,6 +22,8 @@ $ wait until everything is built (around 10 mins)
 $ Open your favourite browser and go to http://127.0.0.1
 $ Enjoy!
 ```
+
+# Features 
 
 ## Overview
 In this subject you will need to build a website for the mighty pong contest. Your website will help user run pong tournament and play against each other. There will be an admin view, chat with moderators, real time multiplayer online

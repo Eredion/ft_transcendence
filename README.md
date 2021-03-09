@@ -14,10 +14,10 @@
 
 # Technologies :pencil2: 📐
 * Backend: Ruby on Rails
-* Frontent: backbone.js
-* Data baste: postgres
-* Monunted on: docker container
-* Extra: html, css, scss...
+* Frontend: Backbone.JS, Jquery, Underscore
+* Database: Postgresql
+* Monunted on: Docker-compose
+* Extra: html, css, action cables...
 
 # Instalation 🚀
 ```

@@ -11,7 +11,6 @@
  Gif del proyecto
 
 # Technologies :pencil2: 📐
-***
 * Backend: Ruby on Rails
 * Frontent: backbone.js
 * Data baste: postgres
@@ -20,7 +19,6 @@
 ***
 
 # Instalation 🚀
-***
 ```
 $ git clone https://github.com/Eredion/ft_transcendence.git
 $ Make sure your docker is running

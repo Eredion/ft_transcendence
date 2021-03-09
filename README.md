@@ -10,7 +10,7 @@
 4. [Features](#Features)
 
 # Summary
- Gif del proyecto
+ ![](proyect-gif.gif)
 
 # Technologies :pencil2: 📐
 * Backend: Ruby on Rails

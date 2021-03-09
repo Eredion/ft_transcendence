@@ -1,6 +1,6 @@
-Transcendence
+#Transcendence
 
-### 1 Overview
+## 1 Overview
 ***
 In this subject you will need to build a website for the mighty pong contest. Your website will help user run pong tournament and play against each other. There will be an admin view, chat with moderators, real time multiplayer online
 games. 
@@ -16,7 +16,7 @@ You will need to follow thoses rules:
 - You can use as many gems as you want and any js library (BUT NO FRAMEWORK like vue.js, angular etc...)
 - Everything should run with a single call todocker-compose up –build
 
-### 2 Security concerns
+## 2 Security concerns
 ***
 Because you are creating a fully-working website, there are a few security concerns that you will have to tackle
 
@@ -24,7 +24,7 @@ Because you are creating a fully-working website, there are a few security conce
 - Your website must be protected against SQL injections
 - You must implement some kind of server-side validation for forms and any user input
 ***
-### 3 User Account
+## 3 User Account
 
 - A user must login using the oauth system of 42 intranet
 - A user must be able to choose a unique name that will be displayed on the website
@@ -35,7 +35,7 @@ Because you are creating a fully-working website, there are a few security conce
 - A user can add other users as friends, and see their current status (online, offline, in a game...)
 - Each user has a match history (including duel, ladder or tournaments games) that can be consulted by anyone logged-in
 ***
-### 4 Chat
+## 4 Chat
 
 - Users must be able to create channels public/private or protected by a password
 - Users must be able to send direct messages to other user
@@ -48,7 +48,7 @@ Because you are creating a fully-working website, there are a few security conce
 - Through the chat interface users should be able to ask other player to do a Pong match
 - Through the chat interface users must be able to see other players profiles
 ***
-### 5 Game
+## 5 Game
 ***
 The main purpose of this website is to play pong against other players and show everyone how good you are!
 Therefor we should be able to play pong directly on the website and live against an other player.
@@ -57,7 +57,7 @@ If you want to, you can add power ups, different maps etc... but user must be ab
 The game must be responsive!
 Other users can watch the game live without interfering in it.
 
-### 6 Guilds
+## 6 Guilds
 ***
 - Users must be able to create guilds with unique names
 - A guild must also have a unique anagram of 5 letters max that will be shown before the name of a user in the chat
@@ -81,13 +81,13 @@ Other users can watch the game live without interfering in it.
 
 - Each guild has a war history page, visible to any logged-in user.
 
-### 7 Tournament
+## 7 Tournament
 ***
 There must a permanent ladder tournament with a match making system with a ladder system. (https://en.wikipedia.org/wiki/Ladder_tournament)
 Users can play on the ladder, with a rating system, or play casually, without it affecting their rating. There also must be tournaments that can be created by admininstrators or automatically. Rules of said tournament (round robin, single/double eliminations, swiss...) is up to you. User will be allowed to register to the tournament in a timeframe before said tournament.
 You can add incentives to tournaments, like title for the winner or other cool stuff.
 
-### 8 Admin
+## 8 Admin
 ***
 Some user can be appointed administrator of the website.
 

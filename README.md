@@ -5,8 +5,8 @@
 ## Table of Contents
 
 1. [Summary](#Summary)
-2. [Technologies](#Technologies :pencil2: 📐)
-3. [Instalation](#Instalation 🚀)
+2. [Technologies](#Technologies)
+3. [Instalation](#Instalation)
 4. [Features](#Features)
 
 # Summary

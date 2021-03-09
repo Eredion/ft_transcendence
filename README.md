@@ -63,15 +63,20 @@ Other users can watch the game live without interfering in it.
     ◦ A war also has a timetable where random fights can be asked, it’s called a "War time"
 
 ∗ When the "War time" is active a member can ask to fight randomly any one from the other guild, if no one of the other guild answer the call after a certain amount of time, the match is automatically won.
+
 ∗ Guilds can set the maximum of unanswered match calls per "War time".
+
 ∗ There can be only one "War time" match at the same time, to avoid big guilds to flood small ones.
- ◦ Both guild must agree on all terms of the war and the type of match that will count in the war (with or without add-on etc...)
+
+    ◦ Both guild must agree on all terms of the war and the type of match that will count in the war (with or without add-on etc...)
 ∗ If the guilds agree, any matchs played on ladder or during a tournament will count towards the war effort.
+
 ∗ If the guilds add add-ons, only the matchs using said add-ons will count towards the war effort.
+
 ∗ During a war, if a member of a guild duels someone from the other guild, the winner will earn war point for his guild.
 
- ◦ At the end of the war the guild with the highest number of war points will receive the prize from the other guild.
- ◦ A guild can be in one war only at a time.
+    ◦ At the end of the war the guild with the highest number of war points will receive the prize from the other guild.
+    ◦ A guild can be in one war only at a time.
 
 - Each guild has a war history page, visible to any logged-in user.
 

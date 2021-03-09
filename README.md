@@ -1,14 +1,7 @@
-# ft_transcendence
-![Pong](https://media.giphy.com/media/aTGwuEFyg6d8c/giphy.gif)
-
-# ft_transcendence
-![Pong](https://media.giphy.com/media/aTGwuEFyg6d8c/giphy.gif)
-
-
- Transcendence
+Transcendence
 
 ### 1 Overview
-
+***
 In this subject you will need to build a website for the mighty pong contest. Your website will help user run pong tournament and play against each other. There will be an admin view, chat with moderators, real time multiplayer online
 games. 
 There will be guilds and wars!
@@ -24,13 +17,13 @@ You will need to follow thoses rules:
 - Everything should run with a single call todocker-compose up –build
 
 ### 2 Security concerns
-
+***
 Because you are creating a fully-working website, there are a few security concerns that you will have to tackle
 
 - Any password stored in your database must be encrypted
 - Your website must be protected against SQL injections
 - You must implement some kind of server-side validation for forms and any user input
-
+***
 ### 3 User Account
 
 - A user must login using the oauth system of 42 intranet
@@ -41,7 +34,7 @@ Because you are creating a fully-working website, there are a few security conce
 - A user can be in 1 guild at a time
 - A user can add other users as friends, and see their current status (online, offline, in a game...)
 - Each user has a match history (including duel, ladder or tournaments games) that can be consulted by anyone logged-in
-
+***
 ### 4 Chat
 
 - Users must be able to create channels public/private or protected by a password
@@ -54,9 +47,9 @@ Because you are creating a fully-working website, there are a few security conce
 
 - Through the chat interface users should be able to ask other player to do a Pong match
 - Through the chat interface users must be able to see other players profiles
-
+***
 ### 5 Game
-
+***
 The main purpose of this website is to play pong against other players and show everyone how good you are!
 Therefor we should be able to play pong directly on the website and live against an other player.
 It can be in a canvas or it can be with 3d effects, it can be ugly but it must be a pong like the one from 1972.
@@ -65,55 +58,37 @@ The game must be responsive!
 Other users can watch the game live without interfering in it.
 
 ### 6 Guilds
-
+***
 - Users must be able to create guilds with unique names
-- A guild must also have a unique anagram of 5 letters max that will be shown before
-    the name of a user in the chat
-- Each time a member of the guild wins a game, some points are added to the guild’s
-    points
+- A guild must also have a unique anagram of 5 letters max that will be shown before the name of a user in the chat
+- Each time a member of the guild wins a game, some points are added to the guild’s points
 - There must be a ranking page of all guilds, visible to any logged-in user
 - A guild has a owner and officers
 - Guild can declare war to an other guild
     ◦ A war has a start date, an end date and a number of point that the guilds are ready to lose/win as prize for the war
     ◦ A war also has a timetable where random fights can be asked, it’s called a "War time"
 
-∗ When the "War time" is active a member can ask to fight randomly any
-one from the other guild, if no one of the other guild answer the call after
-a certain amount of time, the match is automatically won
-∗ Guilds can set the maximum of unanswered match calls per "War time"
-∗ There can be only one "War time" match at the same time, to avoid big
-guilds to flood small ones.
-```
-```
-◦ Both guild must agree on all terms of the war and the type of match that will
-count in the war (with or without add-on etc...)
-∗ If the guilds agree, any matchs played on ladder or during a tournament
-will count towards the war effort
-∗ If the guilds add add-ons, only the matchs using said add-ons will count
-towards the war effort
-∗ During a war, if a member of a guild duels someone from the other guild,
-the winner will earn war point for his guild
-```
-```
-◦ At the end of the war the guild with the highest number of war points will
-receive the prize from the other guild
-◦ A guild can be in one war only at a time
-```
-- Each guild has a war history page, visible to any logged-in user
+∗ When the "War time" is active a member can ask to fight randomly any one from the other guild, if no one of the other guild answer the call after a certain amount of time, the match is automatically won.
+∗ Guilds can set the maximum of unanswered match calls per "War time".
+∗ There can be only one "War time" match at the same time, to avoid big guilds to flood small ones.
+ ◦ Both guild must agree on all terms of the war and the type of match that will count in the war (with or without add-on etc...)
+∗ If the guilds agree, any matchs played on ladder or during a tournament will count towards the war effort.
+∗ If the guilds add add-ons, only the matchs using said add-ons will count towards the war effort.
+∗ During a war, if a member of a guild duels someone from the other guild, the winner will earn war point for his guild.
+
+ ◦ At the end of the war the guild with the highest number of war points will receive the prize from the other guild.
+ ◦ A guild can be in one war only at a time.
+
+- Each guild has a war history page, visible to any logged-in user.
 
 ### 7 Tournament
-
-There must a permanent ladder tournament with a match making system with a ladder
-system. (https://en.wikipedia.org/wiki/Ladder_tournament)
-Users can play on the ladder, with a rating system, or play casually, without it affecting
-their rating. There also must be tournaments that can be created by admininstrators
-or automatically. Rules of said tournament (round robin, single/double eliminations,
-swiss...) is up to you. User will be allowed to register to the tournament in a timeframe
-before said tournament.
+***
+There must a permanent ladder tournament with a match making system with a ladder system. (https://en.wikipedia.org/wiki/Ladder_tournament)
+Users can play on the ladder, with a rating system, or play casually, without it affecting their rating. There also must be tournaments that can be created by admininstrators or automatically. Rules of said tournament (round robin, single/double eliminations, swiss...) is up to you. User will be allowed to register to the tournament in a timeframe before said tournament.
 You can add incentives to tournaments, like title for the winner or other cool stuff.
 
 ### 8 Admin
-
+***
 Some user can be appointed administrator of the website.
 
 - They can create tournaments
@@ -122,7 +97,6 @@ Some user can be appointed administrator of the website.
 - See any chat channels without being listed in it
 - Give or remove rights in a chat channel to a user
 - Give or remove rights in a guild to a user
-
 
 <!--
 

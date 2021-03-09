@@ -7,7 +7,8 @@
 1. [Summary](#Summary)
 2. [Technologies](#Technologies)
 3. [Instalation](#Instalation)
-4. [Features](#Features)
+4. [Authors](#Authors)
+5. [Features](#Features)
 
 # Summary
  ![](proyect-gif.gif)
@@ -38,7 +39,12 @@ marvinillo 1234
 marvinete  1234
 
 ```
-
+# Authors
+```
+Pablo Cuadrado García      https://www.linkedin.com/in/pablo-cuadrado97/
+David Rodriguez Elipe      https://www.linkedin.com/in/drelipe/
+Álvaro Segovia San Benito  https://www.linkedin.com/in/alvaro-seg/
+```
 # Features 
 
 ## Overview

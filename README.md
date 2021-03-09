@@ -29,6 +29,15 @@ $ wait until everything is built (around 10 mins)
 $ Open your favourite browser and go to http://127.0.0.1
 $ Enjoy!
 ```
+```
+Example Users-Password:
+theadmin   admin (Admin of the site)
+marvin     1234
+pabgonza   1234
+marvinillo 1234
+marvinete  1234
+
+```
 
 # Features 
 
@@ -100,7 +109,7 @@ Other users can watch the game live without interfering in it.
 
 ∗ There can be only one "War time" match at the same time, to avoid big guilds to flood small ones.
 
-    ◦ Both guild must agree on all terms of the war and the type of match that will count in the war (with or without add-on etc...)
+   ◦ Both guild must agree on all terms of the war and the type of match that will count in the war (with or without add-on etc...)
 ∗ If the guilds agree, any matchs played on ladder or during a tournament will count towards the war effort.
 
 ∗ If the guilds add add-ons, only the matchs using said add-ons will count towards the war effort.

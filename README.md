@@ -14,9 +14,9 @@
 
 # Technologies :pencil2: 📐
 * Backend: Ruby on Rails
-* Frontend: Backbone.JS, Jquery, Underscore
+* Frontend: Backbone.js, Jquery, Underscore
 * Database: Postgresql
-* Monunted on: Docker-compose
+* Monunted on: Docker Compose
 * Extra: html, css, action cables...
 
 # Instalation 🚀

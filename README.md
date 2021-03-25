@@ -41,9 +41,9 @@ marvinete  1234
 ```
 # Authors
 ```
-Pablo Cuadrado García      https://www.linkedin.com/in/pablo-cuadrado97/
-David Rodriguez Elipe      https://www.linkedin.com/in/drelipe/
-Álvaro Segovia San Benito  https://www.linkedin.com/in/alvaro-seg/
+Pablo Cuadrado García      www.linkedin.com/in/pablo-cuadrado97/
+David Rodriguez Elipe      www.linkedin.com/in/drelipe/
+Álvaro Segovia San Benito  www.linkedin.com/in/alvaro-seg/
 ```
 # Features 
 

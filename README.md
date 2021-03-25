@@ -43,7 +43,8 @@ marvinete  1234
 ```
 Pablo Cuadrado García      <www.linkedin.com/in/pablo-cuadrado97>
 David Rodriguez Elipe      <www.linkedin.com/in/drelipe>
-Álvaro Segovia San Benito  <www.linkedin.com/in/alvaro-seg>
+Álvaro Segovia San Benito  <https://www.linkedin.com/in/alvaro-seg>
+                           [I'm an inline-style link](https://www.linkedin.com/in/alvaro-seg)
 ```
 # Features 
 

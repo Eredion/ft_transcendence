@@ -42,7 +42,9 @@ marvinete  1234
 # Authors
 
 [Pablo Cuadrado García](www.linkedin.com/in/pablo-cuadrado97)
+
 [David Rodríguez Elipe](www.linkedin.com/in/drelipe)
+
 [Álvaro Segovia San Benito](www.linkedin.com/in/alvaro-seg)
                        
 
